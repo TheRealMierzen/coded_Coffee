@@ -13,6 +13,7 @@ namespace _213
 {
     public partial class Form1 : Form
     {
+        object nearest;
         public Form1()
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace _213
         }
 
         private string user;
-        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
+        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments‌​));
         private gebruik util = new gebruik();
 
         private void button1_Click(object sender, EventArgs e)
@@ -64,7 +65,7 @@ namespace _213
             Point B = new Point(750,750);
             Point mousePoint = Cursor.Position;
 
-            object nearest;
+            
             double smallest;
 
             double dist1 = Math.Sqrt(Math.Pow(750 - mousePoint.X, 2) + Math.Pow(50 - mousePoint.Y, 2));
@@ -107,7 +108,9 @@ namespace _213
             }
 
             if (smallest < 100)
+            {
                 return nearest;
+            }    
             else
                 return null;
 
@@ -159,7 +162,8 @@ namespace _213
         //end of day button
         private void roundButton2_Click(object sender, EventArgs e)
         {
-            
+            EndOfDAy f1 = new EndOfDAy();
+            f1.Show();
 
         }
 
