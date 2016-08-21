@@ -178,11 +178,11 @@ namespace _213
             else
                 MessageBox.Show("The email failed to send", "Error");
             */
-            /*OrderForm OF = new OrderForm();
+            OrderForm OF = new OrderForm();
             OF.Activate();
             OF.Show();
             Form1 f1 = new Form1();
-            f1.Hide();*/
+            f1.Hide();
             
         }
 
