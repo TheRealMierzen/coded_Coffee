@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net.Mail;
 using System.Data.SqlClient;
+using System.Windows.Forms;
+using System.Net;
 
 namespace _213
 {
@@ -262,5 +264,142 @@ namespace _213
             }        
 
         }
+
+        public int getLastIdentity(string tableName, string column, string returnType)
+        {
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+
+                    con.Open();
+                    SqlCommand lastId = new SqlCommand("SELECT TOP 1 " + column + " FROM " + tableName + " ORDER BY " + column + " DESC", con);
+
+
+                    int last = 0;
+
+                    if (returnType == "int")
+                        last = Convert.ToInt32(lastId.ExecuteScalar());
+
+                    return last;
+
+                }
+            }
+            catch(Exception e)
+            {
+
+                MessageBox.Show("An error occurred during the " + e.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + e.Message, "Error");
+                return -1;
+
+            }
+
+        }
+
+        //MessageBox.Show(util.getDayOrders("2016-12-05"));
+        public string getDayOrders(string orderDate)
+        {
+
+            try
+            {
+                int records = 0;
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+
+                    con.Open();
+                    SqlCommand dayOrdersCount = new SqlCommand("SELECT COUNT(order_id) AS r_count FROM Orders WHERE order_date = '" + orderDate + "'",con);
+                    records = (int) dayOrdersCount.ExecuteScalar();
+
+
+                    SqlCommand dayOrders = new SqlCommand("SELECT order_items FROM Orders WHERE order_date = '" + orderDate + "'", con);
+                    SqlDataReader dr = dayOrders.ExecuteReader();
+
+                    string items = "";
+                    while (dr.Read())
+                    {
+
+                        items += dr.GetString(0) + "\r\n";
+
+                    }
+                    dr.Close();
+
+                return items;
+                }
+            }
+            catch(Exception e)
+            {
+
+                MessageBox.Show("An error occurred during the " + e.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + e.Message, "Error");
+                return "";
+
+            }
+
+        }
+
+        public bool sendOrders(string items, string supplier, string supplier_email)
+        {
+
+
+
+            return false;
+
+        }
+
+/// <summary>
+/// Used to get location/branch of user
+/// </summary>
+/// <returns></returns>
+        public string getIP()
+        {
+            try
+            {
+                
+                string url = "http://checkip.dyndns.org";
+
+                System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+                System.Net.WebResponse resp = req.GetResponse();
+                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                string response = sr.ReadToEnd().Trim();
+                string[] a = response.Split(':');
+                string a2 = a[1].Substring(1);
+                string[] a3 = a2.Split('<');
+                string a4 = a3[0];
+
+                return a4;
+            }
+            catch(System.Net.WebException we)
+            {
+
+                MessageBox.Show("An error occurred during the " + we.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + we.Message, "Error");
+                return "";
+
+            }
+
+        }
+
+        public string GetLocation(string ip)
+        {
+            int tel = 0;
+            var res = "";
+
+            WebRequest request = WebRequest.Create("http://ipinfo.io/" + ip);
+            using (WebResponse response = request.GetResponse())
+            using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+            {
+                string line;
+                
+                while ((line = stream.ReadLine()) != null)
+                {
+                    tel += 1;
+                    
+                    if (tel == 4)
+                        res += line.Substring(11, line.Length - 13);
+                }
+            }
+            return res;
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     }
 }

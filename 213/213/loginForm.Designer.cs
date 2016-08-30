@@ -36,6 +36,10 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.bgWLogin = new System.ComponentModel.BackgroundWorker();
+            this.loginProgress = new System.Windows.Forms.ProgressBar();
+            this.bgWCreate = new System.ComponentModel.BackgroundWorker();
+            this.lblWait = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button2
@@ -96,7 +100,7 @@
             // btnCreate
             // 
             this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCreate.Location = new System.Drawing.Point(412, 269);
+            this.btnCreate.Location = new System.Drawing.Point(412, 300);
             this.btnCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(98, 27);
@@ -128,6 +132,41 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Welcom to stockI.T";
             // 
+            // bgWLogin
+            // 
+            this.bgWLogin.WorkerReportsProgress = true;
+            this.bgWLogin.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWlogin_DoWork);
+            this.bgWLogin.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWlogin_ProgressChanged);
+            this.bgWLogin.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWlogin_RunWorkerCompleted);
+            // 
+            // loginProgress
+            // 
+            this.loginProgress.Location = new System.Drawing.Point(412, 206);
+            this.loginProgress.Name = "loginProgress";
+            this.loginProgress.Size = new System.Drawing.Size(215, 23);
+            this.loginProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.loginProgress.TabIndex = 10;
+            this.loginProgress.UseWaitCursor = true;
+            this.loginProgress.Visible = false;
+            // 
+            // bgWCreate
+            // 
+            this.bgWCreate.WorkerReportsProgress = true;
+            this.bgWCreate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWCreate_DoWork);
+            this.bgWCreate.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWCreate_ProgressChanged);
+            this.bgWCreate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWCreate_RunWorkerCompleted);
+            // 
+            // lblWait
+            // 
+            this.lblWait.AutoSize = true;
+            this.lblWait.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lblWait.Location = new System.Drawing.Point(459, 209);
+            this.lblWait.Name = "lblWait";
+            this.lblWait.Size = new System.Drawing.Size(127, 17);
+            this.lblWait.TabIndex = 11;
+            this.lblWait.Text = "Creating account...";
+            this.lblWait.Visible = false;
+            // 
             // loginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -136,6 +175,8 @@
             this.BackgroundImage = global::_213.Properties.Resources._48992;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1033, 447);
+            this.Controls.Add(this.lblWait);
+            this.Controls.Add(this.loginProgress);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.button2);
@@ -161,5 +202,9 @@
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.ToolTip passTT;
         private System.Windows.Forms.Label label1;
+        private System.ComponentModel.BackgroundWorker bgWLogin;
+        private System.Windows.Forms.ProgressBar loginProgress;
+        private System.ComponentModel.BackgroundWorker bgWCreate;
+        private System.Windows.Forms.Label lblWait;
     }
 }

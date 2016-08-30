@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace _213
 {
@@ -34,7 +35,7 @@ namespace _213
             POStockBtn7.Hide();
             POGOBtn8.Hide();
             SOBtn1.Show();
-            POAOBtn11.Show();
+            AddOrderBtn.Show();
             POROBtn12.Show();
             COBtn1.Hide();
             
@@ -87,9 +88,9 @@ namespace _213
 
         private void OrderForm_Load(object sender, EventArgs e)
         {
-            this.TopMost = true;
+            /*this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            this.WindowState = FormWindowState.Maximized;*/
         }
 
         private void POBtn2_Click(object sender, EventArgs e)
@@ -153,7 +154,7 @@ namespace _213
             POLb1.Show();
             POLb3.Show();
             SNLb1.Show();
-            POAOBtn11.Hide();
+            AddOrderBtn.Hide();
             POROBtn12.Hide();
             COBtn1.Show();
             POLb15.Hide();
@@ -188,6 +189,77 @@ namespace _213
             POLb14.Hide();
             AmountLb1.Hide();
 
+
+        }
+
+        private void AddOrderBtn_Click(object sender, EventArgs e)
+        {
+            //as received date "" is dan insert hy 1900-01-01..so wanneer received en datum is 1900-01-01 dan moet datum geupdate word na current toe         
+            if (addOrder(Properties.Settings.Default.Branch, "Naub", "asdefx5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0))
+                MessageBox.Show("Order added");
+            else
+                MessageBox.Show("Order was not added");
+
+            gebruik util = new gebruik();
+            //MessageBox.Show(util.getDayOrders("2016-12-05"));
+            
+
+        }
+
+        public bool addOrder(string branch, string order_supplier, string order_items, string total_cost, int invoice_sent, int received, string order_date, string received_date, int special_order)
+        {
+            
+            try
+            {
+
+                gebruik util = new gebruik();
+                int last;
+                last = util.getLastIdentity("Orders", "order_id", "int");
+
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+
+                    string cmdstring = "INSERT INTO Orders(branch, order_id, order_supplier, order_items, total_cost, invoice_sent, received, order_date, received_date, special_order) VALUES (@branch, @order_id, @order_supplier, @order_items, @total_cost, @invoice_sent, @received, @order_date, @received_date, @special_order)";
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+
+                        comm.Parameters.AddWithValue("@branch", branch);
+                        comm.Parameters.AddWithValue("@order_id", last + 1);
+                        comm.Parameters.AddWithValue("@order_supplier", order_supplier);
+                        comm.Parameters.AddWithValue("@order_items", order_items);
+                        comm.Parameters.AddWithValue("@total_cost", total_cost);
+                        comm.Parameters.AddWithValue("@invoice_sent", invoice_sent);
+                        comm.Parameters.AddWithValue("@received", received);
+                        comm.Parameters.AddWithValue("@order_date", order_date);
+                        comm.Parameters.AddWithValue("@received_date", received_date);
+                        comm.Parameters.AddWithValue("@special_order", special_order);
+
+                        con.Open();
+                        comm.ExecuteNonQuery();
+
+                    }
+                         
+                }
+
+               return true;
+
+            }
+            catch(IndexOutOfRangeException ior)
+            {
+                
+                MessageBox.Show("An error occurred during the " + ior.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + ior.Message,"Error");
+                return true;
+
+            }
+            catch(Exception e)
+            {
+
+                MessageBox.Show("An error occurred during the " + e.TargetSite  + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + e.Message + " addOrder - line 256", "Error");
+                return false;
+
+            }
+
+            
 
         }
     }
