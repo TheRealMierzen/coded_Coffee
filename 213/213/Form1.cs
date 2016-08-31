@@ -38,9 +38,9 @@ namespace _213
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.TopMost = true;
+            /*this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            this.WindowState = FormWindowState.Maximized;*/
         }
 
         //exit button
@@ -182,11 +182,11 @@ namespace _213
             else
                 MessageBox.Show("The email failed to send", "Error");
             */
-            /*OrderForm OF = new OrderForm();
+            OrderForm OF = new OrderForm();
             OF.Activate();
             OF.Show();
             Form1 f1 = new Form1();
-            f1.Hide();*/
+            f1.Hide();
             
         }
 

@@ -58,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,6 +82,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frOrderConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frOrderConfirm.Designer.cs">
+      <DependentUpon>frOrderConfirm.cs</DependentUpon>
+    </Compile>
     <Compile Include="gebruik.cs" />
     <Compile Include="loginForm.cs">
       <SubType>Form</SubType>
@@ -88,13 +95,27 @@
     <Compile Include="loginForm.Designer.cs">
       <DependentUpon>loginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderForm.Designer.cs">
+      <DependentUpon>OrderForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <EmbeddedResource Include="EndOfDAy.resx">
       <DependentUpon>EndOfDAy.cs</DependentUpon>
+=======
+    <EmbeddedResource Include="frOrderConfirm.resx">
+      <DependentUpon>frOrderConfirm.cs</DependentUpon>
+>>>>>>> 5d046d7a0cf479af9f7715a2feb0cbf86e2cf2f0
     </EmbeddedResource>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderForm.resx">
+      <DependentUpon>OrderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

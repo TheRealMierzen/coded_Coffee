@@ -21,5 +21,28 @@ namespace _213
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Sales option
+            if(comboBox1.Items.Equals(1))
+            {
+
+            }
+            //Orders option
+            if(comboBox1.Items.Equals(2))
+            {
+
+            }
+            //Stock option
+            if(comboBox1.Items.Equals(3))
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("Incorect option!!! Please choose again");
+            }
+        }
     }
 }
