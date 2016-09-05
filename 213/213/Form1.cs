@@ -166,7 +166,9 @@ namespace _213
         //sale button
         private void saleButton_Click(object sender, EventArgs e)
         {
-
+            salesForm f1 = new salesForm();
+            f1.Show();
+            this.Hide();
         }
 
         //order button Zander Jagals
