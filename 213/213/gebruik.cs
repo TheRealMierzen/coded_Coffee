@@ -225,6 +225,7 @@ namespace _213
 
         /*true if sent
           false if failed*/
+          //needs backgroundrunners
         public bool Mail(string to, string source, string message)
         {
 
@@ -310,7 +311,7 @@ namespace _213
                     SqlCommand dayOrdersCount = new SqlCommand("SELECT COUNT(order_id) AS r_count FROM Orders WHERE order_date = '" + orderDate + "'",con);
                     records = (int) dayOrdersCount.ExecuteScalar();
 
-
+                    MessageBox.Show(records.ToString());
                     SqlCommand dayOrders = new SqlCommand("SELECT order_items FROM Orders WHERE order_date = '" + orderDate + "'", con);
                     SqlDataReader dr = dayOrders.ExecuteReader();
 
@@ -323,7 +324,7 @@ namespace _213
                     }
                     dr.Close();
 
-                return items;
+                    return items;
                 }
             }
             catch(Exception e)
@@ -336,12 +337,76 @@ namespace _213
 
         }
 
-        public bool sendOrders(string items, string supplier, string supplier_email)
+        public void sendOrders(string items, string supplier, string supplier_email)
         {
 
+            gebruik util = new gebruik();
+
+            int high = -1;
+            int low = -1;
+            int records = -1;
+
+            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            {
+                con.Open();
+                SqlCommand dayOrdersCount = new SqlCommand("SELECT COUNT(order_id) AS r_count FROM Orders WHERE order_date = '" + DateTime.Now.Date.ToString() + "'", con);
+                records = (int)dayOrdersCount.ExecuteScalar();
+
+                if (records == 1)
+                    high = util.getLastIdentity("Orders", "order_id", "int");
+
+                if (records > 1)
+                {
+                    high = util.getLastIdentity("Orders", "order_id", "int");
+                    string cmdstring = "SELECT TOP 1 order_id FROM Orders WHERE order_date = @order_date ORDER BY order_id";
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@order_date", DateTime.Now.Date.ToString());
+                        low = Convert.ToInt32(comm.ExecuteScalar());
+
+                    }
+
+                }
+            }
 
 
-            return false;
+            //supplier email
+            if (records > 1)
+                if (util.Mail(supplier_email, DateTime.Now.Date.ToShortDateString() + " codedCoffee stock orders", "Good evening \r\nThe following are stock that we wish to order: \r\n" + items + " \r\nPlease confirm the items and contact us about any updates. \r\nOrder ids: " + low.ToString() + "-" + high.ToString() + "\r\nThank you in advance"))
+                {
+                    using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                    {
+
+                        string cmd = "UPDATE Orders SET invoice_sent = 1 WHERE order_date = @order_date";
+                        using (SqlCommand comm = new SqlCommand(cmd, conn))
+                        {
+                            comm.Parameters.AddWithValue("@order_date", DateTime.Now.Date.ToString());
+                            conn.Open();
+                            comm.ExecuteNonQuery();
+                            conn.Close();
+                        }
+
+                    }
+                    MessageBox.Show("The suppliername has been emailed with the contents of orders " + low.ToString() + "-" + high.ToString());
+                }
+            if (records == 1)
+                if (util.Mail(supplier_email, DateTime.Now.Date.ToShortDateString() + " codedCoffee stock orders", "Good evening \r\nThe following are stock that we wish to order: \r\n" + items + "\r\nPlease confirm the items and contact us about any updates. \r\nOrder id: " + high.ToString() + "\r\nThank you in advance"))
+                {
+                    using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                    {
+
+                        string cmd = "UPDATE Orders SET invoice_sent = 1 WHERE order_date = @order_date";
+                        using (SqlCommand comm = new SqlCommand(cmd, conn))
+                        {
+                            comm.Parameters.AddWithValue("@order_date", DateTime.Now.Date.ToString());
+                            conn.Open();
+                            comm.ExecuteNonQuery();
+                            conn.Close();
+                        }
+
+                    }
+                    MessageBox.Show("The suppliername has been emailed with the contents of order " + high.ToString());
+                }
 
         }
 

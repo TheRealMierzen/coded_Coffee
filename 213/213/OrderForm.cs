@@ -194,14 +194,17 @@ namespace _213
 
         private void AddOrderBtn_Click(object sender, EventArgs e)
         {
+            //verander die net dat dit pas volgens textboxes en goed
             //as received date "" is dan insert hy 1900-01-01..so wanneer received en datum is 1900-01-01 dan moet datum geupdate word na current toe         
-            if (addOrder(Properties.Settings.Default.Branch, "Naub", "asdefx5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0))
+            if (addOrder(Properties.Settings.Default.Branch, "Nvidia", "GTX TitanX x 20, GTX 1080 x 7, GTX Titan x 5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0))
                 MessageBox.Show("Order added");
             else
                 MessageBox.Show("Order was not added");
 
-            gebruik util = new gebruik();
-            //MessageBox.Show(util.getDayOrders("2016-12-05"));
+            /*gebruik util = new gebruik();       
+            frOrderConfirm f1 = new frOrderConfirm();
+            f1.Show();*/
+           
             
 
         }

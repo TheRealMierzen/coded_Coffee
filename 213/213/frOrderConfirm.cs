@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace _213
 {
@@ -15,6 +16,22 @@ namespace _213
         public frOrderConfirm()
         {
             InitializeComponent();
+        }
+
+        private void frOrderConfirm_Load(object sender, EventArgs e)
+        {
+            gebruik util = new gebruik();
+            txtDayOrders.Text = util.getDayOrders(DateTime.Now.Date.ToString());
+        }
+
+        private void btnConfirmO_Click(object sender, EventArgs e)
+        {
+
+            gebruik util = new gebruik();
+            //verander net die voor toets
+            util.sendOrders(txtDayOrders.Text, "wiesupplieris", "supplier@gmail.com");
+
+
         }
     }
 }
