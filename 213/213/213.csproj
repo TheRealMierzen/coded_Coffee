@@ -89,6 +89,11 @@
     <Compile Include="salesForm.Designer.cs">
       <DependentUpon>salesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="_stockI_TDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -115,6 +120,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="_stockI_TDataSet.xsc">
+      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="_stockI_TDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>_stockI_TDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="_stockI_TDataSet.xss">
+      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
