@@ -29,59 +29,61 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lblNameAddCLN = new System.Windows.Forms.Label();
+            this.lblDescAddCLN = new System.Windows.Forms.Label();
             this.lblBrandAddCLN = new System.Windows.Forms.Label();
-            this.lblPriceAddCLN = new System.Windows.Forms.Label();
-            this.lblQuantityAddCLN = new System.Windows.Forms.Label();
+            this.lblPriceRetailAddCLN = new System.Windows.Forms.Label();
             this.btnConfirmAddCLN = new System.Windows.Forms.Button();
             this.btnCancelAddCLN = new System.Windows.Forms.Button();
-            this.txbNameAddCLN = new System.Windows.Forms.TextBox();
+            this.txbDescAddCLN = new System.Windows.Forms.TextBox();
             this.txbBrandAddCLN = new System.Windows.Forms.TextBox();
-            this.txbPriceAddCLN = new System.Windows.Forms.TextBox();
-            this.txbQuantityAddCLN = new System.Windows.Forms.TextBox();
+            this.txbPriceRetailAddCLN = new System.Windows.Forms.TextBox();
             this.tmrStockAddCLN = new System.Windows.Forms.Timer(this.components);
-            this.prbStatusAddCLN = new System.Windows.Forms.ProgressBar();
+            this.txtManfacturerPriceCLN = new System.Windows.Forms.TextBox();
+            this.lblManufacturerPriceCLN = new System.Windows.Forms.Label();
+            this.lblBranchAddCLN = new System.Windows.Forms.Label();
+            this.cmbBranchAddCLN = new System.Windows.Forms.ComboBox();
+            this.txbWarrantyAddCLN = new System.Windows.Forms.TextBox();
+            this.lblWarrantyAddCLN = new System.Windows.Forms.Label();
+            this._stockI_TDataSet = new _213._stockI_TDataSet();
+            this.stockITDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.branchesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.branchesTableAdapter = new _213._stockI_TDataSetTableAdapters.BranchesTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblNameAddCLN
+            // lblDescAddCLN
             // 
-            this.lblNameAddCLN.AutoSize = true;
-            this.lblNameAddCLN.Location = new System.Drawing.Point(12, 9);
-            this.lblNameAddCLN.Name = "lblNameAddCLN";
-            this.lblNameAddCLN.Size = new System.Drawing.Size(61, 13);
-            this.lblNameAddCLN.TabIndex = 0;
-            this.lblNameAddCLN.Text = "Item Name:";
+            this.lblDescAddCLN.AutoSize = true;
+            this.lblDescAddCLN.Location = new System.Drawing.Point(13, 27);
+            this.lblDescAddCLN.Name = "lblDescAddCLN";
+            this.lblDescAddCLN.Size = new System.Drawing.Size(86, 13);
+            this.lblDescAddCLN.TabIndex = 0;
+            this.lblDescAddCLN.Text = "Item Description:";
             // 
             // lblBrandAddCLN
             // 
             this.lblBrandAddCLN.AutoSize = true;
-            this.lblBrandAddCLN.Location = new System.Drawing.Point(12, 34);
+            this.lblBrandAddCLN.Location = new System.Drawing.Point(13, 53);
             this.lblBrandAddCLN.Name = "lblBrandAddCLN";
-            this.lblBrandAddCLN.Size = new System.Drawing.Size(61, 13);
+            this.lblBrandAddCLN.Size = new System.Drawing.Size(96, 13);
             this.lblBrandAddCLN.TabIndex = 1;
-            this.lblBrandAddCLN.Text = "Item Brand:";
+            this.lblBrandAddCLN.Text = "Item Manufacturer:";
             // 
-            // lblPriceAddCLN
+            // lblPriceRetailAddCLN
             // 
-            this.lblPriceAddCLN.AutoSize = true;
-            this.lblPriceAddCLN.Location = new System.Drawing.Point(12, 58);
-            this.lblPriceAddCLN.Name = "lblPriceAddCLN";
-            this.lblPriceAddCLN.Size = new System.Drawing.Size(57, 13);
-            this.lblPriceAddCLN.TabIndex = 2;
-            this.lblPriceAddCLN.Text = "Item Price:";
-            // 
-            // lblQuantityAddCLN
-            // 
-            this.lblQuantityAddCLN.AutoSize = true;
-            this.lblQuantityAddCLN.Location = new System.Drawing.Point(12, 84);
-            this.lblQuantityAddCLN.Name = "lblQuantityAddCLN";
-            this.lblQuantityAddCLN.Size = new System.Drawing.Size(72, 13);
-            this.lblQuantityAddCLN.TabIndex = 3;
-            this.lblQuantityAddCLN.Text = "Item Quantity:";
+            this.lblPriceRetailAddCLN.AutoSize = true;
+            this.lblPriceRetailAddCLN.Location = new System.Drawing.Point(13, 79);
+            this.lblPriceRetailAddCLN.Name = "lblPriceRetailAddCLN";
+            this.lblPriceRetailAddCLN.Size = new System.Drawing.Size(87, 13);
+            this.lblPriceRetailAddCLN.TabIndex = 2;
+            this.lblPriceRetailAddCLN.Text = "Item Retail Price:";
+            this.lblPriceRetailAddCLN.Click += new System.EventHandler(this.lblPriceRetailAddCLN_Click);
             // 
             // btnConfirmAddCLN
             // 
-            this.btnConfirmAddCLN.Location = new System.Drawing.Point(15, 126);
+            this.btnConfirmAddCLN.Location = new System.Drawing.Point(17, 185);
             this.btnConfirmAddCLN.Name = "btnConfirmAddCLN";
             this.btnConfirmAddCLN.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmAddCLN.TabIndex = 4;
@@ -91,7 +93,7 @@
             // 
             // btnCancelAddCLN
             // 
-            this.btnCancelAddCLN.Location = new System.Drawing.Point(151, 126);
+            this.btnCancelAddCLN.Location = new System.Drawing.Point(167, 185);
             this.btnCancelAddCLN.Name = "btnCancelAddCLN";
             this.btnCancelAddCLN.Size = new System.Drawing.Size(75, 23);
             this.btnCancelAddCLN.TabIndex = 5;
@@ -99,65 +101,125 @@
             this.btnCancelAddCLN.UseVisualStyleBackColor = true;
             this.btnCancelAddCLN.Click += new System.EventHandler(this.btnCancelAddCLN_Click);
             // 
-            // txbNameAddCLN
+            // txbDescAddCLN
             // 
-            this.txbNameAddCLN.Location = new System.Drawing.Point(126, 6);
-            this.txbNameAddCLN.Name = "txbNameAddCLN";
-            this.txbNameAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbNameAddCLN.TabIndex = 6;
+            this.txbDescAddCLN.Location = new System.Drawing.Point(142, 24);
+            this.txbDescAddCLN.Name = "txbDescAddCLN";
+            this.txbDescAddCLN.Size = new System.Drawing.Size(100, 20);
+            this.txbDescAddCLN.TabIndex = 6;
             // 
             // txbBrandAddCLN
             // 
-            this.txbBrandAddCLN.Location = new System.Drawing.Point(126, 31);
+            this.txbBrandAddCLN.Location = new System.Drawing.Point(142, 50);
             this.txbBrandAddCLN.Name = "txbBrandAddCLN";
             this.txbBrandAddCLN.Size = new System.Drawing.Size(100, 20);
             this.txbBrandAddCLN.TabIndex = 7;
             // 
-            // txbPriceAddCLN
+            // txbPriceRetailAddCLN
             // 
-            this.txbPriceAddCLN.Location = new System.Drawing.Point(126, 55);
-            this.txbPriceAddCLN.Name = "txbPriceAddCLN";
-            this.txbPriceAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbPriceAddCLN.TabIndex = 8;
+            this.txbPriceRetailAddCLN.Location = new System.Drawing.Point(142, 76);
+            this.txbPriceRetailAddCLN.Name = "txbPriceRetailAddCLN";
+            this.txbPriceRetailAddCLN.Size = new System.Drawing.Size(100, 20);
+            this.txbPriceRetailAddCLN.TabIndex = 8;
             // 
-            // txbQuantityAddCLN
+            // txtManfacturerPriceCLN
             // 
-            this.txbQuantityAddCLN.Location = new System.Drawing.Point(126, 81);
-            this.txbQuantityAddCLN.Name = "txbQuantityAddCLN";
-            this.txbQuantityAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbQuantityAddCLN.TabIndex = 9;
-            this.txbQuantityAddCLN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbQuantityAddCLN_KeyPress);
+            this.txtManfacturerPriceCLN.Location = new System.Drawing.Point(142, 102);
+            this.txtManfacturerPriceCLN.Name = "txtManfacturerPriceCLN";
+            this.txtManfacturerPriceCLN.Size = new System.Drawing.Size(100, 20);
+            this.txtManfacturerPriceCLN.TabIndex = 11;
             // 
-            // tmrStockAddCLN
+            // lblManufacturerPriceCLN
             // 
-            this.tmrStockAddCLN.Tick += new System.EventHandler(this.timer1_Tick);
+            this.lblManufacturerPriceCLN.AutoSize = true;
+            this.lblManufacturerPriceCLN.Location = new System.Drawing.Point(13, 105);
+            this.lblManufacturerPriceCLN.Name = "lblManufacturerPriceCLN";
+            this.lblManufacturerPriceCLN.Size = new System.Drawing.Size(123, 13);
+            this.lblManufacturerPriceCLN.TabIndex = 10;
+            this.lblManufacturerPriceCLN.Text = "Item Manufacturer Price:";
             // 
-            // prbStatusAddCLN
+            // lblBranchAddCLN
             // 
-            this.prbStatusAddCLN.Location = new System.Drawing.Point(12, 155);
-            this.prbStatusAddCLN.Name = "prbStatusAddCLN";
-            this.prbStatusAddCLN.Size = new System.Drawing.Size(214, 13);
-            this.prbStatusAddCLN.TabIndex = 10;
+            this.lblBranchAddCLN.AutoSize = true;
+            this.lblBranchAddCLN.Location = new System.Drawing.Point(14, 157);
+            this.lblBranchAddCLN.Name = "lblBranchAddCLN";
+            this.lblBranchAddCLN.Size = new System.Drawing.Size(67, 13);
+            this.lblBranchAddCLN.TabIndex = 12;
+            this.lblBranchAddCLN.Text = "Item Branch:";
+            // 
+            // cmbBranchAddCLN
+            // 
+            this.cmbBranchAddCLN.DataSource = this.branchesBindingSource;
+            this.cmbBranchAddCLN.DisplayMember = "branch_location";
+            this.cmbBranchAddCLN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBranchAddCLN.FormattingEnabled = true;
+            this.cmbBranchAddCLN.Location = new System.Drawing.Point(142, 154);
+            this.cmbBranchAddCLN.Name = "cmbBranchAddCLN";
+            this.cmbBranchAddCLN.Size = new System.Drawing.Size(100, 21);
+            this.cmbBranchAddCLN.TabIndex = 13;
+            this.cmbBranchAddCLN.ValueMember = "branch_location";
+            // 
+            // txbWarrantyAddCLN
+            // 
+            this.txbWarrantyAddCLN.Location = new System.Drawing.Point(142, 128);
+            this.txbWarrantyAddCLN.Name = "txbWarrantyAddCLN";
+            this.txbWarrantyAddCLN.Size = new System.Drawing.Size(100, 20);
+            this.txbWarrantyAddCLN.TabIndex = 15;
+            // 
+            // lblWarrantyAddCLN
+            // 
+            this.lblWarrantyAddCLN.AutoSize = true;
+            this.lblWarrantyAddCLN.Location = new System.Drawing.Point(14, 131);
+            this.lblWarrantyAddCLN.Name = "lblWarrantyAddCLN";
+            this.lblWarrantyAddCLN.Size = new System.Drawing.Size(76, 13);
+            this.lblWarrantyAddCLN.TabIndex = 14;
+            this.lblWarrantyAddCLN.Text = "Item Warranty:";
+            // 
+            // _stockI_TDataSet
+            // 
+            this._stockI_TDataSet.DataSetName = "_stockI_TDataSet";
+            this._stockI_TDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // stockITDataSetBindingSource
+            // 
+            this.stockITDataSetBindingSource.DataSource = this._stockI_TDataSet;
+            this.stockITDataSetBindingSource.Position = 0;
+            // 
+            // branchesBindingSource
+            // 
+            this.branchesBindingSource.DataMember = "Branches";
+            this.branchesBindingSource.DataSource = this.stockITDataSetBindingSource;
+            // 
+            // branchesTableAdapter
+            // 
+            this.branchesTableAdapter.ClearBeforeFill = true;
             // 
             // StockAddFormCLN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(239, 173);
-            this.Controls.Add(this.prbStatusAddCLN);
-            this.Controls.Add(this.txbQuantityAddCLN);
-            this.Controls.Add(this.txbPriceAddCLN);
+            this.ClientSize = new System.Drawing.Size(258, 222);
+            this.Controls.Add(this.txbWarrantyAddCLN);
+            this.Controls.Add(this.lblWarrantyAddCLN);
+            this.Controls.Add(this.cmbBranchAddCLN);
+            this.Controls.Add(this.lblBranchAddCLN);
+            this.Controls.Add(this.txtManfacturerPriceCLN);
+            this.Controls.Add(this.lblManufacturerPriceCLN);
+            this.Controls.Add(this.txbPriceRetailAddCLN);
             this.Controls.Add(this.txbBrandAddCLN);
-            this.Controls.Add(this.txbNameAddCLN);
+            this.Controls.Add(this.txbDescAddCLN);
             this.Controls.Add(this.btnCancelAddCLN);
             this.Controls.Add(this.btnConfirmAddCLN);
-            this.Controls.Add(this.lblQuantityAddCLN);
-            this.Controls.Add(this.lblPriceAddCLN);
+            this.Controls.Add(this.lblPriceRetailAddCLN);
             this.Controls.Add(this.lblBrandAddCLN);
-            this.Controls.Add(this.lblNameAddCLN);
+            this.Controls.Add(this.lblDescAddCLN);
             this.Name = "StockAddFormCLN";
             this.Text = "New Item Entry";
+            this.Load += new System.EventHandler(this.StockAddFormCLN_Load);
             this.Shown += new System.EventHandler(this.StockAddFormCLN_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,17 +227,24 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblNameAddCLN;
+        private System.Windows.Forms.Label lblDescAddCLN;
         private System.Windows.Forms.Label lblBrandAddCLN;
-        private System.Windows.Forms.Label lblPriceAddCLN;
-        private System.Windows.Forms.Label lblQuantityAddCLN;
+        private System.Windows.Forms.Label lblPriceRetailAddCLN;
         private System.Windows.Forms.Button btnConfirmAddCLN;
         private System.Windows.Forms.Button btnCancelAddCLN;
-        private System.Windows.Forms.TextBox txbNameAddCLN;
+        private System.Windows.Forms.TextBox txbDescAddCLN;
         private System.Windows.Forms.TextBox txbBrandAddCLN;
-        private System.Windows.Forms.TextBox txbPriceAddCLN;
-        private System.Windows.Forms.TextBox txbQuantityAddCLN;
+        private System.Windows.Forms.TextBox txbPriceRetailAddCLN;
         private System.Windows.Forms.Timer tmrStockAddCLN;
-        private System.Windows.Forms.ProgressBar prbStatusAddCLN;
+        private System.Windows.Forms.TextBox txtManfacturerPriceCLN;
+        private System.Windows.Forms.Label lblManufacturerPriceCLN;
+        private System.Windows.Forms.Label lblBranchAddCLN;
+        private System.Windows.Forms.ComboBox cmbBranchAddCLN;
+        private System.Windows.Forms.TextBox txbWarrantyAddCLN;
+        private System.Windows.Forms.Label lblWarrantyAddCLN;
+        private System.Windows.Forms.BindingSource stockITDataSetBindingSource;
+        private _stockI_TDataSet _stockI_TDataSet;
+        private System.Windows.Forms.BindingSource branchesBindingSource;
+        private _stockI_TDataSetTableAdapters.BranchesTableAdapter branchesTableAdapter;
     }
 }

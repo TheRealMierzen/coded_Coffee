@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.Sql;
+using System.Data.OleDb;
+using System.IO;
+using System.Data.SqlClient;
 
 namespace _213
 {
@@ -34,11 +38,52 @@ namespace _213
         {
             if (MessageBox.Show("Are you sure you want to complete this action?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                if (txtFindName.Text == "" & txtFindBrand.Text == "" & txtFindPrice.Text == "")
+                {
+                    MessageBox.Show("Please select a value");
+                }
+                else if(txtFindName.Text != "")
+                {
+                    SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    stockConnection.Open();
+                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, quantity, retail_price FROM Stock WHERE description = '" + txtFindName.Text + "'", stockConnection);
+                    DataSet ds = new DataSet();
+                    stockDataAdapter.Fill(ds, "Stock");
+                    stockConnection.Close();
+                    dgvFindStock.DataSource = ds;
+                    dgvFindStock.DataMember = "Stock";
+                }
+                else if (txtFindBrand.Text != "")
+                {
+                    SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    stockConnection.Open();
+                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, quantity, retail_price FROM Stock WHERE manufacturer = '" + txtFindBrand.Text + "'", stockConnection);
+                    DataSet ds = new DataSet();
+                    stockDataAdapter.Fill(ds, "Stock");
+                    stockConnection.Close();
+                    dgvFindStock.DataSource = ds;
+                    dgvFindStock.DataMember = "Stock";
+                }
+                else if (txtFindPrice.Text != "")
+                {
+                    string price = "R" + txtFindPrice.Text;
+                    SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    stockConnection.Open();
+                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, quantity, retail_price FROM Stock WHERE retail_price LIKE '" + price + "'", stockConnection);
+                    DataSet ds = new DataSet();
+                    stockDataAdapter.Fill(ds, "Stock");
+                    stockConnection.Close();
+                    dgvFindStock.DataSource = ds;
+                    dgvFindStock.DataMember = "Stock";
+                }
+
+
+
                 //as user ja se
-                this.Hide();
-                this.Close();
-                StockMainFormCLN frmStockMain = new StockMainFormCLN();
-                frmStockMain.Show();
+                //   this.Hide();
+                ///  this.Close();
+                // StockMainFormCLN frmStockMain = new StockMainFormCLN();
+                //frmStockMain.Show();
             }
             else
             {
@@ -75,6 +120,15 @@ namespace _213
         private void StockFindForm_Shown(object sender, EventArgs e)
         {
             tmrValidateFind.Enabled = true;
+        }
+
+        private void txtFindPrice_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

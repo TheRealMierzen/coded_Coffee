@@ -17,6 +17,11 @@ namespace _213
         {
             InitializeComponent();
         }
+        public StockMainFormCLN(string addCLN)
+        {
+            InitializeComponent();
+            txbStockReport.AppendText(addCLN);
+        }
 
         private void cmbSelectStockAction_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -31,10 +36,6 @@ namespace _213
         private void cmbSelectStockAction_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void btnConfirmStockAction_Click(object sender, EventArgs e)
-        {
             //Add Stock Selected and Confirmed
             if (cmbSelectStockAction.SelectedIndex == 0)
             {
@@ -56,7 +57,7 @@ namespace _213
                     StockAddFormUPD frmStockAddUPD = new StockAddFormUPD();
                     frmStockAddUPD.Show();
                 }
-               
+
             }
             if (cmbSelectStockAction.SelectedIndex == 1)
             {
@@ -74,23 +75,10 @@ namespace _213
             }
             if (cmbSelectStockAction.SelectedIndex == 3)
             {
-
-                if (MessageBox.Show("Are you recieving the stock? ", "Confirm",MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    //as user ja se
-                    this.Hide();
-                    this.Close();
-                    StockTransferRecieveForm frmStockRec = new StockTransferRecieveForm();
-                    frmStockRec.Show();
-                  
-                }
-                else if (MessageBox.Show("Are you sending the stock?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    this.Hide();
-                    this.Close();
-                    StockTransferSendForm frmStockSend = new StockTransferSendForm();
-                    frmStockSend.Show();
-                }
+                this.Hide();
+                this.Close();
+                StockTransferSendForm frmSendStock = new StockTransferSendForm();
+                frmSendStock.Show();
             }
             if (cmbSelectStockAction.SelectedIndex == 4)
             {
@@ -98,6 +86,11 @@ namespace _213
                 this.Hide();
                 stf.Show();
             }
+        }
+
+        private void btnConfirmStockAction_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void StockMainForm_Load(object sender, EventArgs e)
@@ -120,7 +113,7 @@ namespace _213
             //PrintPage event to draw the textbox contents on page
             printDoc.PrintPage += new PrintPageEventHandler(printDoc_PrintPage);
 
-            printDoc.DocumentName = ("Stock Report " + dtpStockReport.Value.ToString());
+           // printDoc.DocumentName = ("Stock Report " + dtpStockReport.Value.ToString());
 
             printDialog.Document = printDoc;
             printDialog.AllowSelection = true;

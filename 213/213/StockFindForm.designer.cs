@@ -71,6 +71,7 @@
             this.txtFindPrice.Name = "txtFindPrice";
             this.txtFindPrice.Size = new System.Drawing.Size(100, 20);
             this.txtFindPrice.TabIndex = 3;
+            this.txtFindPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFindPrice_KeyPress);
             // 
             // lblFindName
             // 
