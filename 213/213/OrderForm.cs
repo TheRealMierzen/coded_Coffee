@@ -13,70 +13,22 @@ namespace _213
 {
     public partial class OrderForm : Form
     {
+        public string items;
+        double costperItems = 0.0;
+        double Grandtotal = 0.0;
         private Action<object, EventArgs> roundButton3_Click;
 
         public OrderForm()
         {
             InitializeComponent();
-            vScrollBar1.Minimum = 0;
-            vScrollBar1.Maximum = dataGridView1Order.Height;
-            hScrollBar1.Minimum = 0;
-            hScrollBar1.Maximum = dataGridView1Order.Width;
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
         }
 
         public OrderForm(Action<object, EventArgs> roundButton3_Click)
         {
             this.roundButton3_Click = roundButton3_Click;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Buttens
-            POStockBtn7.Hide();
-            POGOBtn8.Hide();
-            SOBtn1.Show();
-            AddOrderBtn.Show();
-            POROBtn12.Show();
-            COBtn1.Hide();
-            
-            //Text box
-            POTb2.Hide();
-            POTb4.Hide();
-            POTb5.Hide();
-            POTb6.Hide();
-            POTb7.Hide();
-            POTb8.Hide();
-            POTb9.Hide();
-            POTb10.Hide();
-            POTb12.Hide();
-            POTb13.Hide();
-            POTb14.Hide();
-            POTb15.Hide();
-            POTb16.Hide();
-            POTb1.Show();
-            POTb3.Show();
-            POTbSn.Show();
-            AmountTb1.Hide();
-            POTbTel.Hide();
-            
-          
-            //Lables
-            POLb2.Hide();
-            POLb4.Hide();
-            POLb5.Hide();
-            POLb6.Hide();
-            POLb7.Hide();
-            POLb8.Hide();
-            POLb10.Hide();
-            POLb11.Hide();
-            POLb12.Hide();
-            POLb13.Hide();
-            POLb14.Hide();
-            POLb1.Show();
-            POLb3.Show();
-            SNLb1.Show();
-            AmountLb1.Hide();
-            POLb15.Hide();
         }
 
         private void roundButton3(object sender, EventArgs e)
@@ -93,120 +45,26 @@ namespace _213
             this.WindowState = FormWindowState.Maximized;*/
         }
 
-        private void POBtn2_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void POBtn1_Click(object sender, EventArgs e)
-        {
-            COBtn1.Hide();
-            POStockBtn7.Show();
-            POGOBtn8.Show();
-
-            //Labels
-            POLb1.Show();
-            POLb2.Show();
-            POLb3.Show();
-            POLb4.Show();
-            POLb5.Show();
-            POLb6.Show();
-            POLb7.Show();
-            POLb8.Show();
-            POLb9.Show();
-            POLb10.Show();
-            POLb11.Show();
-            POLb12.Show();
-            POLb13.Show();
-            POLb14.Show();
-            SNLb1.Show();
-            AmountLb1.Show();
-            POLb15.Show();
-
-            //Text Boxes
-            POTb1.Show();
-            POTb2.Show();
-            POTb3.Show();
-            POTb4.Show();
-            POTb5.Show();
-            POTb6.Show();
-            POTb7.Show();
-            POTb8.Show();
-            POTb9.Show();
-            POTb10.Show();
-            POTb11.Show();
-            POTb12.Show();
-            POTb13.Show();
-            POTb14.Show();
-            POTb15.Show();
-            POTb16.Show();
-            POTbSn.Show();
-            AmountTb1.Show();
-            POTbTel.Show();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            SOBtn1.Show();
-            POTb1.Show();
-            POTb3.Show();
-            POTbSn.Show();
-            POLb1.Show();
-            POLb3.Show();
-            SNLb1.Show();
-            AddOrderBtn.Hide();
-            POROBtn12.Hide();
-            COBtn1.Show();
-            POLb15.Hide();
-            POTbTel.Hide();
-
-            // Toetsings proses
-            POTb2.Hide();
-            POTb4.Hide();
-            POTb5.Hide();
-            POTb6.Hide();
-            POTb7.Hide();
-            POTb8.Hide();
-            POTb9.Hide();
-            POTb10.Hide();
-            POTb12.Hide();
-            POTb13.Hide();
-            POTb14.Hide();
-            POTb15.Hide();
-            POTb16.Hide();
-            AmountTb1.Hide();
-
-            POLb2.Hide();
-            POLb4.Hide();
-            POLb5.Hide();
-            POLb6.Hide();
-            POLb7.Hide();
-            POLb8.Hide();
-            POLb10.Hide();
-            POLb11.Hide();
-            POLb12.Hide();
-            POLb13.Hide();
-            POLb14.Hide();
-            AmountLb1.Hide();
-
-
-        }
-
         private void AddOrderBtn_Click(object sender, EventArgs e)
         {
             //verander die net dat dit pas volgens textboxes en goed
             //as received date "" is dan insert hy 1900-01-01..so wanneer received en datum is 1900-01-01 dan moet datum geupdate word na current toe         
-            if (addOrder(Properties.Settings.Default.Branch, "Nvidia", "GTX TitanX x 20, GTX 1080 x 7, GTX Titan x 5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0))
-                MessageBox.Show("Order added");
-            else
-                MessageBox.Show("Order was not added");
+            //if (addOrder(Properties.Settings.Default.Branch, "Nvidia", "GTX TitanX x 20, GTX 1080 x 7, GTX Titan x 5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0))
+              //  MessageBox.Show("Order added");
+            //else
+             //   MessageBox.Show("Order was not added");
 
             /*gebruik util = new gebruik();       
             frOrderConfirm f1 = new frOrderConfirm();
             f1.Show();*/
-           
-            
-
+            string id = txtorderID.Text;
+            if (MessageBox.Show("Are you sure you want to add this order ", "Place order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                if (addOrder(Properties.Settings.Default.Branch, txtMaker.Text, items, Grandtotal.ToString(), 0, 0, DateTime.Now.ToString(), "", checkSpesialorder()))
+                    MessageBox.Show("Order added");
+            }
+            else
+                MessageBox.Show("Order not added");
         }
 
         public bool addOrder(string branch, string order_supplier, string order_items, string total_cost, int invoice_sent, int received, string order_date, string received_date, int special_order)
@@ -264,6 +122,153 @@ namespace _213
 
             
 
+        }
+
+        private void cbxOrders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxOrders.SelectedIndex == 0)
+                orders();
+            else if (cbxOrders.SelectedIndex == 1)
+                searchOrder();
+            else if (cbxOrders.SelectedIndex == 2)
+                cancelOrder();
+
+        }
+
+        public void searchOrder()
+        {
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Show();
+            btnSD.Text = "Find order";
+            btnCancel.Hide();
+        }
+
+        public void cancelOrder()
+        {
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Show();
+            btnSD.Text = "Find order";
+            btnCancel.Show();
+        }
+
+        public void orders()
+        {
+            gpxOrders.Show();
+            gpxSearch.Hide();
+            lbxOutput.Items.Add("=========================================");
+            lbxOutput.Items.Add("Matrix Warehouse");
+            lbxOutput.Items.Add("=========================================");
+
+        }
+
+
+        private void cbxSpecialorder_CheckedChanged(object sender, EventArgs e)
+        {
+            gbxPayment.Show();
+            if (cbxSpecialorder.Checked == false)
+                gbxPayment.Hide();
+        }
+
+        private void btnSD_Click(object sender, EventArgs e)//Search for a order in the database
+        {
+            string id = txtorderID.Text;
+            try
+            {
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+                    con.Open();
+                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Orders WHERE order_id LIKE " + id + " ", con))
+                    {
+                        comm.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            string id = txtorderID.Text;
+            if ( MessageBox.Show("Are you sure you want to cancel order " + id,"Cancel order",MessageBoxButtons.OKCancel,MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                    {
+                        con.Open();
+                        using (SqlCommand comm = new SqlCommand("DELETE FROM Orders WHERE order_id LIKE " + id + " ", con))
+                        {
+                            comm.ExecuteNonQuery();
+                        }
+                        con.Close();
+                    }
+
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnAdditem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int remove = 0;
+                costperItems = Convert.ToDouble(txtPricofeachitem.Text) * Convert.ToDouble(txtQuatity.Text);
+                items = items + txtItem.Text + " X " + txtQuatity.Text + ",";
+                Grandtotal = Grandtotal + costperItems;
+
+                string itemsinTxtbox = "";
+                itemsinTxtbox = itemsinTxtbox + txtMaker.Text + " " + txtItem.Text + "X" + txtQuatity.Text + "\t\t" + "R" + costperItems.ToString() + "\n";
+                lbxOutput.Items.Add(itemsinTxtbox);
+
+                lbxOutput.Items.Add("=========================================");
+                remove = lbxOutput.Items.Add("Total(vat incl)\t\tR" + Grandtotal.ToString());
+
+                txtMaker.ReadOnly = true;
+                txtItem.Clear();
+                txtPricofeachitem.Clear();
+                txtQuatity.Clear();
+
+                if (remove > 0)
+                {
+                    lbxOutput.Items.RemoveAt(remove -1);
+                    lbxOutput.Items.RemoveAt(remove);
+                }
+            }
+            catch(FormatException)
+            {
+                MessageBox.Show("Please enter valid criteria");
+            }
+        }
+
+        private void btnClearOrder_Click(object sender, EventArgs e)
+        {
+            lbxOutput.Items.Clear();
+            txtItem.Clear();
+            txtPricofeachitem.Clear();
+            txtQuatity.Clear();
+            costperItems = 0.0;
+            txtMaker.ReadOnly = false;
+            txtMaker.Clear();
+
+        }
+
+        public int checkSpesialorder()
+        {
+            if (cbxSpecialorder.Checked)
+                return 1;
+            else
+                return 0;
         }
     }
 }

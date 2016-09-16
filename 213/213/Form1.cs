@@ -26,7 +26,7 @@ namespace _213
         }
 
         private string user;
-        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
+        private string appPath;// = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
         private gebruik util = new gebruik();
 
         private void button1_Click(object sender, EventArgs e)
