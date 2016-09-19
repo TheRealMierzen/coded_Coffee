@@ -68,12 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompleteSale.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CompleteSale.Designer.cs">
-      <DependentUpon>CompleteSale.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,9 +94,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="CompleteSale.resx">
-      <DependentUpon>CompleteSale.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
     </EmbeddedResource>

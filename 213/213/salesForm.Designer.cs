@@ -45,7 +45,7 @@
             this.stockTableAdapter = new _213._stockI_TDataSetTableAdapters.StockTableAdapter();
             this.pnlPrevSaleCancel = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lbxDisplayReceipt = new System.Windows.Forms.ListBox();
             this.dtpSaleDateSearch = new System.Windows.Forms.DateTimePicker();
             this.lblSaleToSearch = new System.Windows.Forms.Label();
             this.btnSaleSearch = new System.Windows.Forms.Button();
@@ -53,12 +53,22 @@
             this.salesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salesTableAdapter = new _213._stockI_TDataSetTableAdapters.SalesTableAdapter();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.pnlCompleteSale = new System.Windows.Forms.Panel();
+            this.btnCancelSale = new System.Windows.Forms.Button();
+            this.btnCompleteSalePaid = new System.Windows.Forms.Button();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.lblPaid = new System.Windows.Forms.Label();
+            this.cbxSpecialOrder = new System.Windows.Forms.CheckBox();
+            this.txtPaid = new System.Windows.Forms.TextBox();
+            this.cbxMethodOfPayment = new System.Windows.Forms.ComboBox();
+            this.lblMethodOfPayment_Sales = new System.Windows.Forms.Label();
             this.pnlAddSale.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
             this.pnlPrevSaleCancel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.salesBindingSource)).BeginInit();
+            this.pnlCompleteSale.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSalesBack
@@ -125,7 +135,7 @@
             // 
             // btnAddToSale
             // 
-            this.btnAddToSale.Location = new System.Drawing.Point(214, 33);
+            this.btnAddToSale.Location = new System.Drawing.Point(213, 33);
             this.btnAddToSale.Name = "btnAddToSale";
             this.btnAddToSale.Size = new System.Drawing.Size(159, 56);
             this.btnAddToSale.TabIndex = 24;
@@ -193,7 +203,7 @@
             // pnlPrevSaleCancel
             // 
             this.pnlPrevSaleCancel.Controls.Add(this.button1);
-            this.pnlPrevSaleCancel.Controls.Add(this.listBox1);
+            this.pnlPrevSaleCancel.Controls.Add(this.lbxDisplayReceipt);
             this.pnlPrevSaleCancel.Controls.Add(this.dtpSaleDateSearch);
             this.pnlPrevSaleCancel.Controls.Add(this.lblSaleToSearch);
             this.pnlPrevSaleCancel.Controls.Add(this.btnSaleSearch);
@@ -212,13 +222,13 @@
             this.button1.Text = "Cancel Search";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // listBox1
+            // lbxDisplayReceipt
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(173, 33);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(208, 316);
-            this.listBox1.TabIndex = 41;
+            this.lbxDisplayReceipt.FormattingEnabled = true;
+            this.lbxDisplayReceipt.Location = new System.Drawing.Point(173, 33);
+            this.lbxDisplayReceipt.Name = "lbxDisplayReceipt";
+            this.lbxDisplayReceipt.Size = new System.Drawing.Size(208, 316);
+            this.lbxDisplayReceipt.TabIndex = 41;
             // 
             // dtpSaleDateSearch
             // 
@@ -265,11 +275,106 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // pnlCompleteSale
+            // 
+            this.pnlCompleteSale.Controls.Add(this.btnCancelSale);
+            this.pnlCompleteSale.Controls.Add(this.btnCompleteSalePaid);
+            this.pnlCompleteSale.Controls.Add(this.lblTotal);
+            this.pnlCompleteSale.Controls.Add(this.lblPaid);
+            this.pnlCompleteSale.Controls.Add(this.cbxSpecialOrder);
+            this.pnlCompleteSale.Controls.Add(this.txtPaid);
+            this.pnlCompleteSale.Controls.Add(this.cbxMethodOfPayment);
+            this.pnlCompleteSale.Controls.Add(this.lblMethodOfPayment_Sales);
+            this.pnlCompleteSale.Location = new System.Drawing.Point(3, 411);
+            this.pnlCompleteSale.Name = "pnlCompleteSale";
+            this.pnlCompleteSale.Size = new System.Drawing.Size(286, 226);
+            this.pnlCompleteSale.TabIndex = 10;
+            this.pnlCompleteSale.Visible = false;
+            // 
+            // btnCancelSale
+            // 
+            this.btnCancelSale.Location = new System.Drawing.Point(148, 164);
+            this.btnCancelSale.Name = "btnCancelSale";
+            this.btnCancelSale.Size = new System.Drawing.Size(129, 54);
+            this.btnCancelSale.TabIndex = 58;
+            this.btnCancelSale.Text = "Cancel";
+            this.btnCancelSale.UseVisualStyleBackColor = true;
+            this.btnCancelSale.Click += new System.EventHandler(this.btnCancelSale_Click);
+            // 
+            // btnCompleteSalePaid
+            // 
+            this.btnCompleteSalePaid.Location = new System.Drawing.Point(16, 164);
+            this.btnCompleteSalePaid.Name = "btnCompleteSalePaid";
+            this.btnCompleteSalePaid.Size = new System.Drawing.Size(129, 54);
+            this.btnCompleteSalePaid.TabIndex = 57;
+            this.btnCompleteSalePaid.Text = "Complete Sale";
+            this.btnCompleteSalePaid.UseVisualStyleBackColor = true;
+            this.btnCompleteSalePaid.Click += new System.EventHandler(this.btnCompleteSalePaid_Click);
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotal.Location = new System.Drawing.Point(10, 13);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(171, 25);
+            this.lblTotal.TabIndex = 56;
+            this.lblTotal.Text = "Total Payable: ";
+            // 
+            // lblPaid
+            // 
+            this.lblPaid.AutoSize = true;
+            this.lblPaid.Location = new System.Drawing.Point(13, 53);
+            this.lblPaid.Name = "lblPaid";
+            this.lblPaid.Size = new System.Drawing.Size(31, 13);
+            this.lblPaid.TabIndex = 55;
+            this.lblPaid.Text = "Paid:";
+            // 
+            // cbxSpecialOrder
+            // 
+            this.cbxSpecialOrder.AutoSize = true;
+            this.cbxSpecialOrder.Location = new System.Drawing.Point(16, 137);
+            this.cbxSpecialOrder.Name = "cbxSpecialOrder";
+            this.cbxSpecialOrder.Size = new System.Drawing.Size(90, 17);
+            this.cbxSpecialOrder.TabIndex = 54;
+            this.cbxSpecialOrder.Text = "Special Order";
+            this.cbxSpecialOrder.UseVisualStyleBackColor = true;
+            // 
+            // txtPaid
+            // 
+            this.txtPaid.Location = new System.Drawing.Point(13, 69);
+            this.txtPaid.Name = "txtPaid";
+            this.txtPaid.Size = new System.Drawing.Size(159, 20);
+            this.txtPaid.TabIndex = 53;
+            // 
+            // cbxMethodOfPayment
+            // 
+            this.cbxMethodOfPayment.FormattingEnabled = true;
+            this.cbxMethodOfPayment.Items.AddRange(new object[] {
+            "Cash",
+            "Credit",
+            "Debit",
+            "Tjek"});
+            this.cbxMethodOfPayment.Location = new System.Drawing.Point(16, 110);
+            this.cbxMethodOfPayment.Name = "cbxMethodOfPayment";
+            this.cbxMethodOfPayment.Size = new System.Drawing.Size(158, 21);
+            this.cbxMethodOfPayment.TabIndex = 52;
+            // 
+            // lblMethodOfPayment_Sales
+            // 
+            this.lblMethodOfPayment_Sales.AutoSize = true;
+            this.lblMethodOfPayment_Sales.Location = new System.Drawing.Point(13, 94);
+            this.lblMethodOfPayment_Sales.Name = "lblMethodOfPayment_Sales";
+            this.lblMethodOfPayment_Sales.Size = new System.Drawing.Size(102, 13);
+            this.lblMethodOfPayment_Sales.TabIndex = 51;
+            this.lblMethodOfPayment_Sales.Text = "Method of Payment:";
+            // 
             // salesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1044, 729);
+            this.Controls.Add(this.pnlCompleteSale);
             this.Controls.Add(this.pnlPrevSaleCancel);
             this.Controls.Add(this.btnSalesBack);
             this.Controls.Add(this.pnlAddSale);
@@ -285,6 +390,8 @@
             this.pnlPrevSaleCancel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.salesBindingSource)).EndInit();
+            this.pnlCompleteSale.ResumeLayout(false);
+            this.pnlCompleteSale.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -312,7 +419,16 @@
         private System.Windows.Forms.TextBox txtProductID_Sale;
         private System.Windows.Forms.DateTimePicker dtpSaleDateSearch;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lbxDisplayReceipt;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel pnlCompleteSale;
+        private System.Windows.Forms.Button btnCancelSale;
+        private System.Windows.Forms.Button btnCompleteSalePaid;
+        private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.Label lblPaid;
+        private System.Windows.Forms.CheckBox cbxSpecialOrder;
+        private System.Windows.Forms.TextBox txtPaid;
+        private System.Windows.Forms.ComboBox cbxMethodOfPayment;
+        private System.Windows.Forms.Label lblMethodOfPayment_Sales;
     }
 }
