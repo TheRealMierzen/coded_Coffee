@@ -46,23 +46,22 @@
             this.txtMaker = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnAdditem = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnremovePrevouis = new System.Windows.Forms.Button();
             this.btnClearOrder = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtQuatity = new System.Windows.Forms.TextBox();
             this.cbxSpecialorder = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCust_email = new System.Windows.Forms.TextBox();
             this.gbxPayment = new System.Windows.Forms.GroupBox();
             this.gpxOrders = new System.Windows.Forms.GroupBox();
+            this.lbxOutput = new System.Windows.Forms.ListBox();
             this.gpxSearch = new System.Windows.Forms.GroupBox();
+            this.lbxsearchordelete = new System.Windows.Forms.ListBox();
+            this.cbxOrder = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSD = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.txtorderID = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.lbxOutput = new System.Windows.Forms.ListBox();
             this.gbxPayment.SuspendLayout();
             this.gpxOrders.SuspendLayout();
             this.gpxSearch.SuspendLayout();
@@ -167,8 +166,7 @@
             this.cbxOrders.FormattingEnabled = true;
             this.cbxOrders.Items.AddRange(new object[] {
             "Order for this Matrix Branch/Special order",
-            "Search order",
-            "Cancel order"});
+            "Search order/Cancel order"});
             this.cbxOrders.Location = new System.Drawing.Point(29, 12);
             this.cbxOrders.Name = "cbxOrders";
             this.cbxOrders.Size = new System.Drawing.Size(204, 21);
@@ -234,14 +232,15 @@
             this.btnAdditem.UseVisualStyleBackColor = true;
             this.btnAdditem.Click += new System.EventHandler(this.btnAdditem_Click);
             // 
-            // button4
+            // btnremovePrevouis
             // 
-            this.button4.Location = new System.Drawing.Point(284, 107);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(111, 35);
-            this.button4.TabIndex = 70;
-            this.button4.Text = "remove previous item";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnremovePrevouis.Location = new System.Drawing.Point(284, 107);
+            this.btnremovePrevouis.Name = "btnremovePrevouis";
+            this.btnremovePrevouis.Size = new System.Drawing.Size(111, 35);
+            this.btnremovePrevouis.TabIndex = 70;
+            this.btnremovePrevouis.Text = "remove previous item";
+            this.btnremovePrevouis.UseVisualStyleBackColor = true;
+            this.btnremovePrevouis.Click += new System.EventHandler(this.btnremovePrevouis_Click);
             // 
             // btnClearOrder
             // 
@@ -289,17 +288,17 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "Customer Email";
             // 
-            // textBox1
+            // txtCust_email
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(172, 20);
-            this.textBox1.TabIndex = 3;
+            this.txtCust_email.Location = new System.Drawing.Point(9, 32);
+            this.txtCust_email.Name = "txtCust_email";
+            this.txtCust_email.Size = new System.Drawing.Size(172, 20);
+            this.txtCust_email.TabIndex = 3;
             // 
             // gbxPayment
             // 
             this.gbxPayment.Controls.Add(this.label5);
-            this.gbxPayment.Controls.Add(this.textBox1);
+            this.gbxPayment.Controls.Add(this.txtCust_email);
             this.gbxPayment.Location = new System.Drawing.Point(9, 250);
             this.gbxPayment.Name = "gbxPayment";
             this.gbxPayment.Size = new System.Drawing.Size(196, 67);
@@ -315,7 +314,7 @@
             this.gpxOrders.Controls.Add(this.txtItem);
             this.gpxOrders.Controls.Add(this.btnClearOrder);
             this.gpxOrders.Controls.Add(this.cbxSpecialorder);
-            this.gpxOrders.Controls.Add(this.button4);
+            this.gpxOrders.Controls.Add(this.btnremovePrevouis);
             this.gpxOrders.Controls.Add(this.label3);
             this.gpxOrders.Controls.Add(this.AddOrderBtn);
             this.gpxOrders.Controls.Add(this.btnAdditem);
@@ -324,61 +323,62 @@
             this.gpxOrders.Controls.Add(this.txtQuatity);
             this.gpxOrders.Controls.Add(this.txtMaker);
             this.gpxOrders.Controls.Add(this.label4);
-            this.gpxOrders.Location = new System.Drawing.Point(161, 12);
+            this.gpxOrders.Location = new System.Drawing.Point(29, 61);
             this.gpxOrders.Name = "gpxOrders";
-            this.gpxOrders.Size = new System.Drawing.Size(674, 354);
+            this.gpxOrders.Size = new System.Drawing.Size(762, 354);
             this.gpxOrders.TabIndex = 75;
             this.gpxOrders.TabStop = false;
             this.gpxOrders.Text = "Orders";
             // 
+            // lbxOutput
+            // 
+            this.lbxOutput.FormattingEnabled = true;
+            this.lbxOutput.Items.AddRange(new object[] {
+            ""});
+            this.lbxOutput.Location = new System.Drawing.Point(427, 26);
+            this.lbxOutput.Name = "lbxOutput";
+            this.lbxOutput.Size = new System.Drawing.Size(311, 264);
+            this.lbxOutput.TabIndex = 75;
+            // 
             // gpxSearch
             // 
+            this.gpxSearch.Controls.Add(this.lbxsearchordelete);
+            this.gpxSearch.Controls.Add(this.cbxOrder);
             this.gpxSearch.Controls.Add(this.btnCancel);
-            this.gpxSearch.Controls.Add(this.btnSD);
-            this.gpxSearch.Controls.Add(this.textBox4);
-            this.gpxSearch.Controls.Add(this.txtorderID);
             this.gpxSearch.Controls.Add(this.label8);
-            this.gpxSearch.Location = new System.Drawing.Point(32, 44);
+            this.gpxSearch.Location = new System.Drawing.Point(35, 55);
             this.gpxSearch.Name = "gpxSearch";
-            this.gpxSearch.Size = new System.Drawing.Size(291, 350);
+            this.gpxSearch.Size = new System.Drawing.Size(430, 350);
             this.gpxSearch.TabIndex = 76;
             this.gpxSearch.TabStop = false;
             this.gpxSearch.Text = "Search for a order";
             // 
+            // lbxsearchordelete
+            // 
+            this.lbxsearchordelete.FormattingEnabled = true;
+            this.lbxsearchordelete.Location = new System.Drawing.Point(15, 94);
+            this.lbxsearchordelete.Name = "lbxsearchordelete";
+            this.lbxsearchordelete.Size = new System.Drawing.Size(360, 199);
+            this.lbxsearchordelete.TabIndex = 73;
+            // 
+            // cbxOrder
+            // 
+            this.cbxOrder.FormattingEnabled = true;
+            this.cbxOrder.Location = new System.Drawing.Point(15, 56);
+            this.cbxOrder.Name = "cbxOrder";
+            this.cbxOrder.Size = new System.Drawing.Size(117, 21);
+            this.cbxOrder.TabIndex = 72;
+            this.cbxOrder.SelectedIndexChanged += new System.EventHandler(this.cbxOrder_SelectedIndexChanged);
+            // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(95, 311);
+            this.btnCancel.Location = new System.Drawing.Point(149, 311);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(102, 23);
             this.btnCancel.TabIndex = 71;
             this.btnCancel.Text = "Cancel Order";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnSD
-            // 
-            this.btnSD.Location = new System.Drawing.Point(141, 51);
-            this.btnSD.Name = "btnSD";
-            this.btnSD.Size = new System.Drawing.Size(75, 23);
-            this.btnSD.TabIndex = 70;
-            this.btnSD.Text = "button1";
-            this.btnSD.UseVisualStyleBackColor = true;
-            this.btnSD.Click += new System.EventHandler(this.btnSD_Click);
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(10, 83);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(252, 222);
-            this.textBox4.TabIndex = 69;
-            // 
-            // txtorderID
-            // 
-            this.txtorderID.Location = new System.Drawing.Point(10, 53);
-            this.txtorderID.Name = "txtorderID";
-            this.txtorderID.Size = new System.Drawing.Size(122, 20);
-            this.txtorderID.TabIndex = 1;
             // 
             // label8
             // 
@@ -397,16 +397,6 @@
             this.button1.TabIndex = 77;
             this.button1.Text = "Back";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // lbxOutput
-            // 
-            this.lbxOutput.FormattingEnabled = true;
-            this.lbxOutput.Items.AddRange(new object[] {
-            ""});
-            this.lbxOutput.Location = new System.Drawing.Point(427, 32);
-            this.lbxOutput.Name = "lbxOutput";
-            this.lbxOutput.Size = new System.Drawing.Size(227, 264);
-            this.lbxOutput.TabIndex = 75;
             // 
             // OrderForm
             // 
@@ -461,22 +451,21 @@
         private System.Windows.Forms.TextBox txtMaker;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnAdditem;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnremovePrevouis;
         private System.Windows.Forms.Button btnClearOrder;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtQuatity;
         private System.Windows.Forms.CheckBox cbxSpecialorder;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCust_email;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox gbxPayment;
         private System.Windows.Forms.GroupBox gpxOrders;
         private System.Windows.Forms.GroupBox gpxSearch;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox txtorderID;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnSD;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox lbxOutput;
+        private System.Windows.Forms.ComboBox cbxOrder;
+        private System.Windows.Forms.ListBox lbxsearchordelete;
     }
 }
