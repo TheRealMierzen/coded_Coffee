@@ -175,7 +175,7 @@ namespace _213
         
 
 
-        private bool validateUser(string userName, string pass)
+        public bool validateUser(string userName, string pass)
         {
 
             using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))

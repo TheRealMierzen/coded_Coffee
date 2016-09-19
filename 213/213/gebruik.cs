@@ -155,7 +155,7 @@ namespace _213
                 }
 
                 string test = antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1);
-                if (test.Contains("44"))
+                /*if (test.Contains("44"))
                 {
                     getal += gedeelte.Next(1, 4);
                     getal2 += gedeelte.Next(0, 9);
@@ -164,7 +164,7 @@ namespace _213
                 }
 
                 if (test.Contains("35"))
-                    test = antwoord.Substring(getal2, 1) + antwoord.Substring(getal, 1);
+                    test = antwoord.Substring(getal2, 1) + antwoord.Substring(getal, 1);*/
                 //int ascii = antwoord[Convert.ToInt16(test)];
                 password += Convert.ToChar(Convert.ToInt16(test));
             }

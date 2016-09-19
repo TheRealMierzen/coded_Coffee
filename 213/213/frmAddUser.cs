@@ -42,13 +42,24 @@ namespace _213
             loginForm lf = new loginForm();
             gebruik other = new gebruik();
             Random start = new Random();
-            if (lf.addUser(txtNUser.Text, other.genPassword(start.Next(0, 10)), txtNLvl.Text, txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
+
+            if (lf.validateUser(txtAuthUser.Text, txtAuthPass.Text))
             {
-                MessageBox.Show("The account has been created. Please consult the adminstrator for the new account's password.");
-                gebruik.addAction(user);
+                if (lf.addUser(txtNUser.Text, other.genPassword(start.Next(0, 10)), txtNLvl.Text, txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
+                {
+                        //getmail
+                        MessageBox.Show("The account has been created. Please consult the adminstrator for the new account's password.");
+                    gebruik.addAction(user);
+                    this.Close();
+                }
+                
             }
             else
-                MessageBox.Show("The account was not created.");
+            {
+
+                MessageBox.Show("The authorization account's password is incorrect. Please try again.");
+
+            }
 
         }
     }

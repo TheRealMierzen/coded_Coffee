@@ -26,12 +26,12 @@ namespace _213.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string branch {
+        public string Branch {
             get {
-                return ((string)(this["branch"]));
+                return ((string)(this["Branch"]));
             }
             set {
-                this["branch"] = value;
+                this["Branch"] = value;
             }
         }
     }
