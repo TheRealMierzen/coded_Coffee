@@ -13,7 +13,7 @@ namespace _213
 {
     public partial class salesForm : Form
     {
-        private string itemID, items, itemIDS, paymentMethod, itemName, specialorder, promotion, warranty, saleID, dateTimeSale;
+        private string itemID, items, itemIDS, paymentMethod, itemName, specialorder, promotion, warranty, saleID, dateTimeSale, status;
         private double itemCost, newtotalCost;
         private double totalCost, totalPaid, change, discount, discountTot;
         private bool Promotion = false;
@@ -178,7 +178,6 @@ namespace _213
             lbxSaleReceipt.Items.Add( "=========================");
             lbxSaleReceipt.Items.Add("Total after discount: R" + newtotalCost.ToString());
             lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add("Sale ID: " + saleID);
             lbxSaleReceipt.Items.Add("=========================");
             lbxSaleReceipt.Items.Add("Thank you for shopping at ");
             lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE!");
@@ -216,72 +215,84 @@ namespace _213
         private void btnAddToSale_Click(object sender, EventArgs e)
         {
             itemID = txtProductID_Sale.Text;
-            barcodes.Add(itemID);
-            checkPromo(itemID);
-            setWarranty(itemID);
+            
+            checkStockStatus(itemID);
 
-            //Check if on promotion//
-            //Calculate Discount//
-            if (getcheckPromo() >= 1)
-            {
-                Promotion = true;
-                promotion = "Yes";
-                setPromotion(itemID);
-                discountTotal.Add(Convert.ToDouble(getPromotion()));
-            }
-
-            setItemName(itemID);
-            setItemPrice(itemID);
-
-            //display die hoeveelheid, item en prys van elk...
-            if (product.Contains(getItemName()) == false)
-            {
-                product.Add(getItemName());
-                price.Add(getItemPrice());
-                totalPerItem.Add(1);
-                //deleteStock(itemID);
+            if(getStockSatus() != "In Stock")
+            { 
+                MessageBox.Show("Not in stock!");
             }
             else
             {
-                int indeks = product.IndexOf(getItemName());
-                if (indeks != -1)
+                barcodes.Add(itemID);
+                checkPromo(itemID);
+                setWarranty(itemID);
+
+                changeStockStatus(itemID);
+
+                if (getcheckPromo() >= 1)
                 {
-                    totalPerItem[indeks] = totalPerItem[indeks] + 1;
-                    price[indeks] = price[indeks] + getItemPrice();
-                    //deleteStock(itemID);
+                    Promotion = true;
+                    promotion = "Yes";
+                    setPromotion(itemID);
+                    discountTotal.Add(Convert.ToDouble(getPromotion()));
                 }
-            }
 
-            if (getWarranty() != "n/a")
-            {
-                productW.Add(getItemName());
-                WarrantyP.Add(getWarranty());
-            }
+                setItemName(itemID);
+                setItemPrice(itemID);
 
-            lbxSaleReceipt.Items.Clear();
-            lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE");
-            //lbxSaleReceipt.Items.Add(branch);
-            dateTimeSale = (DateTime.Now).ToString();
-            lbxSaleReceipt.Items.Add(dateTimeSale);
-            lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add(@"Cashier:");
-            lbxSaleReceipt.Items.Add("");
-            for (int i = 0; i < product.Count(); i++)
-            {
-                lbxSaleReceipt.Items.Add(totalPerItem[i].ToString() + "x " + product[i] + " R" + price[i].ToString());
+                //display die hoeveelheid, item en prys van elk...
+                if (product.Contains(getItemName()) == false)
+                {
+                    product.Add(getItemName());
+                    price.Add(getItemPrice());
+                    totalPerItem.Add(1);
+                }
+                else
+                {
+                    int indeks = product.IndexOf(getItemName());
+                    if (indeks != -1)
+                    {
+                        totalPerItem[indeks] = totalPerItem[indeks] + 1;
+                        price[indeks] = price[indeks] + getItemPrice();
+                        //deleteStock(itemID);
+                    }
+                }
+
+                if (getWarranty() != "n/a")
+                {
+                    productW.Add(getItemName());
+                    WarrantyP.Add(getWarranty());
+                }
+
+                lbxSaleReceipt.Items.Clear();
+                lbxSaleReceipt.Items.Add("=========================");
+                lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE");
+                //lbxSaleReceipt.Items.Add(branch);
+                dateTimeSale = (DateTime.Now).ToString();
+                lbxSaleReceipt.Items.Add(dateTimeSale);
+                lbxSaleReceipt.Items.Add("=========================");
+                lbxSaleReceipt.Items.Add(@"Cashier:");
+                lbxSaleReceipt.Items.Add("");
+                for (int i = 0; i < product.Count(); i++)
+                {
+                    lbxSaleReceipt.Items.Add(totalPerItem[i].ToString() + "x " + product[i] + " R" + price[i].ToString());
+                }
+                totalCost = price.Sum();
+                totalItems = totalPerItem.Sum();
+                discountTot = discountTotal.Sum();
+                newtotalCost = totalCost - discountTot;
+                lbxSaleReceipt.Items.Add("=========================");
+                lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
+                if (getcheckPromo() >= 1)
+                {
+                    lbxSaleReceipt.Items.Add(@"Discount:         R" + discount.ToString());
+                }
+                lbxSaleReceipt.Items.Add("=========================");
             }
-            totalCost = price.Sum();
-            totalItems = totalPerItem.Sum();
-            discountTot = discountTotal.Sum();
-            newtotalCost = totalCost - discountTot;
-            lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
-            if(getcheckPromo() >= 1)
-            {
-                lbxSaleReceipt.Items.Add(@"Discount:         R" + discount.ToString());
-            }
-            lbxSaleReceipt.Items.Add("=========================");
+            //Check if on promotion//
+            //Calculate Discount//
+            
 
 
         }
@@ -289,20 +300,11 @@ namespace _213
         //GET AND SET ITEMNAME////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setItemName(string itemID)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
-            using (SqlCommand comm = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "'", con))
-            {
-                con.Open();
-                if (comm.ExecuteScalar() == null)
-                {
-                    MessageBox.Show("DIE ID BESTAAN NIE!");
-                }
-                else
-                {
-                    itemName = comm.ExecuteScalar().ToString();
-                }
-                con.Close();
-            }
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "'", con);
+            itemName = comm.ExecuteScalar().ToString();
+            con.Close();
         }
 
         private string getItemName()
@@ -312,20 +314,11 @@ namespace _213
         //GET AND SET ITEMPRICE////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setItemPrice(string itemID)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
-            using (SqlCommand comm = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemID + "'", con))
-            {
-                con.Open();
-                if (comm.ExecuteScalar() == null)
-                {
-                    MessageBox.Show("DIE ID BESTAAN NIE!");
-                }
-                else
-                {
-                    itemCost = Convert.ToDouble(comm.ExecuteScalar());
-                }
-                con.Close();
-            }
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemID + "'", con);
+            itemCost = Convert.ToDouble(comm.ExecuteScalar());
+            con.Close();
         }
 
         private double getItemPrice()
@@ -335,20 +328,11 @@ namespace _213
         //GET AND SET Promotion////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setPromotion(string itemID)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
-            using (SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_id = '" + itemID + "'", con))
-            {
-                con.Open();
-                if (comm.ExecuteScalar() == null)
-                {
-                    discount = 0.0;
-                }
-                else
-                {
-                    discount = Convert.ToDouble(comm.ExecuteScalar());
-                }
-                con.Close();
-            }
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_id = '" + itemID + "'", con);
+            discount = Convert.ToDouble(comm.ExecuteScalar());
+            con.Close();
         }
         private double getPromotion()
         {
@@ -360,7 +344,6 @@ namespace _213
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
             SqlCommand comm = new SqlCommand(@"SELECT COUNT(*) FROM Promotions WHERE item_id = '" + itemID + "'", con);
-            //comm.ExecuteNonQuery();
             prom = Convert.ToInt16(comm.ExecuteScalar());
             con.Close();
 
@@ -372,20 +355,11 @@ namespace _213
         //GET AND SET Warranty////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setWarranty(string itemID)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
-            using (SqlCommand comm = new SqlCommand(@"SELECT warranty FROM Stock WHERE item_id = '" + itemID + "'", con))
-            {
-                con.Open();
-                if (comm.ExecuteScalar() == null)
-                {
-                    warranty = "None!";
-                }
-                else
-                {
-                    warranty = comm.ExecuteScalar().ToString();
-                }
-                con.Close();
-            }
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"SELECT warranty FROM Stock WHERE item_id = '" + itemID + "'", con);
+            warranty = comm.ExecuteScalar().ToString();
+            con.Close();
         }
         private string getWarranty()
         {
@@ -398,17 +372,31 @@ namespace _213
             saleID = "S" + teller.ToString(); 
             return saleID; 
         }
-        //DELETE STOCK FROM TABLE////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /*private void deleteStock(string ID)
+
+        //Check status of Stock////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void checkStockStatus(string itemID)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
-            using (SqlCommand comm = new SqlCommand(@"DELETE FROM Stock WHERE item_id '" + itemID + "'", con))
-            {
-                con.Open();
-                comm.ExecuteNonQuery();
-                con.Close();
-            }
-        }*/
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"SELECT status FROM Stock WHERE item_id = '" + itemID + "'", con);
+            status = Convert.ToString(comm.ExecuteScalar());
+            con.Close();
+
+        }
+        private string getStockSatus()
+        {
+            return status;
+        }
+        //UPDATE STOCK_Status FROM TABLE////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void changeStockStatus(string itemID)
+        {
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"UPDATE Stock SET status = 'Sold' WHERE item_id ='" + itemID + "'", con);
+            comm.ExecuteNonQuery();
+            con.Close();
+        }
+        //ADD SALE AFTER COMPLETE////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
     
