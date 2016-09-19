@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net.Mail;
 using System.Data.SqlClient;
+using System.Drawing.Printing;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace _213
 {
@@ -15,21 +18,23 @@ namespace _213
         public static void log(DateTime tyd, string user, string action, string appPath)
         {
 
-            
+
             if (File.Exists(appPath))
             {
                 StreamWriter outstream = File.AppendText(appPath);
-                
+
                 if (action == "login")
                     outstream.WriteLine("\n" + user + " logged in : " + tyd.ToString());
                 else if (action == "logout")
                     outstream.WriteLine("\n" + user + " logged out : " + tyd.ToString());
-                
+                else if(action == "exit application")
+                    outstream.WriteLine("\n" + user + " exited application : " + tyd.ToString());
+
                 outstream.Close();
             }
             else
             {
-                
+
                 File.CreateText(appPath).Close();
                 StreamWriter outstream = File.AppendText(appPath);
                 outstream.WriteLine(user + " logged in : " + tyd.ToString());
@@ -37,8 +42,8 @@ namespace _213
                 outstream.Close();
 
             }
-            
-            
+
+
         }
 
         //As user iets delete/add/update of whatever
@@ -56,23 +61,23 @@ namespace _213
             }
 
         }
-       
+
         /*Om te roep
         Random start = new Random();
         MessageBox.Show(util.genPassword(start.Next(0,10)));*/
         public string genPassword(int begin)
         {
             int[] fibo = new int[16];
-            fibo[0]  = 1;
-            fibo[1]  = 1;
-            fibo[2]  = 2;
-            fibo[3]  = 3;
-            fibo[4]  = 5;
-            fibo[5]  = 8;
-            fibo[6]  = 13;
-            fibo[7]  = 21;
-            fibo[8]  = 34;
-            fibo[9]  = 55;
+            fibo[0] = 1;
+            fibo[1] = 1;
+            fibo[2] = 2;
+            fibo[3] = 3;
+            fibo[4] = 5;
+            fibo[5] = 8;
+            fibo[6] = 13;
+            fibo[7] = 21;
+            fibo[8] = 34;
+            fibo[9] = 55;
             fibo[10] = 89;
             fibo[11] = 144;
             fibo[12] = 233;
@@ -82,7 +87,7 @@ namespace _213
 
             //kry som van fibo getalle
             int som = Convert.ToInt16(fibo[begin]);
-            for(int tel = begin; tel < fibo.Length; tel++)
+            for (int tel = begin; tel < fibo.Length; tel++)
             {
 
                 som += (int)fibo[tel];
@@ -91,8 +96,8 @@ namespace _213
 
             //kry 2de som van fibo getalle
             Random gedeelte = new Random();
-            int nuweBegin = gedeelte.Next(0,10);
-            while(nuweBegin == begin)
+            int nuweBegin = gedeelte.Next(0, 10);
+            while (nuweBegin == begin)
             {
 
                 nuweBegin = gedeelte.Next(0, 10);
@@ -113,47 +118,47 @@ namespace _213
                 som = Convert.ToInt32(som.ToString() + som2.ToString());
 
             }
-            catch(StackOverflowException)
+            catch (StackOverflowException)
             {
 
                 som = Convert.ToInt32(som.ToString() + som2.ToString());
 
             }
-            
+
 
             string antwoord = "";
-            
+
             //kry 2 randomly en sit hulle in antwoord
             for (int deel = 0; deel < som.ToString().Length; deel++)
             {
 
                 int getal1 = gedeelte.Next(0, som.ToString().Length);
                 int getal2 = gedeelte.Next(0, som.ToString().Length);
-                antwoord += (som.ToString()).Substring(getal1,1) + (som.ToString()).Substring(getal2,1);
+                antwoord += (som.ToString()).Substring(getal1, 1) + (som.ToString()).Substring(getal2, 1);
 
             }
 
             //generate string password
             string password = "";
-            for(int tel = 0; tel < 8; tel++)
+            for (int tel = 0; tel < 8; tel++)
             {
 
-                int getal = (int)gedeelte.Next(0,antwoord.Length);
+                int getal = (int)gedeelte.Next(0, antwoord.Length);
                 int getal2 = (int)gedeelte.Next(0, antwoord.Length);
 
-                while(Convert.ToInt32(antwoord.Substring(getal,1) + antwoord.Substring(getal2, 1)) < 33 || (Convert.ToInt32(antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1)) > 127))
+                while (Convert.ToInt32(antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1)) < 33 || (Convert.ToInt32(antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1)) > 127))
                 {
 
                     getal = gedeelte.Next(0, antwoord.Length);
                     getal2 = gedeelte.Next(0, antwoord.Length);
 
                 }
-                
+
                 string test = antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1);
                 if (test.Contains("44"))
                 {
                     getal += gedeelte.Next(1, 4);
-                    getal2 += gedeelte.Next(0,9);
+                    getal2 += gedeelte.Next(0, 9);
                     test = (Convert.ToInt32(test) + Convert.ToInt32(getal.ToString() + getal2.ToString())).ToString();
 
                 }
@@ -165,7 +170,7 @@ namespace _213
             }
 
             //validation
-            for(int check = 0; check < 8; check++)
+            for (int check = 0; check < 8; check++)
             {
                 try
                 {
@@ -176,7 +181,7 @@ namespace _213
 
                     }
                 }
-                catch(StackOverflowException)
+                catch (StackOverflowException)
                 {
 
                     password = this.genPassword(begin);
@@ -201,8 +206,8 @@ namespace _213
                                 count = 0;
                                 password = this.genPassword(begin);
                             }
-                            
-                                
+
+
                         }
                         count = 0;
                     }
@@ -217,7 +222,7 @@ namespace _213
             }
 
             return password;
-            
+
         }
 
 
@@ -253,14 +258,93 @@ namespace _213
                     return true;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
                 return false;
 
-            }        
+            }
 
         }
+
+        //Printing
+//////////////////////////////////////////////////////////////////////////////////
+        public string getDefaultPrinter()
+        {
+
+            PrinterSettings settings = new PrinterSettings();
+
+            return settings.PrinterName;
+
+        }
+
+        private Font printFont;
+        private StreamReader outstream;
+        private string filePath = "";
+
+        public void print(string fileP)
+        {
+
+            filePath = fileP;
+            try
+            {
+                outstream = new StreamReader(filePath);
+                try
+                {
+
+                    printFont = new Font("Arial", 10);
+                    PrintDocument pd = new PrintDocument();
+                    pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+                    pd.Print();
+
+                }
+                finally
+                {
+
+                    outstream.Close();
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("An error occurred while printing. Please verify that the printer is connected and try again.");
+
+            }
+        }
+
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+
+            float linesPerPage = 0;
+            float yPos = 0;
+            int count = 0;
+            float leftMargin = ev.MarginBounds.Left;
+            float topMargin = ev.MarginBounds.Top;
+            string line = null;
+
+            linesPerPage = ev.MarginBounds.Height;
+            printFont.GetHeight(ev.Graphics);
+
+            while (count < linesPerPage && (line = outstream.ReadLine()) != null)
+            {
+
+                yPos = topMargin + (count * printFont.GetHeight(ev.Graphics));
+                ev.Graphics.DrawString(line, printFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+                count++;
+
+            }
+
+            if (line != null)
+                ev.HasMorePages = true;
+            else
+                ev.HasMorePages = false;
+
+        }
+ //////////////////////////////////////////////////////////////////////////////////
+
     }
 }
+
+

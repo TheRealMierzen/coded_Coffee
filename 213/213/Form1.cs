@@ -19,10 +19,11 @@ namespace _213
 
         }
 
-        public Form1(string userName)
+        public Form1(string userName, loginForm lf)
         {
             InitializeComponent();
             user = userName;
+            lf.Hide();
         }
 
         private string user;
@@ -37,17 +38,52 @@ namespace _213
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.TopMost = true;
+            //this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+
+            //////VISUALS
+            ///ADMIN STUFF
+            btnAdminShow.Location = new Point(13,(this.Height)/2 - 20);
+            btnAdminHide.Location = new Point(133, (this.Height) / 2 - 20);
+
+            btnAddUser.Size = new Size(62, 62);
+            btnUUser.Size = new Size(62, 62);
+            btnRUser.Size = new Size(62, 62);
+
+            btnAddEmp.Size = new Size(62, 62);
+            btnUEmp.Size = new Size(62, 62);
+            btnREmp.Size = new Size(62, 62);
+
+            btnEoM.Size = new Size(62, 62);
+            btnVLogs.Size = new Size(62, 62);
+            btnMPromo.Size = new Size(62,62);
+
+            btnAdmLogout.Size = new Size(62, 62);
+            btnExit.Size = new Size(62, 62);
+            ///MAIN                     //716
+            saleBtn.Location = new Point((this.Width / 2)-52, ((this.Height) / 2 - 20) - 270);
+            hqBtn.Location = new Point(hqBtn.Location.X, ((this.Height) / 2 - 20) -130);
+            btnOrders.Location = new Point(btnOrders.Location.X, ((this.Height) / 2 - 20) - 130);
+            hqBtn.Location = new Point(hqBtn.Location.X, ((this.Height) / 2 - 20) - 130);
+
+            stockBtn.Location = new Point(stockBtn.Location.X, ((this.Height) / 2 + 30));
+            TechBtn.Location = new Point(TechBtn.Location.X, ((this.Height) / 2 + 30));
+            btnEOD.Location = new Point((this.Width / 2) - 52, ((this.Height) / 2 - 20) + 180);       
+            ///
+
+
+
         }
 
         //exit button
         private void button1_Click_1(object sender, EventArgs e)
         {
             DateTime local = DateTime.Now;
+
             gebruik.log(local, user, "logout", appPath + @"\stockI.T" + @"\Activity Log.txt");
-  
+            gebruik.log(local, user, "exit application", appPath + @"\stockI.T" + @"\Activity Log.txt");
+
             Application.Exit();
         }
 
@@ -82,12 +118,12 @@ namespace _213
             }
             else if (dist2 < dist1 && dist2 < dist3 && dist2 < dist4 && dist2 < dist5 && dist2 < dist6)
             {
-                nearest = roundButton2;
+                nearest = btnEOD;
                 smallest = dist2;
             }
             else if (dist3 < dist2 && dist3 < dist1 && dist3 < dist4 && dist3 < dist5 && dist3 < dist6)
             {
-                nearest = roundButton3;
+                nearest = btnOrders;
                 smallest = dist3;
             }
             else if (dist4 < dist2 && dist4 < dist1 && dist4 < dist3 && dist4 < dist5 && dist4 < dist6)
@@ -159,7 +195,7 @@ namespace _213
         //end of day button
         private void roundButton2_Click(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -206,9 +242,75 @@ namespace _213
 
         private void button1_Click_2(object sender, EventArgs e)
         {
-            loginForm lf = new loginForm();
-            lf.addUser(txtname.Text, txtpass.Text, txtlvl.Text, txtauth.Text, txtauthpass.Text);
+            
         }
+
+        private void btnAdminHide_Click(object sender, EventArgs e)
+        {
+
+            for (int pos = 0; pos > -233; pos--)
+                pnlAdmin.Location = new Point(pos, 0);
+
+            btnAdminHide.Visible = false;
+            btnAdminShow.Visible = true;
+            
+        }
+
+        private void btnAdminShow_Click(object sender, EventArgs e)
+        {
+            btnAdminShow.Visible = false;
+
+            for (int pos = -233; pos < 0; pos++)
+                pnlAdmin.Location = new Point(pos, 0);
+
+            
+            btnAdminHide.Visible = true;
+        }
+
+        private void btnAddUser_Click(object sender, EventArgs e)
+        {            
+            frmAddUser adU = new frmAddUser(user);
+            this.TopMost = false;
+            adU.Show();
+            
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            btnAdminShow.Location = new Point(180, (this.Height) / 2 - 20);
+            btnAdminHide.Location = new Point(130, (this.Height) / 2 - 20);
+        }
+
+        private void btnRUser_Click(object sender, EventArgs e)
+        {
+            btnRUser.Size = new Size(62, 62);
+
+            MessageBox.Show(btnRUser.Size.Height + "," + btnRUser.Size.Width);
+        }
+
+        private void btnUUser_Click(object sender, EventArgs e)
+        {
+            frmUpdateUser uUser = new frmUpdateUser();
+            uUser.Show();
+        }
+
+        private void btnAddEmp_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnAdmLogout_Click(object sender, EventArgs e)
+        {
+            loginForm lf = new loginForm();
+            DateTime local = DateTime.Now;
+
+            gebruik.log(local, user, "logout", appPath + @"\stockI.T" + @"\Activity Log.txt");
+            lf.Show();
+            lf.TopMost = true;
+        }
+
+
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

@@ -36,6 +36,7 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.txtLEmail = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button2
@@ -69,7 +70,7 @@
             // textBox2
             // 
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(412, 206);
+            this.textBox2.Location = new System.Drawing.Point(412, 191);
             this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.MaximumSize = new System.Drawing.Size(429, 52);
             this.textBox2.Name = "textBox2";
@@ -92,6 +93,7 @@
             this.textBox1.Size = new System.Drawing.Size(215, 22);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Username";
+            this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
             // 
             // btnCreate
             // 
@@ -128,6 +130,17 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Welcom to stockI.T";
             // 
+            // txtLEmail
+            // 
+            this.txtLEmail.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtLEmail.Location = new System.Drawing.Point(412, 234);
+            this.txtLEmail.Name = "txtLEmail";
+            this.txtLEmail.Size = new System.Drawing.Size(214, 22);
+            this.txtLEmail.TabIndex = 6;
+            this.txtLEmail.Text = "Email address";
+            this.txtLEmail.Visible = false;
+            this.txtLEmail.Enter += new System.EventHandler(this.txtLEmail_Enter);
+            // 
             // loginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -136,6 +149,7 @@
             this.BackgroundImage = global::_213.Properties.Resources._48992;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1033, 447);
+            this.Controls.Add(this.txtLEmail);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.button2);
@@ -161,5 +175,6 @@
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.ToolTip passTT;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtLEmail;
     }
 }

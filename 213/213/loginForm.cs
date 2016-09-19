@@ -26,7 +26,7 @@ namespace _213
         private void loginForm_Load(object sender, EventArgs e)
         {
             //////////////Maak/Fullscreen////////////////
-            this.TopMost = true;
+            /*this.TopMost = true;*/
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             /////////////////////////////////////////////
@@ -40,7 +40,8 @@ namespace _213
 
                     textBox1.Enabled = true;
                     textBox2.Enabled = true;
-                    btnCreate.Visible = true;                  
+                    btnCreate.Visible = true;
+                    txtLEmail.Visible = true;             
 
                 }
                 else
@@ -48,6 +49,7 @@ namespace _213
 
                     textBox1.Enabled = false;
                     textBox2.Enabled = false;
+                    txtLEmail.Visible = false;
 
                 }
 
@@ -87,7 +89,7 @@ namespace _213
         }
 
         //Adds a user to the file
-        public void addUser(string username, string pass, string level, string authorize, string authorizePass)
+        public bool addUser(string username, string pass, string level, string email, string authorize, string authorizePass)
         {
 
             //Find authorize in file and check level, if level is valid create user
@@ -99,12 +101,15 @@ namespace _213
                     string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                     string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
 
+                    gebruik other = new gebruik();
+                    //kort Settings.Default.branch
                     con.Open();
-                    SqlCommand cAddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions) VALUES ('" + username + "','" + hsh + "', 10, '" + saltyness + "', 0, 0)", con);
+                    SqlCommand cAddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address) VALUES ('" + username + "','" + hsh + "', 10, '" + saltyness + "', 0, 0, '" + email + "')", con);
                     cAddUser.ExecuteNonQuery();
                     btnCreate.Visible = false;
                     button1.Visible = true;
                     con.Close();
+                    return true;
 
                 }
 
@@ -120,7 +125,7 @@ namespace _213
 
                         string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                         string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
-                        
+
                         con.Open();
                         SqlCommand findAdmin = new SqlCommand("SELECT userName, password, authLevel, salt FROM Users WHERE userName= '" + authorize + "'", con);
                         findAdmin.ExecuteNonQuery();
@@ -146,19 +151,23 @@ namespace _213
                         {
                             saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                             hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
-                            SqlCommand AddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions) VALUES ('" + username + "','" + hsh + "'," + level + ", '" + saltyness + "', 0, 0)", con);
+                            SqlCommand AddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address, branch) VALUES ('" + username + "','" + hsh + "'," + level + ", '" + saltyness + "', 0, 0, '" + email + "','" + "-" + "')", con);
                             AddUser.ExecuteNonQuery();
                         }
 
                         btnCreate.Visible = false;
                         button1.Visible = true;
                         con.Close();
+                        return true;
 
                     }
 
                 }
                 else
-                    MessageBox.Show("The username you entered is already taken. Please try again.","Error");
+                {
+                    MessageBox.Show("The username you entered is already taken. Please try again.", "Error");
+                    return false;
+                }
 
             }
             
@@ -218,6 +227,7 @@ namespace _213
         {
             bool valid = true;
             bool tooShort = false;
+            bool adres = false;
 
             for(int c = 0; c < textBox2.Text.Length; c++)
             {
@@ -230,15 +240,20 @@ namespace _213
             if (textBox2.Text.Length != 8)
                 tooShort = true;
 
-            if (valid && !tooShort)
+            if (textBox1.Text != "")
+                adres = true;
+
+            if (valid && !tooShort && adres)
             {
-                addUser(textBox1.Text, textBox2.Text, "10", "admin", "HUEHUEHUE");
-                MessageBox.Show("The account has succesfully been created.", "Info");
+                if(addUser(textBox1.Text, textBox2.Text, "", "10", "admin", "HUEHUEHUE"))
+                    MessageBox.Show("The account has succesfully been created.", "Info");
             }
             else if(!valid)
                 MessageBox.Show("The entered password contains an illegal character. Please choose another password. (Password may not contain a ',' or a '#')", "Error");
             else if(textBox2.Text.Length < 8)
                 MessageBox.Show("The entered password is too short. Please choose another password. (Password must be 8 characters in length.)", "Error");
+            else if(textBox1.Text == "")
+                MessageBox.Show("It appears that no email address was entered. Please enter one and attempt to create the account again.", "Error");
             else
                 MessageBox.Show("The entered password is too long. Please choose another password. (Password must be 8 characters in length.)","Error");
 
@@ -246,13 +261,16 @@ namespace _213
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             if (validateUser(textBox1.Text, textBox2.Text))
             {
                 
-                Form1 f1 = new Form1(textBox1.Text);
+                Form1 f1 = new Form1(textBox1.Text,this);
                 f1.Show();
+
                 DateTime local = DateTime.Now;
                 gebruik.log(local, textBox1.Text, "login", appPath + @"\stockI.T" + @"\Activity Log.txt");
+
                 using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
                 {
 
@@ -297,6 +315,16 @@ namespace _213
                     return false;
             }
 
+        }
+
+        private void txtLEmail_Enter(object sender, EventArgs e)
+        {
+            txtLEmail.Text = "";
+        }
+
+        private void textBox1_Enter(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
         }
     }
 }
