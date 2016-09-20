@@ -365,6 +365,58 @@ namespace _213
                 }
             }
         }
+        //////////////////////////////////////////////////////////////////////////////////////
+        public string getIP()
+        {
+            try
+            {
+
+                string url = "http://checkip.dyndns.org";
+
+                System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+                System.Net.WebResponse resp = req.GetResponse();
+                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                string response = sr.ReadToEnd().Trim();
+                string[] a = response.Split(':');
+                string a2 = a[1].Substring(1);
+                string[] a3 = a2.Split('<');
+                string a4 = a3[0];
+
+                return a4;
+            }
+            catch (System.Net.WebException we)
+            {
+
+                MessageBox.Show("An error occurred during the " + we.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + we.Message, "Error");
+                return "";
+
+            }
+
+        }
+
+        public string GetLocation(string ip)
+        {
+            int tel = 0;
+            var res = "";
+
+            WebRequest request = WebRequest.Create("http://ipinfo.io/" + ip);
+            using (WebResponse response = request.GetResponse())
+            using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+            {
+                string line;
+
+                while ((line = stream.ReadLine()) != null)
+                {
+                    tel += 1;
+
+                    if (tel == 4)
+                        res += line.Substring(11, line.Length - 13);
+                }
+            }
+            return res;
+        }
+
     }
 }
 

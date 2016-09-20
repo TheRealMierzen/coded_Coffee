@@ -32,7 +32,14 @@ namespace _213
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             /////////////////////////////////////////////
-            
+            if (Properties.Settings.Default.Branch == "-")
+            {
+
+                gebruik util = new gebruik();
+                Properties.Settings.Default.Branch = util.GetLocation(util.getIP());
+                Properties.Settings.Default.Save();
+
+            }
 
             if (!checkFile())
             {
