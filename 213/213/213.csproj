@@ -80,6 +80,12 @@
     <Compile Include="frmAddUser.Designer.cs">
       <DependentUpon>frmAddUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmForgotPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmForgotPass.Designer.cs">
+      <DependentUpon>frmForgotPass.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmForgotPass.resx">
+      <DependentUpon>frmForgotPass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUpdateUser.resx">
       <DependentUpon>frmUpdateUser.cs</DependentUpon>

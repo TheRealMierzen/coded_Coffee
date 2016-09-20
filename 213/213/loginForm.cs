@@ -22,6 +22,8 @@ namespace _213
 
 
         private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));//verander as networking reg is
+        private int attempts = 0;
+        private string prev;
 
         private void loginForm_Load(object sender, EventArgs e)
         {
@@ -41,6 +43,7 @@ namespace _213
                     textBox1.Enabled = true;
                     textBox2.Enabled = true;
                     btnCreate.Visible = true;
+                    //btnCreate.Enabled = false;
                     txtLEmail.Visible = true;             
 
                 }
@@ -213,7 +216,17 @@ namespace _213
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            //textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckKeys);
+
+            if (textBox2.Text != "")
+                button1.Enabled = true;
+            else
+                button1.Enabled = false;
+
+            if (btnCreate.Visible == true && textBox2.Text == "")
+                btnCreate.Enabled = false;
+            else if (btnCreate.Visible == true && textBox2.Text != "")
+                btnCreate.Enabled = false;
+            
 
         }
 
@@ -245,8 +258,11 @@ namespace _213
 
             if (valid && !tooShort && adres)
             {
-                if(addUser(textBox1.Text, textBox2.Text, "", "10", "admin", "HUEHUEHUE"))
+                if (addUser(textBox1.Text, textBox2.Text, "", txtLEmail.Text, "admin", "HUEHUEHUE"))
+                {
                     MessageBox.Show("The account has succesfully been created.", "Info");
+                    txtLEmail.Visible = false;
+                }
             }
             else if(!valid)
                 MessageBox.Show("The entered password contains an illegal character. Please choose another password. (Password may not contain a ',' or a '#')", "Error");
@@ -264,8 +280,8 @@ namespace _213
 
             if (validateUser(textBox1.Text, textBox2.Text))
             {
-                
-                Form1 f1 = new Form1(textBox1.Text,this);
+
+                Form1 f1 = new Form1(textBox1.Text, this);
                 f1.Show();
 
                 DateTime local = DateTime.Now;
@@ -282,10 +298,26 @@ namespace _213
                 }
 
                 MessageBox.Show("Welcome " + textBox1.Text);
-                
+
             }
             else
+            {
+                
+                if (prev == textBox1.Text)
+                    attempts += 1;
+                else
+                    attempts = 1;
+
+                if (attempts >= 3)
+                    btnLForgotPass.Visible = true;
+
+                prev = textBox1.Text;
+
                 MessageBox.Show("The username or password you entered was incorrect", "Error");
+
+                textBox2.Text = "";
+
+            }
 
         }
 
@@ -325,6 +357,47 @@ namespace _213
         private void textBox1_Enter(object sender, EventArgs e)
         {
             textBox1.Text = "";
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+                btnCreate.Enabled = true;
+            else
+                btnCreate.Enabled = false;
+        }
+
+        private void btnLForgotPass_VisibleChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnLForgotPass_Click(object sender, EventArgs e)
+        {
+            this.TopMost = false;
+            frmForgotPass fp = new frmForgotPass(textBox1.Text, this);
+            fp.ShowDialog();
+            
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+                btnCreate.Enabled = true;
+            else
+                btnCreate.Enabled = false;
+        }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+                btnCreate.Enabled = true;
+            else
+                btnCreate.Enabled = false;
+        }
+
+        private void txtLEmail_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+                btnCreate.Enabled = true;
+            else
+                btnCreate.Enabled = false;
         }
     }
 }

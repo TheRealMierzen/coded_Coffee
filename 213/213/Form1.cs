@@ -69,9 +69,13 @@ namespace _213
 
             stockBtn.Location = new Point(stockBtn.Location.X, ((this.Height) / 2 + 30));
             TechBtn.Location = new Point(TechBtn.Location.X, ((this.Height) / 2 + 30));
-            btnEOD.Location = new Point((this.Width / 2) - 52, ((this.Height) / 2 - 20) + 180);       
+            btnEOD.Location = new Point((this.Width / 2) - 52, ((this.Height) / 2 - 20) + 180);
             ///
-
+            /////////Display admin panel
+            if (util.checkAuthor(user))
+                btnAdminShow.Visible = true;
+            else
+                btnAdminShow.Visible = false;
 
 
         }
@@ -252,7 +256,7 @@ namespace _213
                 pnlAdmin.Location = new Point(pos, 0);
 
             btnAdminHide.Visible = false;
-            btnAdminShow.Visible = true;
+            btnAdminShow.Enabled = true;
             
         }
 
@@ -271,7 +275,7 @@ namespace _213
         {            
             frmAddUser adU = new frmAddUser(user);
             this.TopMost = false;
-            adU.Show();
+            adU.ShowDialog();
             
         }
 

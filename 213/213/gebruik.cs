@@ -172,7 +172,7 @@ namespace _213
             //validation
             for (int check = 0; check < 8; check++)
             {
-                try
+                /*try
                 {
                     if (password.Contains(",") || password.Contains("#"))
                     {
@@ -186,7 +186,7 @@ namespace _213
 
                     password = this.genPassword(begin);
 
-                }
+                }*/
 
                 char[] symbol = password.ToCharArray();
                 int count = 0;
@@ -342,8 +342,29 @@ namespace _213
                 ev.HasMorePages = false;
 
         }
- //////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////
 
+        public bool checkAuthor(string username)
+        {
+
+            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            {
+                string cmdstring = "SELECT authLevel FROM Users WHERE userName = @user";
+
+                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                {
+                    con.Open();
+                    int level = 0;
+                    comm.Parameters.AddWithValue("@user", username);
+                    level = (Int16)comm.ExecuteScalar();
+
+                    if (level == 10)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+        }
     }
 }
 
