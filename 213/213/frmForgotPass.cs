@@ -108,7 +108,7 @@ namespace _213
                                                 dr.Close();
                                                 con1.Close();
 
-                                                if (util.Mail(mail, "Password recovery", "A new password has been generated.\r\n\r\nThe new details are:\r\n\tUsername: " + user + "\r\n\tPassword: " + newPass + "\r\n\t.\r\n\r\nPlease keep this email for future reference."))
+                                                if (util.Mail(mail, "Password recovery", "A new password has been generated.\r\n\r\nThe new details are:\r\n\tUsername: " + user + "\r\n\tPassword: " + newPass + "\r\n\t\r\n\r\nPlease keep this email for future reference."))
                                                 {
                                                     MessageBox.Show("The password has been updated. Please consult the adminstrator for the new password.");
                                                     gebruik.addAction(txtFPAdminP.Text);
@@ -169,5 +169,29 @@ namespace _213
         {
             user = txtBlocked.Text;
     }
+
+        private void txtBlocked_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
+                btnFPRecover.Enabled = true;
+            else
+                btnFPRecover.Enabled = false;
+        }
+
+        private void txtFPAdminU_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
+                btnFPRecover.Enabled = true;
+            else
+                btnFPRecover.Enabled = false;
+        }
+
+        private void txtFPAdminP_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
+                btnFPRecover.Enabled = true;
+            else
+                btnFPRecover.Enabled = false;
+        }
     }
 }

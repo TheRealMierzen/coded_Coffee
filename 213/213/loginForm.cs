@@ -32,25 +32,26 @@ namespace _213
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             /////////////////////////////////////////////
-            if (Properties.Settings.Default.Branch == "-")
-            {
 
-                gebruik util = new gebruik();
-                Properties.Settings.Default.Branch = util.GetLocation(util.getIP());
-                Properties.Settings.Default.Save();
+            TimeSpan TOD = DateTime.Now.TimeOfDay;
+            TimeSpan EOD = TimeSpan.Parse("17:00");
 
-            }
+            if (TOD < EOD)
+                button2.Visible = false;
 
             if (!checkFile())
             {
+                //kort background runner
+                gebruik util = new gebruik();
+                util.setLocation();
+
                 //Create user and password file
-                if(MessageBox.Show("It appears that this is the first time you're using stockI.T. Would you like to create an administrative account now?", "Info",MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("It appears that this is the first time you're using stockI.T. Would you like to create an administrative account now?", "Info",MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
 
                     textBox1.Enabled = true;
                     textBox2.Enabled = true;
                     btnCreate.Visible = true;
-                    //btnCreate.Enabled = false;
                     txtLEmail.Visible = true;             
 
                 }
@@ -80,14 +81,19 @@ namespace _213
 
             using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
             {
-                con.Open();
-                SqlCommand checkFirst = new SqlCommand("SELECT COUNT(*) AS CountOfRecords FROM Users",con);
-                int records = Convert.ToInt32(checkFirst.ExecuteScalar());
-                con.Close();
-                if (records > 0)
-                    return true;
-                else
-                    return false;
+                string cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Users WHERE branch = @branch  AND authLevel = 10";
+
+                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                {
+                    con.Open();
+                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                    int records = Convert.ToInt32(comm.ExecuteScalar());
+                    con.Close();
+                    if (records > 0)
+                        return true;
+                    else
+                        return false;
+                }
             }
 
         }
@@ -98,10 +104,10 @@ namespace _213
             Application.Exit();
         }
 
-        //Adds a user to the file
+        //Adds a user to the database
         public bool addUser(string username, string pass, string level, string email, string authorize, string authorizePass)
         {
-
+            
             //Find authorize in file and check level, if level is valid create user
             if (authorize == "admin" && authorizePass == "HUEHUEHUE")
             {
@@ -114,7 +120,7 @@ namespace _213
                     gebruik other = new gebruik();
                     //kort Settings.Default.branch
                     con.Open();
-                    SqlCommand cAddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address) VALUES ('" + username + "','" + hsh + "', 10, '" + saltyness + "', 0, 0, '" + email + "')", con);
+                    SqlCommand cAddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address, branch) VALUES ('" + username + "','" + hsh + "', 10, '" + saltyness + "', 0, 0, '" + email + "','" + Properties.Settings.Default.Branch + "')", con);
                     cAddUser.ExecuteNonQuery();
                     btnCreate.Visible = false;
                     button1.Visible = true;
@@ -139,7 +145,6 @@ namespace _213
                         con.Open();
                         SqlCommand findAdmin = new SqlCommand("SELECT userName, password, authLevel, salt FROM Users WHERE userName= '" + authorize + "'", con);
                         findAdmin.ExecuteNonQuery();
-                        //string user = Convert.ToString(cAddUser.ExecuteScalar());
 
                         SqlDataReader dr = findAdmin.ExecuteReader();
 
@@ -161,7 +166,7 @@ namespace _213
                         {
                             saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                             hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
-                            SqlCommand AddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address, branch) VALUES ('" + username + "','" + hsh + "'," + level + ", '" + saltyness + "', 0, 0, '" + email + "','" + "-" + "')", con);
+                            SqlCommand AddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address, branch) VALUES ('" + username + "','" + hsh + "'," + level + ", '" + saltyness + "', 0, 0, '" + email + "','" + Properties.Settings.Default.Branch + "')", con);
                             AddUser.ExecuteNonQuery();
                         }
 
@@ -192,7 +197,7 @@ namespace _213
             {
 
                 con.Open();
-                SqlCommand cAddUser = new SqlCommand("SELECT userName FROM Users WHERE userName= '" + userName + "'", con);
+                SqlCommand cAddUser = new SqlCommand("SELECT userName FROM Users WHERE userName= '" + userName + "' AND branch = '" + Properties.Settings.Default.Branch + "'", con);
                 string user = "";
                 user = (string) cAddUser.ExecuteScalar();
 
@@ -223,17 +228,21 @@ namespace _213
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
-            if (textBox2.Text != "")
-                button1.Enabled = true;
+            if (btnCreate.Visible == true)
+            {
+                if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com"))
+                    btnCreate.Enabled = true;
+                else
+                    btnCreate.Enabled = false;
+            }
             else
-                button1.Enabled = false;
+            {
+                if (textBox1.Text != "" && textBox2.Text != "")
+                    button1.Enabled = true;
+                else
+                    button1.Enabled = false;
+            }
 
-            if (btnCreate.Visible == true && textBox2.Text == "")
-                btnCreate.Enabled = false;
-            else if (btnCreate.Visible == true && textBox2.Text != "")
-                btnCreate.Enabled = false;
-            
 
         }
 
@@ -252,8 +261,11 @@ namespace _213
             for(int c = 0; c < textBox2.Text.Length; c++)
             {
 
-                if (textBox2.Text[c] == ',' || textBox2.Text[c] == '#')
+                if (!checkUser(textBox1.Text))
+                {
                     valid = false;
+                    
+                }
 
             }
 
@@ -269,10 +281,11 @@ namespace _213
                 {
                     MessageBox.Show("The account has succesfully been created.", "Info");
                     txtLEmail.Visible = false;
+                    textBox2.Clear();
                 }
             }
             else if(!valid)
-                MessageBox.Show("The entered password contains an illegal character. Please choose another password. (Password may not contain a ',' or a '#')", "Error");
+                MessageBox.Show("The username you entered is already taken. Please enter another username and try again.", "Error");
             else if(textBox2.Text.Length < 8)
                 MessageBox.Show("The entered password is too short. Please choose another password. (Password must be 8 characters in length.)", "Error");
             else if(textBox1.Text == "")
@@ -292,7 +305,7 @@ namespace _213
                 f1.Show();
 
                 DateTime local = DateTime.Now;
-                gebruik.log(local, textBox1.Text, "login", appPath + @"\stockI.T" + @"\Activity Log.txt");
+                gebruik.log(local, textBox1.Text, "login");
 
                 using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
                 {
@@ -315,14 +328,17 @@ namespace _213
                 else
                     attempts = 1;
 
-                if (attempts >= 3)
+                if (attempts >= 3)      
                     btnLForgotPass.Visible = true;
+                
 
                 prev = textBox1.Text;
 
                 MessageBox.Show("The username or password you entered was incorrect", "Error");
 
                 textBox2.Text = "";
+                textBox1.Text = "";
+                textBox1.Focus();
 
             }
 
@@ -337,7 +353,7 @@ namespace _213
         }
 
         //true if username is available
-        private bool checkUser(string name)
+        public bool checkUser(string name)
         {
 
             using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
@@ -378,14 +394,14 @@ namespace _213
         private void btnLForgotPass_Click(object sender, EventArgs e)
         {
             this.TopMost = false;
-            frmForgotPass fp = new frmForgotPass(textBox1.Text, this);
+            frmForgotPass fp = new frmForgotPass(prev, this);
             fp.ShowDialog();
             
         }
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
@@ -393,7 +409,7 @@ namespace _213
 
         private void textBox2_Leave(object sender, EventArgs e)
         {
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
@@ -401,10 +417,34 @@ namespace _213
 
         private void txtLEmail_Leave(object sender, EventArgs e)
         {
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
+        }
+
+        private void txtLEmail_TextChanged(object sender, EventArgs e)
+        {
+            if (txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
+                btnCreate.Enabled = true;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (btnCreate.Visible == true)
+            {
+                if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
+                    btnCreate.Enabled = true;
+                else
+                    btnCreate.Enabled = false;
+            }
+            else
+            {
+                if (textBox1.Text != "" && textBox2.Text != "")
+                    button1.Enabled = true;
+                else
+                    button1.Enabled = false;
+            }
         }
     }
 }

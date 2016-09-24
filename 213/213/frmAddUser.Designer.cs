@@ -47,10 +47,11 @@
             // 
             // btnCreateAcc
             // 
+            this.btnCreateAcc.Enabled = false;
             this.btnCreateAcc.Location = new System.Drawing.Point(107, 184);
             this.btnCreateAcc.Name = "btnCreateAcc";
             this.btnCreateAcc.Size = new System.Drawing.Size(121, 36);
-            this.btnCreateAcc.TabIndex = 0;
+            this.btnCreateAcc.TabIndex = 6;
             this.btnCreateAcc.Text = "Create Account";
             this.btnCreateAcc.UseVisualStyleBackColor = true;
             this.btnCreateAcc.Click += new System.EventHandler(this.btnCreateAcc_Click);
@@ -61,6 +62,7 @@
             this.txtNUser.Name = "txtNUser";
             this.txtNUser.Size = new System.Drawing.Size(121, 22);
             this.txtNUser.TabIndex = 1;
+            this.txtNUser.TextChanged += new System.EventHandler(this.txtNUser_TextChanged);
             // 
             // txtNLvl
             // 
@@ -68,13 +70,14 @@
             this.txtNLvl.Name = "txtNLvl";
             this.txtNLvl.Size = new System.Drawing.Size(121, 22);
             this.txtNLvl.TabIndex = 2;
+            this.txtNLvl.TextChanged += new System.EventHandler(this.txtNLvl_TextChanged);
             // 
             // txtAuthUser
             // 
             this.txtAuthUser.Location = new System.Drawing.Point(338, 41);
             this.txtAuthUser.Name = "txtAuthUser";
             this.txtAuthUser.Size = new System.Drawing.Size(121, 22);
-            this.txtAuthUser.TabIndex = 3;
+            this.txtAuthUser.TabIndex = 4;
             // 
             // txtAuthPass
             // 
@@ -82,7 +85,8 @@
             this.txtAuthPass.Name = "txtAuthPass";
             this.txtAuthPass.PasswordChar = '*';
             this.txtAuthPass.Size = new System.Drawing.Size(121, 22);
-            this.txtAuthPass.TabIndex = 4;
+            this.txtAuthPass.TabIndex = 5;
+            this.txtAuthPass.TextChanged += new System.EventHandler(this.txtAuthPass_TextChanged);
             // 
             // label1
             // 
@@ -90,7 +94,7 @@
             this.label1.Location = new System.Drawing.Point(44, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(138, 17);
-            this.label1.TabIndex = 5;
+            this.label1.TabIndex = 0;
             this.label1.Text = "New account details:";
             // 
             // label2
@@ -99,11 +103,12 @@
             this.label2.Location = new System.Drawing.Point(274, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(194, 17);
-            this.label2.TabIndex = 6;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Authorization account details:";
             // 
             // btnAduCancel
             // 
+            this.btnAduCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnAduCancel.Location = new System.Drawing.Point(277, 184);
             this.btnAduCancel.Name = "btnAduCancel";
             this.btnAduCancel.Size = new System.Drawing.Size(121, 36);
@@ -118,7 +123,7 @@
             this.label3.Location = new System.Drawing.Point(6, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 17);
-            this.label3.TabIndex = 8;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Username:";
             // 
             // label4
@@ -127,7 +132,7 @@
             this.label4.Location = new System.Drawing.Point(6, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 17);
-            this.label4.TabIndex = 9;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Account level:";
             // 
             // label5
@@ -136,7 +141,7 @@
             this.label5.Location = new System.Drawing.Point(259, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 17);
-            this.label5.TabIndex = 10;
+            this.label5.TabIndex = 0;
             this.label5.Text = "Username:";
             // 
             // label6
@@ -145,7 +150,7 @@
             this.label6.Location = new System.Drawing.Point(259, 72);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(73, 17);
-            this.label6.TabIndex = 11;
+            this.label6.TabIndex = 0;
             this.label6.Text = "Password:";
             // 
             // label7
@@ -153,7 +158,7 @@
             this.label7.Location = new System.Drawing.Point(6, 137);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(446, 39);
-            this.label7.TabIndex = 12;
+            this.label7.TabIndex = 0;
             this.label7.Text = "*The newly created account\'s password will be sent to the authorization account\'s" +
     " email address.";
             // 
@@ -163,7 +168,7 @@
             this.label8.Location = new System.Drawing.Point(6, 102);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(101, 17);
-            this.label8.TabIndex = 13;
+            this.label8.TabIndex = 0;
             this.label8.Text = "Email address:";
             // 
             // txtEmail
@@ -171,7 +176,8 @@
             this.txtEmail.Location = new System.Drawing.Point(107, 99);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(121, 22);
-            this.txtEmail.TabIndex = 14;
+            this.txtEmail.TabIndex = 3;
+            this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
             // frmAddUser
             // 

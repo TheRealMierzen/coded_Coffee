@@ -48,7 +48,7 @@
             this.button2.MaximumSize = new System.Drawing.Size(196, 54);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(98, 27);
-            this.button2.TabIndex = 4;
+            this.button2.TabIndex = 5;
             this.button2.Text = "Exit";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -63,7 +63,7 @@
             this.button1.MaximumSize = new System.Drawing.Size(196, 54);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 27);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Visible = false;
@@ -96,6 +96,7 @@
             this.textBox1.Size = new System.Drawing.Size(215, 22);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Username";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
             this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
@@ -106,7 +107,7 @@
             this.btnCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(98, 27);
-            this.btnCreate.TabIndex = 3;
+            this.btnCreate.TabIndex = 4;
             this.btnCreate.Text = "Create User";
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Visible = false;
@@ -128,7 +129,7 @@
             this.btnLForgotPass.Location = new System.Drawing.Point(633, 189);
             this.btnLForgotPass.Name = "btnLForgotPass";
             this.btnLForgotPass.Size = new System.Drawing.Size(28, 28);
-            this.btnLForgotPass.TabIndex = 7;
+            this.btnLForgotPass.TabIndex = 2;
             this.btnLForgotPass.Text = "?";
             this.passTT.SetToolTip(this.btnLForgotPass, "Forgot your password?\r\n\r\nConsult an administrator for your password.\r\n\r\nLost the " +
         "password email?\r\n\r\nClick here to let an adminstrator generate a \r\nnew password f" +
@@ -147,7 +148,7 @@
             this.label1.Location = new System.Drawing.Point(388, 57);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(267, 36);
-            this.label1.TabIndex = 5;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Welcom to stockI.T";
             // 
             // txtLEmail
@@ -156,9 +157,10 @@
             this.txtLEmail.Location = new System.Drawing.Point(412, 234);
             this.txtLEmail.Name = "txtLEmail";
             this.txtLEmail.Size = new System.Drawing.Size(214, 22);
-            this.txtLEmail.TabIndex = 6;
+            this.txtLEmail.TabIndex = 3;
             this.txtLEmail.Text = "Email address";
             this.txtLEmail.Visible = false;
+            this.txtLEmail.TextChanged += new System.EventHandler(this.txtLEmail_TextChanged);
             this.txtLEmail.Enter += new System.EventHandler(this.txtLEmail_Enter);
             this.txtLEmail.Leave += new System.EventHandler(this.txtLEmail_Leave);
             // 

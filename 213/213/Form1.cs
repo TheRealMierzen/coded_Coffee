@@ -61,7 +61,7 @@ namespace _213
 
             btnAdmLogout.Size = new Size(62, 62);
             btnExit.Size = new Size(62, 62);
-            ///MAIN                     //716
+            ///MAIN                     
             saleBtn.Location = new Point((this.Width / 2)-52, ((this.Height) / 2 - 20) - 270);
             hqBtn.Location = new Point(hqBtn.Location.X, ((this.Height) / 2 - 20) -130);
             btnOrders.Location = new Point(btnOrders.Location.X, ((this.Height) / 2 - 20) - 130);
@@ -85,8 +85,8 @@ namespace _213
         {
             DateTime local = DateTime.Now;
 
-            gebruik.log(local, user, "logout", appPath + @"\stockI.T" + @"\Activity Log.txt");
-            gebruik.log(local, user, "exit application", appPath + @"\stockI.T" + @"\Activity Log.txt");
+            gebruik.log(local, user, "logout");
+            gebruik.log(local, user, "exited application");
 
             Application.Exit();
         }
@@ -256,7 +256,7 @@ namespace _213
                 pnlAdmin.Location = new Point(pos, 0);
 
             btnAdminHide.Visible = false;
-            btnAdminShow.Enabled = true;
+            btnAdminShow.Visible = true;
             
         }
 
@@ -287,15 +287,14 @@ namespace _213
 
         private void btnRUser_Click(object sender, EventArgs e)
         {
-            btnRUser.Size = new Size(62, 62);
-
-            MessageBox.Show(btnRUser.Size.Height + "," + btnRUser.Size.Width);
+            frmRUser rUser = new frmRUser(user);
+            rUser.ShowDialog();
         }
 
         private void btnUUser_Click(object sender, EventArgs e)
         {
-            frmUpdateUser uUser = new frmUpdateUser();
-            uUser.Show();
+            frmUpdateUser uUser = new frmUpdateUser(user);
+            uUser.ShowDialog();
         }
 
         private void btnAddEmp_Click(object sender, EventArgs e)
@@ -308,7 +307,7 @@ namespace _213
             loginForm lf = new loginForm();
             DateTime local = DateTime.Now;
 
-            gebruik.log(local, user, "logout", appPath + @"\stockI.T" + @"\Activity Log.txt");
+            gebruik.log(local, user, "logout");
             lf.Show();
             lf.TopMost = true;
         }

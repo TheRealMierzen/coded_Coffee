@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net.Mail;
+using System.Net;
 using System.Data.SqlClient;
 using System.Drawing.Printing;
 using System.Drawing;
@@ -15,20 +16,15 @@ namespace _213
     class gebruik
     {
 
-        public static void log(DateTime tyd, string user, string action, string appPath)
+        public static void log(DateTime tyd, string user, string action)
         {
 
-
+            string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments)) + @"\stockI.T" + @"\Activity Log.txt";
             if (File.Exists(appPath))
             {
                 StreamWriter outstream = File.AppendText(appPath);
-
-                if (action == "login")
-                    outstream.WriteLine("\n" + user + " logged in : " + tyd.ToString());
-                else if (action == "logout")
-                    outstream.WriteLine("\n" + user + " logged out : " + tyd.ToString());
-                else if(action == "exit application")
-                    outstream.WriteLine("\n" + user + " exited application : " + tyd.ToString());
+                           
+                outstream.WriteLine("\n" + user + " " + action + " : " + tyd.ToString());
 
                 outstream.Close();
             }
@@ -155,38 +151,13 @@ namespace _213
                 }
 
                 string test = antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1);
-                /*if (test.Contains("44"))
-                {
-                    getal += gedeelte.Next(1, 4);
-                    getal2 += gedeelte.Next(0, 9);
-                    test = (Convert.ToInt32(test) + Convert.ToInt32(getal.ToString() + getal2.ToString())).ToString();
 
-                }
-
-                if (test.Contains("35"))
-                    test = antwoord.Substring(getal2, 1) + antwoord.Substring(getal, 1);*/
-                //int ascii = antwoord[Convert.ToInt16(test)];
                 password += Convert.ToChar(Convert.ToInt16(test));
             }
 
             //validation
             for (int check = 0; check < 8; check++)
             {
-                /*try
-                {
-                    if (password.Contains(",") || password.Contains("#"))
-                    {
-
-                        password = this.genPassword(begin);
-
-                    }
-                }
-                catch (StackOverflowException)
-                {
-
-                    password = this.genPassword(begin);
-
-                }*/
 
                 char[] symbol = password.ToCharArray();
                 int count = 0;
@@ -415,6 +386,14 @@ namespace _213
                 }
             }
             return res;
+        }
+
+        public void setLocation()
+        {
+
+            Properties.Settings.Default.Branch = GetLocation(getIP());
+            Properties.Settings.Default.Save();
+
         }
 
     }

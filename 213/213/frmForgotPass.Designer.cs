@@ -42,11 +42,12 @@
             // 
             // txtFPAdminU
             // 
-            this.txtFPAdminU.Location = new System.Drawing.Point(120, 128);
+            this.txtFPAdminU.Location = new System.Drawing.Point(119, 128);
             this.txtFPAdminU.MaxLength = 50;
             this.txtFPAdminU.Name = "txtFPAdminU";
-            this.txtFPAdminU.Size = new System.Drawing.Size(100, 22);
+            this.txtFPAdminU.Size = new System.Drawing.Size(120, 22);
             this.txtFPAdminU.TabIndex = 2;
+            this.txtFPAdminU.TextChanged += new System.EventHandler(this.txtFPAdminU_TextChanged);
             // 
             // txtFPAdminP
             // 
@@ -54,15 +55,17 @@
             this.txtFPAdminP.MaxLength = 50;
             this.txtFPAdminP.Name = "txtFPAdminP";
             this.txtFPAdminP.PasswordChar = '*';
-            this.txtFPAdminP.Size = new System.Drawing.Size(100, 22);
+            this.txtFPAdminP.Size = new System.Drawing.Size(120, 22);
             this.txtFPAdminP.TabIndex = 3;
+            this.txtFPAdminP.TextChanged += new System.EventHandler(this.txtFPAdminP_TextChanged);
             // 
             // txtBlocked
             // 
-            this.txtBlocked.Location = new System.Drawing.Point(120, 50);
+            this.txtBlocked.Location = new System.Drawing.Point(119, 47);
             this.txtBlocked.Name = "txtBlocked";
-            this.txtBlocked.Size = new System.Drawing.Size(100, 22);
+            this.txtBlocked.Size = new System.Drawing.Size(120, 22);
             this.txtBlocked.TabIndex = 1;
+            this.txtBlocked.TextChanged += new System.EventHandler(this.txtBlocked_TextChanged);
             this.txtBlocked.Leave += new System.EventHandler(this.txtBlocked_Leave);
             // 
             // label1
