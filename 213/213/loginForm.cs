@@ -21,7 +21,7 @@ namespace _213
         }
 
 
-        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));//verander as networking reg is
+        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));//verander as networking reg is
 
         private void loginForm_Load(object sender, EventArgs e)
         {
