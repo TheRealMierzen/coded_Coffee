@@ -45,14 +45,14 @@
             // dgvFindStock
             // 
             this.dgvFindStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFindStock.Location = new System.Drawing.Point(12, 214);
+            this.dgvFindStock.Location = new System.Drawing.Point(12, 119);
             this.dgvFindStock.Name = "dgvFindStock";
-            this.dgvFindStock.Size = new System.Drawing.Size(931, 150);
+            this.dgvFindStock.Size = new System.Drawing.Size(268, 150);
             this.dgvFindStock.TabIndex = 0;
             // 
             // txtFindName
             // 
-            this.txtFindName.Location = new System.Drawing.Point(169, 26);
+            this.txtFindName.Location = new System.Drawing.Point(169, 12);
             this.txtFindName.Name = "txtFindName";
             this.txtFindName.Size = new System.Drawing.Size(100, 20);
             this.txtFindName.TabIndex = 1;
@@ -60,14 +60,14 @@
             // 
             // txtFindBrand
             // 
-            this.txtFindBrand.Location = new System.Drawing.Point(169, 84);
+            this.txtFindBrand.Location = new System.Drawing.Point(169, 38);
             this.txtFindBrand.Name = "txtFindBrand";
             this.txtFindBrand.Size = new System.Drawing.Size(100, 20);
             this.txtFindBrand.TabIndex = 2;
             // 
             // txtFindPrice
             // 
-            this.txtFindPrice.Location = new System.Drawing.Point(169, 140);
+            this.txtFindPrice.Location = new System.Drawing.Point(169, 64);
             this.txtFindPrice.Name = "txtFindPrice";
             this.txtFindPrice.Size = new System.Drawing.Size(100, 20);
             this.txtFindPrice.TabIndex = 3;
@@ -76,16 +76,17 @@
             // lblFindName
             // 
             this.lblFindName.AutoSize = true;
-            this.lblFindName.Location = new System.Drawing.Point(28, 29);
+            this.lblFindName.Location = new System.Drawing.Point(28, 15);
             this.lblFindName.Name = "lblFindName";
             this.lblFindName.Size = new System.Drawing.Size(86, 13);
             this.lblFindName.TabIndex = 4;
             this.lblFindName.Text = "Search by Name";
+            this.lblFindName.Click += new System.EventHandler(this.lblFindName_Click);
             // 
             // lblFindBrand
             // 
             this.lblFindBrand.AutoSize = true;
-            this.lblFindBrand.Location = new System.Drawing.Point(28, 87);
+            this.lblFindBrand.Location = new System.Drawing.Point(28, 41);
             this.lblFindBrand.Name = "lblFindBrand";
             this.lblFindBrand.Size = new System.Drawing.Size(86, 13);
             this.lblFindBrand.TabIndex = 5;
@@ -94,7 +95,7 @@
             // lblFindPrice
             // 
             this.lblFindPrice.AutoSize = true;
-            this.lblFindPrice.Location = new System.Drawing.Point(28, 143);
+            this.lblFindPrice.Location = new System.Drawing.Point(28, 67);
             this.lblFindPrice.Name = "lblFindPrice";
             this.lblFindPrice.Size = new System.Drawing.Size(82, 13);
             this.lblFindPrice.TabIndex = 6;
@@ -102,7 +103,7 @@
             // 
             // btnConfirmFind
             // 
-            this.btnConfirmFind.Location = new System.Drawing.Point(31, 185);
+            this.btnConfirmFind.Location = new System.Drawing.Point(31, 90);
             this.btnConfirmFind.Name = "btnConfirmFind";
             this.btnConfirmFind.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmFind.TabIndex = 7;
@@ -112,7 +113,7 @@
             // 
             // btnCancelFind
             // 
-            this.btnCancelFind.Location = new System.Drawing.Point(194, 185);
+            this.btnCancelFind.Location = new System.Drawing.Point(194, 90);
             this.btnCancelFind.Name = "btnCancelFind";
             this.btnCancelFind.Size = new System.Drawing.Size(75, 23);
             this.btnCancelFind.TabIndex = 8;
@@ -128,7 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(955, 376);
+            this.ClientSize = new System.Drawing.Size(294, 279);
             this.Controls.Add(this.btnCancelFind);
             this.Controls.Add(this.btnConfirmFind);
             this.Controls.Add(this.lblFindPrice);

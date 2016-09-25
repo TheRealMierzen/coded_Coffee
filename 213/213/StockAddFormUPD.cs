@@ -16,9 +16,15 @@ namespace _213
 {
     public partial class StockAddFormUPD : Form
     {
+        private string userNme;
         public StockAddFormUPD()
         {
             InitializeComponent();
+        }
+        public StockAddFormUPD(string user)
+        {
+            InitializeComponent();
+            userNme = user;
         }
 
         private void txbQuantityAddUPD_KeyPress(object sender, KeyPressEventArgs e)
@@ -50,12 +56,17 @@ namespace _213
                 updateStock.ExecuteNonQuery();
                 SqlCommand getID = new SqlCommand("SELECT item_id FROM Stock WHERE description = '" + cmbListItemsAddUPD.Text + "'", stockConnection);
                 string itemID = getID.ExecuteScalar().ToString();
+                SqlCommand getUserActions = new SqlCommand("Select numberOfActions FROM Users WHERE userName = '" + userNme + "'", stockConnection);
+                int count = Convert.ToInt16(getUserActions.ExecuteScalar());
+                count = count + 1;
+                SqlCommand updateUserActions = new SqlCommand("UPDATE Users SET numberOfActions = '" + count + " WHERE userName = '" + userNme + "'", stockConnection);
+                updateUserActions.ExecuteNonQuery();
                 stockConnection.Close();
                 this.Hide();
                 this.Close();
                 string message = ("Stock updated: \r\n Item ID: " + itemID + "\r\n" + "Item Description: " + cmbListItemsAddUPD.Text + "\r\n" + "Date updated: " + DateTime.Now.ToString());
-                StockMainFormCLN frmStockMain = new StockMainFormCLN(message);
-                frmStockMain.Show();
+              //  StockMainFormCLN frmStockMain = new StockMainFormCLN(message);
+              //  frmStockMain.Show();
             }
             else
             {
@@ -68,8 +79,8 @@ namespace _213
         {
             this.Hide();
             this.Close();
-            StockMainFormCLN frmStockMain = new StockMainFormCLN();
-            frmStockMain.Show();
+           // StockMainFormCLN frmStockMain = new StockMainFormCLN();
+           // frmStockMain.Show();
         }
 
         private void StockAddFormUPD_Load(object sender, EventArgs e)

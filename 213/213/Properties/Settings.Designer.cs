@@ -32,5 +32,17 @@ namespace _213.Properties {
                 return ((string)(this["stockI_TConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Branch {
+            get {
+                return ((string)(this["Branch"]));
+            }
+            set {
+                this["Branch"] = value;
+            }
+        }
     }
 }

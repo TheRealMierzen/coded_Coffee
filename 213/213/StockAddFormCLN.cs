@@ -17,18 +17,27 @@ namespace _213
 {
     public partial class StockAddFormCLN : Form
     {
+        private string userNme;
         public StockAddFormCLN()
         {
             InitializeComponent();
+        }
+        public StockAddFormCLN(string user)
+        {
+            InitializeComponent();
+            userNme = user;
         }
 
         private void btnCancelAddCLN_Click(object sender, EventArgs e)
         {
             //Close die form en redirect terug na main Stock form
-            this.Hide();
-            this.Close();
-            StockMainFormCLN frmStockMain = new StockMainFormCLN();
-            frmStockMain.Show();
+            txbBrandAddCLN.Clear();
+            txbDescAddCLN.Clear();
+            txbPriceRetailAddCLN.Clear();
+            txbWarrantyAddCLN.Clear();
+            txtManfacturerPriceCLN.Clear();
+          //  StockMainFormCLN frmStockMain = new StockMainFormCLN();
+        //    frmStockMain.Show();
         }
 
         private void btnConfirmAddCLN_Click(object sender, EventArgs e)
@@ -43,21 +52,27 @@ namespace _213
                 //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
                 TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;
 
-                string branchAddCLN = cmbBranchAddCLN.SelectedItem.ToString();
+                string branchAddCLN = cmbTypeAddCLN.SelectedItem.ToString();
                 string manufacturerAddCLN = txbBrandAddCLN.Text;
 
                 string warrantyAddCLN = txbWarrantyAddCLN.Text;
                 string mPriceAddCLN = ("R" + txtManfacturerPriceCLN.Text);
                 string rPriceAddCLN = ("R" + txbPriceRetailAddCLN.Text);
                 string descAddCLN = txbDescAddCLN.Text;
-                SqlCommand stockAddCommandCLN = new SqlCommand("INSERT INTO Stock VALUES('"+ branchAddCLN +"','"+TotalItems+"','"+ manufacturerAddCLN + "','" +warrantyAddCLN+ "',GETDATE(), GETDATE(),'" + mPriceAddCLN + "','" + rPriceAddCLN + "','" + descAddCLN + "')",stockConnection);
+                SqlCommand stockAddCommandCLN = new SqlCommand("INSERT INTO Stock VALUES('"+ "Pretoria" +"','"+TotalItems+"','"+ manufacturerAddCLN + "','" +warrantyAddCLN+ "',GETDATE(), GETDATE(),'" + mPriceAddCLN + "','" + rPriceAddCLN + "','" + descAddCLN + "', '"+ cmbTypeAddCLN.Text +"', 'In Stock')",stockConnection);
+                SqlCommand getUserActions = new SqlCommand("Select numberOfActions FROM Users WHERE userName = '"+ userNme +"'", stockConnection);
+                int count = Convert.ToInt16(getUserActions.ExecuteScalar());
+                count = count + 1;
+                SqlCommand updateUserActions = new SqlCommand("UPDATE Users SET numberOfActions = '"+count+"' WHERE userName = '" + userNme + "'", stockConnection);
+                updateUserActions.ExecuteNonQuery();
                 stockAddCommandCLN.ExecuteNonQuery();
                 stockConnection.Close();
-                string message = ("Stock Add: \r\n Item ID: "+TotalItems + "\r\n" + "Item Description: " + descAddCLN + "\r\n" + "Date Added: " + DateTime.Now.ToString());
-                this.Hide();
-                this.Close();
-                StockMainFormCLN frmStockMain = new StockMainFormCLN(message);
-                frmStockMain.Show();
+                txbBrandAddCLN.Clear();
+                txbDescAddCLN.Clear();
+                txbPriceRetailAddCLN.Clear();
+                txbWarrantyAddCLN.Clear();
+                txtManfacturerPriceCLN.Clear();
+                MessageBox.Show("Item added successfully");
             }
             else
             {
@@ -90,9 +105,45 @@ namespace _213
 
         private void StockAddFormCLN_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the '_stockI_TDataSet.Stock' table. You can move, or remove it, as needed.
+            //this.stockTableAdapter.Fill(this._stockI_TDataSet.Stock);
             // TODO: This line of code loads data into the '_stockI_TDataSet.Branches' table. You can move, or remove it, as needed.
-            this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
+            //this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
 
+        }
+
+        private void txbPriceRetailAddCLN_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txbPriceRetailAddCLN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+(e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtManfacturerPriceCLN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+(e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void tmrStockAddCLN_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
         }
     }
 }

@@ -16,9 +16,16 @@ namespace _213
 {
     public partial class StockFindForm : Form
     {
+        private string userNme;
         public StockFindForm()
         {
             InitializeComponent();
+        }
+
+        public StockFindForm(string user)
+        {
+            InitializeComponent();
+            userNme = user;
         }
 
         private void txtFindName_TextChanged(object sender, EventArgs e)
@@ -30,8 +37,8 @@ namespace _213
         {
             this.Hide();
             this.Close();
-            StockMainFormCLN frmStockMain = new StockMainFormCLN();
-            frmStockMain.Show();
+            //StockMainFormCLN frmStockMain = new StockMainFormCLN();
+           // frmStockMain.Show();
         }
 
         private void btnConfirmFind_Click(object sender, EventArgs e)
@@ -46,7 +53,7 @@ namespace _213
                 {
                     SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                     stockConnection.Open();
-                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, quantity, retail_price FROM Stock WHERE description = '" + txtFindName.Text + "'", stockConnection);
+                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE description LIKE '%" + txtFindName.Text + "%'", stockConnection);
                     DataSet ds = new DataSet();
                     stockDataAdapter.Fill(ds, "Stock");
                     stockConnection.Close();
@@ -57,7 +64,7 @@ namespace _213
                 {
                     SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                     stockConnection.Open();
-                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, quantity, retail_price FROM Stock WHERE manufacturer = '" + txtFindBrand.Text + "'", stockConnection);
+                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE manufacturer LIKE '%" + txtFindBrand.Text + "%'", stockConnection);
                     DataSet ds = new DataSet();
                     stockDataAdapter.Fill(ds, "Stock");
                     stockConnection.Close();
@@ -69,7 +76,7 @@ namespace _213
                     string price = "R" + txtFindPrice.Text;
                     SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                     stockConnection.Open();
-                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, quantity, retail_price FROM Stock WHERE retail_price LIKE '" + price + "'", stockConnection);
+                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE retail_price LIKE '" + price + "'", stockConnection);
                     DataSet ds = new DataSet();
                     stockDataAdapter.Fill(ds, "Stock");
                     stockConnection.Close();
@@ -129,6 +136,11 @@ namespace _213
             {
                 e.Handled = true;
             }
+        }
+
+        private void lblFindName_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

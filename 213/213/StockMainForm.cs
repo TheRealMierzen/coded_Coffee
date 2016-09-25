@@ -11,16 +11,18 @@ using System.Drawing.Printing;
 
 namespace _213
 {
+   
     public partial class StockMainFormCLN : Form
     {
+        private string userNme;
         public StockMainFormCLN()
         {
             InitializeComponent();
         }
-        public StockMainFormCLN(string addCLN)
+        public StockMainFormCLN(string user)
         {
             InitializeComponent();
-            txbStockReport.AppendText(addCLN);
+            userNme = user;
         }
 
         private void cmbSelectStockAction_SelectionChangeCommitted(object sender, EventArgs e)
@@ -30,7 +32,7 @@ namespace _213
 
         private void StockMainForm_Shown(object sender, EventArgs e)
         {
-            
+            txbStockReport.AppendText(userNme);
         }
 
         private void cmbSelectStockAction_SelectedIndexChanged(object sender, EventArgs e)
@@ -44,17 +46,17 @@ namespace _213
                 if (MessageBox.Show("Do you want to create a new listing?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     //as user ja se
-                    this.Hide();
-                    this.Close();
-                    StockAddFormCLN frmStockAddCLN = new StockAddFormCLN();
+                   this.Hide();
+                   this.Close();
+                    StockAddFormCLN frmStockAddCLN = new StockAddFormCLN(userNme);
                     frmStockAddCLN.Show();
                 }
                 else
                 {
                     //as user nee se
-                    this.Hide();
+                   this.Hide();
                     this.Close();
-                    StockAddFormUPD frmStockAddUPD = new StockAddFormUPD();
+                    StockAddFormUPD frmStockAddUPD = new StockAddFormUPD(userNme);
                     frmStockAddUPD.Show();
                 }
 
@@ -63,27 +65,34 @@ namespace _213
             {
                 this.Hide();
                 this.Close();
-                StockFindForm frmStockFind = new StockFindForm();
+                StockFindForm frmStockFind = new StockFindForm(userNme);
                 frmStockFind.Show();
             }
             if (cmbSelectStockAction.SelectedIndex == 2)
-            {
-                this.Hide();
-                this.Close();
-                StockAddFormUPD frmStockAddUPD = new StockAddFormUPD();
+            { 
+              this.Hide();
+               this.Close();
+                StockAddFormUPD frmStockAddUPD = new StockAddFormUPD(userNme);
                 frmStockAddUPD.Show();
             }
             if (cmbSelectStockAction.SelectedIndex == 3)
             {
+                StockTransferSendForm frmSendStock = new StockTransferSendForm(userNme);
                 this.Hide();
                 this.Close();
-                StockTransferSendForm frmSendStock = new StockTransferSendForm();
+                
                 frmSendStock.Show();
             }
             if (cmbSelectStockAction.SelectedIndex == 4)
             {
-                StockTakeForm stf = new StockTakeForm();
+                StockTakeForm stf = new StockTakeForm(userNme);
                 this.Hide();
+                stf.Show();
+            }
+            if (cmbSelectStockAction.SelectedIndex == 5)
+            {
+                StockRemoveForm stf = new StockRemoveForm(userNme);
+                   this.Hide();
                 stf.Show();
             }
         }
@@ -139,5 +148,9 @@ namespace _213
             e.Graphics.DrawString  (txbStockReport.Text, f, b, p);
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

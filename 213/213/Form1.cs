@@ -201,7 +201,7 @@ namespace _213
         //stock button
         private void roundButton4_Click(object sender, EventArgs e)
         {
-            StockMainFormCLN stockMainForm = new StockMainFormCLN();
+            StockMainFormCLN stockMainForm = new StockMainFormCLN(user);
             this.Hide();
             stockMainForm.Show();
             

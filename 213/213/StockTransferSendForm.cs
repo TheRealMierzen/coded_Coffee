@@ -16,9 +16,24 @@ namespace _213
 {
     public partial class StockTransferSendForm : Form
     {
+        private string userNme;
+        private string ids;
+        private string stockID;
         public StockTransferSendForm()
         {
+
+
             InitializeComponent();
+
+        }
+
+        public StockTransferSendForm(string user)
+        {
+
+
+            InitializeComponent();
+            userNme = user;
+
         }
 
         private void btnConfirmSend_Click(object sender, EventArgs e)
@@ -29,12 +44,12 @@ namespace _213
                 //Hier kom die code om die nuwe Stock listing te add
                 SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
-                
+
                 SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
                 int TotalItems = 0;
                 //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
                 TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;
-               // SqlCommand addTransfer = new SqlCommand("INSERT INTO Transfers VALUES ('"+ TotalItems +"', '')", stockConnection);
+                // SqlCommand addTransfer = new SqlCommand("INSERT INTO Transfers VALUES ('"+ TotalItems +"', '')", stockConnection);
                 this.Hide();
                 this.Close();
                 StockMainFormCLN frmStockMain = new StockMainFormCLN();
@@ -69,15 +84,15 @@ namespace _213
         private void StockTransferSendForm_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the '_stockI_TDataSet.Branches' table. You can move, or remove it, as needed.
-            this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
+           // this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
             // TODO: This line of code loads data into the '_stockI_TDataSet.Employees' table. You can move, or remove it, as needed.
-            this.employeesTableAdapter.Fill(this._stockI_TDataSet.Employees);
+           // this.employeesTableAdapter.Fill(this._stockI_TDataSet.Employees);
 
         }
 
         private void cmbBranchSend_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void lblSelectItem_Click(object sender, EventArgs e)
@@ -91,9 +106,12 @@ namespace _213
             stockConnection.Open();
             SqlCommand getStockID = new SqlCommand("SELECT item_id FROM Stock Where item_id = '" + txbItemIDTransfer.Text + "'", stockConnection);
             SqlCommand getDescription = new SqlCommand("SELECT description from Stock WHERE item_id = '" + txbItemIDTransfer.Text + "'", stockConnection);
-            string stockID = getStockID.ExecuteScalar().ToString();
+
+            stockID = getStockID.ExecuteScalar().ToString();
+            SqlCommand updateStockTransfer = new SqlCommand("UPDATE Stock SET branch = 'In Trasit', last_updated = GETDATE() WHERE item_id = '" + stockID +"'", stockConnection);
+            updateStockTransfer.ExecuteNonQuery();
             string stockName = getDescription.ExecuteScalar().ToString();
-            string ids = stockID + "/";
+            ids = ids + stockID + ",";
             stockConnection.Close();
             txbStockTransferReport.AppendText("\r\n" + stockID + "       " + stockName + "\r\n");
         }
@@ -109,8 +127,46 @@ namespace _213
 
         private void btnUndoLastTransfer_Click(object sender, EventArgs e)
         {
+            SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            stockConnection.Open();
             txbStockTransferReport.Text = (txbStockTransferReport.Text.Remove(txbStockTransferReport.Text.LastIndexOf(Environment.NewLine)));
-            
+            ids = ids.Remove(ids.IndexOf(stockID), stockID.Length + 1);
+            SqlCommand updateStockTransfer = new SqlCommand("UPDATE Stock SET branch = 'Pretoria', last_updated = GETDATE() WHERE item_id = '" + stockID + "'", stockConnection);
+            updateStockTransfer.ExecuteNonQuery();
+            stockConnection.Close();
+
+        }
+
+        private void btnConfirmSend_Click_1(object sender, EventArgs e)
+        {
+            SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            stockConnection.Open();
+            SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
+            int TotalItems = 0;
+            //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
+            TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;           
+            //ids = ids + stockID + ",";
+            SqlCommand saveTransfer = new SqlCommand("INSERT INTO Transfers VALUES ('" + TotalItems + "', '" + "Pretoria" + "', '" + cmbBranchSend.Text + "', '" + ids + "', GETDATE(), GETDATE())", stockConnection);
+            SqlCommand getUserActions = new SqlCommand("Select numberOfActions FROM Users WHERE userName = '" + userNme + "'", stockConnection);
+            int count = Convert.ToInt16(getUserActions.ExecuteScalar());
+            count = count + 1;
+            SqlCommand updateUserActions = new SqlCommand("UPDATE Users SET numberOfActions = '" + count + " WHERE userName = '" + userNme + "'", stockConnection);
+            updateUserActions.ExecuteNonQuery();
+            saveTransfer.ExecuteNonQuery();
+            stockConnection.Close();
+        }
+
+        private void StockTransferSendForm_Load_1(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the '_stockI_TDataSet.Branches' table. You can move, or remove it, as needed.
+            this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
+
+        }
+
+        private void btnCancelSend_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
         }
     }
 }
