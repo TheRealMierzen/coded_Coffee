@@ -57,6 +57,7 @@
             this.gpxOrders = new System.Windows.Forms.GroupBox();
             this.lbxOutput = new System.Windows.Forms.ListBox();
             this.gpxSearch = new System.Windows.Forms.GroupBox();
+            this.lblOrder = new System.Windows.Forms.Label();
             this.lbxsearchordelete = new System.Windows.Forms.ListBox();
             this.cbxOrder = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -163,6 +164,8 @@
             // 
             // cbxOrders
             // 
+            this.cbxOrders.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbxOrders.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbxOrders.FormattingEnabled = true;
             this.cbxOrders.Items.AddRange(new object[] {
             "Order for this Matrix Branch/Special order",
@@ -188,7 +191,7 @@
             this.txtItem.Location = new System.Drawing.Point(9, 91);
             this.txtItem.Name = "txtItem";
             this.txtItem.Size = new System.Drawing.Size(245, 20);
-            this.txtItem.TabIndex = 60;
+            this.txtItem.TabIndex = 1;
             // 
             // label3
             // 
@@ -204,14 +207,14 @@
             this.txtPricofeachitem.Location = new System.Drawing.Point(9, 140);
             this.txtPricofeachitem.Name = "txtPricofeachitem";
             this.txtPricofeachitem.Size = new System.Drawing.Size(245, 20);
-            this.txtPricofeachitem.TabIndex = 64;
+            this.txtPricofeachitem.TabIndex = 2;
             // 
             // txtMaker
             // 
             this.txtMaker.Location = new System.Drawing.Point(6, 42);
             this.txtMaker.Name = "txtMaker";
             this.txtMaker.Size = new System.Drawing.Size(245, 20);
-            this.txtMaker.TabIndex = 65;
+            this.txtMaker.TabIndex = 0;
             // 
             // label4
             // 
@@ -238,7 +241,7 @@
             this.btnremovePrevouis.Name = "btnremovePrevouis";
             this.btnremovePrevouis.Size = new System.Drawing.Size(111, 35);
             this.btnremovePrevouis.TabIndex = 70;
-            this.btnremovePrevouis.Text = "remove previous item";
+            this.btnremovePrevouis.Text = "Remove item";
             this.btnremovePrevouis.UseVisualStyleBackColor = true;
             this.btnremovePrevouis.Click += new System.EventHandler(this.btnremovePrevouis_Click);
             // 
@@ -248,7 +251,7 @@
             this.btnClearOrder.Name = "btnClearOrder";
             this.btnClearOrder.Size = new System.Drawing.Size(111, 35);
             this.btnClearOrder.TabIndex = 71;
-            this.btnClearOrder.Text = "Cancel  this order";
+            this.btnClearOrder.Text = "Cancel order";
             this.btnClearOrder.UseVisualStyleBackColor = true;
             this.btnClearOrder.Click += new System.EventHandler(this.btnClearOrder_Click);
             // 
@@ -266,7 +269,7 @@
             this.txtQuatity.Location = new System.Drawing.Point(9, 194);
             this.txtQuatity.Name = "txtQuatity";
             this.txtQuatity.Size = new System.Drawing.Size(245, 20);
-            this.txtQuatity.TabIndex = 72;
+            this.txtQuatity.TabIndex = 3;
             // 
             // cbxSpecialorder
             // 
@@ -342,16 +345,25 @@
             // 
             // gpxSearch
             // 
+            this.gpxSearch.Controls.Add(this.lblOrder);
             this.gpxSearch.Controls.Add(this.lbxsearchordelete);
             this.gpxSearch.Controls.Add(this.cbxOrder);
             this.gpxSearch.Controls.Add(this.btnCancel);
             this.gpxSearch.Controls.Add(this.label8);
-            this.gpxSearch.Location = new System.Drawing.Point(35, 55);
+            this.gpxSearch.Location = new System.Drawing.Point(29, 59);
             this.gpxSearch.Name = "gpxSearch";
             this.gpxSearch.Size = new System.Drawing.Size(430, 350);
             this.gpxSearch.TabIndex = 76;
             this.gpxSearch.TabStop = false;
             this.gpxSearch.Text = "Search for a order";
+            // 
+            // lblOrder
+            // 
+            this.lblOrder.AutoSize = true;
+            this.lblOrder.Location = new System.Drawing.Point(12, 78);
+            this.lblOrder.Name = "lblOrder";
+            this.lblOrder.Size = new System.Drawing.Size(0, 13);
+            this.lblOrder.TabIndex = 74;
             // 
             // lbxsearchordelete
             // 
@@ -364,7 +376,7 @@
             // cbxOrder
             // 
             this.cbxOrder.FormattingEnabled = true;
-            this.cbxOrder.Location = new System.Drawing.Point(15, 56);
+            this.cbxOrder.Location = new System.Drawing.Point(15, 49);
             this.cbxOrder.Name = "cbxOrder";
             this.cbxOrder.Size = new System.Drawing.Size(117, 21);
             this.cbxOrder.TabIndex = 72;
@@ -383,7 +395,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 37);
+            this.label8.Location = new System.Drawing.Point(12, 33);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(125, 13);
             this.label8.TabIndex = 0;
@@ -467,5 +479,6 @@
         private System.Windows.Forms.ListBox lbxOutput;
         private System.Windows.Forms.ComboBox cbxOrder;
         private System.Windows.Forms.ListBox lbxsearchordelete;
+        private System.Windows.Forms.Label lblOrder;
     }
 }

@@ -259,7 +259,6 @@ namespace _213
             catch(Exception)
             {
 
-
                 return false;
 
             }        
@@ -275,15 +274,28 @@ namespace _213
                 {
 
                     con.Open();
-                    SqlCommand lastId = new SqlCommand("SELECT TOP 1 " + column + " FROM " + tableName + " ORDER BY " + column + " DESC", con);
+                    SqlCommand lastId = new SqlCommand("SELECT MAX(cast( " + column + " as int)) FROM " + tableName + " ", con);
 
 
                     int last = 0;
 
                     if (returnType == "int")
-                        last = Convert.ToInt32(lastId.ExecuteScalar());
+                    {
+                        
 
-                    return last;
+                        SqlDataReader dr = lastId.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+
+                            last = dr.GetInt32(0);
+
+                        }
+                        dr.Close();
+
+                    }
+
+                    return Convert.ToInt16(last);
 
                 }
             }

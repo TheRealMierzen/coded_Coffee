@@ -26,7 +26,7 @@ namespace _213
             rtbQuote.Hide();
             btnQuote.Hide();
             btnPlaceorder.Hide();
-            cbxCase.Text = "Select...";
+            txtMis.Text = "Select...";
             cbxGpu.Text = "Select...";
             cbxMotherboard.Text = "Select...";
             cbxPowerSupply.Text = "Select...";
@@ -80,12 +80,12 @@ namespace _213
             rtbQuote.AppendText("\n");
             rtbQuote.AppendText("\n Client Info");
             rtbQuote.AppendText("\n " + txtName.Text);
-            rtbQuote.AppendText(" \n " + txtCellNumber.Text);
+            rtbQuote.AppendText(" \n " + txtMis.Text);
             rtbQuote.AppendText(" \n " + txtEmail.Text);
 
             rtbQuote.AppendText("\n");
             rtbQuote.AppendText("\n Components");
-            rtbQuote.AppendText("\n " + cbxCase.Text);
+            rtbQuote.AppendText("\n " + txtMis.Text);
             rtbQuote.AppendText("\n " + cbxMotherboard.Text);
             rtbQuote.AppendText("\n " + cbxRam.Text);
             rtbQuote.AppendText("\n " + cbxGpu.Text);
@@ -96,7 +96,7 @@ namespace _213
 
         private void FrmTechnical_Activated(object sender, EventArgs e)
         {
-            cbxCase.Text = "Select * FR";
+            txtMis.Text = "Select * FR";
         }
         
     }

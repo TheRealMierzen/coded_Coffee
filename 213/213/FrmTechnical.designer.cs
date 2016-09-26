@@ -32,10 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.gpbClient = new System.Windows.Forms.GroupBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.txtCellNumber = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.gpxtech = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -56,7 +54,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.cbxMotherboard = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.cbxCase = new System.Windows.Forms.ComboBox();
+            this.txtMis = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnQuote = new System.Windows.Forms.Button();
@@ -74,7 +72,7 @@
             this.cbxLayout.Items.AddRange(new object[] {
             "Custom build",
             "Repairs"});
-            this.cbxLayout.Location = new System.Drawing.Point(551, 14);
+            this.cbxLayout.Location = new System.Drawing.Point(550, 14);
             this.cbxLayout.Name = "cbxLayout";
             this.cbxLayout.Size = new System.Drawing.Size(160, 21);
             this.cbxLayout.TabIndex = 0;
@@ -84,7 +82,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(344, 17);
+            this.label1.Location = new System.Drawing.Point(343, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(179, 13);
             this.label1.TabIndex = 1;
@@ -94,31 +92,22 @@
             // 
             this.gpbClient.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.gpbClient.Controls.Add(this.txtEmail);
-            this.gpbClient.Controls.Add(this.txtCellNumber);
             this.gpbClient.Controls.Add(this.txtName);
             this.gpbClient.Controls.Add(this.label6);
-            this.gpbClient.Controls.Add(this.label4);
             this.gpbClient.Controls.Add(this.label2);
-            this.gpbClient.Location = new System.Drawing.Point(12, 66);
+            this.gpbClient.Location = new System.Drawing.Point(11, 66);
             this.gpbClient.Name = "gpbClient";
-            this.gpbClient.Size = new System.Drawing.Size(247, 141);
+            this.gpbClient.Size = new System.Drawing.Size(247, 90);
             this.gpbClient.TabIndex = 2;
             this.gpbClient.TabStop = false;
             this.gpbClient.Text = "Client info";
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(100, 100);
+            this.txtEmail.Location = new System.Drawing.Point(100, 54);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(100, 20);
             this.txtEmail.TabIndex = 9;
-            // 
-            // txtCellNumber
-            // 
-            this.txtCellNumber.Location = new System.Drawing.Point(100, 58);
-            this.txtCellNumber.Name = "txtCellNumber";
-            this.txtCellNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtCellNumber.TabIndex = 7;
             // 
             // txtName
             // 
@@ -130,20 +119,11 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 103);
+            this.label6.Location = new System.Drawing.Point(16, 61);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 13);
             this.label6.TabIndex = 4;
             this.label6.Text = "E-Mail";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 61);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Cell number";
             // 
             // label2
             // 
@@ -168,9 +148,9 @@
             this.gpxtech.Controls.Add(this.label11);
             this.gpxtech.Controls.Add(this.cbxMotherboard);
             this.gpxtech.Controls.Add(this.label10);
-            this.gpxtech.Controls.Add(this.cbxCase);
+            this.gpxtech.Controls.Add(this.txtMis);
             this.gpxtech.Controls.Add(this.label9);
-            this.gpxtech.Location = new System.Drawing.Point(312, 66);
+            this.gpxtech.Location = new System.Drawing.Point(311, 66);
             this.gpxtech.Name = "gpxtech";
             this.gpxtech.Size = new System.Drawing.Size(406, 503);
             this.gpxtech.TabIndex = 4;
@@ -345,13 +325,13 @@
             this.label10.TabIndex = 2;
             this.label10.Text = "Motherboard";
             // 
-            // cbxCase
+            // txtMis
             // 
-            this.cbxCase.FormattingEnabled = true;
-            this.cbxCase.Location = new System.Drawing.Point(7, 37);
-            this.cbxCase.Name = "cbxCase";
-            this.cbxCase.Size = new System.Drawing.Size(393, 21);
-            this.cbxCase.TabIndex = 1;
+            this.txtMis.FormattingEnabled = true;
+            this.txtMis.Location = new System.Drawing.Point(7, 37);
+            this.txtMis.Name = "txtMis";
+            this.txtMis.Size = new System.Drawing.Size(393, 21);
+            this.txtMis.TabIndex = 1;
             // 
             // label9
             // 
@@ -385,7 +365,7 @@
             // rtbQuote
             // 
             this.rtbQuote.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rtbQuote.Location = new System.Drawing.Point(742, 69);
+            this.rtbQuote.Location = new System.Drawing.Point(741, 69);
             this.rtbQuote.Name = "rtbQuote";
             this.rtbQuote.ReadOnly = true;
             this.rtbQuote.Size = new System.Drawing.Size(268, 500);
@@ -395,7 +375,7 @@
             // btnPlaceorder
             // 
             this.btnPlaceorder.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnPlaceorder.Location = new System.Drawing.Point(849, 575);
+            this.btnPlaceorder.Location = new System.Drawing.Point(848, 575);
             this.btnPlaceorder.Name = "btnPlaceorder";
             this.btnPlaceorder.Size = new System.Drawing.Size(75, 23);
             this.btnPlaceorder.TabIndex = 8;
@@ -406,7 +386,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 604);
+            this.ClientSize = new System.Drawing.Size(1020, 604);
             this.Controls.Add(this.btnPlaceorder);
             this.Controls.Add(this.rtbQuote);
             this.Controls.Add(this.btnQuote);
@@ -436,10 +416,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gpbClient;
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.TextBox txtCellNumber;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox gpxtech;
         private System.Windows.Forms.Label label14;
@@ -451,7 +429,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cbxMotherboard;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cbxCase;
+        private System.Windows.Forms.ComboBox txtMis;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtXstras;

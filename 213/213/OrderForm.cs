@@ -16,6 +16,7 @@ namespace _213
         public string items;
         double costperItems = 0.0;
         double Grandtotal = 0.0;
+        string selectedItem = null;
         private Action<object, EventArgs> roundButton3_Click;
 
         public OrderForm()
@@ -25,7 +26,23 @@ namespace _213
             gbxPayment.Hide();
             gpxSearch.Hide();
             cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
         }
+
+        public OrderForm(string usert)
+        {
+            InitializeComponent();
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
+            cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
+            user = usert;
+        }
+
+        string user;
 
         public OrderForm(Action<object, EventArgs> roundButton3_Click)
         {
@@ -44,6 +61,7 @@ namespace _213
             /*this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;*/
+            txtMaker.Focus();
         }
 
         private void AddOrderBtn_Click(object sender, EventArgs e)
@@ -65,10 +83,12 @@ namespace _213
                 if (MessageBox.Show("Are you sure you want to add this order ", "Place order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     if (addOrder(Properties.Settings.Default.Branch, txtMaker.Text, items, Grandtotal.ToString(), 0, 0, DateTime.Now.ToString(), "", checkSpesialorder(), getEta(), txtCust_email.Text))
-                        MessageBox.Show("Order added");
+                    {
+                        displayListbox(1);
+                    }
+                    gebruik.addAction(user);
+                    //gebruik.log(DateTime.Now, user, "Placed order");
                 }
-                else
-                    MessageBox.Show("Order not added");
             }
             else
                 MessageBox.Show("Please select items to place a order for","Cannot place order",MessageBoxButtons.OK,MessageBoxIcon.Information);
@@ -112,6 +132,7 @@ namespace _213
                          
                 }
 
+                txtMaker.Enabled = true;
                return true;
 
             }
@@ -151,6 +172,7 @@ namespace _213
             lbxsearchordelete.Items.Clear();
             cbxOrder.Items.Clear();
             populateCombobox();
+            lblOrder.Text = "";
         }
 
         public void orders()
@@ -170,29 +192,33 @@ namespace _213
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-                string id = cbxOrder.Text;
-                if (MessageBox.Show("Are you sure you want to cancel order " + id, "Cancel order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            if (checkOrderfordelete())
+            {
+                if (MessageBox.Show("Are you sure you want to cancel order " + selectedItem, "Cancel order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     try
                     {
                         using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
                         {
                             con.Open();
-                            using (SqlCommand comm = new SqlCommand("DELETE FROM Orders WHERE order_id LIKE " + id + " ", con))
+                            using (SqlCommand comm = new SqlCommand("DELETE FROM Orders WHERE order_id LIKE " + selectedItem + " ", con))
                             {
                                 comm.ExecuteNonQuery();
                             }
                             con.Close();
                         }
                         lbxsearchordelete.Items.Clear();
+                        lblOrder.Text = "";
                     }
                     catch (SqlException)
                     {
                         MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                }
             }
+            else
+                MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
         private void btnAdditem_Click(object sender, EventArgs e)
         {
            try
@@ -200,7 +226,6 @@ namespace _213
                 costperItems = Convert.ToDouble(txtPricofeachitem.Text) * Convert.ToDouble(txtQuatity.Text);
                 items = items + txtItem.Text + " X " + txtQuatity.Text + ",";
                 Grandtotal = Grandtotal + costperItems;
-                MessageBox.Show(lbxIndex().ToString());
                 if (lbxIndex() > 4)
                 {
                     lbxOutput.Items.RemoveAt(lbxIndex()-1);
@@ -211,13 +236,14 @@ namespace _213
                 itemsinTxtbox = itemsinTxtbox + txtMaker.Text + " " + txtItem.Text + " X " + txtQuatity.Text + "\t\t\t" + "R" + costperItems.ToString() + "\n";
                 lbxOutput.Items.Add(itemsinTxtbox);
 
-                lbxOutput.Items.Add("=========================================");
+                lbxOutput.Items.Add("=====================================================");
                 lbxOutput.Items.Add("Total(vat incl)\t\t\tR" + Grandtotal.ToString());
 
-                txtMaker.ReadOnly = true;
+                txtMaker.Enabled = false;
                 txtItem.Clear();
                 txtPricofeachitem.Clear();
                 txtQuatity.Clear();
+                AddOrderBtn.Enabled = true;
             }
             catch(FormatException)
             {
@@ -272,16 +298,19 @@ namespace _213
             {
                 char[] charr = { ',' };
                 string[] components;
-                int remove = lbxOutput.Items.Count;
 
                 components = items.Split(charr);
                 items = null;
                 for (int i = 0; i < components.Length - 2; i++)
                 {
                     items = items + components[i];
-                    MessageBox.Show(items);
                 }
-                lbxOutput.Items.RemoveAt(remove - 3);
+                lbxOutput.Items.RemoveAt(lbxOutput.Items.Count - 3);
+                lbxOutput.Items.RemoveAt(lbxOutput.Items.Count-1);
+                lbxOutput.Items.RemoveAt(lbxOutput.Items.Count-1);
+                lbxOutput.Items.Add("=====================================================");
+                Grandtotal = Grandtotal - costperItems;
+                lbxOutput.Items.Add("Total(vat incl)\t\t\tR" + Grandtotal.ToString());
             }
             catch(NullReferenceException)
             {
@@ -297,11 +326,12 @@ namespace _213
 
         public string getEta()
         {
-            return DateTime.Now.AddDays(7).ToString();
+            return DateTime.Now.AddDays(9).ToString();
         }
 
         public void populateCombobox()
         {
+            cbxOrder.Items.Clear();
             try
             {
                 using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
@@ -370,11 +400,10 @@ namespace _213
         {
             try
             {
-                string id = cbxOrder.SelectedText.ToString();
                 int count = 0;
                 using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
                 {
-                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Orders Where order_id = " + id + "", con))
+                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Orders Where order_id = " + selectedItem + "", con))
                     {
                         con.Open();
                         SqlDataReader sqlreader = comm.ExecuteReader();
@@ -401,34 +430,26 @@ namespace _213
 
         private void cbxOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectedItem = cbxOrder.Text;
             try
             {
-                //cbxOrder.Items.Clear();
+                lblOrder.Text = "Selected Order number: " + selectedItem;
                 populateCombobox();
-                string id = cbxOrder.Text;
                 using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
                 {
-                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Orders WHERE order_id LIKE " + id + " ", con))
+                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Orders WHERE order_id LIKE " + selectedItem + " ", con))
                     {
                         con.Open();
                         comm.ExecuteNonQuery();
-                        /*SqlDataReader sqlreader = comm.ExecuteReader();
-
-                        while (sqlreader.Read())
-                        {
-                            cbxOrder.Items.Add(Convert.ToInt16(sqlreader[1]));
-                        }*/
                         con.Close();
                     }
                 }
-                displayOrder(id);
+                displayOrder(selectedItem);
             }
             catch (SqlException)
             {
                 MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        
     }
 }

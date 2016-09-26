@@ -28,9 +28,9 @@ namespace _213
         private void loginForm_Load(object sender, EventArgs e)
         {
             //////////////Maak/Fullscreen////////////////
-            /*this.TopMost = true;
+            //this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;*/
+            this.WindowState = FormWindowState.Maximized;
             /////////////////////////////////////////////
             
             if(Properties.Settings.Default.Branch == "-")
