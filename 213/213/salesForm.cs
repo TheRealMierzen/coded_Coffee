@@ -8,25 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace _213
 {
     public partial class salesForm : Form
     {
         private string itemID, items, itemIDS, paymentMethod, itemName, specialorder, promotion, warranty, saleID, dateTimeSale, status;
+        private string branch = "KLD";
         private double itemCost, newtotalCost;
         private double totalCost, totalPaid, change, discount, discountTot;
-        private bool Promotion = false;
-        private bool SpecialOrder = false;
-        private int totalItems, prom, teller;
+        private int totalItems, prom, teller, Promotion, SpecialOrder;
 
         List<string> product = new List<string>();
+        List<double> price = new List<double>();
+        List<int> totalPerItem = new List<int>();
+
+        List<string> barcodes = new List<string>();
+        List<double> discountTotal = new List<double>();
+
         List<string> productW = new List<string>();
         List<string> WarrantyP = new List<string>();
-        List<double> price = new List<double>();
-        List<double> discountTotal = new List<double>();
-        List<int> totalPerItem = new List<int>();
-        List<string> barcodes = new List<string>();
+        List<int> totalWarrantyP = new List<int>();
 
         public salesForm()
         {
@@ -36,7 +39,7 @@ namespace _213
         private void cmbSalesMenu_SelectedIndexChanged(object sender, EventArgs e)
         {
             promotion = "No";
-            Promotion = false;
+            Promotion = 0;
             // SqlConnection conString = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             // SqlCommand createSale = new SqlCommand();
             if (cmbSalesMenu.SelectedIndex == 0)
@@ -115,6 +118,72 @@ namespace _213
 
         }
 
+        private void btnRemoveSaleItem_Click(object sender, EventArgs e)
+        {
+            int indeks;
+            string itemToBeRemoved;
+            indeks = barcodes.IndexOf(barcodes.Last());
+            //lbxSaleReceipt.Items.Add(indeks.ToString());
+            itemToBeRemoved = barcodes[indeks];
+
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"UPDATE Stock SET status = 'In Stock' WHERE item_id ='" + itemToBeRemoved + "'", con);
+            comm.ExecuteNonQuery();
+            con.Close();
+
+           if((indeks == 0) && (totalPerItem[indeks] == 1))
+            {
+                price.Clear();
+                product.Clear();
+                totalPerItem.Clear();
+                lbxSaleReceipt.Items.Clear();
+            }
+           else if(totalPerItem[indeks] < 2)
+            {
+                product.Remove(product[indeks]);
+                totalPerItem.Remove(totalPerItem[indeks]);
+                price.Remove(price[indeks]);
+                totalCost = price.Sum();
+                /*product[indeks] = "";
+                totalPerItem[indeks] = 0;
+                price[indeks] = 0.0;
+                totalCost = price.Sum();*/
+            }
+           else
+            {
+                totalPerItem[indeks] = totalPerItem[indeks] - 1;
+                double priceItem = price[indeks] / totalPerItem[indeks];
+                price[indeks] = price[indeks] - priceItem;
+                totalCost = price.Sum();
+            }
+
+            lbxSaleReceipt.Items.Clear();
+            lbxSaleReceipt.Items.Add("=========================");
+            lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE");
+            //lbxSaleReceipt.Items.Add(branch);
+            dateTimeSale = (DateTime.Now).ToString();
+            lbxSaleReceipt.Items.Add(dateTimeSale);
+            lbxSaleReceipt.Items.Add("=========================");
+            lbxSaleReceipt.Items.Add(@"Cashier:");
+            lbxSaleReceipt.Items.Add("");
+            for (int i = 0; i < product.Count(); i++)
+            {
+                lbxSaleReceipt.Items.Add(totalPerItem[i].ToString() + "x " + product[i] + " R" + price[i].ToString());
+            }
+            totalCost = price.Sum();
+            totalItems = totalPerItem.Sum();
+            discountTot = discountTotal.Sum();
+            newtotalCost = totalCost - discountTot;
+            lbxSaleReceipt.Items.Add("=========================");
+            lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
+            if (getcheckPromo() >= 1)
+            {
+                lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
+            }
+            lbxSaleReceipt.Items.Add("=========================");
+        }
+
         private void btnCancelSale_Click(object sender, EventArgs e)
         {
             pnlAddSale.Show();
@@ -151,12 +220,12 @@ namespace _213
 
             if (cbxSpecialOrder.Checked == true)
             {
-                SpecialOrder = true;
+                SpecialOrder = 1;
                 specialorder = "Yes";
             }
             else
             {
-                SpecialOrder = false;
+                SpecialOrder = 0;
                 specialorder = "No";
             }
             for(int i = 0; i < product.Count(); i++)
@@ -167,7 +236,7 @@ namespace _213
             {
                 itemIDS = itemIDS + barcodes[i] + ",";
             }
-            lbxSaleReceipt.Items.Add(paymentMethod + ":     R" + totalCost.ToString());
+            lbxSaleReceipt.Items.Add(paymentMethod + @":\t R" + totalCost.ToString());
             newtotalCost = totalCost - discountTot;
             change = totalPaid - newtotalCost;
             lbxSaleReceipt.Items.Add("Change:               R" + change);
@@ -186,7 +255,7 @@ namespace _213
             lbxSaleReceipt.Items.Add("");
             for (int i = 0; i < productW.Count(); i++)
             {
-                lbxSaleReceipt.Items.Add(productW[i] + ": " + WarrantyP[i]);
+                lbxSaleReceipt.Items.Add(totalWarrantyP[i] + "x " + productW[i] + ": " + WarrantyP[i]);
             }
             lbxSaleReceipt.Items.Add("");
             lbxSaleReceipt.Items.Add("=========================");
@@ -196,6 +265,25 @@ namespace _213
             pnlAddSale.Show();
             pnlCompleteSale.Hide();
             pnlPrevSaleCancel.Hide();
+
+            /*using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order)", con))
+            {
+                
+                comm.Parameters.AddWithValue("@sale_branch", branch);
+                comm.Parameters.AddWithValue("@sale_id", saleID);
+                comm.Parameters.AddWithValue("@sale_date", dateTimeSale);
+                comm.Parameters.AddWithValue("@items", items);
+                comm.Parameters.AddWithValue("@item_ids", itemIDS);
+                comm.Parameters.AddWithValue("@total_cost", totalCost);
+                comm.Parameters.AddWithValue("@total_paid", totalPaid);
+                comm.Parameters.AddWithValue("@payment_method", paymentMethod);
+                comm.Parameters.AddWithValue("@promotion", Promotion);
+                comm.Parameters.AddWithValue("@special_order", SpecialOrder);
+                con.Open();
+                comm.ExecuteNonQuery();
+                con.Close();
+            }*/
         }
 
         private void btnSaleSearch_Click(object sender, EventArgs e)
@@ -230,17 +318,17 @@ namespace _213
 
                 changeStockStatus(itemID);
 
-                if (getcheckPromo() >= 1)
-                {
-                    Promotion = true;
-                    promotion = "Yes";
-                    setPromotion(itemID);
-                    discountTotal.Add(Convert.ToDouble(getPromotion()));
-                }
+                
 
                 setItemName(itemID);
                 setItemPrice(itemID);
-
+                if (getcheckPromo() >= 1)
+                {
+                    Promotion = 1;
+                    promotion = "Yes";
+                    setPromotion(getItemName());
+                    discountTotal.Add(Convert.ToDouble(getPromotion()));
+                }
                 //display die hoeveelheid, item en prys van elk...
                 if (product.Contains(getItemName()) == false)
                 {
@@ -255,14 +343,26 @@ namespace _213
                     {
                         totalPerItem[indeks] = totalPerItem[indeks] + 1;
                         price[indeks] = price[indeks] + getItemPrice();
-                        //deleteStock(itemID);
                     }
                 }
 
                 if (getWarranty() != "n/a")
                 {
-                    productW.Add(getItemName());
-                    WarrantyP.Add(getWarranty());
+                    if(productW.Contains(getItemName()) == true)
+                    {
+                        int index = productW.IndexOf(getItemName());
+                        if (index != -1)
+                        {
+                            totalWarrantyP[index] = totalWarrantyP[index] + 1;
+                        }
+                        
+                    }
+                    else
+                    {
+                        productW.Add(getItemName());
+                        WarrantyP.Add(getWarranty());
+                        totalWarrantyP.Add(1);
+                    }
                 }
 
                 lbxSaleReceipt.Items.Clear();
@@ -286,7 +386,7 @@ namespace _213
                 lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
                 if (getcheckPromo() >= 1)
                 {
-                    lbxSaleReceipt.Items.Add(@"Discount:         R" + discount.ToString());
+                    lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
                 }
                 lbxSaleReceipt.Items.Add("=========================");
             }
@@ -326,11 +426,11 @@ namespace _213
             return itemCost;
         }
         //GET AND SET Promotion////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void setPromotion(string itemID)
+        private void setPromotion(string itemName)
         {
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
-            SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_id = '" + itemID + "'", con);
+            SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_name = '" + itemName + "'", con);
             discount = Convert.ToDouble(comm.ExecuteScalar());
             con.Close();
         }
@@ -339,11 +439,11 @@ namespace _213
             return discount;
         }
         //checkPromo////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void checkPromo(string itemID)
+        private void checkPromo(string itemName)
         {
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
-            SqlCommand comm = new SqlCommand(@"SELECT COUNT(*) FROM Promotions WHERE item_id = '" + itemID + "'", con);
+            SqlCommand comm = new SqlCommand(@"SELECT COUNT(*) FROM Promotions WHERE item_name = '" + itemName + "'", con);
             prom = Convert.ToInt16(comm.ExecuteScalar());
             con.Close();
 
@@ -396,7 +496,24 @@ namespace _213
             comm.ExecuteNonQuery();
             con.Close();
         }
-        //ADD SALE AFTER COMPLETE////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Save Receipt////////////////////////////////////////////////////////////////////////////////////////////
+        /*public void saveReceipt()
+        {
+            if (File.Exists(appPath))
+            {
+                StreamWriter outstream = File.AppendText(appPath + @"\stockI.T" + @"\Datum" +  @"\Receipt.txt");
+                outstream.WriteLine();
+                outstream.Close();
+            }
+            else
+            {        
+                File.CreateText(appPath).Close();
+                StreamWriter outstream = File.AppendText(appPath);
+                outstream.WriteLine();
+                outstream.Close();
+            }
+        }*/
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
     

@@ -97,7 +97,7 @@
             // btnCreate
             // 
             this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCreate.Location = new System.Drawing.Point(309, 219);
+            this.btnCreate.Location = new System.Drawing.Point(309, 245);
             this.btnCreate.Margin = new System.Windows.Forms.Padding(2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(74, 22);

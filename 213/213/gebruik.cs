@@ -19,23 +19,19 @@ namespace _213
             if (File.Exists(appPath))
             {
                 StreamWriter outstream = File.AppendText(appPath);
-                
+            
                 if (action == "login")
                     outstream.WriteLine("\n" + user + " logged in : " + tyd.ToString());
                 else if (action == "logout")
-                    outstream.WriteLine("\n" + user + " logged out : " + tyd.ToString());
-                
+                    outstream.WriteLine("\n" + user + " logged out : " + tyd.ToString());      
                 outstream.Close();
             }
             else
             {
-                
                 File.CreateText(appPath).Close();
                 StreamWriter outstream = File.AppendText(appPath);
                 outstream.WriteLine(user + " logged in : " + tyd.ToString());
-
                 outstream.Close();
-
             }
             
             

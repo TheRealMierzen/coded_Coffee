@@ -123,6 +123,7 @@
             this.btnRemoveSaleItem.TabIndex = 35;
             this.btnRemoveSaleItem.Text = "Undo";
             this.btnRemoveSaleItem.UseVisualStyleBackColor = true;
+            this.btnRemoveSaleItem.Click += new System.EventHandler(this.btnRemoveSaleItem_Click);
             // 
             // btnPrintReceipt_Sales
             // 
