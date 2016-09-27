@@ -18,7 +18,7 @@ namespace _213
         private string branch = "KLD";
         private double itemCost, newtotalCost;
         private double totalCost, totalPaid, change, discount, discountTot;
-        private int totalItems, prom, teller, Promotion, SpecialOrder;
+        private int totalItems, teller, Promotion, SpecialOrder, prom;
 
         List<string> product = new List<string>();
         List<double> price = new List<double>();
@@ -87,12 +87,37 @@ namespace _213
 
         private void btnCancelSaleBusy_Click(object sender, EventArgs e)
         {
-            lbxSaleReceipt.Items.Clear();
-            txtProductID_Sale.Clear();;
-            product.Clear();
-            totalPerItem.Clear();
-            price.Clear();
-
+            if (barcodes.Count() == 0)
+            {
+                MessageBox.Show("There is no sale to cancel!");
+            }
+            else
+            {
+                lbxSaleReceipt.Items.Clear();
+                txtProductID_Sale.Clear(); ;
+                product.Clear();
+                totalPerItem.Clear();
+                price.Clear();
+                productW.Clear();
+                totalWarrantyP.Clear();
+                discountTotal.Clear();
+                WarrantyP.Clear();
+                discount = 0;
+                discountTot = 0;
+                discountTotal.Clear();
+                int indeks = barcodes.IndexOf(barcodes.Last());
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                while (indeks != -1)
+                {
+                    string code = barcodes[indeks];
+                    SqlCommand comm = new SqlCommand(@"UPDATE Stock SET status = 'In Stock' WHERE item_id ='" + code + "'", con);
+                    comm.ExecuteNonQuery();
+                    barcodes.Remove(barcodes.Last());
+                    indeks = indeks - 1;
+                }
+                con.Close();
+            }   
         }
 
         private void salesForm_Load_1(object sender, EventArgs e)
@@ -107,10 +132,17 @@ namespace _213
 
         private void btnCompleteSale_Click(object sender, EventArgs e)
         {
-            pnlAddSale.Hide();
-            pnlCompleteSale.Show();
-            pnlPrevSaleCancel.Hide();
-            lblTotal.Text = "Total payable: R" + newtotalCost.ToString();     
+            if(barcodes.Count() == 0)
+            {
+                MessageBox.Show("No items to be sold!");
+            }
+            else
+            {
+                pnlAddSale.Hide();
+                pnlCompleteSale.Show();
+                pnlPrevSaleCancel.Hide();
+                lblTotal.Text = "Total payable: R" + newtotalCost.ToString();
+            }       
         }
 
         private void lbxSaleReceipt_SelectedIndexChanged(object sender, EventArgs e)
@@ -120,68 +152,105 @@ namespace _213
 
         private void btnRemoveSaleItem_Click(object sender, EventArgs e)
         {
-            int indeks;
+            int indeksBarcode, indeksProduct, indeksProductW;
             string itemToBeRemoved;
-            indeks = barcodes.IndexOf(barcodes.Last());
-            //lbxSaleReceipt.Items.Add(indeks.ToString());
-            itemToBeRemoved = barcodes[indeks];
-
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            SqlCommand comm = new SqlCommand(@"UPDATE Stock SET status = 'In Stock' WHERE item_id ='" + itemToBeRemoved + "'", con);
-            comm.ExecuteNonQuery();
-            con.Close();
-
-           if((indeks == 0) && (totalPerItem[indeks] == 1))
+            string description;
+            double itemPrice;
+            if (barcodes.Count() == 0)
             {
-                price.Clear();
-                product.Clear();
-                totalPerItem.Clear();
+                MessageBox.Show("There are no items to undo!");
+            }
+            else
+            {
+                indeksBarcode = barcodes.IndexOf(barcodes.Last());
+                //lbxSaleReceipt.Items.Add(indeks.ToString());
+                itemToBeRemoved = barcodes[indeksBarcode];
+           
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                SqlCommand comm = new SqlCommand(@"UPDATE Stock SET status = 'In Stock' WHERE item_id ='" + itemToBeRemoved + "'", con);
+                comm.ExecuteNonQuery();
+                SqlCommand FindDescription = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemToBeRemoved + "'", con);
+                description = FindDescription.ExecuteScalar().ToString();
+                //checkPromo(description);
+                SqlCommand FindPrice = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemToBeRemoved + "'", con);
+                itemPrice = Convert.ToDouble(FindPrice.ExecuteScalar());
+                con.Close();
+
+                indeksProduct = product.IndexOf(description);
+                indeksProductW = productW.IndexOf(description);
+//UNDO ITEM///////////////////////////////////////////////////////////////////////////////////////////////////////
+                if ((indeksProduct == 0) && (totalPerItem[indeksProduct] == 1))
+                {
+                    product.Clear();
+                    price.Clear();
+                    barcodes.Clear();
+                    totalPerItem.Clear();
+                    totalCost = 0.0;
+                    discountTotal.Clear();
+                }
+                else if (totalPerItem[indeksProduct] == 1)
+                {
+                    product.Remove(product[indeksProduct]);
+                    totalPerItem.Remove(totalPerItem[indeksProduct]);
+                    price.Remove(price[indeksProduct]);
+                    barcodes.Remove(barcodes[indeksBarcode]);
+                    discountTotal.Remove(discountTotal[discountTotal.IndexOf(discountTotal.Last())]);
+                    totalCost = price.Sum();
+
+                }
+                else if (totalPerItem[indeksProduct] > 1)
+                {
+                    totalPerItem[indeksProduct] = totalPerItem[indeksProduct] - 1;
+                    price[indeksProduct] = price[indeksProduct] - itemPrice;
+                    totalCost = price.Sum();
+                    barcodes.Remove(barcodes[indeksBarcode]);
+                    discountTotal.Remove(discountTotal[discountTotal.IndexOf(discountTotal.Last())]);
+                }
+//UNDO WARRANTY////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if ((indeksProductW == 0) && (totalWarrantyP[indeksProductW] == 1))
+                {
+                    productW.Clear();
+                    WarrantyP.Clear();
+                    totalWarrantyP.Clear();
+                }
+                else if (totalWarrantyP[indeksProductW] == 1)
+                {
+                    productW.Remove(productW[indeksProductW]);
+                    WarrantyP.Remove(WarrantyP[indeksProductW]);
+                    totalWarrantyP.Remove(totalWarrantyP[indeksProductW]);
+                }
+                else if (totalWarrantyP[indeksProductW] > 1)
+                {
+                    totalWarrantyP[indeksProductW] = totalWarrantyP[indeksProductW] - 1;
+                }
+//REDISPLAY THE RECEIPT////////////////////////////////////////////////////////////////////////////////////////////
                 lbxSaleReceipt.Items.Clear();
-            }
-           else if(totalPerItem[indeks] < 2)
-            {
-                product.Remove(product[indeks]);
-                totalPerItem.Remove(totalPerItem[indeks]);
-                price.Remove(price[indeks]);
+                lbxSaleReceipt.Items.Add("=========================");
+                lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE");
+                //lbxSaleReceipt.Items.Add(branch);
+                dateTimeSale = (DateTime.Now).ToString();
+                lbxSaleReceipt.Items.Add(dateTimeSale);
+                lbxSaleReceipt.Items.Add("=========================");
+                lbxSaleReceipt.Items.Add(@"Cashier:");
+                lbxSaleReceipt.Items.Add("");
+                for (int i = 0; i < product.Count(); i++)
+                {
+                    lbxSaleReceipt.Items.Add(totalPerItem[i].ToString() + "x " + product[i] + " R" + price[i].ToString());
+                }
                 totalCost = price.Sum();
-                /*product[indeks] = "";
-                totalPerItem[indeks] = 0;
-                price[indeks] = 0.0;
-                totalCost = price.Sum();*/
+                totalItems = totalPerItem.Sum();
+                discountTot = discountTotal.Sum();
+                newtotalCost = totalCost - discountTot;
+                lbxSaleReceipt.Items.Add("=========================");
+                lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
+                if (getcheckPromo() >= 1)
+                {
+                    lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
+                }
+                lbxSaleReceipt.Items.Add("=========================");
             }
-           else
-            {
-                totalPerItem[indeks] = totalPerItem[indeks] - 1;
-                double priceItem = price[indeks] / totalPerItem[indeks];
-                price[indeks] = price[indeks] - priceItem;
-                totalCost = price.Sum();
-            }
-
-            lbxSaleReceipt.Items.Clear();
-            lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE");
-            //lbxSaleReceipt.Items.Add(branch);
-            dateTimeSale = (DateTime.Now).ToString();
-            lbxSaleReceipt.Items.Add(dateTimeSale);
-            lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add(@"Cashier:");
-            lbxSaleReceipt.Items.Add("");
-            for (int i = 0; i < product.Count(); i++)
-            {
-                lbxSaleReceipt.Items.Add(totalPerItem[i].ToString() + "x " + product[i] + " R" + price[i].ToString());
-            }
-            totalCost = price.Sum();
-            totalItems = totalPerItem.Sum();
-            discountTot = discountTotal.Sum();
-            newtotalCost = totalCost - discountTot;
-            lbxSaleReceipt.Items.Add("=========================");
-            lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
-            if (getcheckPromo() >= 1)
-            {
-                lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
-            }
-            lbxSaleReceipt.Items.Add("=========================");
+       
         }
 
         private void btnCancelSale_Click(object sender, EventArgs e)
@@ -236,7 +305,7 @@ namespace _213
             {
                 itemIDS = itemIDS + barcodes[i] + ",";
             }
-            lbxSaleReceipt.Items.Add(paymentMethod + @":\t R" + totalCost.ToString());
+            lbxSaleReceipt.Items.Add(paymentMethod + ": R" + totalPaid.ToString());
             newtotalCost = totalCost - discountTot;
             change = totalPaid - newtotalCost;
             lbxSaleReceipt.Items.Add("Change:               R" + change);
@@ -266,7 +335,7 @@ namespace _213
             pnlCompleteSale.Hide();
             pnlPrevSaleCancel.Hide();
 
-            /*using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+           /* using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
             using (SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order)", con))
             {
                 
@@ -313,15 +382,11 @@ namespace _213
             else
             {
                 barcodes.Add(itemID);
-                checkPromo(itemID);
                 setWarranty(itemID);
-
                 changeStockStatus(itemID);
-
-                
-
                 setItemName(itemID);
                 setItemPrice(itemID);
+                checkPromo(getItemName());
                 if (getcheckPromo() >= 1)
                 {
                     Promotion = 1;
@@ -372,7 +437,7 @@ namespace _213
                 dateTimeSale = (DateTime.Now).ToString();
                 lbxSaleReceipt.Items.Add(dateTimeSale);
                 lbxSaleReceipt.Items.Add("=========================");
-                lbxSaleReceipt.Items.Add(@"Cashier:");
+                lbxSaleReceipt.Items.Add("Cashier:");
                 lbxSaleReceipt.Items.Add("");
                 for (int i = 0; i < product.Count(); i++)
                 {
@@ -384,10 +449,7 @@ namespace _213
                 newtotalCost = totalCost - discountTot;
                 lbxSaleReceipt.Items.Add("=========================");
                 lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
-                if (getcheckPromo() >= 1)
-                {
-                    lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
-                }
+                lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
                 lbxSaleReceipt.Items.Add("=========================");
             }
             //Check if on promotion//
@@ -443,8 +505,8 @@ namespace _213
         {
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
-            SqlCommand comm = new SqlCommand(@"SELECT COUNT(*) FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            prom = Convert.ToInt16(comm.ExecuteScalar());
+            SqlCommand checkPromo = new SqlCommand(@"SELECT active FROM Promotions WHERE item_name = '" + itemName + "'", con);
+            prom = Convert.ToInt16(checkPromo.ExecuteScalar());
             con.Close();
 
         }

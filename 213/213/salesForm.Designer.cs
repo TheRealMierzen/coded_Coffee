@@ -44,11 +44,11 @@
             this.cmbSalesMenu = new System.Windows.Forms.ComboBox();
             this.stockTableAdapter = new _213._stockI_TDataSetTableAdapters.StockTableAdapter();
             this.pnlPrevSaleCancel = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.lbxDisplayReceipt = new System.Windows.Forms.ListBox();
             this.dtpSaleDateSearch = new System.Windows.Forms.DateTimePicker();
             this.lblSaleToSearch = new System.Windows.Forms.Label();
-            this.btnSaleSearch = new System.Windows.Forms.Button();
             this.stockITDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salesTableAdapter = new _213._stockI_TDataSetTableAdapters.SalesTableAdapter();
@@ -103,14 +103,14 @@
             this.txtProductID_Sale.Location = new System.Drawing.Point(7, 29);
             this.txtProductID_Sale.Name = "txtProductID_Sale";
             this.txtProductID_Sale.Size = new System.Drawing.Size(159, 20);
-            this.txtProductID_Sale.TabIndex = 38;
+            this.txtProductID_Sale.TabIndex = 1;
             // 
             // btnCancelSaleBusy
             // 
             this.btnCancelSaleBusy.Location = new System.Drawing.Point(213, 223);
             this.btnCancelSaleBusy.Name = "btnCancelSaleBusy";
             this.btnCancelSaleBusy.Size = new System.Drawing.Size(160, 60);
-            this.btnCancelSaleBusy.TabIndex = 37;
+            this.btnCancelSaleBusy.TabIndex = 5;
             this.btnCancelSaleBusy.Text = "Cancel Sale";
             this.btnCancelSaleBusy.UseVisualStyleBackColor = true;
             this.btnCancelSaleBusy.Click += new System.EventHandler(this.btnCancelSaleBusy_Click);
@@ -120,7 +120,7 @@
             this.btnRemoveSaleItem.Location = new System.Drawing.Point(214, 95);
             this.btnRemoveSaleItem.Name = "btnRemoveSaleItem";
             this.btnRemoveSaleItem.Size = new System.Drawing.Size(159, 56);
-            this.btnRemoveSaleItem.TabIndex = 35;
+            this.btnRemoveSaleItem.TabIndex = 3;
             this.btnRemoveSaleItem.Text = "Undo";
             this.btnRemoveSaleItem.UseVisualStyleBackColor = true;
             this.btnRemoveSaleItem.Click += new System.EventHandler(this.btnRemoveSaleItem_Click);
@@ -130,7 +130,7 @@
             this.btnPrintReceipt_Sales.Location = new System.Drawing.Point(214, 289);
             this.btnPrintReceipt_Sales.Name = "btnPrintReceipt_Sales";
             this.btnPrintReceipt_Sales.Size = new System.Drawing.Size(160, 60);
-            this.btnPrintReceipt_Sales.TabIndex = 34;
+            this.btnPrintReceipt_Sales.TabIndex = 6;
             this.btnPrintReceipt_Sales.Text = "Print Receipt";
             this.btnPrintReceipt_Sales.UseVisualStyleBackColor = true;
             // 
@@ -139,7 +139,7 @@
             this.btnAddToSale.Location = new System.Drawing.Point(213, 33);
             this.btnAddToSale.Name = "btnAddToSale";
             this.btnAddToSale.Size = new System.Drawing.Size(159, 56);
-            this.btnAddToSale.TabIndex = 24;
+            this.btnAddToSale.TabIndex = 2;
             this.btnAddToSale.Text = "Add Item";
             this.btnAddToSale.UseVisualStyleBackColor = true;
             this.btnAddToSale.Click += new System.EventHandler(this.btnAddToSale_Click);
@@ -149,7 +149,7 @@
             this.btnCompleteSale.Location = new System.Drawing.Point(214, 157);
             this.btnCompleteSale.Name = "btnCompleteSale";
             this.btnCompleteSale.Size = new System.Drawing.Size(160, 60);
-            this.btnCompleteSale.TabIndex = 30;
+            this.btnCompleteSale.TabIndex = 4;
             this.btnCompleteSale.Text = "Complete Sale";
             this.btnCompleteSale.UseVisualStyleBackColor = true;
             this.btnCompleteSale.Click += new System.EventHandler(this.btnCompleteSale_Click);
@@ -184,6 +184,8 @@
             // 
             // cmbSalesMenu
             // 
+            this.cmbSalesMenu.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbSalesMenu.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbSalesMenu.FormattingEnabled = true;
             this.cmbSalesMenu.Items.AddRange(new object[] {
             "New Sale",
@@ -203,20 +205,28 @@
             // 
             // pnlPrevSaleCancel
             // 
+            this.pnlPrevSaleCancel.Controls.Add(this.comboBox1);
             this.pnlPrevSaleCancel.Controls.Add(this.button1);
             this.pnlPrevSaleCancel.Controls.Add(this.lbxDisplayReceipt);
             this.pnlPrevSaleCancel.Controls.Add(this.dtpSaleDateSearch);
             this.pnlPrevSaleCancel.Controls.Add(this.lblSaleToSearch);
-            this.pnlPrevSaleCancel.Controls.Add(this.btnSaleSearch);
             this.pnlPrevSaleCancel.Location = new System.Drawing.Point(665, 39);
             this.pnlPrevSaleCancel.Name = "pnlPrevSaleCancel";
             this.pnlPrevSaleCancel.Size = new System.Drawing.Size(389, 366);
             this.pnlPrevSaleCancel.TabIndex = 9;
             this.pnlPrevSaleCancel.Visible = false;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(16, 80);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(147, 21);
+            this.comboBox1.TabIndex = 43;
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(16, 157);
+            this.button1.Location = new System.Drawing.Point(20, 107);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(147, 60);
             this.button1.TabIndex = 42;
@@ -247,16 +257,6 @@
             this.lblSaleToSearch.Size = new System.Drawing.Size(82, 13);
             this.lblSaleToSearch.TabIndex = 39;
             this.lblSaleToSearch.Text = "Date to Search:";
-            // 
-            // btnSaleSearch
-            // 
-            this.btnSaleSearch.Location = new System.Drawing.Point(16, 91);
-            this.btnSaleSearch.Name = "btnSaleSearch";
-            this.btnSaleSearch.Size = new System.Drawing.Size(147, 60);
-            this.btnSaleSearch.TabIndex = 38;
-            this.btnSaleSearch.Text = "Search Sales";
-            this.btnSaleSearch.UseVisualStyleBackColor = true;
-            this.btnSaleSearch.Click += new System.EventHandler(this.btnSaleSearch_Click);
             // 
             // stockITDataSetBindingSource
             // 
@@ -350,6 +350,8 @@
             // 
             // cbxMethodOfPayment
             // 
+            this.cbxMethodOfPayment.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbxMethodOfPayment.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbxMethodOfPayment.FormattingEnabled = true;
             this.cbxMethodOfPayment.Items.AddRange(new object[] {
             "Cash",
@@ -412,7 +414,6 @@
         private System.Windows.Forms.Button btnRemoveSaleItem;
         private System.Windows.Forms.Button btnCancelSaleBusy;
         private System.Windows.Forms.Panel pnlPrevSaleCancel;
-        private System.Windows.Forms.Button btnSaleSearch;
         private System.Windows.Forms.Label lblSaleToSearch;
         private System.Windows.Forms.BindingSource stockITDataSetBindingSource;
         private System.Windows.Forms.BindingSource salesBindingSource;
@@ -431,5 +432,6 @@
         private System.Windows.Forms.TextBox txtPaid;
         private System.Windows.Forms.ComboBox cbxMethodOfPayment;
         private System.Windows.Forms.Label lblMethodOfPayment_Sales;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
