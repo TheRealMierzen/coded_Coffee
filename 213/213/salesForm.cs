@@ -14,11 +14,12 @@ namespace _213
 {
     public partial class salesForm : Form
     {
-        private string itemID, items, itemIDS, paymentMethod, itemName, specialorder, promotion, warranty, saleID, dateTimeSale, status;
+        private string itemID, items, itemIDS, paymentMethod, itemName, specialorder, promotion, warranty, dateTimeSale, status;
         private string branch = "KLD";
         private double itemCost, newtotalCost;
         private double totalCost, totalPaid, change, discount, discountTot;
-        private int totalItems, teller, Promotion, SpecialOrder, prom;
+        private int totalItems, saleID;
+        private bool Promotion, SpecialOrder, prom;
 
         List<string> product = new List<string>();
         List<double> price = new List<double>();
@@ -39,7 +40,7 @@ namespace _213
         private void cmbSalesMenu_SelectedIndexChanged(object sender, EventArgs e)
         {
             promotion = "No";
-            Promotion = 0;
+            Promotion = false;
             // SqlConnection conString = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             // SqlCommand createSale = new SqlCommand();
             if (cmbSalesMenu.SelectedIndex == 0)
@@ -195,7 +196,7 @@ namespace _213
                     totalPerItem.Remove(totalPerItem[indeksProduct]);
                     price.Remove(price[indeksProduct]);
                     barcodes.Remove(barcodes[indeksBarcode]);
-                    discountTotal.Remove(discountTotal[discountTotal.IndexOf(discountTotal.Last())]);
+                    discountTotal.Remove(discountTotal.IndexOf(discountTotal.Last()));
                     totalCost = price.Sum();
 
                 }
@@ -205,7 +206,7 @@ namespace _213
                     price[indeksProduct] = price[indeksProduct] - itemPrice;
                     totalCost = price.Sum();
                     barcodes.Remove(barcodes[indeksBarcode]);
-                    discountTotal.Remove(discountTotal[discountTotal.IndexOf(discountTotal.Last())]);
+                    discountTotal.Remove(discountTotal.IndexOf(discountTotal.Last()));
                 }
 //UNDO WARRANTY////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 if ((indeksProductW == 0) && (totalWarrantyP[indeksProductW] == 1))
@@ -244,7 +245,7 @@ namespace _213
                 newtotalCost = totalCost - discountTot;
                 lbxSaleReceipt.Items.Add("=========================");
                 lbxSaleReceipt.Items.Add(@"Total (VAT incl): R" + totalCost.ToString());
-                if (getcheckPromo() >= 1)
+                if (getcheckPromo() == true)
                 {
                     lbxSaleReceipt.Items.Add(@"Discount:         R" + discountTot.ToString());
                 }
@@ -265,8 +266,7 @@ namespace _213
 
         private void btnCompleteSalePaid_Click(object sender, EventArgs e)
         {
-            teller = teller + 1;
-            saleID = GenerateSaleID(teller);
+            saleID = GenerateSaleID();
             if (cbxMethodOfPayment.SelectedIndex == 0)
             {
                 paymentMethod = "Cash";
@@ -289,12 +289,12 @@ namespace _213
 
             if (cbxSpecialOrder.Checked == true)
             {
-                SpecialOrder = 1;
+                SpecialOrder = true;
                 specialorder = "Yes";
             }
             else
             {
-                SpecialOrder = 0;
+                SpecialOrder = false;
                 specialorder = "No";
             }
             for(int i = 0; i < product.Count(); i++)
@@ -335,24 +335,22 @@ namespace _213
             pnlCompleteSale.Hide();
             pnlPrevSaleCancel.Hide();
 
-           /* using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
-            using (SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order)", con))
-            {
-                
-                comm.Parameters.AddWithValue("@sale_branch", branch);
-                comm.Parameters.AddWithValue("@sale_id", saleID);
-                comm.Parameters.AddWithValue("@sale_date", dateTimeSale);
-                comm.Parameters.AddWithValue("@items", items);
-                comm.Parameters.AddWithValue("@item_ids", itemIDS);
-                comm.Parameters.AddWithValue("@total_cost", totalCost);
-                comm.Parameters.AddWithValue("@total_paid", totalPaid);
-                comm.Parameters.AddWithValue("@payment_method", paymentMethod);
-                comm.Parameters.AddWithValue("@promotion", Promotion);
-                comm.Parameters.AddWithValue("@special_order", SpecialOrder);
-                con.Open();
-                comm.ExecuteNonQuery();
-                con.Close();
-            }*/
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order)", con); 
+            comm.Parameters.AddWithValue("@sale_branch", branch);
+            comm.Parameters.AddWithValue("@sale_id", saleID.ToString());
+            comm.Parameters.AddWithValue("@sale_date", dateTimeSale);
+            comm.Parameters.AddWithValue("@items", items);
+            comm.Parameters.AddWithValue("@item_ids", itemIDS);
+            comm.Parameters.AddWithValue("@total_cost", newtotalCost.ToString());
+            comm.Parameters.AddWithValue("@total_paid", totalPaid.ToString());
+            comm.Parameters.AddWithValue("@payment_method", paymentMethod);
+            comm.Parameters.AddWithValue("@promotion", Promotion);
+            comm.Parameters.AddWithValue("@special_order", SpecialOrder);
+            comm.ExecuteNonQuery();
+            con.Close();
+            
         }
 
         private void btnSaleSearch_Click(object sender, EventArgs e)
@@ -387,9 +385,9 @@ namespace _213
                 setItemName(itemID);
                 setItemPrice(itemID);
                 checkPromo(getItemName());
-                if (getcheckPromo() >= 1)
+                if (getcheckPromo() == true)
                 {
-                    Promotion = 1;
+                    Promotion = true;
                     promotion = "Yes";
                     setPromotion(getItemName());
                     discountTotal.Add(Convert.ToDouble(getPromotion()));
@@ -506,11 +504,11 @@ namespace _213
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
             SqlCommand checkPromo = new SqlCommand(@"SELECT active FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            prom = Convert.ToInt16(checkPromo.ExecuteScalar());
+            prom = Convert.ToBoolean(checkPromo.ExecuteScalar());
             con.Close();
 
         }
-        private int getcheckPromo()
+        private bool getcheckPromo()
         {
             return prom;
         }
@@ -528,10 +526,23 @@ namespace _213
             return warranty;
         }
         //Generate Sale ID////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public string GenerateSaleID(int teller)
+        public int GenerateSaleID()
         {
-            string saleID;
-            saleID = "S" + teller.ToString(); 
+            int saleID = 0;
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+            con.Open();
+            SqlCommand comm = new SqlCommand(@"SELECT sale_id FROM Sales ORDER BY sale_id DESC", con);
+            saleID = Convert.ToInt16(comm.ExecuteScalar());
+            if (saleID == 0)
+            {
+                saleID = 1;
+            }
+            else
+            {
+                saleID = saleID + 1;
+            }
+            con.Close();
+            
             return saleID; 
         }
 
