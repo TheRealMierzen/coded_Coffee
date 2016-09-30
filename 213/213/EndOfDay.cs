@@ -281,7 +281,7 @@ namespace _213
             }
             else
             {
-                MessageBox.Show("error....");
+                MessageBox.Show("error with obtaining the AccessToken from DropBox. "+ "\r\n"+" Check APP key and security.");
             }
         }
 
@@ -323,7 +323,7 @@ namespace _213
             }
             else
             {
-                MessageBox.Show("eror");
+                MessageBox.Show("Error with retrieving the file."+"\r\n" +"Check if there are contents and if path is still good");
             }
         }
 
@@ -364,7 +364,7 @@ namespace _213
             }
             else
             {
-                MessageBox.Show("eror");
+                MessageBox.Show("Error with upload. Check Paths and Parameters");
             }
         }
 
@@ -402,7 +402,7 @@ namespace _213
             }
             else
             {
-                MessageBox.Show("eror");
+                MessageBox.Show("Error with Creating a folder");
             }
         }
 
