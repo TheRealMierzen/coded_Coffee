@@ -26,12 +26,12 @@ namespace _213.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AcessToken {
+        public string AccessToken {
             get {
-                return ((string)(this["AcessToken"]));
+                return ((string)(this["AccessToken"]));
             }
             set {
-                this["AcessToken"] = value;
+                this["AccessToken"] = value;
             }
         }
     }

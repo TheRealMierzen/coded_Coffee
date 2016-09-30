@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_213.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="AcessToken" Type="System.String" Scope="User">
+    <Setting Name="AccessToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
