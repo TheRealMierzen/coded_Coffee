@@ -195,7 +195,8 @@ namespace _213
         //end of day button
         private void roundButton2_Click(object sender, EventArgs e)
         {
-
+            EndOfDay f1 = new EndOfDay();
+            f1.ShowDialog();
 
         }
 

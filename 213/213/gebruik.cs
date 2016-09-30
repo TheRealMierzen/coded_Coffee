@@ -309,7 +309,7 @@ namespace _213
             catch (Exception ex)
             {
 
-                MessageBox.Show("An error occurred while printing. Please verify that the printer is connected and try again.");
+                MessageBox.Show("An error occurred while printing. Please verify that the printer is connected and try again." + ex);
 
             }
         }

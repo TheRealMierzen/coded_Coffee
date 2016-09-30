@@ -53,11 +53,18 @@
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nemiro.OAuth">
+      <HintPath>..\packages\Nemiro.OAuth.1.12\lib\net45\Nemiro.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Nemiro.OAuth.LoginForms">
+      <HintPath>..\packages\Nemiro.OAuth.LoginForms.1.5\lib\net45\Nemiro.OAuth.LoginForms.dll</HintPath>
+    </Reference>
     <Reference Include="RoundButton">
       <HintPath>..\..\..\CodedCoffee\Program\213\213\bin\Debug\RoundButton.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -128,6 +135,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Data.SqlClient.SqlCommand.datasource" />
+    <None Include="Properties\DataSources\System.Data.SqlClient.SqlCommandBuilder.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -161,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
