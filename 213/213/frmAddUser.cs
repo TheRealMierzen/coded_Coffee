@@ -24,6 +24,13 @@ namespace _213
             user = username;
         }
 
+        public frmAddUser(string username, string email)
+        {
+            InitializeComponent();
+            user = username;
+            txtEmail.Text = email;
+        }
+
         private string user;
 
         private void frmAddUser_Load(object sender, EventArgs e)
@@ -31,6 +38,7 @@ namespace _213
             txtAuthUser.Text = user;
             txtAuthUser.Enabled = false;
 
+            cbLevel.SelectedItem = "5";
             txtNUser.Focus();
         }
 
@@ -46,14 +54,14 @@ namespace _213
             gebruik other = new gebruik();
             Random start = new Random();
 
-            if (txtAuthPass.Text != "" && txtEmail.Text != "" && txtNLvl.Text != "" && txtNUser.Text != "")
+            if (txtAuthPass.Text != "" && txtEmail.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtNUser.Text != "")
             {
                 if (lf.validateUser(txtAuthUser.Text, txtAuthPass.Text) && other.checkAuthor(txtAuthUser.Text))
                 {
                     string ps = other.genPassword(start.Next(0, 10));
                     if (lf.checkUser(txtNUser.Text))
                     {
-                        using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                        using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                         {
                             string cmdstring = "SELECT email_address FROM Users WHERE userName = @username";
                             using (SqlCommand comm = new SqlCommand(cmdstring, con))
@@ -73,9 +81,9 @@ namespace _213
                                 dr.Close();
                                 con.Close();
 
-                                if (other.Mail(mail, "New user added", "A new user has been added.\r\n\r\nThe new account's details are:\r\n\tUsername: " + txtNUser.Text + "\r\n\tPassword: " + ps + "\r\n\tAccount Level: " + txtNLvl.Text + "\r\n\r\nPlease keep this email for future reference."))
+                                if (other.Mail(mail, "New user added", "A new user has been added.\r\n\r\nThe new account's details are:\r\n\tUsername: " + txtNUser.Text + "\r\n\tPassword: " + ps + "\r\n\tAccount Level: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nPlease keep this email for future reference."))
                                 {
-                                    if (lf.addUser(txtNUser.Text, ps, txtNLvl.Text, txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
+                                    if (lf.addUser(txtNUser.Text, ps, cbLevel.SelectedItem.ToString(), txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
                                     {
                                         MessageBox.Show("The account has been created. Please consult the adminstrator for the new account's password.");
 
@@ -103,29 +111,40 @@ namespace _213
 
                 }
             }
+            else
                 MessageBox.Show("Some required field are empty. Please verify the entered information and try again.");
 
         }
 
         private void txtNLvl_TextChanged(object sender, EventArgs e)
         {
+            int cell;
             try
             {
-
-                if (int.Parse(txtNLvl.Text) > 10 || int.Parse(txtNLvl.Text) < 0)
-                    txtNLvl.Text = "";
+                cell = Convert.ToInt16(cbLevel.SelectedItem.ToString());
 
             }
             catch
             {
 
-                txtNLvl.Text = "";
+                try
+                {
+                    cbLevel.SelectedItem = cbLevel.SelectedItem.ToString().Substring(0, cbLevel.SelectedItem.ToString().Length - 1);
+                    cbLevel.Focus();
+                    cbLevel.SelectionStart = cbLevel.SelectedItem.ToString().Length;
+                }
+                catch
+                {
+
+                    cbLevel.SelectedItem = "";
+
+                }
 
             }
             finally
             {
 
-                if (txtNUser.Text != "" && txtNLvl.Text != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+                if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
                     btnCreateAcc.Enabled = true;
                 else
                     btnCreateAcc.Enabled = false;
@@ -135,7 +154,7 @@ namespace _213
 
         private void txtNUser_TextChanged(object sender, EventArgs e)
         {
-            if (txtNUser.Text != "" && txtNLvl.Text != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+            if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
                 btnCreateAcc.Enabled = true;
             else
                 btnCreateAcc.Enabled = false;
@@ -143,7 +162,7 @@ namespace _213
 
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
-            if (txtNUser.Text != "" && txtNLvl.Text != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+            if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
                 btnCreateAcc.Enabled = true;
             else
                 btnCreateAcc.Enabled = false;
@@ -151,7 +170,7 @@ namespace _213
 
         private void txtAuthPass_TextChanged(object sender, EventArgs e)
         {
-            if (txtNUser.Text != "" && txtNLvl.Text != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+            if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
                 btnCreateAcc.Enabled = true;
             else
                 btnCreateAcc.Enabled = false;

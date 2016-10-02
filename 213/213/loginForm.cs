@@ -37,13 +37,14 @@ namespace _213
             TimeSpan EOD = TimeSpan.Parse("17:00");
 
             if (TOD < EOD)
-                button2.Visible = false;
+                button2.Enabled = false;
 
             if (!checkFile())
             {
                 //kort background runner
                 gebruik util = new gebruik();
                 util.setLocation();
+                checkBranch(Properties.Settings.Default.Branch);
 
                 //Create user and password file
                 if (MessageBox.Show("It appears that this is the first time you're using stockI.T. Would you like to create an administrative account now?", "Info",MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -79,7 +80,7 @@ namespace _213
         private bool checkFile()
         {
 
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
                 string cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Users WHERE branch = @branch  AND authLevel = 10";
 
@@ -112,7 +113,7 @@ namespace _213
             if (authorize == "admin" && authorizePass == "HUEHUEHUE")
             {
                 //initial account
-                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                     string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
@@ -136,7 +137,7 @@ namespace _213
                 if (checkUser(username))
                 {
                     //find authority account and validate
-                    using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                    using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                     {
 
                         string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
@@ -193,7 +194,7 @@ namespace _213
         public bool validateUser(string userName, string pass)
         {
 
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
 
                 con.Open();
@@ -307,7 +308,7 @@ namespace _213
                 DateTime local = DateTime.Now;
                 gebruik.log(local, textBox1.Text, "login");
 
-                using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
 
                     conn.Open();
@@ -356,7 +357,7 @@ namespace _213
         public bool checkUser(string name)
         {
 
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
                 con.Open();
 
@@ -445,6 +446,20 @@ namespace _213
                 else
                     button1.Enabled = false;
             }
+        }
+
+
+        private void checkBranch(string b)
+        {
+
+            if(Properties.Settings.Default.Branch.Contains(@"'"))
+            {
+        
+                Properties.Settings.Default.Branch = Properties.Settings.Default.Branch.Remove(Properties.Settings.Default.Branch.IndexOf(@"'"), 1);
+                Properties.Settings.Default.Save();
+
+            }
+
         }
     }
 }

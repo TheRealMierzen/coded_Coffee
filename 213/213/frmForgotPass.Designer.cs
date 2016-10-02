@@ -125,6 +125,7 @@
             // 
             // btnFPCancel
             // 
+            this.btnFPCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnFPCancel.Location = new System.Drawing.Point(153, 205);
             this.btnFPCancel.Name = "btnFPCancel";
             this.btnFPCancel.Size = new System.Drawing.Size(86, 36);
@@ -135,8 +136,10 @@
             // 
             // frmForgotPass
             // 
+            this.AcceptButton = this.btnFPRecover;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnFPCancel;
             this.ClientSize = new System.Drawing.Size(271, 253);
             this.Controls.Add(this.btnFPCancel);
             this.Controls.Add(this.btnFPRecover);

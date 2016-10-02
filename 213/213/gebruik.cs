@@ -46,7 +46,7 @@ namespace _213
         public static void addAction(string user)
         {
 
-            using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
 
                 conn.Open();
@@ -318,7 +318,7 @@ namespace _213
         public bool checkAuthor(string username)
         {
 
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
                 string cmdstring = "SELECT authLevel FROM Users WHERE userName = @user";
 
@@ -359,7 +359,7 @@ namespace _213
             catch (System.Net.WebException we)
             {
 
-                MessageBox.Show("An error occurred during the " + we.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + we.Message, "Error");
+                //MessageBox.Show("An error occurred during the " + we.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + we.Message, "Error");
                 return "";
 
             }
@@ -393,6 +393,119 @@ namespace _213
 
             Properties.Settings.Default.Branch = GetLocation(getIP());
             Properties.Settings.Default.Save();
+
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        public bool isUser(string id)
+        {
+
+            using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                string find = "";
+
+                if (id.Length == 13)
+                    find = "id_num";
+                else if (id.Length == 10)
+                    find = "employee_id";
+
+                string cmdstring = "SELECT is_user FROM Employees WHERE " + find + " = @find";
+                using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                {
+                    conUser.Open();
+                    commUser.Parameters.AddWithValue("@find", id);
+                    using (var reader = commUser.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            bool user = reader.GetBoolean(0);
+                            if (user)
+                                return true;
+                            else
+                                return false;
+
+                        }
+
+                    }
+
+                    conUser.Close();
+                    return false;
+
+                }
+            }
+
+        }
+
+        public string getUsername(string email)
+        {
+
+            using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+
+                string cmdstring = "SELECT userName FROM Users WHERE email_address = @email";
+                using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                {
+                    conUser.Open();
+                    commUser.Parameters.AddWithValue("@email", email);
+                    using (var reader = commUser.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            string user = reader.GetString(0);
+                            return user;
+
+                        }
+
+                    }
+
+                    conUser.Close();
+                    return "";
+
+                }
+            }
+
+        }
+
+        public string getEmail(string id)
+        {
+
+            using (SqlConnection conEmail = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                string cmdstring = "";
+                if (id.Length == 10)
+                    cmdstring = "SELECT email_address FROM Employees WHERE employee_id = @id";
+                else if (id.Length == 13)
+                    cmdstring = "SELECT email_address FROM Employees WHERE id_num = @id";
+
+                using (SqlCommand commEmail = new SqlCommand(cmdstring, conEmail))
+                {
+                    conEmail.Open();
+                    commEmail.Parameters.AddWithValue("@id", id);
+                    using (var reader = commEmail.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            string empID = reader.GetString(0);
+                            return empID;
+
+                        }
+
+                    }
+
+                    conEmail.Close();
+                    return "";
+
+                }
+            }
+
+        }
+
+        public void checkPromos()
+        {
+
+
 
         }
 

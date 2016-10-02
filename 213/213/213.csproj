@@ -74,11 +74,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAddEmp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddEmp.Designer.cs">
+      <DependentUpon>frmAddEmp.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAddUser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmAddUser.Designer.cs">
       <DependentUpon>frmAddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdminPromos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdminPromos.Designer.cs">
+      <DependentUpon>frmAdminPromos.cs</DependentUpon>
     </Compile>
     <Compile Include="frmForgotPass.cs">
       <SubType>Form</SubType>
@@ -86,11 +98,23 @@
     <Compile Include="frmForgotPass.Designer.cs">
       <DependentUpon>frmForgotPass.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmREmp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmREmp.Designer.cs">
+      <DependentUpon>frmREmp.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRUser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmRUser.Designer.cs">
       <DependentUpon>frmRUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUEmp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUEmp.Designer.cs">
+      <DependentUpon>frmUEmp.cs</DependentUpon>
     </Compile>
     <Compile Include="frmUpdateUser.cs">
       <SubType>Form</SubType>
@@ -111,6 +135,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAddEmp.resx">
+      <DependentUpon>frmAddEmp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -119,9 +146,15 @@
       <DependentUpon>frmForgotPass.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmREmp.resx">
+      <DependentUpon>frmREmp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmRUser.resx">
       <DependentUpon>frmRUser.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUEmp.resx">
+      <DependentUpon>frmUEmp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUpdateUser.resx">
       <DependentUpon>frmUpdateUser.cs</DependentUpon>
@@ -141,6 +174,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

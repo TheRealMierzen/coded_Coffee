@@ -48,7 +48,7 @@ namespace _213
                 txtCUser.Clear();
                 txtNUser.Clear();
                 txtCNUser.Clear();
-                txtAuthLevel.Clear();
+               
                 txtLvlUser.Clear();
                 txtUserEmail.Clear();
                 txtCNEmail.Clear();
@@ -63,7 +63,7 @@ namespace _213
                 lblCNUser.Visible = false;
 
                 lblLevel.Visible = false;
-                txtAuthLevel.Visible = false;
+                cbLevel.Visible = false;
                 lblLvlUser.Visible = false;
                 txtLvlUser.Visible = false;
 
@@ -76,7 +76,7 @@ namespace _213
                 txtCUser.Clear();
                 txtNUser.Clear();
                 txtCNUser.Clear();
-                txtAuthLevel.Clear();
+       
                 txtLvlUser.Clear();
                 txtUserEmail.Clear();
                 txtCNEmail.Clear();
@@ -101,7 +101,7 @@ namespace _213
                 lblNEmail.Visible = false;
 
                 lblLevel.Visible = false;
-                txtAuthLevel.Visible = false;
+                cbLevel.Visible = false;
                 lblLvlUser.Visible = false;
                 txtLvlUser.Visible = false;
 
@@ -129,14 +129,14 @@ namespace _213
                 lblNEmail.Visible = false;
 
                 lblLevel.Visible = true;
-                txtAuthLevel.Visible = true;
+                cbLevel.Visible = true;
                 lblLvlUser.Visible = true;
                 txtLvlUser.Visible = true;
 
                 txtCUser.Clear();
                 txtNUser.Clear();
                 txtCNUser.Clear();
-                txtAuthLevel.Clear();
+       
                 txtLvlUser.Clear();
                 txtUserEmail.Clear();
                 txtCNEmail.Clear();
@@ -148,6 +148,9 @@ namespace _213
 
         private void frmUpdateUser_Load(object sender, EventArgs e)
         {
+
+            cbLevel.SelectedItem = "5";
+
             txtUserEmail.Visible = false;
             txtCNEmail.Visible = false;
             txtNEmail.Visible = false;
@@ -165,7 +168,7 @@ namespace _213
             lblCNUser.Visible = false;
 
             lblLevel.Visible = true;
-            txtAuthLevel.Visible = true;
+            cbLevel.Visible = true;
 
             lblLvlUser.Visible = true;
             txtLvlUser.Visible = true;
@@ -180,9 +183,9 @@ namespace _213
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if ((txtUserEmail.Text != "" && txtNEmail.Text != "" && txtCNEmail.Text != "") || (txtCUser.Text != "" && txtNUser.Text != "" && txtCNUser.Text != "") || (txtLvlUser.Text != "" && txtAuthLevel.Text != ""))
+            if ((txtUserEmail.Text != "" && txtNEmail.Text != "" && txtCNEmail.Text != "") || (txtCUser.Text != "" && txtNUser.Text != "" && txtCNUser.Text != "") || (txtLvlUser.Text != "" && cbLevel.SelectedItem.ToString() != ""))
             {
-                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     string cmdstring = "";
                     string fvalue = "", tValue = "";
@@ -218,7 +221,7 @@ namespace _213
                     }
                     else if (cbUuser.SelectedItem.ToString() == "Account level")
                     {
-                        lvl = Convert.ToInt16(txtAuthLevel.Text);
+                        lvl = Convert.ToInt16(cbLevel.SelectedItem.ToString());
                         tValue = txtLvlUser.Text;
                         cmdstring = "UPDATE Users SET authLevel = @value WHERE userName = @TValue";
 
@@ -300,23 +303,33 @@ namespace _213
 
         private void txtAuthLevel_TextChanged(object sender, EventArgs e)
         {
+            int cell;
             try
             {
-
-                if (int.Parse(txtAuthLevel.Text) > 10 || int.Parse(txtAuthLevel.Text) < 0)
-                    txtAuthLevel.Text = "";
+                cell = Convert.ToInt16(cbLevel.SelectedItem.ToString());
 
             }
             catch
             {
 
-                txtAuthLevel.Text = "";
+                try
+                {
+                    cbLevel.SelectedItem = cbLevel.SelectedItem.ToString().Substring(0, cbLevel.SelectedItem.ToString().Length - 1);
+                    cbLevel.Focus();
+                    cbLevel.SelectionStart = cbLevel.SelectedItem.ToString().Length;
+                }
+                catch
+                {
+
+                    cbLevel.SelectedItem = "";
+
+                }
 
             }
             finally
             {
 
-                if (txtLvlUser.Text != "" && txtAuthLevel.Text != "")
+                if (txtLvlUser.Text != "" && cbLevel.SelectedItem.ToString() != "")
                     btnUpdate.Enabled = true;
                 else
                     btnUpdate.Enabled = false;
@@ -353,7 +366,7 @@ namespace _213
 
         private void txtLvlUser_TextChanged(object sender, EventArgs e)
         {
-            if (txtLvlUser.Text != "" && txtAuthLevel.Text != "")
+            if (txtLvlUser.Text != "" && cbLevel.SelectedItem.ToString() != "")
                 btnUpdate.Enabled = true;
             else
                 btnUpdate.Enabled = false;

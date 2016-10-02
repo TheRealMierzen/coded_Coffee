@@ -74,7 +74,7 @@ namespace _213
                                 string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                                 string hsh = BCrypt.Net.BCrypt.HashPassword(newPass, saltyness);
 
-                                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                                 {
                                     string cmdstring = "UPDATE Users SET password = @pas, salt = @salty WHERE Username = @user";
 
@@ -87,7 +87,7 @@ namespace _213
                                         comm.Parameters.AddWithValue("@user", user);
                                         comm.ExecuteNonQuery();
 
-                                        using (SqlConnection con1 = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                                        using (SqlConnection con1 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                                         {
                                             string cmdstring1 = "SELECT email_address FROM Users WHERE userName = @username";
 
@@ -147,7 +147,7 @@ namespace _213
         private bool checkUsername(string user)
         {
 
-            using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
                 con.Open();
                 string cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Users WHERE userName = @user";

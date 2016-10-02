@@ -153,8 +153,10 @@
             // 
             // frmRUser
             // 
+            this.AcceptButton = this.btnRAcc;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnRUCancel;
             this.ClientSize = new System.Drawing.Size(527, 186);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtCRUser);

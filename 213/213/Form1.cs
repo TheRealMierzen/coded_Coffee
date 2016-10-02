@@ -299,7 +299,9 @@ namespace _213
 
         private void btnAddEmp_Click(object sender, EventArgs e)
         {
-            
+            frmAddEmp aEmp = new frmAddEmp(user);
+            aEmp.ShowDialog();
+
         }
 
         private void btnAdmLogout_Click(object sender, EventArgs e)
@@ -309,11 +311,29 @@ namespace _213
 
             gebruik.log(local, user, "logout");
             lf.Show();
+            this.Close();
             lf.TopMost = true;
         }
 
+        private void btnUEmp_Click(object sender, EventArgs e)
+        {
+            frmUEmp uEmp = new frmUEmp(user);
+            uEmp.ShowDialog();
+        }
 
+        private void btnREmp_Click(object sender, EventArgs e)
+        {
+            frmREmp rEmp = new frmREmp(user);
+            rEmp.ShowDialog();
+        }
 
+        private void btnMPromo_Click(object sender, EventArgs e)
+        {
+
+            frmAdminPromos f1 = new frmAdminPromos();
+            f1.ShowDialog();
+
+        }
         //////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

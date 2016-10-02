@@ -24,6 +24,14 @@ namespace _213
             user = usert;
         }
 
+        public frmRUser(string usert, string rrUser)
+        {
+            InitializeComponent();
+            user = usert;
+            txtRUser.Text = rrUser;
+            
+        }
+
         string user;
 
         private void frmRUser_Load(object sender, EventArgs e)
@@ -47,7 +55,7 @@ namespace _213
                 {
                     if (!lf.checkUser(txtCRUser.Text))
                     {
-                        using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                        using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                         {
                             string cmdstring = "DELETE FROM Users WHERE username = @user";
                             using (SqlCommand comm = new SqlCommand(cmdstring, con))
