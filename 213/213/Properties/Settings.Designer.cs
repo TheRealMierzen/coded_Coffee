@@ -34,15 +34,5 @@ namespace _213.Properties {
                 this["Branch"] = value;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True")]
-        public string stockI_TConnectionString {
-            get {
-                return ((string)(this["stockI_TConnectionString"]));
-            }
-        }
     }
 }

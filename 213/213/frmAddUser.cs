@@ -81,18 +81,23 @@ namespace _213
                                 dr.Close();
                                 con.Close();
 
-                                if (other.Mail(mail, "New user added", "A new user has been added.\r\n\r\nThe new account's details are:\r\n\tUsername: " + txtNUser.Text + "\r\n\tPassword: " + ps + "\r\n\tAccount Level: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nPlease keep this email for future reference."))
+                                if (other.Mail(txtEmail.Text, "StockI.T account created!", "Your stockI.T account has been created and you can now use the software using the following details:\r\n\r\n\tUsername: " + txtNUser.Text + "\r\n\tYour account level is: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nYour account level determines which tasks you can perform on the system.\r\n\r\nPlease keep this email for future reference."))
                                 {
-                                    if (lf.addUser(txtNUser.Text, ps, cbLevel.SelectedItem.ToString(), txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
+                                    if (other.Mail(mail, "New user added", "A new user has been added.\r\n\r\nThe new account's details are:\r\n\tUsername: " + txtNUser.Text + "\r\n\tAccount Level: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nIf you did not authorize this account, you can remove the new account at any time."))
                                     {
-                                        MessageBox.Show("The account has been created. Please consult the adminstrator for the new account's password.");
+                                        if (lf.addUser(txtNUser.Text, ps, cbLevel.SelectedItem.ToString(), txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
+                                        {
+                                            MessageBox.Show("The account has been created. The account's password has been sent to the new user's email address.");
 
-                                        gebruik.addAction(user);
-                                        DateTime local = DateTime.Now;
-                                        gebruik.log(local,user,"added new user");
+                                            gebruik.addAction(user);
+                                            DateTime local = DateTime.Now;
+                                            gebruik.log(local, user, "added new user");
 
-                                        this.Close();
+                                            this.Close();
+                                        }
                                     }
+                                    else
+                                        MessageBox.Show("The user was not added. Please check your internet connection and try again.");
                                 }
                                 else
                                     MessageBox.Show("The user was not added. Please check your internet connection and try again.");

@@ -26,6 +26,18 @@ namespace _213
             lf.Hide();
         }
 
+        public Form1(string userName, loginForm lf, bool first, string em)
+        {
+            InitializeComponent();
+            user = userName;
+            lf.Hide();
+            FR = first;
+            email = em;
+        }
+
+        private bool FR;
+        private string email;
+
         private string user;
         private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
         private gebruik util = new gebruik();
@@ -77,6 +89,13 @@ namespace _213
             else
                 btnAdminShow.Visible = false;
 
+            if(FR)
+            {
+                frmMessages placeHolder = new frmMessages("The system has detected that this is a new branch. Please enter the branch manager's information on the next form.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                frmAddEmp f1 = new frmAddEmp(user, email);
+                f1.ShowDialog();
+
+            }
 
         }
 
@@ -330,7 +349,7 @@ namespace _213
         private void btnMPromo_Click(object sender, EventArgs e)
         {
 
-            frmAdminPromos f1 = new frmAdminPromos();
+            frmAdminPromos f1 = new frmAdminPromos(user);
             f1.ShowDialog();
 
         }

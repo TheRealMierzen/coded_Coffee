@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlClient;
 
+
 namespace _213
 {
     public partial class loginForm : Form
@@ -24,6 +25,7 @@ namespace _213
         private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));//verander as networking reg is
         private int attempts = 0;
         private string prev;
+        private bool firstrun = false;
 
         private void loginForm_Load(object sender, EventArgs e)
         {
@@ -38,20 +40,28 @@ namespace _213
 
             if (TOD < EOD)
                 button2.Enabled = false;
+            else
+                button2.Enabled = true;
 
-            if (!checkFile())
+            if (Properties.Settings.Default.Branch == "-")
             {
-                //kort background runner
+                //kort backgroundrunner
                 gebruik util = new gebruik();
                 util.setLocation();
                 checkBranch(Properties.Settings.Default.Branch);
+                firstrun = true;
+
+            }
+            
+            if (!checkFile())
+            {
 
                 //Create user and password file
                 if (MessageBox.Show("It appears that this is the first time you're using stockI.T. Would you like to create an administrative account now?", "Info",MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
 
-                    textBox1.Enabled = true;
-                    textBox2.Enabled = true;
+                    textbox1.Enabled = true;
+                    txtLPass.Enabled = true;
                     btnCreate.Visible = true;
                     txtLEmail.Visible = true;             
 
@@ -59,19 +69,20 @@ namespace _213
                 else
                 {
 
-                    textBox1.Enabled = false;
-                    textBox2.Enabled = false;
+                    textbox1.Enabled = false;
+                    txtLPass.Enabled = false;
                     txtLEmail.Visible = false;
 
                 }
 
             }
-            else
+            else 
             {
-                
-                    textBox1.Enabled = true;
-                    textBox2.Enabled = true;
-                    button1.Visible = true;
+                checkPromos();
+                textbox1.Enabled = true;
+                txtLPass.Enabled = true;
+                button1.Visible = true;
+                textbox1.Focus();
   
             }
         }
@@ -90,6 +101,7 @@ namespace _213
                     comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                     int records = Convert.ToInt32(comm.ExecuteScalar());
                     con.Close();
+
                     if (records > 0)
                         return true;
                     else
@@ -231,14 +243,14 @@ namespace _213
         {
             if (btnCreate.Visible == true)
             {
-                if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com"))
+                if (textbox1.Text != "" && txtLPass.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com"))
                     btnCreate.Enabled = true;
                 else
                     btnCreate.Enabled = false;
             }
             else
             {
-                if (textBox1.Text != "" && textBox2.Text != "")
+                if (textbox1.Text != "" && txtLPass.Text != "")
                     button1.Enabled = true;
                 else
                     button1.Enabled = false;
@@ -255,14 +267,17 @@ namespace _213
         //Create user
         private void button3_Click(object sender, EventArgs e)
         {
+
+            checkBranchExist(Properties.Settings.Default.Branch);
+
             bool valid = true;
             bool tooShort = false;
             bool adres = false;
 
-            for(int c = 0; c < textBox2.Text.Length; c++)
+            for(int c = 0; c < txtLPass.Text.Length; c++)
             {
 
-                if (!checkUser(textBox1.Text))
+                if (!checkUser(textbox1.Text))
                 {
                     valid = false;
                     
@@ -270,26 +285,27 @@ namespace _213
 
             }
 
-            if (textBox2.Text.Length != 8)
+            if (txtLPass.Text.Length != 8)
                 tooShort = true;
 
-            if (textBox1.Text != "")
+            if (textbox1.Text != "")
                 adres = true;
 
             if (valid && !tooShort && adres)
             {
-                if (addUser(textBox1.Text, textBox2.Text, "", txtLEmail.Text, "admin", "HUEHUEHUE"))
+                if (addUser(textbox1.Text, txtLPass.Text, "", txtLEmail.Text, "admin", "HUEHUEHUE"))
                 {
                     MessageBox.Show("The account has succesfully been created.", "Info");
                     txtLEmail.Visible = false;
-                    textBox2.Clear();
+                    txtLPass.Clear();
+                    txtLPass.Focus();
                 }
             }
             else if(!valid)
                 MessageBox.Show("The username you entered is already taken. Please enter another username and try again.", "Error");
-            else if(textBox2.Text.Length < 8)
+            else if(txtLPass.Text.Length < 8)
                 MessageBox.Show("The entered password is too short. Please choose another password. (Password must be 8 characters in length.)", "Error");
-            else if(textBox1.Text == "")
+            else if(textbox1.Text == "")
                 MessageBox.Show("It appears that no email address was entered. Please enter one and attempt to create the account again.", "Error");
             else
                 MessageBox.Show("The entered password is too long. Please choose another password. (Password must be 8 characters in length.)","Error");
@@ -299,32 +315,30 @@ namespace _213
         private void button1_Click(object sender, EventArgs e)
         {
 
-            if (validateUser(textBox1.Text, textBox2.Text))
+            if (validateUser(textbox1.Text, txtLPass.Text))
             {
 
-                Form1 f1 = new Form1(textBox1.Text, this);
+                Form1 f1 = new Form1(textbox1.Text, this, firstrun, txtLEmail.Text);
                 f1.Show();
 
                 DateTime local = DateTime.Now;
-                gebruik.log(local, textBox1.Text, "login");
+                gebruik.log(local, textbox1.Text, "logged in");
 
                 using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
 
                     conn.Open();
-                    SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + textBox1.Text + "'", conn);
+                    SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + textbox1.Text + "'", conn);
                     uLogin.ExecuteNonQuery();
                     conn.Close();
 
                 }
 
-                MessageBox.Show("Welcome " + textBox1.Text);
-
             }
             else
             {
                 
-                if (prev == textBox1.Text)
+                if (prev == textbox1.Text)
                     attempts += 1;
                 else
                     attempts = 1;
@@ -333,13 +347,13 @@ namespace _213
                     btnLForgotPass.Visible = true;
                 
 
-                prev = textBox1.Text;
+                prev = textbox1.Text;
 
                 MessageBox.Show("The username or password you entered was incorrect", "Error");
 
-                textBox2.Text = "";
-                textBox1.Text = "";
-                textBox1.Focus();
+                txtLPass.Text = "";
+                textbox1.Text = "";
+                textbox1.Focus();
 
             }
 
@@ -380,8 +394,8 @@ namespace _213
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            textBox1.Text = "";
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "")
+            textbox1.Text = "";
+            if (textbox1.Text != "" && txtLPass.Text != "" && txtLEmail.Text != "")
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
@@ -402,7 +416,7 @@ namespace _213
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
+            if (textbox1.Text != "" && txtLPass.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
@@ -410,7 +424,7 @@ namespace _213
 
         private void textBox2_Leave(object sender, EventArgs e)
         {
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
+            if (textbox1.Text != "" && txtLPass.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
@@ -418,7 +432,7 @@ namespace _213
 
         private void txtLEmail_Leave(object sender, EventArgs e)
         {
-            if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
+            if (textbox1.Text != "" && txtLPass.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
                 btnCreate.Enabled = true;
             else
                 btnCreate.Enabled = false;
@@ -426,26 +440,13 @@ namespace _213
 
         private void txtLEmail_TextChanged(object sender, EventArgs e)
         {
-            if (txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
-                btnCreate.Enabled = true;
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (btnCreate.Visible == true)
-            {
-                if (textBox1.Text != "" && textBox2.Text != "" && txtLEmail.Text != "" && txtLEmail.Text.EndsWith(".com") && txtLEmail.Text.Length > 7)
-                    btnCreate.Enabled = true;
-                else
-                    btnCreate.Enabled = false;
-            }
-            else
-            {
-                if (textBox1.Text != "" && textBox2.Text != "")
-                    button1.Enabled = true;
-                else
-                    button1.Enabled = false;
-            }
+            
+
         }
 
 
@@ -458,6 +459,150 @@ namespace _213
                 Properties.Settings.Default.Branch = Properties.Settings.Default.Branch.Remove(Properties.Settings.Default.Branch.IndexOf(@"'"), 1);
                 Properties.Settings.Default.Save();
 
+                
+
+            }
+
+        }
+
+        private void checkBranchExist(string b)
+        {
+
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                con.Open();
+
+                SqlCommand cAddUser = new SqlCommand("SELECT COUNT(*) FROM Branches WHERE branch_location= '" + Properties.Settings.Default.Branch + "'", con);
+                int recs = (int)cAddUser.ExecuteScalar();
+                con.Close();
+
+                if (recs == 0)
+                {
+                    string cmdstring = "INSERT INTO Branches (branch_id, branch_Capacity, current_capacity, branch_location, branch_employeenum, manager_name, manager_email, manager_cell) VALUES (@branch_id, @branch_cap, @branch_cCap, @branch_location, @branch_emp, @manName, @manEmail, @manCell)";
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        con.Open();
+                        gebruik other = new gebruik();
+                        string branchid = other.generateLuhn();
+                        while(branchid.Length != 10)
+                        {
+
+                            branchid = other.generateLuhn();
+
+                        }
+                        comm.Parameters.AddWithValue("@branch_id", branchid);
+                        comm.Parameters.AddWithValue("@branch_cap", 50000);
+                        comm.Parameters.AddWithValue("@branch_cCap", 0);
+                        comm.Parameters.AddWithValue("@branch_location", Properties.Settings.Default.Branch);
+                        comm.Parameters.AddWithValue("@branch_emp", 0);
+                        comm.Parameters.AddWithValue("@manName", "-");
+                        comm.Parameters.AddWithValue("@manEmail", txtLEmail.Text);
+                        comm.Parameters.AddWithValue("@manCell", "-");
+
+                        comm.ExecuteNonQuery();
+                        con.Close();
+
+                    }
+                }
+            }
+
+        }
+
+        private void txtLPass_TextChanged(object sender, EventArgs e)
+        {
+            if (textbox1.Text != "" && txtLPass.Text != "")
+                button1.Enabled = true;
+            else
+                button1.Enabled = false;
+        }
+
+        private void textbox1_TextChanged_1(object sender, EventArgs e)
+        {
+            if (textbox1.Text != "" && txtLPass.Text != "")
+                button1.Enabled = true;
+            else
+                button1.Enabled = false;
+        }
+
+        private void checkPromos()
+        {
+
+            using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+
+                string cmdstring = "SELECT promo_id, start_date, end_date, quantity FROM Promotions WHERE branch = @branch";
+                using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                {
+                    conUser.Open();
+                    commUser.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                    using (var reader = commUser.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            string id = reader.GetString(0);
+                            DateTime start = reader.GetDateTime(1);
+                            DateTime end = reader.GetDateTime(2);
+                            int quantity = reader.GetInt32(3);
+
+                            if (quantity == 0 || DateTime.Now > end)
+                                removePromo(id);
+
+                            if (DateTime.Now > start && DateTime.Now < end)
+                                setPromoActive(id);
+                           
+
+                        }
+
+                    }
+
+                    conUser.Close();
+                }
+            }
+
+        }
+
+        private void setPromoActive(string id)
+        {
+
+            using (SqlConnection conactive = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+
+                string cmdstring = "UPDATE Promotions SET active = @active WHERE promo_id = @id";
+                using (SqlCommand commActive = new SqlCommand(cmdstring, conactive))
+                {
+                    conactive.Open();
+                    commActive.Parameters.AddWithValue("@active",1);
+                    commActive.Parameters.AddWithValue("@id", id);
+
+                    commActive.ExecuteNonQuery();
+
+                    conactive.Close();
+
+                    gebruik.log(DateTime.Now,id,"has been automatcaly activated");
+                }
+            }
+
+        }
+
+        private void removePromo(string id)
+        {
+
+            using (SqlConnection conRemove = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+
+                string cmdstring = "DELETE FROM Promotions WHERE promo_id = @id";
+                using (SqlCommand commRemove = new SqlCommand(cmdstring, conRemove))
+                {
+                    conRemove.Open();
+                    commRemove.Parameters.AddWithValue("@id", id);
+
+                    commRemove.ExecuteNonQuery();
+
+                    conRemove.Close();
+
+                    gebruik.log(DateTime.Now, id, "has been automatcaly removed");
+                }
             }
 
         }

@@ -35,20 +35,17 @@
             this.lblCEmail = new System.Windows.Forms.Label();
             this.lblNEmail = new System.Windows.Forms.Label();
             this.lblCNEmail = new System.Windows.Forms.Label();
-            this.txtID = new System.Windows.Forms.TextBox();
             this.txtCEmail = new System.Windows.Forms.TextBox();
             this.txtNEmail = new System.Windows.Forms.TextBox();
             this.txtCNEmail = new System.Windows.Forms.TextBox();
             this.uEmpCancel = new System.Windows.Forms.Button();
             this.btnUpdateEmp = new System.Windows.Forms.Button();
             this.dtUntil = new System.Windows.Forms.DateTimePicker();
-            this.txtPeriodID = new System.Windows.Forms.TextBox();
             this.lblPeriodId = new System.Windows.Forms.Label();
             this.lblUntil = new System.Windows.Forms.Label();
             this.txtCCell = new System.Windows.Forms.TextBox();
             this.txtNCell = new System.Windows.Forms.TextBox();
             this.txtCNCell = new System.Windows.Forms.TextBox();
-            this.txtCellID = new System.Windows.Forms.TextBox();
             this.lblCellId = new System.Windows.Forms.Label();
             this.lblCCell = new System.Windows.Forms.Label();
             this.lblNCell = new System.Windows.Forms.Label();
@@ -56,7 +53,6 @@
             this.txtNSur = new System.Windows.Forms.TextBox();
             this.txtCNSur = new System.Windows.Forms.TextBox();
             this.txtCSur = new System.Windows.Forms.TextBox();
-            this.txtSurID = new System.Windows.Forms.TextBox();
             this.lblCNSur = new System.Windows.Forms.Label();
             this.lblNSur = new System.Windows.Forms.Label();
             this.lblCSur = new System.Windows.Forms.Label();
@@ -67,8 +63,14 @@
             this.lblBranches = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TT = new System.Windows.Forms.ToolTip(this.components);
-            this.txtOID = new System.Windows.Forms.TextBox();
+            this.cbOriBranch = new System.Windows.Forms.ComboBox();
             this.lblOID = new System.Windows.Forms.Label();
+            this.lblOriBranch = new System.Windows.Forms.Label();
+            this.cbID = new System.Windows.Forms.ComboBox();
+            this.cbOID = new System.Windows.Forms.ComboBox();
+            this.cbSurID = new System.Windows.Forms.ComboBox();
+            this.cbPeriodID = new System.Windows.Forms.ComboBox();
+            this.cbCellId = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cbUEmp
@@ -133,15 +135,6 @@
             this.lblCNEmail.TabIndex = 0;
             this.lblCNEmail.Text = "Confirm new email address:";
             // 
-            // txtID
-            // 
-            this.txtID.Location = new System.Drawing.Point(256, 87);
-            this.txtID.MaxLength = 13;
-            this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(162, 22);
-            this.txtID.TabIndex = 2;
-            this.txtID.TextChanged += new System.EventHandler(this.txtID_TextChanged);
-            // 
             // txtCEmail
             // 
             this.txtCEmail.Location = new System.Drawing.Point(256, 120);
@@ -169,20 +162,20 @@
             // uEmpCancel
             // 
             this.uEmpCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.uEmpCancel.Location = new System.Drawing.Point(228, 236);
+            this.uEmpCancel.Location = new System.Drawing.Point(237, 236);
             this.uEmpCancel.Name = "uEmpCancel";
             this.uEmpCancel.Size = new System.Drawing.Size(130, 36);
-            this.uEmpCancel.TabIndex = 7;
+            this.uEmpCancel.TabIndex = 8;
             this.uEmpCancel.Text = "Cancel";
             this.uEmpCancel.UseVisualStyleBackColor = true;
             // 
             // btnUpdateEmp
             // 
             this.btnUpdateEmp.Enabled = false;
-            this.btnUpdateEmp.Location = new System.Drawing.Point(70, 236);
+            this.btnUpdateEmp.Location = new System.Drawing.Point(79, 236);
             this.btnUpdateEmp.Name = "btnUpdateEmp";
             this.btnUpdateEmp.Size = new System.Drawing.Size(134, 36);
-            this.btnUpdateEmp.TabIndex = 6;
+            this.btnUpdateEmp.TabIndex = 7;
             this.btnUpdateEmp.Text = "Update employee";
             this.btnUpdateEmp.UseVisualStyleBackColor = true;
             this.btnUpdateEmp.Click += new System.EventHandler(this.btnUpdateEmp_Click);
@@ -195,15 +188,6 @@
             this.dtUntil.Size = new System.Drawing.Size(162, 22);
             this.dtUntil.TabIndex = 3;
             this.dtUntil.ValueChanged += new System.EventHandler(this.dtUntil_ValueChanged);
-            // 
-            // txtPeriodID
-            // 
-            this.txtPeriodID.Location = new System.Drawing.Point(256, 87);
-            this.txtPeriodID.MaxLength = 13;
-            this.txtPeriodID.Name = "txtPeriodID";
-            this.txtPeriodID.Size = new System.Drawing.Size(162, 22);
-            this.txtPeriodID.TabIndex = 2;
-            this.txtPeriodID.TextChanged += new System.EventHandler(this.txtPeriodID_TextChanged);
             // 
             // lblPeriodId
             // 
@@ -249,15 +233,6 @@
             this.txtCNCell.Size = new System.Drawing.Size(162, 22);
             this.txtCNCell.TabIndex = 5;
             this.txtCNCell.TextChanged += new System.EventHandler(this.txtCNCell_TextChanged);
-            // 
-            // txtCellID
-            // 
-            this.txtCellID.Location = new System.Drawing.Point(256, 87);
-            this.txtCellID.MaxLength = 13;
-            this.txtCellID.Name = "txtCellID";
-            this.txtCellID.Size = new System.Drawing.Size(162, 22);
-            this.txtCellID.TabIndex = 2;
-            this.txtCellID.TextChanged += new System.EventHandler(this.txtCellID_TextChanged);
             // 
             // lblCellId
             // 
@@ -319,15 +294,6 @@
             this.txtCSur.TabIndex = 3;
             this.txtCSur.TextChanged += new System.EventHandler(this.txtCSur_TextChanged);
             // 
-            // txtSurID
-            // 
-            this.txtSurID.Location = new System.Drawing.Point(256, 87);
-            this.txtSurID.MaxLength = 13;
-            this.txtSurID.Name = "txtSurID";
-            this.txtSurID.Size = new System.Drawing.Size(162, 22);
-            this.txtSurID.TabIndex = 2;
-            this.txtSurID.TextChanged += new System.EventHandler(this.txtSurID_TextChanged);
-            // 
             // lblCNSur
             // 
             this.lblCNSur.AutoSize = true;
@@ -367,11 +333,11 @@
             // cbUser
             // 
             this.cbUser.AutoSize = true;
-            this.cbUser.Location = new System.Drawing.Point(26, 155);
+            this.cbUser.Location = new System.Drawing.Point(79, 189);
             this.cbUser.Name = "cbUser";
-            this.cbUser.Size = new System.Drawing.Size(108, 21);
-            this.cbUser.TabIndex = 3;
-            this.cbUser.Text = "System user";
+            this.cbUser.Size = new System.Drawing.Size(125, 21);
+            this.cbUser.TabIndex = 5;
+            this.cbUser.Text = "Is stockI.T user";
             this.cbUser.UseVisualStyleBackColor = true;
             // 
             // cbBranches
@@ -381,41 +347,41 @@
             this.cbBranches.FormattingEnabled = true;
             this.cbBranches.Items.AddRange(new object[] {
             "I don\'t want to move the employee"});
-            this.cbBranches.Location = new System.Drawing.Point(256, 120);
+            this.cbBranches.Location = new System.Drawing.Point(256, 153);
             this.cbBranches.Name = "cbBranches";
             this.cbBranches.Size = new System.Drawing.Size(162, 24);
             this.cbBranches.Sorted = true;
-            this.cbBranches.TabIndex = 2;
+            this.cbBranches.TabIndex = 4;
             this.TT.SetToolTip(this.cbBranches, "Please leave this field empty if you do not \r\nwish to move this employee to anoth" +
         "er branch.");
             // 
             // cbTemp
             // 
             this.cbTemp.AutoSize = true;
-            this.cbTemp.Location = new System.Drawing.Point(26, 188);
+            this.cbTemp.Location = new System.Drawing.Point(237, 189);
             this.cbTemp.Name = "cbTemp";
             this.cbTemp.Size = new System.Drawing.Size(173, 21);
-            this.cbTemp.TabIndex = 4;
+            this.cbTemp.TabIndex = 6;
             this.cbTemp.Text = "Is temporary employee";
             this.cbTemp.UseVisualStyleBackColor = true;
             // 
             // lblBranches
             // 
             this.lblBranches.AutoSize = true;
-            this.lblBranches.Location = new System.Drawing.Point(23, 125);
+            this.lblBranches.Location = new System.Drawing.Point(23, 156);
             this.lblBranches.Name = "lblBranches";
-            this.lblBranches.Size = new System.Drawing.Size(163, 17);
+            this.lblBranches.Size = new System.Drawing.Size(131, 17);
             this.lblBranches.TabIndex = 15;
-            this.lblBranches.Text = "Move to another branch:";
+            this.lblBranches.Text = "Destination branch:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(47, 57);
+            this.label3.Location = new System.Drawing.Point(23, 57);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(354, 17);
+            this.label3.Size = new System.Drawing.Size(387, 17);
             this.label3.TabIndex = 16;
-            this.label3.Text = "*Please be sure to fill all fields as appropriate per user*";
+            this.label3.Text = "*Please be sure to fill all fields as appropriate per employee*";
             // 
             // TT
             // 
@@ -427,14 +393,18 @@
             this.TT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.TT.ToolTipTitle = "Need help?";
             // 
-            // txtOID
+            // cbOriBranch
             // 
-            this.txtOID.Location = new System.Drawing.Point(256, 87);
-            this.txtOID.MaxLength = 13;
-            this.txtOID.Name = "txtOID";
-            this.txtOID.Size = new System.Drawing.Size(162, 22);
-            this.txtOID.TabIndex = 17;
-            this.txtOID.TextChanged += new System.EventHandler(this.txtOID_TextChanged);
+            this.cbOriBranch.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbOriBranch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbOriBranch.FormattingEnabled = true;
+            this.cbOriBranch.Location = new System.Drawing.Point(256, 120);
+            this.cbOriBranch.Name = "cbOriBranch";
+            this.cbOriBranch.Size = new System.Drawing.Size(162, 24);
+            this.cbOriBranch.Sorted = true;
+            this.cbOriBranch.TabIndex = 3;
+            this.TT.SetToolTip(this.cbOriBranch, "If this field is disabled, you do not have permission to move employees from othe" +
+        "r branches.");
             // 
             // lblOID
             // 
@@ -445,15 +415,90 @@
             this.lblOID.TabIndex = 18;
             this.lblOID.Text = "Employee ID/ ID nr:";
             // 
+            // lblOriBranch
+            // 
+            this.lblOriBranch.AutoSize = true;
+            this.lblOriBranch.Location = new System.Drawing.Point(23, 125);
+            this.lblOriBranch.Name = "lblOriBranch";
+            this.lblOriBranch.Size = new System.Drawing.Size(126, 17);
+            this.lblOriBranch.TabIndex = 20;
+            this.lblOriBranch.Text = "Move from branch:";
+            // 
+            // cbID
+            // 
+            this.cbID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbID.FormattingEnabled = true;
+            this.cbID.Location = new System.Drawing.Point(256, 87);
+            this.cbID.Name = "cbID";
+            this.cbID.Size = new System.Drawing.Size(162, 24);
+            this.cbID.Sorted = true;
+            this.cbID.TabIndex = 2;
+            this.cbID.SelectedIndexChanged += new System.EventHandler(this.cbID_SelectedIndexChanged);
+            // 
+            // cbOID
+            // 
+            this.cbOID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbOID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbOID.FormattingEnabled = true;
+            this.cbOID.Location = new System.Drawing.Point(256, 87);
+            this.cbOID.Name = "cbOID";
+            this.cbOID.Size = new System.Drawing.Size(162, 24);
+            this.cbOID.Sorted = true;
+            this.cbOID.TabIndex = 2;
+            this.cbOID.SelectedIndexChanged += new System.EventHandler(this.cbOID_SelectedIndexChanged);
+            // 
+            // cbSurID
+            // 
+            this.cbSurID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbSurID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbSurID.FormattingEnabled = true;
+            this.cbSurID.Location = new System.Drawing.Point(256, 87);
+            this.cbSurID.Name = "cbSurID";
+            this.cbSurID.Size = new System.Drawing.Size(162, 24);
+            this.cbSurID.Sorted = true;
+            this.cbSurID.TabIndex = 2;
+            this.cbSurID.SelectedIndexChanged += new System.EventHandler(this.cbSurID_SelectedIndexChanged);
+            // 
+            // cbPeriodID
+            // 
+            this.cbPeriodID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbPeriodID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbPeriodID.FormattingEnabled = true;
+            this.cbPeriodID.Location = new System.Drawing.Point(256, 87);
+            this.cbPeriodID.Name = "cbPeriodID";
+            this.cbPeriodID.Size = new System.Drawing.Size(162, 24);
+            this.cbPeriodID.Sorted = true;
+            this.cbPeriodID.TabIndex = 2;
+            this.cbPeriodID.SelectedIndexChanged += new System.EventHandler(this.cbPeriodID_SelectedIndexChanged);
+            // 
+            // cbCellId
+            // 
+            this.cbCellId.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbCellId.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbCellId.FormattingEnabled = true;
+            this.cbCellId.Location = new System.Drawing.Point(256, 87);
+            this.cbCellId.Name = "cbCellId";
+            this.cbCellId.Size = new System.Drawing.Size(162, 24);
+            this.cbCellId.Sorted = true;
+            this.cbCellId.TabIndex = 2;
+            this.cbCellId.SelectedIndexChanged += new System.EventHandler(this.cbCellId_SelectedIndexChanged);
+            // 
             // frmUEmp
             // 
             this.AcceptButton = this.btnUpdateEmp;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.uEmpCancel;
-            this.ClientSize = new System.Drawing.Size(439, 294);
+            this.ClientSize = new System.Drawing.Size(455, 291);
+            this.Controls.Add(this.cbCellId);
+            this.Controls.Add(this.cbPeriodID);
+            this.Controls.Add(this.cbSurID);
+            this.Controls.Add(this.cbOID);
+            this.Controls.Add(this.cbID);
+            this.Controls.Add(this.lblOriBranch);
+            this.Controls.Add(this.cbOriBranch);
             this.Controls.Add(this.lblOID);
-            this.Controls.Add(this.txtOID);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblBranches);
             this.Controls.Add(this.cbTemp);
@@ -463,7 +508,6 @@
             this.Controls.Add(this.lblCSur);
             this.Controls.Add(this.lblNSur);
             this.Controls.Add(this.lblCNSur);
-            this.Controls.Add(this.txtSurID);
             this.Controls.Add(this.txtCSur);
             this.Controls.Add(this.txtCNSur);
             this.Controls.Add(this.txtNSur);
@@ -471,12 +515,10 @@
             this.Controls.Add(this.lblNCell);
             this.Controls.Add(this.lblCCell);
             this.Controls.Add(this.lblCellId);
-            this.Controls.Add(this.txtCellID);
             this.Controls.Add(this.txtCNCell);
             this.Controls.Add(this.txtNCell);
             this.Controls.Add(this.txtCCell);
             this.Controls.Add(this.lblUntil);
-            this.Controls.Add(this.txtPeriodID);
             this.Controls.Add(this.lblPeriodId);
             this.Controls.Add(this.dtUntil);
             this.Controls.Add(this.uEmpCancel);
@@ -484,7 +526,6 @@
             this.Controls.Add(this.txtCNEmail);
             this.Controls.Add(this.txtNEmail);
             this.Controls.Add(this.txtCEmail);
-            this.Controls.Add(this.txtID);
             this.Controls.Add(this.lblCNEmail);
             this.Controls.Add(this.lblNEmail);
             this.Controls.Add(this.lblCEmail);
@@ -510,7 +551,6 @@
         private System.Windows.Forms.TextBox txtCNEmail;
         private System.Windows.Forms.TextBox txtNEmail;
         private System.Windows.Forms.TextBox txtCEmail;
-        private System.Windows.Forms.TextBox txtID;
         private System.Windows.Forms.Label lblCNEmail;
         private System.Windows.Forms.Label lblNEmail;
         private System.Windows.Forms.Label lblCEmail;
@@ -519,12 +559,10 @@
         private System.Windows.Forms.Button btnUpdateEmp;
         private System.Windows.Forms.Label lblUntil;
         private System.Windows.Forms.Label lblPeriodId;
-        private System.Windows.Forms.TextBox txtPeriodID;
         private System.Windows.Forms.DateTimePicker dtUntil;
         private System.Windows.Forms.TextBox txtCCell;
         private System.Windows.Forms.TextBox txtNCell;
         private System.Windows.Forms.TextBox txtCNCell;
-        private System.Windows.Forms.TextBox txtCellID;
         private System.Windows.Forms.Label lblCellId;
         private System.Windows.Forms.Label lblCCell;
         private System.Windows.Forms.Label lblNCell;
@@ -532,7 +570,6 @@
         private System.Windows.Forms.TextBox txtNSur;
         private System.Windows.Forms.TextBox txtCNSur;
         private System.Windows.Forms.TextBox txtCSur;
-        private System.Windows.Forms.TextBox txtSurID;
         private System.Windows.Forms.Label lblCNSur;
         private System.Windows.Forms.Label lblNSur;
         private System.Windows.Forms.Label lblCSur;
@@ -543,7 +580,13 @@
         private System.Windows.Forms.Label lblBranches;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolTip TT;
-        private System.Windows.Forms.TextBox txtOID;
         private System.Windows.Forms.Label lblOID;
+        private System.Windows.Forms.ComboBox cbOriBranch;
+        private System.Windows.Forms.Label lblOriBranch;
+        private System.Windows.Forms.ComboBox cbID;
+        private System.Windows.Forms.ComboBox cbSurID;
+        private System.Windows.Forms.ComboBox cbPeriodID;
+        private System.Windows.Forms.ComboBox cbCellId;
+        private System.Windows.Forms.ComboBox cbOID;
     }
 }

@@ -35,12 +35,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.gbEmpDetails = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtEmpID = new System.Windows.Forms.TextBox();
             this.gbContact = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtEmpCell = new System.Windows.Forms.TextBox();
             this.txtEmpEmail = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.gbEmplDetails = new System.Windows.Forms.GroupBox();
+            this.cbIsUser = new System.Windows.Forms.CheckBox();
             this.gbEmpType = new System.Windows.Forms.GroupBox();
             this.rbTemp = new System.Windows.Forms.RadioButton();
             this.rbManager = new System.Windows.Forms.RadioButton();
@@ -49,11 +52,8 @@
             this.dtEnd = new System.Windows.Forms.DateTimePicker();
             this.dtStart = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
-            this.cbIsUser = new System.Windows.Forms.CheckBox();
             this.btnAddEmp = new System.Windows.Forms.Button();
             this.btnCancelEmp = new System.Windows.Forms.Button();
-            this.txtEmpID = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.gbEmpDetails.SuspendLayout();
             this.gbContact.SuspendLayout();
             this.gbEmplDetails.SuspendLayout();
@@ -124,10 +124,28 @@
             this.gbEmpDetails.Controls.Add(this.txtEmpRSAID);
             this.gbEmpDetails.Location = new System.Drawing.Point(16, 12);
             this.gbEmpDetails.Name = "gbEmpDetails";
-            this.gbEmpDetails.Size = new System.Drawing.Size(431, 169);
+            this.gbEmpDetails.Size = new System.Drawing.Size(397, 169);
             this.gbEmpDetails.TabIndex = 1;
             this.gbEmpDetails.TabStop = false;
             this.gbEmpDetails.Text = "New employee details";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(27, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(91, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Employee ID:";
+            // 
+            // txtEmpID
+            // 
+            this.txtEmpID.Location = new System.Drawing.Point(219, 35);
+            this.txtEmpID.MaxLength = 10;
+            this.txtEmpID.Name = "txtEmpID";
+            this.txtEmpID.Size = new System.Drawing.Size(146, 22);
+            this.txtEmpID.TabIndex = 2;
+            this.txtEmpID.TextChanged += new System.EventHandler(this.txtEmpID_TextChanged);
             // 
             // gbContact
             // 
@@ -137,7 +155,7 @@
             this.gbContact.Controls.Add(this.label6);
             this.gbContact.Location = new System.Drawing.Point(16, 187);
             this.gbContact.Name = "gbContact";
-            this.gbContact.Size = new System.Drawing.Size(431, 109);
+            this.gbContact.Size = new System.Drawing.Size(397, 109);
             this.gbContact.TabIndex = 6;
             this.gbContact.TabStop = false;
             this.gbContact.Text = "Contact details";
@@ -187,10 +205,21 @@
             this.gbEmplDetails.Controls.Add(this.label9);
             this.gbEmplDetails.Location = new System.Drawing.Point(16, 302);
             this.gbEmplDetails.Name = "gbEmplDetails";
-            this.gbEmplDetails.Size = new System.Drawing.Size(431, 235);
+            this.gbEmplDetails.Size = new System.Drawing.Size(397, 235);
             this.gbEmplDetails.TabIndex = 9;
             this.gbEmplDetails.TabStop = false;
             this.gbEmplDetails.Text = "Employment details:";
+            // 
+            // cbIsUser
+            // 
+            this.cbIsUser.AutoSize = true;
+            this.cbIsUser.Location = new System.Drawing.Point(30, 198);
+            this.cbIsUser.Name = "cbIsUser";
+            this.cbIsUser.Size = new System.Drawing.Size(125, 21);
+            this.cbIsUser.TabIndex = 16;
+            this.cbIsUser.Text = "Is stockI.T user";
+            this.cbIsUser.UseVisualStyleBackColor = true;
+            this.cbIsUser.CheckedChanged += new System.EventHandler(this.cbIsUser_CheckedChanged);
             // 
             // gbEmpType
             // 
@@ -243,10 +272,9 @@
             // 
             // lblEndDate
             // 
-            this.lblEndDate.AutoSize = true;
-            this.lblEndDate.Location = new System.Drawing.Point(216, 126);
+            this.lblEndDate.Location = new System.Drawing.Point(216, 105);
             this.lblEndDate.Name = "lblEndDate";
-            this.lblEndDate.Size = new System.Drawing.Size(173, 17);
+            this.lblEndDate.Size = new System.Drawing.Size(149, 38);
             this.lblEndDate.TabIndex = 0;
             this.lblEndDate.Text = "End date of employement:";
             this.lblEndDate.Visible = false;
@@ -256,7 +284,7 @@
             this.dtEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtEnd.Location = new System.Drawing.Point(216, 150);
             this.dtEnd.Name = "dtEnd";
-            this.dtEnd.Size = new System.Drawing.Size(200, 22);
+            this.dtEnd.Size = new System.Drawing.Size(149, 22);
             this.dtEnd.TabIndex = 15;
             this.dtEnd.Visible = false;
             this.dtEnd.ValueChanged += new System.EventHandler(this.dtEnd_ValueChanged);
@@ -266,7 +294,7 @@
             this.dtStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtStart.Location = new System.Drawing.Point(219, 34);
             this.dtStart.Name = "dtStart";
-            this.dtStart.Size = new System.Drawing.Size(200, 22);
+            this.dtStart.Size = new System.Drawing.Size(146, 22);
             this.dtStart.TabIndex = 10;
             // 
             // label9
@@ -278,21 +306,10 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "Start date of employment:";
             // 
-            // cbIsUser
-            // 
-            this.cbIsUser.AutoSize = true;
-            this.cbIsUser.Location = new System.Drawing.Point(30, 198);
-            this.cbIsUser.Name = "cbIsUser";
-            this.cbIsUser.Size = new System.Drawing.Size(110, 21);
-            this.cbIsUser.TabIndex = 16;
-            this.cbIsUser.Text = "Uses system";
-            this.cbIsUser.UseVisualStyleBackColor = true;
-            this.cbIsUser.CheckedChanged += new System.EventHandler(this.cbIsUser_CheckedChanged);
-            // 
             // btnAddEmp
             // 
             this.btnAddEmp.Enabled = false;
-            this.btnAddEmp.Location = new System.Drawing.Point(99, 554);
+            this.btnAddEmp.Location = new System.Drawing.Point(92, 558);
             this.btnAddEmp.Name = "btnAddEmp";
             this.btnAddEmp.Size = new System.Drawing.Size(121, 36);
             this.btnAddEmp.TabIndex = 17;
@@ -303,7 +320,7 @@
             // btnCancelEmp
             // 
             this.btnCancelEmp.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancelEmp.Location = new System.Drawing.Point(242, 554);
+            this.btnCancelEmp.Location = new System.Drawing.Point(235, 558);
             this.btnCancelEmp.Name = "btnCancelEmp";
             this.btnCancelEmp.Size = new System.Drawing.Size(121, 36);
             this.btnCancelEmp.TabIndex = 18;
@@ -311,31 +328,13 @@
             this.btnCancelEmp.UseVisualStyleBackColor = true;
             this.btnCancelEmp.Click += new System.EventHandler(this.btnCancelEmp_Click);
             // 
-            // txtEmpID
-            // 
-            this.txtEmpID.Location = new System.Drawing.Point(219, 35);
-            this.txtEmpID.MaxLength = 10;
-            this.txtEmpID.Name = "txtEmpID";
-            this.txtEmpID.Size = new System.Drawing.Size(146, 22);
-            this.txtEmpID.TabIndex = 2;
-            this.txtEmpID.TextChanged += new System.EventHandler(this.txtEmpID_TextChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Employee ID:";
-            // 
             // frmAddEmp
             // 
             this.AcceptButton = this.btnAddEmp;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancelEmp;
-            this.ClientSize = new System.Drawing.Size(462, 606);
+            this.ClientSize = new System.Drawing.Size(429, 606);
             this.Controls.Add(this.btnCancelEmp);
             this.Controls.Add(this.btnAddEmp);
             this.Controls.Add(this.gbEmplDetails);

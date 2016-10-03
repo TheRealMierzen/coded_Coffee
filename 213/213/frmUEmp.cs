@@ -30,43 +30,10 @@ namespace _213
 
         private void txtID_TextChanged(object sender, EventArgs e)
         {
-            if ((txtID.Text.Length == 13) || (txtID.Text.Length == 10))
-            {
-                txtID.ForeColor = DefaultForeColor;
-                id = txtID.Text;
-                if (txtCEmail.Text != "" && txtNEmail.Text != "" && txtCNEmail.Text == txtNEmail.Text)
-                    btnUpdateEmp.Enabled = true;
-            }
-            else if(txtID.Text.Length != 13 || txtID.Text.Length != 10)
-            {
-                txtID.ForeColor = Color.Red;
-                btnUpdateEmp.Enabled = false;
-            }
+            
 
 
-            long cell;
-            try
-            {
-                cell = Convert.ToInt64(txtID.Text);
-
-            }
-            catch
-            {
-
-                try
-                {
-                    txtID.Text = txtID.Text.Substring(0, txtID.Text.Length - 1);
-                    txtID.Focus();
-                    txtID.SelectionStart = txtID.Text.Length;
-                }
-                catch
-                {
-
-                    txtID.Text = "";
-
-                }
-
-            }
+         
         }
 
         private void txtCEmail_TextChanged(object sender, EventArgs e)
@@ -84,7 +51,7 @@ namespace _213
             if (txtCEmail.Text.EndsWith(".com") && txtCEmail.Text.Length > 7)
             {
                 txtCEmail.ForeColor = DefaultForeColor;
-                if(txtNEmail.Text == txtCNEmail.Text && txtCNEmail.Text != "" && txtID.Text != "")
+                if(txtNEmail.Text == txtCNEmail.Text && txtCNEmail.Text != "" && cbID.SelectedItem != null)
                     btnUpdateEmp.Enabled = true;
             }
             else if(!txtCEmail.Text.EndsWith(".com") || txtCEmail.Text.Length < 7)
@@ -104,7 +71,7 @@ namespace _213
             if(txtCEmail.Text != txtNEmail.Text && txtNEmail.Text != "" && txtNEmail.Text.EndsWith(".com"))
             {
                 txtNEmail.ForeColor = DefaultForeColor;
-                if (txtID.Text != "" && txtCEmail.Text != "" && txtNEmail.Text == txtCNEmail.Text)
+                if (cbID.SelectedItem != null && txtCEmail.Text != "" && txtNEmail.Text == txtCNEmail.Text)
                 {
                     txtCNEmail.ForeColor = DefaultForeColor;
                     btnUpdateEmp.Enabled = true;
@@ -142,7 +109,7 @@ namespace _213
             if (txtNEmail.Text == txtCNEmail.Text && txtCEmail.Text != txtNEmail.Text && txtNEmail.Text != "" && txtNEmail.Text.EndsWith(".com"))
             {
                 txtCNEmail.ForeColor = DefaultForeColor;
-                if(txtID.Text != "" && txtCEmail.Text != "")
+                if(cbID.SelectedItem != null && txtCEmail.Text != "")
                     btnUpdateEmp.Enabled = true;
             }
             else
@@ -155,10 +122,12 @@ namespace _213
         private void frmUEmp_Load(object sender, EventArgs e)
         {
             fillBranches();
+            checkHQ(user);
+            fillIds();
             dtUntil.MinDate = DateTime.Now;
 
             cbUEmp.SelectedItem = "Email address";
-            txtID.Focus();
+            cbID.Focus();
         }
 
         private void cbUEmp_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -166,7 +135,7 @@ namespace _213
             if (cbUEmp.SelectedItem.ToString() == "Email address")
             {
                 btnUpdateEmp.Enabled = false;
-                txtID.Visible = true;
+                cbID.Visible = true;
                 txtCEmail.Visible = true;
                 txtNEmail.Visible = true;
                 txtCNEmail.Visible = true;
@@ -175,21 +144,21 @@ namespace _213
                 lblNEmail.Visible = true;
                 lblCEmail.Visible = true;
                 lblCNEmail.Visible = true;
-                txtID.Focus();
+                cbID.Focus();
 
             }
             else
             {
 
-                txtID.Visible = false;
+                cbID.Visible = false;
                 txtCEmail.Visible = false;
                 txtNEmail.Visible = false;
                 txtCNEmail.Visible = false;
 
-                txtID.Clear();
                 txtCEmail.Clear();
                 txtNEmail.Clear();
                 txtCNEmail.Clear();
+                cbID.SelectedItem = null;
 
                 lblID.Visible = false;
                 lblNEmail.Visible = false;
@@ -202,21 +171,20 @@ namespace _213
             if (cbUEmp.SelectedItem.ToString() == "Extend/shorten employment")
             {
                 btnUpdateEmp.Enabled = false;
-                txtPeriodID.Visible = true;
+                cbPeriodID.Visible = true;
                 dtUntil.Visible = true;
 
                 lblPeriodId.Visible = true;
                 lblUntil.Visible = true;
-                txtPeriodID.Focus();
+                cbPeriodID.Focus();
 
             }
             else
             {
-
-                txtPeriodID.Visible = false;
+                cbPeriodID.SelectedItem = null;
+                cbPeriodID.Visible = false;
                 dtUntil.Visible = false;
 
-                txtPeriodID.Clear();
                 dtUntil.Value = DateTime.Now;
 
                 lblPeriodId.Visible = false;
@@ -227,7 +195,7 @@ namespace _213
             if (cbUEmp.SelectedItem.ToString() == "Cellphone nr")
             {
                 btnUpdateEmp.Enabled = false;
-                txtCellID.Visible = true;
+                cbCellId.Visible = true;
                 txtNCell.Visible = true;
                 txtCNCell.Visible = true;
                 txtCCell.Visible = true;
@@ -236,13 +204,13 @@ namespace _213
                 lblNCell.Visible = true;
                 lblCNCell.Visible = true;
                 lblCCell.Visible = true;
-                txtCellID.Focus();
+                cbCellId.Focus();
 
             }
             else
             {
 
-                txtCellID.Visible = false;
+                cbCellId.Visible = false;
                 txtNCell.Visible = false;
                 txtCNCell.Visible = false;
                 txtCCell.Visible = false;
@@ -252,8 +220,8 @@ namespace _213
                 lblCNCell.Visible = false;
                 lblCCell.Visible = false;
 
+                cbCellId.SelectedItem = null;
                 txtCCell.Clear();
-                txtCellID.Clear();
                 txtNCell.Clear();
                 txtCNCell.Clear();
 
@@ -263,7 +231,7 @@ namespace _213
             if (cbUEmp.SelectedItem.ToString() == "Surname")
             {
                 btnUpdateEmp.Enabled = false;
-                txtSurID.Visible = true;
+                cbSurID.Visible = true;
                 txtCSur.Visible = true;
                 txtNSur.Visible = true;
                 txtCNSur.Visible = true;
@@ -272,13 +240,13 @@ namespace _213
                 lblCSur.Visible = true;
                 lblNSur.Visible = true;
                 lblCNSur.Visible = true;
-                txtSurID.Focus();
+                cbSurID.Focus();
 
             }
             else
             {
 
-                txtSurID.Visible = false;
+                cbSurID.Visible = false;
                 txtCSur.Visible = false;
                 txtNSur.Visible = false;
                 txtCNSur.Visible = false;
@@ -288,7 +256,7 @@ namespace _213
                 lblNSur.Visible = false;
                 lblCNSur.Visible = false;
 
-                txtSurID.Clear();
+                cbSurID.SelectedItem = null;
                 txtCSur.Clear();
                 txtNSur.Clear();
                 txtCNSur.Clear();
@@ -299,74 +267,38 @@ namespace _213
             if (cbUEmp.SelectedItem.ToString() == "Other")
             {
                 btnUpdateEmp.Enabled = false;
-                txtOID.Visible = true;
+                cbOID.Visible = true;
                 cbTemp.Visible = true;
                 cbUser.Visible = true;
                 cbBranches.Visible = true;
+                cbOriBranch.Visible = true;
+                lblOriBranch.Visible = true;
                 lblBranches.Visible = true;
-                txtOID.Focus();
+                cbOID.Focus();
 
             }
             else
             {
-                txtOID.Clear();
+                cbOID.SelectedItem = null;
                 cbBranches.SelectedItem = null;
-                txtOID.Visible = false;
+                cbOID.Visible = false;
                 cbTemp.Visible = false;
                 cbUser.Visible = false;
+                cbOriBranch.Visible = false;
+                lblOriBranch.Visible = false;
                 cbBranches.Visible = false;
                 lblBranches.Visible = false;
 
             }
         }
 
-        private void txtPeriodID_TextChanged(object sender, EventArgs e)
-        {
-            if (txtPeriodID.Text.Length != 13 && txtPeriodID.Text.Length != 10)
-            {
-                txtPeriodID.ForeColor = Color.Red;
-                btnUpdateEmp.Enabled = false;
-
-            }
-            else
-            {
-                id = txtPeriodID.Text;
-                txtPeriodID.ForeColor = DefaultForeColor;
-                if(dtUntil.Value > DateTime.Now)
-                    btnUpdateEmp.Enabled = true;
-
-            }
-
-            long empID;
-            try
-            {
-                empID = Convert.ToInt64(txtPeriodID.Text);
-
-            }
-            catch
-            {
-                try
-                {
-                    txtPeriodID.Text = txtPeriodID.Text.Substring(0, txtPeriodID.Text.Length - 1);
-                    txtPeriodID.Focus();
-                    txtPeriodID.SelectionStart = txtPeriodID.Text.Length;
-                }
-                catch
-                {
-
-                    txtPeriodID.Text = "";
-
-                }
-
-            }
-        }
 
         private void dtUntil_ValueChanged(object sender, EventArgs e)
         {
             if(dtUntil.Value > DateTime.Now)
             {
 
-                if(txtPeriodID.Text.Length == 13 || txtPeriodID.Text.Length == 10)
+                if(cbPeriodID.SelectedItem != null)
                 {
 
                     btnUpdateEmp.Enabled = true;
@@ -390,7 +322,7 @@ namespace _213
 
                 txtCCell.ForeColor = DefaultForeColor;
 
-                if(txtCellID.ForeColor != Color.Red && txtNCell.Text == txtCNCell.Text && txtCNCell.Text != "" && txtNCell.Text != txtCCell.Text)
+                if(cbCellId.SelectedItem != null && txtNCell.Text == txtCNCell.Text && txtCNCell.Text != "" && txtNCell.Text != txtCCell.Text)
                 {
 
                     btnUpdateEmp.Enabled = true;
@@ -447,7 +379,7 @@ namespace _213
 
                 txtCCell.ForeColor = DefaultForeColor;
 
-                if (txtCellID.ForeColor != Color.Red && txtCCell.Text != txtNCell.Text && txtCNCell.Text == txtNCell.Text && txtNCell.Text!= "")
+                if (cbCellId.SelectedItem != null && txtCCell.Text != txtNCell.Text && txtCNCell.Text == txtNCell.Text && txtNCell.Text!= "")
                 {
 
                     btnUpdateEmp.Enabled = true;
@@ -498,7 +430,7 @@ namespace _213
 
                 txtCCell.ForeColor = DefaultForeColor;
 
-                if (txtCellID.ForeColor != Color.Red && txtNCell.Text == txtCNCell.Text && txtCNCell.Text != "" && txtNCell.Text != txtCCell.Text)
+                if (cbCellId.SelectedItem != null && txtNCell.Text == txtCNCell.Text && txtCNCell.Text != "" && txtNCell.Text != txtCCell.Text)
                 {
 
                     btnUpdateEmp.Enabled = true;
@@ -531,94 +463,11 @@ namespace _213
             }
         }
 
-        private void txtCellID_TextChanged(object sender, EventArgs e)
-        {
-            if (txtCellID.Text.Length == 13)
-                txtCellID.ForeColor = DefaultForeColor;
-            else if (txtCellID.Text.Length == 10)
-                txtCellID.ForeColor = DefaultForeColor;
-            else
-            {
-                txtCellID.ForeColor = Color.Red;
-                btnUpdateEmp.Enabled = false;
-            }
-
-            if (txtCellID.Text.Length == 13 || txtCellID.Text.Length == 10)
-            {
-                id = txtCellID.Text;
-                txtCellID.ForeColor = DefaultForeColor;
-                if (txtCCell.Text.Length == 10 && txtNCell.Text.Length == 10 && txtCNCell.Text.Length == 10)
-                    btnUpdateEmp.Enabled = true;
-
-            }
-
-            long empID;
-            try
-            {
-                empID = Convert.ToInt64(txtCellID.Text);
-
-            }
-            catch
-            {
-                try
-                {
-                    txtCellID.Text = txtCellID.Text.Substring(0, txtCellID.Text.Length - 1);
-                    txtCellID.Focus();
-                    txtCellID.SelectionStart = txtCellID.Text.Length;
-                }
-                catch
-                {
-
-                    txtCellID.Text = "";
-
-                }
-
-            }
-        }
 
         private void txtSurID_TextChanged(object sender, EventArgs e)
         {
-            if (txtSurID.Text.Length == 13)
-            {
-                id = txtSurID.Text;
-                txtSurID.ForeColor = DefaultForeColor;
-                if (txtSurID.ForeColor != Color.Red && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
-                    btnUpdateEmp.Enabled = true;
-            }
-            else if (txtSurID.Text.Length == 10)
-            {
-                txtSurID.ForeColor = DefaultForeColor;
-                if (txtSurID.ForeColor != Color.Red && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
-                    btnUpdateEmp.Enabled = true;
-            }
-            else
-            {
-                txtSurID.ForeColor = Color.Red;
-                btnUpdateEmp.Enabled = false;
-            }
 
-            long empID;
-            try
-            {
-                empID = Convert.ToInt64(txtSurID.Text);
-
-            }
-            catch
-            {
-                try
-                {
-                    txtSurID.Text = txtSurID.Text.Substring(0, txtSurID.Text.Length - 1);
-                    txtSurID.Focus();
-                    txtSurID.SelectionStart = txtSurID.Text.Length;
-                }
-                catch
-                {
-
-                    txtSurID.Text = "";
-
-                }
-
-            }
+            
         }
 
         private void txtCSur_TextChanged(object sender, EventArgs e)
@@ -635,7 +484,7 @@ namespace _213
             {
 
                 txtNSur.ForeColor = DefaultForeColor;
-                if (txtSurID.ForeColor != Color.Red && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
+                if (cbSurID.SelectedItem != null && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
                     btnUpdateEmp.Enabled = true;
 
             }
@@ -664,7 +513,7 @@ namespace _213
 
                 txtNSur.ForeColor = DefaultForeColor;
 
-                if (txtSurID.ForeColor != Color.Red && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
+                if (cbSurID.SelectedItem != null && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
                     btnUpdateEmp.Enabled = true;
 
             }
@@ -684,7 +533,7 @@ namespace _213
 
                 txtCNSur.ForeColor = DefaultForeColor;
 
-                if (txtSurID.ForeColor != Color.Red && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
+                if (cbSurID.SelectedItem != null && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
                     btnUpdateEmp.Enabled = true;
 
             }
@@ -696,10 +545,12 @@ namespace _213
             using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
                 string cmdstring = "SELECT branch_location FROM Branches WHERE branch_location <> @thisbranch";
+
                 using (SqlCommand comm = new SqlCommand(cmdstring, con))
                 {
                     con.Open();
                     comm.Parameters.AddWithValue("@thisbranch", Properties.Settings.Default.Branch);
+
                     using (var reader = comm.ExecuteReader())
                     {
                         while(reader.Read())
@@ -707,54 +558,16 @@ namespace _213
 
                             string branch = reader.GetString(0);
                             cbBranches.Items.Add(branch);
+                            cbOriBranch.Items.Add(branch);
 
                         }
 
                     }
 
-
+                    cbOriBranch.Items.Add(Properties.Settings.Default.Branch);
                     con.Close();                    
 
                 }
-            }
-        }
-
-        private void txtOID_TextChanged(object sender, EventArgs e)
-        {
-            if (txtOID.Text.Length == 13 || txtOID.Text.Length == 10)
-            {
-                id = txtOID.Text;
-                txtOID.ForeColor = DefaultForeColor;
-                btnUpdateEmp.Enabled = true;
-
-            }
-            else
-            {
-                txtOID.ForeColor = Color.Red;
-                btnUpdateEmp.Enabled = false;
-            }
-
-            long empID;
-            try
-            {
-                empID = Convert.ToInt64(txtOID.Text);
-
-            }
-            catch
-            {
-                try
-                {
-                    txtOID.Text = txtOID.Text.Substring(0, txtOID.Text.Length - 1);
-                    txtOID.Focus();
-                    txtOID.SelectionStart = txtOID.Text.Length;
-                }
-                catch
-                {
-
-                    txtOID.Text = "";
-
-                }
-
             }
         }
 
@@ -769,9 +582,7 @@ namespace _213
                 if (cbUEmp.SelectedItem.ToString() == "Email address")
                 {
                                       
-                    if (txtID.Text.Length == 13)
-                        find = "id_num";
-                    else if (txtID.Text.Length == 10 && !txtID.Text.StartsWith("0"))
+                    if(cbID.SelectedItem != null)
                         find = "employee_id";
 
                     cmdstring = "UPDATE Employees SET email_address = @value WHERE " + find + " = @findV AND email_address = @value2";
@@ -781,24 +592,21 @@ namespace _213
                 if (cbUEmp.SelectedItem.ToString() == "Cellphone nr" || cbUEmp.SelectedItem.ToString() == "Extend/shorten employment" || cbUEmp.SelectedItem.ToString() == "Surname" || cbUEmp.SelectedItem.ToString() == "Other")
                 {
 
-                    if (txtPeriodID.Text.Length == 13)
+                    if (cbPeriodID.SelectedItem.ToString().Length == 13)
                         find = "id_num";
-                    else if (txtPeriodID.Text.Length == 10)
+                    else if (cbPeriodID.SelectedItem.ToString().Length == 10)
                         find = "employee_id";
 
-                    if (txtOID.Text.Length == 13)
-                        find = "id_num";
-                    else if (txtOID.Text.Length == 10)
+
+                    if (cbOID.SelectedItem != null)
                         find = "employee_id";
 
-                    if (txtPeriodID.Text.Length == 13)
+                    if (cbPeriodID.SelectedItem.ToString().Length == 13)
                         find = "id_num";
-                    else if (txtPeriodID.Text.Length == 10)
+                    else if (cbPeriodID.SelectedItem.ToString().Length == 10)
                         find = "employee_id";
 
-                    if (txtSurID.Text.Length == 13)
-                        find = "id_num";
-                    else if (txtSurID.Text.Length == 10)
+                    if (cbSurID.SelectedItem != null)
                         find = "employee_id";
 
 
@@ -830,7 +638,7 @@ namespace _213
                     {
                         comm.Parameters.AddWithValue("@value", txtCNEmail.Text);
 
-                        comm.Parameters.AddWithValue("@findV", txtID.Text);
+                        comm.Parameters.AddWithValue("@findV", cbID.SelectedItem.ToString());
                         comm.Parameters.AddWithValue("@value2", txtCEmail.Text);
 
                         if (other.getUsername(txtCEmail.Text) != "")
@@ -846,7 +654,7 @@ namespace _213
                     {
 
                         comm.Parameters.AddWithValue("@until", dtUntil.Value);
-                        comm.Parameters.AddWithValue("@value", txtPeriodID.Text);
+                        comm.Parameters.AddWithValue("@value", cbPeriodID.SelectedItem.ToString());
 
                     }
                     //update cell
@@ -854,7 +662,7 @@ namespace _213
                     {
 
                         comm.Parameters.AddWithValue("@value", txtCNCell.Text);
-                        comm.Parameters.AddWithValue("@test", txtCellID.Text);
+                        comm.Parameters.AddWithValue("@test", cbCellId.SelectedItem.ToString());
                         comm.Parameters.AddWithValue("@test2",txtCCell.Text);
 
                     }
@@ -863,7 +671,7 @@ namespace _213
                     {
 
                         comm.Parameters.AddWithValue("@value", txtCNSur.Text);
-                        comm.Parameters.AddWithValue("@test", txtSurID.Text);
+                        comm.Parameters.AddWithValue("@test", cbSurID.SelectedItem.ToString());
                         comm.Parameters.AddWithValue("@test2", txtCSur.Text);
 
                     }
@@ -876,7 +684,7 @@ namespace _213
                             comm.Parameters.AddWithValue("@branch", cbBranches.SelectedItem.ToString());
                             comm.Parameters.AddWithValue("@user", cbUser.Checked);
                             comm.Parameters.AddWithValue("@temp", cbTemp.Checked);
-                            comm.Parameters.AddWithValue("@test", txtOID.Text);
+                            comm.Parameters.AddWithValue("@test", cbOID.SelectedItem.ToString());
 
                         }
                         else
@@ -884,7 +692,7 @@ namespace _213
 
                             comm.Parameters.AddWithValue("@user", cbUser.Checked);
                             comm.Parameters.AddWithValue("@temp", cbTemp.Checked);
-                            comm.Parameters.AddWithValue("@test", txtOID.Text);
+                            comm.Parameters.AddWithValue("@test", cbOID.SelectedItem.ToString());
 
 
                         }
@@ -892,7 +700,7 @@ namespace _213
 
 
 
-                    if (cbUEmp.SelectedItem.ToString() == "Other" && !cbUser.Checked && other.isUser(txtOID.Text) && other.getUsername(other.getEmail(id)) != "")
+                    if (cbUEmp.SelectedItem.ToString() == "Other" && !cbUser.Checked && other.isUser(cbOID.SelectedItem.ToString()) && other.getUsername(other.getEmail(id)) != "")
                     {
                         comm.ExecuteNonQuery();
 
@@ -904,11 +712,29 @@ namespace _213
                         if (result == DialogResult.Yes)
                         {
                             
-                            frmRUser rU = new frmRUser(user, other.getUsername(other.getEmail(id)));
-
-                            
+                            frmRUser rU = new frmRUser(user, other.getUsername(other.getEmail(id)));                            
 
                             rU.ShowDialog();
+                            this.Close();
+
+                        }
+
+                    }
+                    else if (cbUEmp.SelectedItem.ToString() == "Other" && cbUser.Checked && !other.isUser(cbOID.SelectedItem.ToString()) && other.getUsername(other.getEmail(id)) == "")
+                    {
+                        comm.ExecuteNonQuery();
+
+                        gebruik.addAction(user);
+                        DateTime local = DateTime.Now;
+                        gebruik.log(local, user, "updated employee");
+
+                        DialogResult result = MessageBox.Show("The employee's information has been updated.\r\n\r\nThe system has detected that this employee does not currently have an account for the system. Would you like to create it now?", "Info", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+
+                            frmAddUser aU = new frmAddUser(user, other.getUsername(other.getEmail(id)));
+
+                            aU.ShowDialog();
                             this.Close();
 
                         }
@@ -954,5 +780,153 @@ namespace _213
 
         }
 
+        private void checkHQ(string user)
+        {
+
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                string cmdstring = "SELECT branch FROM Users WHERE userName = @user";
+
+                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                {
+                    con.Open();
+                    comm.Parameters.AddWithValue("@user", user);
+
+                    string branch = "";
+
+                    using (var reader = comm.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            branch = reader.GetString(0);
+
+                        }
+
+                    }
+
+                    if(branch == "HQ")
+                    {
+
+                        cbOriBranch.Enabled = true;
+
+                    }
+                    else
+                    {
+
+                        cbOriBranch.SelectedItem = Properties.Settings.Default.Branch;
+                        cbOriBranch.Enabled = false;
+                        
+                    }
+
+
+
+                }
+            }
+
+        }
+
+        private void fillIds()
+        {
+
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                string cmdstring = "SELECT employee_id FROM Employees WHERE branch = @thisbranch";
+
+                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                {
+                    con.Open();
+                    comm.Parameters.AddWithValue("@thisbranch", Properties.Settings.Default.Branch);
+
+                    using (var reader = comm.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            string id = reader.GetString(0);
+                            cbCellId.Items.Add(id);
+                            cbID.Items.Add(id);
+                            cbOID.Items.Add(id);
+                            cbPeriodID.Items.Add(id);
+                            cbSurID.Items.Add(id);
+
+                        }
+
+                    }
+
+                    con.Close();
+
+                }
+            }
+
+        }
+
+        private void cbCellId_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (cbCellId.SelectedItem != null)
+            {
+                id = cbCellId.SelectedItem.ToString();
+                if (txtCCell.Text.Length == 10 && txtNCell.Text.Length == 10 && txtCNCell.Text.Length == 10)
+                    btnUpdateEmp.Enabled = true;
+
+            }
+
+        }
+
+        private void cbPeriodID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbPeriodID.SelectedItem != null)
+            {
+                id = cbPeriodID.SelectedItem.ToString();
+                if (dtUntil.Value > DateTime.Now)
+                    btnUpdateEmp.Enabled = true;
+
+            }
+        }
+
+        private void cbID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbID.SelectedItem != null)
+            {
+                id = cbID.SelectedItem.ToString();
+                if (txtCEmail.Text != "" && txtNEmail.Text != "" && txtCNEmail.Text == txtNEmail.Text)
+                    btnUpdateEmp.Enabled = true;
+            }
+            else if (cbID.SelectedItem == null)
+            {
+                btnUpdateEmp.Enabled = false;
+            }
+        }
+
+        private void cbOID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbOID.SelectedItem != null)
+            {
+                id = cbOID.SelectedItem.ToString();
+
+                btnUpdateEmp.Enabled = true;
+
+            }
+            else
+            {
+
+                btnUpdateEmp.Enabled = false;
+            }
+        }
+
+        private void cbSurID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (cbSurID.SelectedItem != null)
+            {
+                if (cbSurID.SelectedItem != null && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
+                    btnUpdateEmp.Enabled = true;
+            }
+            else
+            {
+                btnUpdateEmp.Enabled = false;
+            }
+        }
     }
 }

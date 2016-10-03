@@ -371,18 +371,22 @@ namespace _213
             int tel = 0;
             var res = "";
 
-            WebRequest request = WebRequest.Create("http://ipinfo.io/" + ip);
+            WebRequest request = WebRequest.Create("http://www.ip2location.com/" + ip);
             using (WebResponse response = request.GetResponse())
             using (StreamReader stream = new StreamReader(response.GetResponseStream()))
             {
                 string line;
-
+                
                 while ((line = stream.ReadLine()) != null)
                 {
                     tel += 1;
 
-                    if (tel == 4)
-                        res += line.Substring(11, line.Length - 13);
+                    if (tel == 334)
+                    {
+                        res = line.Substring(line.LastIndexOf(",") + 1, line.Length - 6 - line.LastIndexOf(","));
+                        res = res.Trim();
+                    }
+                                  
                 }
             }
             return res;
@@ -506,6 +510,95 @@ namespace _213
         {
 
 
+
+        }
+
+
+        public string generateLuhn()
+        {
+            string id = "";
+
+            Random nxt = new Random();
+
+            for (int i = 1; i < 11; i++)
+            {
+                id += nxt.Next(0, 9).ToString();
+            }
+
+            while (!validateId(id))
+            {
+
+                for (int i = 1; i < 11; i++)
+                {
+                    id += nxt.Next(0, 9).ToString();
+                }
+
+            }
+
+            if (id == "")
+                id = generateLuhn();
+
+            if (!checkID(id))
+                return id;
+            else
+                id = generateLuhn();
+
+            return id;  
+                  
+                        
+        }
+
+        public bool validateId(string id)
+        {
+
+            int idLength = id.Length;
+            int current;
+            int sum = 0;
+            int c = 0; 
+
+            for (int i = idLength - 1; i >= 0; i--)
+            {
+
+                string idCurrentRightmostDigit = id.Substring(i, 1);
+
+                if (!int.TryParse(idCurrentRightmostDigit, out current))
+                    return false;
+
+                if (c % 2 != 0)
+                {
+                    if ((current *= 2) > 9)
+                        current -= 9;
+                }
+                c++;
+
+                sum += current;
+            }
+
+            return (sum % 10 == 0);
+        }
+
+        //true if found else false
+        private bool checkID(string id)
+        {
+
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                con.Open();
+
+                string cmdstring = "SELECT COUNT(*) FROM Employees WHERE employee_id = @id";
+
+                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                {
+                    comm.Parameters.AddWithValue("@id", id);
+                    int recs = (int)comm.ExecuteScalar();
+                    con.Close();
+
+                    if (recs == 0)
+                        return false;
+                    else
+                        return true;
+                }
+            }
 
         }
 
