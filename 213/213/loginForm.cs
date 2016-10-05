@@ -304,6 +304,11 @@ namespace _213
             Form1 f1 = new Form1();
             f1.Show();
         }
+
+        private void passTT_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
     }
 }
 

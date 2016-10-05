@@ -52,6 +52,10 @@
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RoundButton">
       <HintPath>..\..\..\..\Downloads\RoundButtonHost\RoundButtonHost\bin\Release\RoundButton.dll</HintPath>
     </Reference>
@@ -120,6 +124,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Sale.pdf" />
     <None Include="_stockI_TDataSet.xsc">
       <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
     </None>

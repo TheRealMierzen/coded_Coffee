@@ -116,6 +116,7 @@
             this.passTT.Tag = "";
             this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.passTT.ToolTipTitle = "Password Help";
+            this.passTT.Popup += new System.Windows.Forms.PopupEventHandler(this.passTT_Popup);
             // 
             // label1
             // 

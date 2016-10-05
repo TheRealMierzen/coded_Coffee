@@ -45,11 +45,7 @@
             this.cmbSalesMenu = new System.Windows.Forms.ComboBox();
             this.stockTableAdapter = new _213._stockI_TDataSetTableAdapters.StockTableAdapter();
             this.pnlPrevSaleCancel = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.lbxDisplayReceipt = new System.Windows.Forms.ListBox();
-            this.dtpSaleDateSearch = new System.Windows.Forms.DateTimePicker();
-            this.lblSaleToSearch = new System.Windows.Forms.Label();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.stockITDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salesTableAdapter = new _213._stockI_TDataSetTableAdapters.SalesTableAdapter();
@@ -75,16 +71,6 @@
             this.btnCompletecms = new System.Windows.Forms.Button();
             this.lbxCustomReceipt = new System.Windows.Forms.ListBox();
             this.lblCmID = new System.Windows.Forms.Label();
-            this.pnlReturns = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.txtSaleIDReturn = new System.Windows.Forms.TextBox();
-            this.lblSaleIDReturn = new System.Windows.Forms.Label();
-            this.txtProductReturn = new System.Windows.Forms.TextBox();
-            this.btnPrintReturn = new System.Windows.Forms.Button();
-            this.btnReturnAdd = new System.Windows.Forms.Button();
-            this.btnCompleteReturn = new System.Windows.Forms.Button();
-            this.lbxReturns = new System.Windows.Forms.ListBox();
-            this.lblIDReturn = new System.Windows.Forms.Label();
             this.pnlCompleteCustom = new System.Windows.Forms.Panel();
             this.btnCancelcmsSale = new System.Windows.Forms.Button();
             this.btnCompletecmsSale = new System.Windows.Forms.Button();
@@ -93,6 +79,18 @@
             this.txtTotalcmsPaid = new System.Windows.Forms.TextBox();
             this.cmbPaymentcms = new System.Windows.Forms.ComboBox();
             this.lblcmsPaidMeth = new System.Windows.Forms.Label();
+            this.ttGeneral = new System.Windows.Forms.ToolTip(this.components);
+            this.txtSaleReturn = new System.Windows.Forms.TextBox();
+            this.txtProductReturn = new System.Windows.Forms.TextBox();
+            this.pnlReturns = new System.Windows.Forms.Panel();
+            this.lblSaleReturnID = new System.Windows.Forms.Label();
+            this.btnRefund = new System.Windows.Forms.Button();
+            this.lblIDReturn = new System.Windows.Forms.Label();
+            this.btnRefreshSearch = new System.Windows.Forms.Button();
+            this.txtSaleSearch = new System.Windows.Forms.TextBox();
+            this.lblSaleIDSearch = new System.Windows.Forms.Label();
+            this.rtxpdf = new System.Windows.Forms.RichTextBox();
+            this.btnPrintSearch = new System.Windows.Forms.Button();
             this.pnlAddSale.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
@@ -101,8 +99,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.salesBindingSource)).BeginInit();
             this.pnlCompleteSale.SuspendLayout();
             this.pnlCustoms.SuspendLayout();
-            this.pnlReturns.SuspendLayout();
             this.pnlCompleteCustom.SuspendLayout();
+            this.pnlReturns.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSalesBack
@@ -128,7 +126,7 @@
             this.pnlAddSale.Controls.Add(this.lblSaleItem);
             this.pnlAddSale.Location = new System.Drawing.Point(3, 38);
             this.pnlAddSale.Name = "pnlAddSale";
-            this.pnlAddSale.Size = new System.Drawing.Size(642, 343);
+            this.pnlAddSale.Size = new System.Drawing.Size(642, 237);
             this.pnlAddSale.TabIndex = 6;
             this.pnlAddSale.Visible = false;
             this.pnlAddSale.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlAddSale_Paint);
@@ -149,10 +147,11 @@
             this.txtProductID_Sale.Name = "txtProductID_Sale";
             this.txtProductID_Sale.Size = new System.Drawing.Size(159, 20);
             this.txtProductID_Sale.TabIndex = 1;
+            this.ttGeneral.SetToolTip(this.txtProductID_Sale, "Type in the barcode of the product.");
             // 
             // btnCancelSaleBusy
             // 
-            this.btnCancelSaleBusy.Location = new System.Drawing.Point(212, 131);
+            this.btnCancelSaleBusy.Location = new System.Drawing.Point(212, 132);
             this.btnCancelSaleBusy.Name = "btnCancelSaleBusy";
             this.btnCancelSaleBusy.Size = new System.Drawing.Size(160, 27);
             this.btnCancelSaleBusy.TabIndex = 5;
@@ -204,7 +203,7 @@
             this.lbxSaleReceipt.FormattingEnabled = true;
             this.lbxSaleReceipt.Location = new System.Drawing.Point(404, 7);
             this.lbxSaleReceipt.Name = "lbxSaleReceipt";
-            this.lbxSaleReceipt.Size = new System.Drawing.Size(222, 329);
+            this.lbxSaleReceipt.Size = new System.Drawing.Size(222, 225);
             this.lbxSaleReceipt.TabIndex = 25;
             this.lbxSaleReceipt.SelectedIndexChanged += new System.EventHandler(this.lbxSaleReceipt_SelectedIndexChanged);
             // 
@@ -243,6 +242,7 @@
             this.cmbSalesMenu.Name = "cmbSalesMenu";
             this.cmbSalesMenu.Size = new System.Drawing.Size(121, 21);
             this.cmbSalesMenu.TabIndex = 5;
+            this.ttGeneral.SetToolTip(this.cmbSalesMenu, "Choose an action you want to perform.");
             this.cmbSalesMenu.SelectedIndexChanged += new System.EventHandler(this.cmbSalesMenu_SelectedIndexChanged);
             // 
             // stockTableAdapter
@@ -251,58 +251,27 @@
             // 
             // pnlPrevSaleCancel
             // 
-            this.pnlPrevSaleCancel.Controls.Add(this.comboBox1);
-            this.pnlPrevSaleCancel.Controls.Add(this.button1);
-            this.pnlPrevSaleCancel.Controls.Add(this.lbxDisplayReceipt);
-            this.pnlPrevSaleCancel.Controls.Add(this.dtpSaleDateSearch);
-            this.pnlPrevSaleCancel.Controls.Add(this.lblSaleToSearch);
-            this.pnlPrevSaleCancel.Location = new System.Drawing.Point(719, 293);
+            this.pnlPrevSaleCancel.Controls.Add(this.btnPrintSearch);
+            this.pnlPrevSaleCancel.Controls.Add(this.rtxpdf);
+            this.pnlPrevSaleCancel.Controls.Add(this.lblSaleIDSearch);
+            this.pnlPrevSaleCancel.Controls.Add(this.txtSaleSearch);
+            this.pnlPrevSaleCancel.Controls.Add(this.btnRefreshSearch);
+            this.pnlPrevSaleCancel.Controls.Add(this.btnSearch);
+            this.pnlPrevSaleCancel.Location = new System.Drawing.Point(427, 513);
             this.pnlPrevSaleCancel.Name = "pnlPrevSaleCancel";
             this.pnlPrevSaleCancel.Size = new System.Drawing.Size(389, 217);
             this.pnlPrevSaleCancel.TabIndex = 9;
             this.pnlPrevSaleCancel.Visible = false;
             // 
-            // comboBox1
+            // btnSearch
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(16, 80);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(147, 21);
-            this.comboBox1.TabIndex = 43;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(20, 107);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(147, 60);
-            this.button1.TabIndex = 42;
-            this.button1.Text = "Cancel Search";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // lbxDisplayReceipt
-            // 
-            this.lbxDisplayReceipt.FormattingEnabled = true;
-            this.lbxDisplayReceipt.Location = new System.Drawing.Point(173, 33);
-            this.lbxDisplayReceipt.Name = "lbxDisplayReceipt";
-            this.lbxDisplayReceipt.Size = new System.Drawing.Size(208, 173);
-            this.lbxDisplayReceipt.TabIndex = 41;
-            // 
-            // dtpSaleDateSearch
-            // 
-            this.dtpSaleDateSearch.Location = new System.Drawing.Point(16, 54);
-            this.dtpSaleDateSearch.Name = "dtpSaleDateSearch";
-            this.dtpSaleDateSearch.Size = new System.Drawing.Size(147, 20);
-            this.dtpSaleDateSearch.TabIndex = 40;
-            this.dtpSaleDateSearch.Value = new System.DateTime(2016, 9, 10, 16, 41, 21, 0);
-            // 
-            // lblSaleToSearch
-            // 
-            this.lblSaleToSearch.AutoSize = true;
-            this.lblSaleToSearch.Location = new System.Drawing.Point(13, 36);
-            this.lblSaleToSearch.Name = "lblSaleToSearch";
-            this.lblSaleToSearch.Size = new System.Drawing.Size(82, 13);
-            this.lblSaleToSearch.TabIndex = 39;
-            this.lblSaleToSearch.Text = "Date to Search:";
+            this.btnSearch.Location = new System.Drawing.Point(16, 71);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(147, 41);
+            this.btnSearch.TabIndex = 42;
+            this.btnSearch.Text = "Open Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // stockITDataSetBindingSource
             // 
@@ -332,7 +301,7 @@
             this.pnlCompleteSale.Controls.Add(this.txtPaid);
             this.pnlCompleteSale.Controls.Add(this.cbxMethodOfPayment);
             this.pnlCompleteSale.Controls.Add(this.lblMethodOfPayment_Sales);
-            this.pnlCompleteSale.Location = new System.Drawing.Point(739, 522);
+            this.pnlCompleteSale.Location = new System.Drawing.Point(651, 38);
             this.pnlCompleteSale.Name = "pnlCompleteSale";
             this.pnlCompleteSale.Size = new System.Drawing.Size(286, 206);
             this.pnlCompleteSale.TabIndex = 10;
@@ -386,6 +355,7 @@
             this.cbxSpecialOrder.Size = new System.Drawing.Size(90, 17);
             this.cbxSpecialOrder.TabIndex = 54;
             this.cbxSpecialOrder.Text = "Special Order";
+            this.ttGeneral.SetToolTip(this.cbxSpecialOrder, "Tick if it is a Special Order sale.");
             this.cbxSpecialOrder.UseVisualStyleBackColor = true;
             // 
             // txtPaid
@@ -394,6 +364,9 @@
             this.txtPaid.Name = "txtPaid";
             this.txtPaid.Size = new System.Drawing.Size(159, 20);
             this.txtPaid.TabIndex = 53;
+            this.ttGeneral.SetToolTip(this.txtPaid, "Type in the amount paid.\r\n*Must only be digits!");
+            this.txtPaid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPaid_KeyDown);
+            this.txtPaid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPaid_KeyPress);
             // 
             // cbxMethodOfPayment
             // 
@@ -404,11 +377,13 @@
             "Cash",
             "Credit",
             "Debit",
-            "Tjek"});
+            "Cheque"});
             this.cbxMethodOfPayment.Location = new System.Drawing.Point(16, 110);
             this.cbxMethodOfPayment.Name = "cbxMethodOfPayment";
             this.cbxMethodOfPayment.Size = new System.Drawing.Size(158, 21);
             this.cbxMethodOfPayment.TabIndex = 52;
+            this.ttGeneral.SetToolTip(this.cbxMethodOfPayment, "Choose method of payment.");
+            this.cbxMethodOfPayment.SelectedIndexChanged += new System.EventHandler(this.cbxMethodOfPayment_SelectedIndexChanged);
             // 
             // lblMethodOfPayment_Sales
             // 
@@ -432,7 +407,7 @@
             this.pnlCustoms.Controls.Add(this.btnCompletecms);
             this.pnlCustoms.Controls.Add(this.lbxCustomReceipt);
             this.pnlCustoms.Controls.Add(this.lblCmID);
-            this.pnlCustoms.Location = new System.Drawing.Point(295, 391);
+            this.pnlCustoms.Location = new System.Drawing.Point(3, 281);
             this.pnlCustoms.Name = "pnlCustoms";
             this.pnlCustoms.Size = new System.Drawing.Size(418, 337);
             this.pnlCustoms.TabIndex = 11;
@@ -440,6 +415,7 @@
             // 
             // btnNewSalecms
             // 
+            this.btnNewSalecms.Enabled = false;
             this.btnNewSalecms.Location = new System.Drawing.Point(17, 264);
             this.btnNewSalecms.Name = "btnNewSalecms";
             this.btnNewSalecms.Size = new System.Drawing.Size(160, 27);
@@ -466,6 +442,9 @@
             this.txtLabour.Name = "txtLabour";
             this.txtLabour.Size = new System.Drawing.Size(159, 20);
             this.txtLabour.TabIndex = 27;
+            this.ttGeneral.SetToolTip(this.txtLabour, "Put in price of labour for Custom Build.\r\n*This price is based on how much work i" +
+        "t was!");
+            this.txtLabour.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLabour_KeyPress);
             // 
             // lblLabour
             // 
@@ -483,6 +462,7 @@
             this.txtCmsID.Name = "txtCmsID";
             this.txtCmsID.Size = new System.Drawing.Size(159, 20);
             this.txtCmsID.TabIndex = 1;
+            this.ttGeneral.SetToolTip(this.txtCmsID, "Type in Custom Sale ID.\r\n*Provided in slip by customer!");
             // 
             // btnCancelCms
             // 
@@ -544,105 +524,6 @@
             this.lblCmID.TabIndex = 26;
             this.lblCmID.Text = "Custom Sale ID: ";
             // 
-            // pnlReturns
-            // 
-            this.pnlReturns.Controls.Add(this.button2);
-            this.pnlReturns.Controls.Add(this.txtSaleIDReturn);
-            this.pnlReturns.Controls.Add(this.lblSaleIDReturn);
-            this.pnlReturns.Controls.Add(this.txtProductReturn);
-            this.pnlReturns.Controls.Add(this.btnPrintReturn);
-            this.pnlReturns.Controls.Add(this.btnReturnAdd);
-            this.pnlReturns.Controls.Add(this.btnCompleteReturn);
-            this.pnlReturns.Controls.Add(this.lbxReturns);
-            this.pnlReturns.Controls.Add(this.lblIDReturn);
-            this.pnlReturns.Location = new System.Drawing.Point(651, 39);
-            this.pnlReturns.Name = "pnlReturns";
-            this.pnlReturns.Size = new System.Drawing.Size(418, 248);
-            this.pnlReturns.TabIndex = 12;
-            this.pnlReturns.Visible = false;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(15, 55);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(159, 22);
-            this.button2.TabIndex = 29;
-            this.button2.Text = "Retun Item";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // txtSaleIDReturn
-            // 
-            this.txtSaleIDReturn.Location = new System.Drawing.Point(15, 29);
-            this.txtSaleIDReturn.Name = "txtSaleIDReturn";
-            this.txtSaleIDReturn.Size = new System.Drawing.Size(159, 20);
-            this.txtSaleIDReturn.TabIndex = 27;
-            // 
-            // lblSaleIDReturn
-            // 
-            this.lblSaleIDReturn.AutoSize = true;
-            this.lblSaleIDReturn.Location = new System.Drawing.Point(14, 11);
-            this.lblSaleIDReturn.Name = "lblSaleIDReturn";
-            this.lblSaleIDReturn.Size = new System.Drawing.Size(48, 13);
-            this.lblSaleIDReturn.TabIndex = 28;
-            this.lblSaleIDReturn.Text = "Sale ID: ";
-            // 
-            // txtProductReturn
-            // 
-            this.txtProductReturn.Location = new System.Drawing.Point(15, 98);
-            this.txtProductReturn.Name = "txtProductReturn";
-            this.txtProductReturn.Size = new System.Drawing.Size(159, 20);
-            this.txtProductReturn.TabIndex = 1;
-            this.txtProductReturn.Visible = false;
-            // 
-            // btnPrintReturn
-            // 
-            this.btnPrintReturn.Location = new System.Drawing.Point(17, 199);
-            this.btnPrintReturn.Name = "btnPrintReturn";
-            this.btnPrintReturn.Size = new System.Drawing.Size(160, 32);
-            this.btnPrintReturn.TabIndex = 6;
-            this.btnPrintReturn.Text = "Print New Receipt";
-            this.btnPrintReturn.UseVisualStyleBackColor = true;
-            this.btnPrintReturn.Visible = false;
-            // 
-            // btnReturnAdd
-            // 
-            this.btnReturnAdd.Location = new System.Drawing.Point(16, 124);
-            this.btnReturnAdd.Name = "btnReturnAdd";
-            this.btnReturnAdd.Size = new System.Drawing.Size(159, 32);
-            this.btnReturnAdd.TabIndex = 2;
-            this.btnReturnAdd.Text = "Retun Item";
-            this.btnReturnAdd.UseVisualStyleBackColor = true;
-            this.btnReturnAdd.Visible = false;
-            // 
-            // btnCompleteReturn
-            // 
-            this.btnCompleteReturn.Location = new System.Drawing.Point(16, 162);
-            this.btnCompleteReturn.Name = "btnCompleteReturn";
-            this.btnCompleteReturn.Size = new System.Drawing.Size(160, 31);
-            this.btnCompleteReturn.TabIndex = 4;
-            this.btnCompleteReturn.Text = "Complete Return";
-            this.btnCompleteReturn.UseVisualStyleBackColor = true;
-            this.btnCompleteReturn.Visible = false;
-            // 
-            // lbxReturns
-            // 
-            this.lbxReturns.FormattingEnabled = true;
-            this.lbxReturns.Location = new System.Drawing.Point(183, 29);
-            this.lbxReturns.Name = "lbxReturns";
-            this.lbxReturns.Size = new System.Drawing.Size(222, 199);
-            this.lbxReturns.TabIndex = 25;
-            // 
-            // lblIDReturn
-            // 
-            this.lblIDReturn.AutoSize = true;
-            this.lblIDReturn.Location = new System.Drawing.Point(14, 80);
-            this.lblIDReturn.Name = "lblIDReturn";
-            this.lblIDReturn.Size = new System.Drawing.Size(64, 13);
-            this.lblIDReturn.TabIndex = 26;
-            this.lblIDReturn.Text = "Product ID: ";
-            this.lblIDReturn.Visible = false;
-            // 
             // pnlCompleteCustom
             // 
             this.pnlCompleteCustom.Controls.Add(this.btnCancelcmsSale);
@@ -652,7 +533,7 @@
             this.pnlCompleteCustom.Controls.Add(this.txtTotalcmsPaid);
             this.pnlCompleteCustom.Controls.Add(this.cmbPaymentcms);
             this.pnlCompleteCustom.Controls.Add(this.lblcmsPaidMeth);
-            this.pnlCompleteCustom.Location = new System.Drawing.Point(3, 467);
+            this.pnlCompleteCustom.Location = new System.Drawing.Point(427, 281);
             this.pnlCompleteCustom.Name = "pnlCompleteCustom";
             this.pnlCompleteCustom.Size = new System.Drawing.Size(286, 226);
             this.pnlCompleteCustom.TabIndex = 13;
@@ -667,6 +548,7 @@
             this.btnCancelcmsSale.TabIndex = 58;
             this.btnCancelcmsSale.Text = "Cancel";
             this.btnCancelcmsSale.UseVisualStyleBackColor = true;
+            this.btnCancelcmsSale.Click += new System.EventHandler(this.btnCancelcmsSale_Click);
             // 
             // btnCompletecmsSale
             // 
@@ -703,6 +585,8 @@
             this.txtTotalcmsPaid.Name = "txtTotalcmsPaid";
             this.txtTotalcmsPaid.Size = new System.Drawing.Size(159, 20);
             this.txtTotalcmsPaid.TabIndex = 53;
+            this.ttGeneral.SetToolTip(this.txtTotalcmsPaid, "Type in the amount paid.\r\n*Must only be digits!");
+            this.txtTotalcmsPaid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTotalcmsPaid_KeyPress);
             // 
             // cmbPaymentcms
             // 
@@ -713,11 +597,15 @@
             "Cash",
             "Credit",
             "Debit",
-            "Tjek"});
+            "Cheque"});
             this.cmbPaymentcms.Location = new System.Drawing.Point(16, 110);
             this.cmbPaymentcms.Name = "cmbPaymentcms";
             this.cmbPaymentcms.Size = new System.Drawing.Size(158, 21);
             this.cmbPaymentcms.TabIndex = 52;
+            this.ttGeneral.SetToolTip(this.cmbPaymentcms, "Choose method of payment.\r\n*Should be one provided!");
+            this.cmbPaymentcms.SelectedIndexChanged += new System.EventHandler(this.cmbPaymentcms_SelectedIndexChanged);
+            this.cmbPaymentcms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbPaymentcms_KeyDown);
+            this.cmbPaymentcms.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmbPaymentcms_KeyPress);
             // 
             // lblcmsPaidMeth
             // 
@@ -729,13 +617,124 @@
             this.lblcmsPaidMeth.Text = "Method of Payment:";
             this.lblcmsPaidMeth.Click += new System.EventHandler(this.label3_Click);
             // 
+            // ttGeneral
+            // 
+            this.ttGeneral.AutoPopDelay = 5000;
+            this.ttGeneral.InitialDelay = 100;
+            this.ttGeneral.IsBalloon = true;
+            this.ttGeneral.ReshowDelay = 100;
+            this.ttGeneral.Tag = "";
+            this.ttGeneral.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ttGeneral.ToolTipTitle = "General Help";
+            // 
+            // txtSaleReturn
+            // 
+            this.txtSaleReturn.Location = new System.Drawing.Point(10, 48);
+            this.txtSaleReturn.Name = "txtSaleReturn";
+            this.txtSaleReturn.Size = new System.Drawing.Size(159, 20);
+            this.txtSaleReturn.TabIndex = 52;
+            this.ttGeneral.SetToolTip(this.txtSaleReturn, "Fill in the Sale ID of the item that was bought!");
+            // 
+            // txtProductReturn
+            // 
+            this.txtProductReturn.Location = new System.Drawing.Point(10, 89);
+            this.txtProductReturn.Name = "txtProductReturn";
+            this.txtProductReturn.Size = new System.Drawing.Size(159, 20);
+            this.txtProductReturn.TabIndex = 49;
+            this.ttGeneral.SetToolTip(this.txtProductReturn, "Fill in the Barcode of the product that is to be returned!");
+            this.txtProductReturn.TextChanged += new System.EventHandler(this.txtProductReturn_TextChanged);
+            // 
+            // pnlReturns
+            // 
+            this.pnlReturns.Controls.Add(this.txtSaleReturn);
+            this.pnlReturns.Controls.Add(this.lblSaleReturnID);
+            this.pnlReturns.Controls.Add(this.btnRefund);
+            this.pnlReturns.Controls.Add(this.txtProductReturn);
+            this.pnlReturns.Controls.Add(this.lblIDReturn);
+            this.pnlReturns.Location = new System.Drawing.Point(719, 288);
+            this.pnlReturns.Name = "pnlReturns";
+            this.pnlReturns.Size = new System.Drawing.Size(179, 219);
+            this.pnlReturns.TabIndex = 14;
+            this.pnlReturns.Visible = false;
+            // 
+            // lblSaleReturnID
+            // 
+            this.lblSaleReturnID.AutoSize = true;
+            this.lblSaleReturnID.Location = new System.Drawing.Point(9, 30);
+            this.lblSaleReturnID.Name = "lblSaleReturnID";
+            this.lblSaleReturnID.Size = new System.Drawing.Size(48, 13);
+            this.lblSaleReturnID.TabIndex = 53;
+            this.lblSaleReturnID.Text = "Sale ID: ";
+            // 
+            // btnRefund
+            // 
+            this.btnRefund.Location = new System.Drawing.Point(10, 126);
+            this.btnRefund.Name = "btnRefund";
+            this.btnRefund.Size = new System.Drawing.Size(159, 63);
+            this.btnRefund.TabIndex = 51;
+            this.btnRefund.Text = "Get Refund";
+            this.btnRefund.UseVisualStyleBackColor = true;
+            this.btnRefund.Click += new System.EventHandler(this.btnRefund_Click_1);
+            // 
+            // lblIDReturn
+            // 
+            this.lblIDReturn.AutoSize = true;
+            this.lblIDReturn.Location = new System.Drawing.Point(9, 71);
+            this.lblIDReturn.Name = "lblIDReturn";
+            this.lblIDReturn.Size = new System.Drawing.Size(64, 13);
+            this.lblIDReturn.TabIndex = 50;
+            this.lblIDReturn.Text = "Product ID: ";
+            // 
+            // btnRefreshSearch
+            // 
+            this.btnRefreshSearch.Location = new System.Drawing.Point(16, 118);
+            this.btnRefreshSearch.Name = "btnRefreshSearch";
+            this.btnRefreshSearch.Size = new System.Drawing.Size(147, 41);
+            this.btnRefreshSearch.TabIndex = 44;
+            this.btnRefreshSearch.Text = "Refresh Search";
+            this.btnRefreshSearch.UseVisualStyleBackColor = true;
+            // 
+            // txtSaleSearch
+            // 
+            this.txtSaleSearch.Location = new System.Drawing.Point(20, 41);
+            this.txtSaleSearch.Name = "txtSaleSearch";
+            this.txtSaleSearch.Size = new System.Drawing.Size(143, 20);
+            this.txtSaleSearch.TabIndex = 45;
+            // 
+            // lblSaleIDSearch
+            // 
+            this.lblSaleIDSearch.AutoSize = true;
+            this.lblSaleIDSearch.Location = new System.Drawing.Point(17, 23);
+            this.lblSaleIDSearch.Name = "lblSaleIDSearch";
+            this.lblSaleIDSearch.Size = new System.Drawing.Size(94, 13);
+            this.lblSaleIDSearch.TabIndex = 46;
+            this.lblSaleIDSearch.Text = "Sale ID to Search:";
+            // 
+            // rtxpdf
+            // 
+            this.rtxpdf.Location = new System.Drawing.Point(180, 15);
+            this.rtxpdf.Name = "rtxpdf";
+            this.rtxpdf.Size = new System.Drawing.Size(159, 186);
+            this.rtxpdf.TabIndex = 47;
+            this.rtxpdf.Text = "";
+            // 
+            // btnPrintSearch
+            // 
+            this.btnPrintSearch.Enabled = false;
+            this.btnPrintSearch.Location = new System.Drawing.Point(16, 165);
+            this.btnPrintSearch.Name = "btnPrintSearch";
+            this.btnPrintSearch.Size = new System.Drawing.Size(147, 36);
+            this.btnPrintSearch.TabIndex = 48;
+            this.btnPrintSearch.Text = "Print Search";
+            this.btnPrintSearch.UseVisualStyleBackColor = true;
+            // 
             // salesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 733);
-            this.Controls.Add(this.pnlCompleteCustom);
             this.Controls.Add(this.pnlReturns);
+            this.Controls.Add(this.pnlCompleteCustom);
             this.Controls.Add(this.pnlCustoms);
             this.Controls.Add(this.pnlCompleteSale);
             this.Controls.Add(this.pnlPrevSaleCancel);
@@ -757,10 +756,10 @@
             this.pnlCompleteSale.PerformLayout();
             this.pnlCustoms.ResumeLayout(false);
             this.pnlCustoms.PerformLayout();
-            this.pnlReturns.ResumeLayout(false);
-            this.pnlReturns.PerformLayout();
             this.pnlCompleteCustom.ResumeLayout(false);
             this.pnlCompleteCustom.PerformLayout();
+            this.pnlReturns.ResumeLayout(false);
+            this.pnlReturns.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -780,15 +779,12 @@
         private System.Windows.Forms.Button btnRemoveSaleItem;
         private System.Windows.Forms.Button btnCancelSaleBusy;
         private System.Windows.Forms.Panel pnlPrevSaleCancel;
-        private System.Windows.Forms.Label lblSaleToSearch;
         private System.Windows.Forms.BindingSource stockITDataSetBindingSource;
         private System.Windows.Forms.BindingSource salesBindingSource;
         private _stockI_TDataSetTableAdapters.SalesTableAdapter salesTableAdapter;
         private System.Windows.Forms.TextBox txtProductID_Sale;
-        private System.Windows.Forms.DateTimePicker dtpSaleDateSearch;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ListBox lbxDisplayReceipt;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Panel pnlCompleteSale;
         private System.Windows.Forms.Button btnCancelSale;
         private System.Windows.Forms.Button btnCompleteSalePaid;
@@ -798,7 +794,6 @@
         private System.Windows.Forms.TextBox txtPaid;
         private System.Windows.Forms.ComboBox cbxMethodOfPayment;
         private System.Windows.Forms.Label lblMethodOfPayment_Sales;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Panel pnlCustoms;
         private System.Windows.Forms.TextBox txtCmsID;
         private System.Windows.Forms.Button btnCancelCms;
@@ -807,16 +802,6 @@
         private System.Windows.Forms.Button btnCompletecms;
         private System.Windows.Forms.ListBox lbxCustomReceipt;
         private System.Windows.Forms.Label lblCmID;
-        private System.Windows.Forms.Panel pnlReturns;
-        private System.Windows.Forms.TextBox txtSaleIDReturn;
-        private System.Windows.Forms.Label lblSaleIDReturn;
-        private System.Windows.Forms.TextBox txtProductReturn;
-        private System.Windows.Forms.Button btnPrintReturn;
-        private System.Windows.Forms.Button btnReturnAdd;
-        private System.Windows.Forms.Button btnCompleteReturn;
-        private System.Windows.Forms.ListBox lbxReturns;
-        private System.Windows.Forms.Label lblIDReturn;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox txtLabour;
         private System.Windows.Forms.Label lblLabour;
         private System.Windows.Forms.Button btnAddLabour;
@@ -830,5 +815,17 @@
         private System.Windows.Forms.Label lblcmsPaidMeth;
         private System.Windows.Forms.Button btnNewSale;
         private System.Windows.Forms.Button btnNewSalecms;
+        private System.Windows.Forms.ToolTip ttGeneral;
+        private System.Windows.Forms.Panel pnlReturns;
+        private System.Windows.Forms.TextBox txtSaleReturn;
+        private System.Windows.Forms.Label lblSaleReturnID;
+        private System.Windows.Forms.Button btnRefund;
+        private System.Windows.Forms.TextBox txtProductReturn;
+        private System.Windows.Forms.Label lblIDReturn;
+        private System.Windows.Forms.Button btnRefreshSearch;
+        private System.Windows.Forms.Label lblSaleIDSearch;
+        private System.Windows.Forms.TextBox txtSaleSearch;
+        private System.Windows.Forms.RichTextBox rtxpdf;
+        private System.Windows.Forms.Button btnPrintSearch;
     }
 }

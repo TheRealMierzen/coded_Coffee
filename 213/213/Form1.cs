@@ -25,7 +25,7 @@ namespace _213
             user = userName;
         }
 
-        private string user;
+        public string user;
         private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
         private gebruik util = new gebruik();
 
