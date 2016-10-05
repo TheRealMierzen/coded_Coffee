@@ -442,22 +442,7 @@ namespace _213
                 btnPrintReceipt_Sales.Enabled = true;
                 //btnPrintReceipt_Sales.Enabled = false;
 
-                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-                con.Open();
-                SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order, cms) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order, @cms)", con);
-                comm.Parameters.AddWithValue("@sale_branch", branch);
-                comm.Parameters.AddWithValue("@sale_id", saleid);
-                comm.Parameters.AddWithValue("@sale_date", dateTimeSale);
-                comm.Parameters.AddWithValue("@items", items);
-                comm.Parameters.AddWithValue("@item_ids", itemIDS);
-                comm.Parameters.AddWithValue("@total_cost", newtotalCost.ToString());
-                comm.Parameters.AddWithValue("@total_paid", totalPaid.ToString());
-                comm.Parameters.AddWithValue("@payment_method", paymentMethod);
-                comm.Parameters.AddWithValue("@promotion", Promotion);
-                comm.Parameters.AddWithValue("@special_order", SpecialOrder);
-                comm.Parameters.AddWithValue("@cms", cms);
-                comm.ExecuteNonQuery();
-                con.Close();
+                AddSale(branch, saleid, dateTimeSale, items, itemIDS, newtotalCost, totalPaid, paymentMethod, Promotion, SpecialOrder, cms);
 
                 //SAVE PDF///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 string pdfItems = "";
@@ -514,6 +499,40 @@ namespace _213
             }
 
 
+        }
+        private void AddSale(string branch, string saleid, string dateTimeSale, string items, string itemIDS, double newtotalCost, double totalPaid, string paymentMethod, bool Promotion, bool SpecialOrder, bool cms)
+        {
+            //try
+            //{
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order, cms) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order, @cms)", con);
+                comm.Parameters.AddWithValue("@sale_branch", branch);
+                comm.Parameters.AddWithValue("@sale_id", saleid);
+                comm.Parameters.AddWithValue("@sale_date", dateTimeSale);
+                comm.Parameters.AddWithValue("@items", items);
+                comm.Parameters.AddWithValue("@item_ids", itemIDS);
+                comm.Parameters.AddWithValue("@total_cost", newtotalCost.ToString());
+                comm.Parameters.AddWithValue("@total_paid", totalPaid.ToString());
+                comm.Parameters.AddWithValue("@payment_method", paymentMethod);
+                comm.Parameters.AddWithValue("@promotion", Promotion);
+                comm.Parameters.AddWithValue("@special_order", SpecialOrder);
+                comm.Parameters.AddWithValue("@cms", cms);
+                comm.ExecuteNonQuery();
+                con.Close();
+            //}
+
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        AddSale(branch, saleid, dateTimeSale, items, itemIDS, newtotalCost, totalPaid, paymentMethod, Promotion, SpecialOrder, cms);
+                    }
+                }
+            }*/
         }
 
         private void lbxCustomReceipt_SelectedIndexChanged(object sender, EventArgs e)
@@ -807,25 +826,7 @@ namespace _213
                 pnlCustoms.Show();
                 cms = true;
 
-                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-                con.Open();
-                SqlCommand comm = new SqlCommand(@"INSERT INTO Sales(sale_branch, sale_id, sale_date, items, item_ids, total_cost, total_paid, payment_method, promotion, special_order, cms) VALUES (@sale_branch, @sale_id, @sale_date, @items, @item_ids, @total_cost, @total_paid, @payment_method, @promotion, @special_order, @cms)", con);
-                comm.Parameters.AddWithValue("@sale_branch", branch);
-                comm.Parameters.AddWithValue("@sale_id", saleid);
-                comm.Parameters.AddWithValue("@sale_date", dateTimeSale);
-                comm.Parameters.AddWithValue("@items", items);
-                comm.Parameters.AddWithValue("@item_ids", itemIDS);
-                comm.Parameters.AddWithValue("@total_cost", newtotalCost.ToString());
-                comm.Parameters.AddWithValue("@total_paid", totalPaid.ToString());
-                comm.Parameters.AddWithValue("@payment_method", paymentMethod);
-                comm.Parameters.AddWithValue("@promotion", Promotion);
-                comm.Parameters.AddWithValue("@special_order", SpecialOrder);
-                comm.Parameters.AddWithValue("@cms", cms);
-
-                //SqlCommand comm2 = new SqlCommand(@"UPDATE Users SET numberOfActions = '" + code + "' WHERE item_id = '" + code + "'", con);
-                //comm2.ExecuteNonQuery();
-                comm.ExecuteNonQuery();
-                con.Close();
+                AddSale(branch, saleid, dateTimeSale, items, itemIDS, newtotalCost, totalPaid, paymentMethod, Promotion, SpecialOrder, cms);
 
                 btnNewSalecms.Enabled = true;
                 //SAVE PDF///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1026,7 +1027,13 @@ namespace _213
         private void btnReturnAdd_Click(object sender, EventArgs e)
         {
             itemID = txtProductReturn.Text;
-            
+            ReturnAdd(itemID, dateTimeSale);    
+        }
+
+        private void ReturnAdd(string itemID, string dateTimeSale)
+        {
+            //try
+            //{
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
             //SqlCommand comm = new SqlCommand(@"UPDATE Stock SET status = 'Returned' WHERE item_id ='" + itemID + "'  AND branch = '" + branch + "'", con);
@@ -1037,10 +1044,21 @@ namespace _213
             SqlCommand comm3 = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "'", con);
             comm.ExecuteNonQuery();
             comm2.ExecuteNonQuery();
-            
-            con.Close();
-        }
 
+            con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        setWarranty(itemID);
+                    }
+                }
+            }*/
+        }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -1130,19 +1148,8 @@ namespace _213
                 if (barcodes.Contains(productID) == true)
                 {
                     //Add to database////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-                    conn.Open();
-                    SqlCommand Add = new SqlCommand(@"INSERT INTO Returns(branch, return_id, sale_id, item_id, description, return_date, cash_return) VALUES (@branch, @return_id, @sale_id, @item_id, @description, @return_date, @cash_return)", con);
-                    Add.Parameters.AddWithValue("@branch", branch);
-                    Add.Parameters.AddWithValue("@return_id", returnID);
-                    Add.Parameters.AddWithValue("@sale_id", saleID);
-                    Add.Parameters.AddWithValue("@item_id", productID);
-                    Add.Parameters.AddWithValue("@description", description);
-                    Add.Parameters.AddWithValue("@return_date", date);
-                    Add.Parameters.AddWithValue("@cash_return", cash);
-                    Add.ExecuteNonQuery();
-                    conn.Close();
-
+                    
+                    AddReturn(branch, returnID.ToString(), saleID, productID, description, date, cash);
                     //Confirm////////////////
                     MessageBox.Show("Return Accepted!" + "\n" + "Give cash: R" + cash.ToString());
                     //gebruik.log(DateTime.Now, username, "Return");
@@ -1155,6 +1162,36 @@ namespace _213
                 }
             }
 
+
+        }
+        private void AddReturn(string branch, string return_id, string sale_id, string item_id, string description, string return_date, double cash_return)
+        {
+            //try
+            //{
+                SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                conn.Open();
+                SqlCommand Add = new SqlCommand(@"INSERT INTO Returns(branch, return_id, sale_id, item_id, description, return_date, cash_return) VALUES (@branch, @return_id, @sale_id, @item_id, @description, @return_date, @cash_return)", conn);
+                Add.Parameters.AddWithValue("@branch", branch);
+                Add.Parameters.AddWithValue("@return_id", return_id);
+                Add.Parameters.AddWithValue("@sale_id", sale_id);
+                Add.Parameters.AddWithValue("@item_id", item_id);
+                Add.Parameters.AddWithValue("@description", description);
+                Add.Parameters.AddWithValue("@return_date", return_date);
+                Add.Parameters.AddWithValue("@cash_return", cash_return);
+                Add.ExecuteNonQuery();
+                conn.Close();
+            //}
+            /*catch (SqlException se)
+            {
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                    {
+                        AddReturn( branch,  return_id,  sale_id,  item_id,  description, return_date,  cash_return);
+                    }
+                }
+            }*/
 
         }
 
@@ -1318,12 +1355,26 @@ namespace _213
         //GET AND SET ITEMNAME////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setItemName(string itemID)
         {
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            //SqlCommand comm = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "' AND branch = '" + branch + "'", con);
-            SqlCommand comm = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "'", con);
-            itemName = comm.ExecuteScalar().ToString();
-            con.Close();
+            //try
+            //{
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                //SqlCommand comm = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "' AND branch = '" + branch + "'", con);
+                SqlCommand comm = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = '" + itemID + "'", con);
+                itemName = comm.ExecuteScalar().ToString();
+                con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        setItemName(itemID);
+                    }
+                }
+            }*/
         }
 
         private string getItemName()
@@ -1333,12 +1384,26 @@ namespace _213
         //GET AND SET ITEMPRICE////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setItemPrice(string itemID)
         {
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            //SqlCommand comm = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemID + "' AND branch = '" + branch + "'", con);
-            SqlCommand comm = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemID + "'", con);
-            itemCost = Convert.ToDouble(comm.ExecuteScalar());
-            con.Close();
+            //try
+            //{
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                //SqlCommand comm = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemID + "' AND branch = '" + branch + "'", con);
+                SqlCommand comm = new SqlCommand(@"SELECT retail_price FROM Stock WHERE item_id = '" + itemID + "'", con);
+                itemCost = Convert.ToDouble(comm.ExecuteScalar());
+                con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        setItemPrice(itemID);
+                    }
+                }
+            }*/
         }
 
         private double getItemPrice()
@@ -1348,12 +1413,26 @@ namespace _213
         //GET AND SET Promotion////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setPromotion(string itemName)
         {
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            //SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
-            SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            discount = Convert.ToDouble(comm.ExecuteScalar());
-            con.Close();
+            //try
+            //{
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                //SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
+                SqlCommand comm = new SqlCommand(@"SELECT discount FROM Promotions WHERE item_name = '" + itemName + "'", con);
+                discount = Convert.ToDouble(comm.ExecuteScalar());
+                con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        checkPromo(itemName);
+                    }
+                }
+            }*/
         }
         private double getPromotion()
         {
@@ -1362,25 +1441,39 @@ namespace _213
         //checkPromo////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void checkPromo(string itemName)
         {
-            int Q;
-            bool act;
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            //SqlCommand checkPromo = new SqlCommand(@"SELECT active FROM Promotions WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
-            SqlCommand checkPromo = new SqlCommand(@"SELECT active FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            //SqlCommand checkQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'  AND branch = '" + branch + "'", con);
-            SqlCommand checkQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            Q = Convert.ToInt16(checkQuantity.ExecuteScalar());
-            act = Convert.ToBoolean(checkPromo.ExecuteScalar());
-            if(act == true && Q != 0)
+            //try
+            //{
+                int Q;
+                bool act;
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                //SqlCommand checkPromo = new SqlCommand(@"SELECT active FROM Promotions WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
+                SqlCommand checkPromo = new SqlCommand(@"SELECT active FROM Promotions WHERE item_name = '" + itemName + "'", con);
+                //SqlCommand checkQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'  AND branch = '" + branch + "'", con);
+                SqlCommand checkQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'", con);
+                Q = Convert.ToInt16(checkQuantity.ExecuteScalar());
+                act = Convert.ToBoolean(checkPromo.ExecuteScalar());
+                if (act == true && Q != 0)
+                {
+                    prom = true;
+                }
+                else
+                {
+                    prom = false;
+                }
+                con.Close();
+            //}
+            /*catch(SqlException se)
             {
-                prom = true;
-            }
-            else
-            {
-                prom = false;
-            }
-            con.Close();
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        checkPromo(itemName);
+                    }
+                }
+            }*/
         }
         private bool getcheckPromo()
         {
@@ -1389,44 +1482,89 @@ namespace _213
 //changeQuantityPLus////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void changeQuantityPlus(string itemName)
         {
-            int NewQuantity;
-            int Quantity;
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            //SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'  AND branch = '" + branch + "'", con);
-            SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            Quantity = Convert.ToInt16(getQuantity.ExecuteScalar());
-            NewQuantity = Quantity + 1;
-            //SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
-            SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "'", con);
-            changePromo.ExecuteNonQuery();
-            con.Close();
+
+            //try
+            //{
+                int NewQuantity;
+                int Quantity;
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                //SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'  AND branch = '" + branch + "'", con);
+                SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'", con);
+                Quantity = Convert.ToInt16(getQuantity.ExecuteScalar());
+                NewQuantity = Quantity + 1;
+                //SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
+                SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "'", con);
+                changePromo.ExecuteNonQuery();
+                con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        changeQuantityPlus(itemName);
+                    }
+                }
+            }*/
         }
-//changeQuantityMin////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //changeQuantityMin////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void changeQuantityMin(string itemName)
         {
-            int NewQuantity;
-            int Quantity;
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
-            con.Open();
-            //SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
-            SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'", con);
-            Quantity = Convert.ToInt16(getQuantity.ExecuteScalar());
-            NewQuantity = Quantity - 1;
-            // SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
-            SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "'", con);
-            changePromo.ExecuteNonQuery();
-            con.Close();
+            //try
+            //{
+                int NewQuantity;
+                int Quantity;
+                SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+                con.Open();
+                //SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
+                SqlCommand getQuantity = new SqlCommand(@"SELECT quantity FROM Promotions WHERE item_name = '" + itemName + "'", con);
+                Quantity = Convert.ToInt16(getQuantity.ExecuteScalar());
+                NewQuantity = Quantity - 1;
+                // SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "' AND branch = '" + branch + "'", con);
+                SqlCommand changePromo = new SqlCommand(@"UPDATE Promotions SET quantity = '" + NewQuantity + "' WHERE item_name = '" + itemName + "'", con);
+                changePromo.ExecuteNonQuery();
+                con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        changeQuantityMin(itemName);
+                    }
+                }
+            }*/
+            
         }
         //GET AND SET Warranty////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setWarranty(string itemID)
         {
+
+            //try
+            //{
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
             //SqlCommand comm = new SqlCommand(@"SELECT warranty FROM Stock WHERE item_id = '" + itemID + "'  AND branch = '" + branch + "'", con);
             SqlCommand comm = new SqlCommand(@"SELECT warranty FROM Stock WHERE item_id = '" + itemID + "'", con);
             warranty = comm.ExecuteScalar().ToString();
             con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        setWarranty(itemID);
+                    }
+                }
+            }*/
         }
         private string getWarranty()
         {
@@ -1435,6 +1573,8 @@ namespace _213
         //Generate Sale ID////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public int GenerateSaleID()
         {
+            //try
+            //{
             int saleID;
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
@@ -1450,19 +1590,47 @@ namespace _213
                 saleID = saleID + 1;
             }
             con.Close();
-            
-            return saleID; 
+
+            return saleID;
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        GenerateSaleID();
+                    }
+                }
+            }*/
         }
 
         //Check status of Stock////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private void checkStockStatus(string itemID)
         {
+
+            //try
+            //{
             SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
             con.Open();
             //SqlCommand comm = new SqlCommand(@"SELECT status FROM Stock WHERE item_id = '" + itemID + "' AND branch = '" + branch + "'", con);
             SqlCommand comm = new SqlCommand(@"SELECT status FROM Stock WHERE item_id = '" + itemID + "'", con);
             status = Convert.ToString(comm.ExecuteScalar());
             con.Close();
+            //}
+            /*catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if(other.CheckConnection())
+                    {
+                        setWarranty(itemID);
+                    }
+                }
+            }*/
+
 
         }
         private string getStockSatus()
