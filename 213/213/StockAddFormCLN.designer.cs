@@ -53,6 +53,9 @@
             this.stockBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.stockBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.btnBack = new System.Windows.Forms.Button();
+            this.txbItemID = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
@@ -64,7 +67,7 @@
             // lblDescAddCLN
             // 
             this.lblDescAddCLN.AutoSize = true;
-            this.lblDescAddCLN.Location = new System.Drawing.Point(13, 27);
+            this.lblDescAddCLN.Location = new System.Drawing.Point(12, 55);
             this.lblDescAddCLN.Name = "lblDescAddCLN";
             this.lblDescAddCLN.Size = new System.Drawing.Size(86, 13);
             this.lblDescAddCLN.TabIndex = 0;
@@ -73,7 +76,7 @@
             // lblBrandAddCLN
             // 
             this.lblBrandAddCLN.AutoSize = true;
-            this.lblBrandAddCLN.Location = new System.Drawing.Point(13, 53);
+            this.lblBrandAddCLN.Location = new System.Drawing.Point(12, 81);
             this.lblBrandAddCLN.Name = "lblBrandAddCLN";
             this.lblBrandAddCLN.Size = new System.Drawing.Size(96, 13);
             this.lblBrandAddCLN.TabIndex = 1;
@@ -82,7 +85,7 @@
             // lblPriceRetailAddCLN
             // 
             this.lblPriceRetailAddCLN.AutoSize = true;
-            this.lblPriceRetailAddCLN.Location = new System.Drawing.Point(13, 79);
+            this.lblPriceRetailAddCLN.Location = new System.Drawing.Point(12, 107);
             this.lblPriceRetailAddCLN.Name = "lblPriceRetailAddCLN";
             this.lblPriceRetailAddCLN.Size = new System.Drawing.Size(87, 13);
             this.lblPriceRetailAddCLN.TabIndex = 2;
@@ -91,44 +94,54 @@
             // 
             // btnConfirmAddCLN
             // 
-            this.btnConfirmAddCLN.Location = new System.Drawing.Point(12, 185);
+            this.btnConfirmAddCLN.Enabled = false;
+            this.btnConfirmAddCLN.Location = new System.Drawing.Point(10, 216);
             this.btnConfirmAddCLN.Name = "btnConfirmAddCLN";
             this.btnConfirmAddCLN.Size = new System.Drawing.Size(75, 23);
-            this.btnConfirmAddCLN.TabIndex = 4;
+            this.btnConfirmAddCLN.TabIndex = 8;
             this.btnConfirmAddCLN.Text = "OK";
             this.btnConfirmAddCLN.UseVisualStyleBackColor = true;
             this.btnConfirmAddCLN.Click += new System.EventHandler(this.btnConfirmAddCLN_Click);
             // 
             // btnCancelAddCLN
             // 
-            this.btnCancelAddCLN.Location = new System.Drawing.Point(93, 185);
+            this.btnCancelAddCLN.Location = new System.Drawing.Point(91, 216);
             this.btnCancelAddCLN.Name = "btnCancelAddCLN";
             this.btnCancelAddCLN.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelAddCLN.TabIndex = 5;
+            this.btnCancelAddCLN.TabIndex = 9;
             this.btnCancelAddCLN.Text = "Cancel";
+            this.toolTip1.SetToolTip(this.btnCancelAddCLN, "Click if you want to clear \r\nthe information you entered\r\n");
             this.btnCancelAddCLN.UseVisualStyleBackColor = true;
             this.btnCancelAddCLN.Click += new System.EventHandler(this.btnCancelAddCLN_Click);
             // 
             // txbDescAddCLN
             // 
-            this.txbDescAddCLN.Location = new System.Drawing.Point(142, 24);
+            this.txbDescAddCLN.Location = new System.Drawing.Point(147, 52);
             this.txbDescAddCLN.Name = "txbDescAddCLN";
+            this.txbDescAddCLN.ShortcutsEnabled = false;
             this.txbDescAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbDescAddCLN.TabIndex = 6;
+            this.txbDescAddCLN.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.txbDescAddCLN, "Enter the item name eg: GTX 1080");
+            this.txbDescAddCLN.TextChanged += new System.EventHandler(this.txbDescAddCLN_TextChanged);
             // 
             // txbBrandAddCLN
             // 
-            this.txbBrandAddCLN.Location = new System.Drawing.Point(142, 50);
+            this.txbBrandAddCLN.Location = new System.Drawing.Point(147, 78);
             this.txbBrandAddCLN.Name = "txbBrandAddCLN";
+            this.txbBrandAddCLN.ShortcutsEnabled = false;
             this.txbBrandAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbBrandAddCLN.TabIndex = 7;
+            this.txbBrandAddCLN.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.txbBrandAddCLN, "Enter the manufacturer of the item");
+            this.txbBrandAddCLN.TextChanged += new System.EventHandler(this.txbBrandAddCLN_TextChanged);
             // 
             // txbPriceRetailAddCLN
             // 
-            this.txbPriceRetailAddCLN.Location = new System.Drawing.Point(142, 76);
+            this.txbPriceRetailAddCLN.Location = new System.Drawing.Point(147, 104);
             this.txbPriceRetailAddCLN.Name = "txbPriceRetailAddCLN";
+            this.txbPriceRetailAddCLN.ShortcutsEnabled = false;
             this.txbPriceRetailAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbPriceRetailAddCLN.TabIndex = 8;
+            this.txbPriceRetailAddCLN.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.txbPriceRetailAddCLN, "Enter the retail price of the item (Only 0..9 allowed)");
             this.txbPriceRetailAddCLN.TextChanged += new System.EventHandler(this.txbPriceRetailAddCLN_TextChanged);
             this.txbPriceRetailAddCLN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbPriceRetailAddCLN_KeyPress);
             // 
@@ -138,16 +151,19 @@
             // 
             // txtManfacturerPriceCLN
             // 
-            this.txtManfacturerPriceCLN.Location = new System.Drawing.Point(142, 102);
+            this.txtManfacturerPriceCLN.Location = new System.Drawing.Point(147, 130);
             this.txtManfacturerPriceCLN.Name = "txtManfacturerPriceCLN";
+            this.txtManfacturerPriceCLN.ShortcutsEnabled = false;
             this.txtManfacturerPriceCLN.Size = new System.Drawing.Size(100, 20);
-            this.txtManfacturerPriceCLN.TabIndex = 11;
+            this.txtManfacturerPriceCLN.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.txtManfacturerPriceCLN, "Enter the manufacturer price of the item (Only 0..9 allowed)");
+            this.txtManfacturerPriceCLN.TextChanged += new System.EventHandler(this.txtManfacturerPriceCLN_TextChanged);
             this.txtManfacturerPriceCLN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtManfacturerPriceCLN_KeyPress);
             // 
             // lblManufacturerPriceCLN
             // 
             this.lblManufacturerPriceCLN.AutoSize = true;
-            this.lblManufacturerPriceCLN.Location = new System.Drawing.Point(13, 105);
+            this.lblManufacturerPriceCLN.Location = new System.Drawing.Point(12, 133);
             this.lblManufacturerPriceCLN.Name = "lblManufacturerPriceCLN";
             this.lblManufacturerPriceCLN.Size = new System.Drawing.Size(123, 13);
             this.lblManufacturerPriceCLN.TabIndex = 10;
@@ -156,7 +172,7 @@
             // lblTypeAddCLN
             // 
             this.lblTypeAddCLN.AutoSize = true;
-            this.lblTypeAddCLN.Location = new System.Drawing.Point(14, 157);
+            this.lblTypeAddCLN.Location = new System.Drawing.Point(13, 185);
             this.lblTypeAddCLN.Name = "lblTypeAddCLN";
             this.lblTypeAddCLN.Size = new System.Drawing.Size(57, 13);
             this.lblTypeAddCLN.TabIndex = 12;
@@ -174,12 +190,14 @@
             "GPU",
             "HDD",
             "Mobo",
-            "Periperals",
+            "Peripherals",
             "Misc"});
-            this.cmbTypeAddCLN.Location = new System.Drawing.Point(142, 154);
+            this.cmbTypeAddCLN.Location = new System.Drawing.Point(147, 182);
             this.cmbTypeAddCLN.Name = "cmbTypeAddCLN";
             this.cmbTypeAddCLN.Size = new System.Drawing.Size(100, 21);
-            this.cmbTypeAddCLN.TabIndex = 13;
+            this.cmbTypeAddCLN.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.cmbTypeAddCLN, "Select the item type of the item");
+            this.cmbTypeAddCLN.TextChanged += new System.EventHandler(this.cmbTypeAddCLN_TextChanged);
             // 
             // branchesBindingSource
             // 
@@ -198,15 +216,19 @@
             // 
             // txbWarrantyAddCLN
             // 
-            this.txbWarrantyAddCLN.Location = new System.Drawing.Point(142, 128);
+            this.txbWarrantyAddCLN.Location = new System.Drawing.Point(147, 156);
             this.txbWarrantyAddCLN.Name = "txbWarrantyAddCLN";
+            this.txbWarrantyAddCLN.ShortcutsEnabled = false;
             this.txbWarrantyAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbWarrantyAddCLN.TabIndex = 15;
+            this.txbWarrantyAddCLN.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.txbWarrantyAddCLN, "Enter the item warranty in years");
+            this.txbWarrantyAddCLN.TextChanged += new System.EventHandler(this.txbWarrantyAddCLN_TextChanged);
+            this.txbWarrantyAddCLN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbWarrantyAddCLN_KeyPress);
             // 
             // lblWarrantyAddCLN
             // 
             this.lblWarrantyAddCLN.AutoSize = true;
-            this.lblWarrantyAddCLN.Location = new System.Drawing.Point(14, 131);
+            this.lblWarrantyAddCLN.Location = new System.Drawing.Point(13, 159);
             this.lblWarrantyAddCLN.Name = "lblWarrantyAddCLN";
             this.lblWarrantyAddCLN.Size = new System.Drawing.Size(76, 13);
             this.lblWarrantyAddCLN.TabIndex = 14;
@@ -237,19 +259,42 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(174, 185);
+            this.btnBack.Location = new System.Drawing.Point(172, 216);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
-            this.btnBack.TabIndex = 16;
+            this.btnBack.TabIndex = 10;
             this.btnBack.Text = "Back";
+            this.toolTip1.SetToolTip(this.btnBack, "Click to close this window");
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txbItemID
+            // 
+            this.txbItemID.Location = new System.Drawing.Point(148, 25);
+            this.txbItemID.Name = "txbItemID";
+            this.txbItemID.ShortcutsEnabled = false;
+            this.txbItemID.Size = new System.Drawing.Size(100, 20);
+            this.txbItemID.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txbItemID, "Scan in ID with barcode scanner");
+            this.txbItemID.TextChanged += new System.EventHandler(this.txbItemID_TextChanged);
+            this.txbItemID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txbItemID_KeyDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Item ID:";
             // 
             // StockAddFormCLN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 222);
+            this.ClientSize = new System.Drawing.Size(268, 276);
+            this.Controls.Add(this.txbItemID);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.txbWarrantyAddCLN);
             this.Controls.Add(this.lblWarrantyAddCLN);
@@ -265,8 +310,11 @@
             this.Controls.Add(this.lblPriceRetailAddCLN);
             this.Controls.Add(this.lblBrandAddCLN);
             this.Controls.Add(this.lblDescAddCLN);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "StockAddFormCLN";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Item Entry";
+            this.toolTip1.SetToolTip(this, "Click if you are ready to add the item");
             this.Load += new System.EventHandler(this.StockAddFormCLN_Load);
             this.Shown += new System.EventHandler(this.StockAddFormCLN_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).EndInit();
@@ -306,5 +354,8 @@
         private System.Windows.Forms.BindingSource stockBindingSource1;
         private System.Windows.Forms.BindingSource stockBindingSource2;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.TextBox txbItemID;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

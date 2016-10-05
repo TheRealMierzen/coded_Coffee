@@ -37,90 +37,123 @@ namespace _213
         {
             this.Hide();
             this.Close();
-            //StockMainFormCLN frmStockMain = new StockMainFormCLN();
-           // frmStockMain.Show();
         }
 
         private void btnConfirmFind_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to complete this action?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            try
             {
-                if (txtFindName.Text == "" & txtFindBrand.Text == "" & txtFindPrice.Text == "")
+                if (MessageBox.Show("Are you sure you want to complete this action?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    MessageBox.Show("Please select a value");
-                }
-                else if(txtFindName.Text != "")
-                {
-                    SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-                    stockConnection.Open();
-                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE description LIKE '%" + txtFindName.Text + "%'", stockConnection);
-                    DataSet ds = new DataSet();
-                    stockDataAdapter.Fill(ds, "Stock");
-                    stockConnection.Close();
-                    dgvFindStock.DataSource = ds;
-                    dgvFindStock.DataMember = "Stock";
-                }
-                else if (txtFindBrand.Text != "")
-                {
-                    SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-                    stockConnection.Open();
-                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE manufacturer LIKE '%" + txtFindBrand.Text + "%'", stockConnection);
-                    DataSet ds = new DataSet();
-                    stockDataAdapter.Fill(ds, "Stock");
-                    stockConnection.Close();
-                    dgvFindStock.DataSource = ds;
-                    dgvFindStock.DataMember = "Stock";
-                }
-                else if (txtFindPrice.Text != "")
-                {
-                    string price = "R" + txtFindPrice.Text;
-                    SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-                    stockConnection.Open();
-                    SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE retail_price LIKE '" + price + "'", stockConnection);
-                    DataSet ds = new DataSet();
-                    stockDataAdapter.Fill(ds, "Stock");
-                    stockConnection.Close();
-                    dgvFindStock.DataSource = ds;
-                    dgvFindStock.DataMember = "Stock";
-                }
+                    if (txtFindName.Text == "" & txtFindBrand.Text == "" & txtFindPrice.Text == "" & cmbTypeSearch.Text == "")
+                    {
+                        MessageBox.Show("Please select a value");
+                    }
+                    else if (txtFindName.Text != "")
+                    {
+                        SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                      //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                        stockConnection.Open();
+                        SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE item_name LIKE @description", stockConnection);
+                        stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + txtFindName.Text + "%");
+                        DataSet ds = new DataSet();
+                        stockDataAdapter.Fill(ds, "Stock");
+                        stockConnection.Close();
+                        dgvFindStock.DataSource = ds;
+                        dgvFindStock.DataMember = "Stock";
+                    }
+                    else if (txtFindBrand.Text != "")
+                    {
+                        SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                      //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                        SqlCommand stockM = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE manufacturer LIKE @description");                       
+                         SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockM.CommandText, stockConnection);
+                        stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + txtFindBrand.Text + "%");
+                        DataSet ds = new DataSet();
+                        stockDataAdapter.Fill(ds, "Stock");
+                        stockConnection.Close();
+                        dgvFindStock.DataSource = ds;
+                        dgvFindStock.DataMember = "Stock";
+                    }
+                    else if (txtFindPrice.Text != "")
+                    {
+                        string price = txtFindPrice.Text;
+                        SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                       // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                        stockConnection.Open();
+                        SqlCommand stockP = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE retail_price LIKE @description");
 
+                        SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockP.CommandText, stockConnection);
+                        stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + price + "%");
+                        DataSet ds = new DataSet();
+                        stockDataAdapter.Fill(ds, "Stock");
+                        stockConnection.Close();
+                        dgvFindStock.DataSource = ds;
+                        dgvFindStock.DataMember = "Stock";
+                    }
+                    else if (cmbTypeSearch.Text != "")
+                    {
+                        SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                       // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                        stockConnection.Open();
+                        SqlCommand stockP = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE item_Type LIKE @description");
 
-
-                //as user ja se
-                //   this.Hide();
-                ///  this.Close();
-                // StockMainFormCLN frmStockMain = new StockMainFormCLN();
-                //frmStockMain.Show();
-            }
-            else
-            {
-                //as user nee se
-
-            }
+                        SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockP.CommandText, stockConnection);
+                        stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + cmbTypeSearch.Text + "%");
+                        DataSet ds = new DataSet();
+                        stockDataAdapter.Fill(ds, "Stock");
+                        stockConnection.Close();
+                        dgvFindStock.DataSource = ds;
+                        dgvFindStock.DataMember = "Stock";
+                    }
+                }
         }
+            catch (SqlException s)
+            {
+                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in valid info" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+      }
 
         private void tmrValidateFind_Tick(object sender, EventArgs e)
         {
-            if (txtFindName.Text == "" & txtFindBrand.Text == "" & txtFindPrice.Text == "")
+            if (txtFindName.Text == "" & txtFindBrand.Text == "" & txtFindPrice.Text == "" & cmbTypeSearch.Text == "")
             {
                 txtFindBrand.Enabled = true;
                 txtFindName.Enabled = true;
                 txtFindPrice.Enabled = true;
+                cmbTypeSearch.Enabled = true;
             }
             if (txtFindName.Text != "")
             {
                 txtFindBrand.Enabled = false;
                 txtFindPrice.Enabled = false;
+                cmbTypeSearch.Enabled = false;
             }
             if (txtFindBrand.Text != "")
             {
                 txtFindName.Enabled = false;
                 txtFindPrice.Enabled = false;
+                cmbTypeSearch.Enabled = false;
             }
             if (txtFindPrice.Text != "")
             {
                 txtFindBrand.Enabled = false;
                 txtFindName.Enabled = false;
+                cmbTypeSearch.Enabled = false;
             }
         }
 

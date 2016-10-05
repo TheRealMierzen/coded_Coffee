@@ -113,11 +113,11 @@
     <Compile Include="StockRemoveForm.Designer.cs">
       <DependentUpon>StockRemoveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockTakeForm.cs">
+    <Compile Include="StockTransferRecieve.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockTakeForm.Designer.cs">
-      <DependentUpon>StockTakeForm.cs</DependentUpon>
+    <Compile Include="StockTransferRecieve.Designer.cs">
+      <DependentUpon>StockTransferRecieve.cs</DependentUpon>
     </Compile>
     <Compile Include="StockTransferSendForm.cs">
       <SubType>Form</SubType>
@@ -158,8 +158,8 @@
     <EmbeddedResource Include="StockRemoveForm.resx">
       <DependentUpon>StockRemoveForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockTakeForm.resx">
-      <DependentUpon>StockTakeForm.cs</DependentUpon>
+    <EmbeddedResource Include="StockTransferRecieve.resx">
+      <DependentUpon>StockTransferRecieve.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockTransferSendForm.resx">
       <DependentUpon>StockTransferSendForm.cs</DependentUpon>

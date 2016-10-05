@@ -29,16 +29,51 @@ namespace _213
 
         private void btnConfirmFind_Click(object sender, EventArgs e)
         {
-            SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            stockConnection.Open();
-            SqlCommand stockDelete = new SqlCommand("UPDATE Stock WHERE item_id = '" + txtDeleteID.Text + "', SET Status = 'Removed'", stockConnection);
-            SqlCommand getUserActions = new SqlCommand("Select numberOfActions FROM Users WHERE userName = '" + userNme + "'", stockConnection);
-            int count = Convert.ToInt16(getUserActions.ExecuteScalar());
-            count = count + 1;
-            SqlCommand updateUserActions = new SqlCommand("UPDATE Users SET numberOfActions = '" + count + " WHERE userName = '" + userNme + "'", stockConnection);
-            updateUserActions.ExecuteNonQuery();
-            stockDelete.ExecuteNonQuery();
-            stockConnection.Close();
+            try
+            {
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+              //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                stockConnection.Open();
+
+                SqlCommand stockCon = new SqlCommand("SELECT item_id FROM Stock WHERE item_id = @id",stockConnection);
+                stockCon.Parameters.AddWithValue("@id", txtDeleteID.Text);
+                if (stockCon.ExecuteScalar() == null)
+                {
+                    MessageBox.Show("ID does not exsist","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+                else
+                {
+                    SqlCommand stockDelete = new SqlCommand("UPDATE Stock SET Status = @status WHERE item_id = @id", stockConnection);
+                    stockDelete.Parameters.AddWithValue("@id", txtDeleteID.Text);
+                    stockDelete.Parameters.AddWithValue("@Status", "Removed"); stockDelete.ExecuteNonQuery();
+                    stockDelete.ExecuteNonQuery();
+                    if (rbDisposal.Checked == true)
+                        // gebruik.log(DateTime.Now, userNme, "Removed Stock: " + rbDisposal.Text);
+                        if (rbFaulty.Checked == true)
+                            //  gebruik.log(DateTime.Now, userNme, "Removed Stock: " + rbFaulty.Text);
+                            gebruik.addAction(userNme);
+                    MessageBox.Show("Item Successfulyl Removed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    stockConnection.Close();
+                }
+            }
+            catch (SqlException s)
+            {
+                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in valid info" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

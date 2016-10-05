@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnUndoLastTransfer = new System.Windows.Forms.Button();
             this.btnAddToTransferList = new System.Windows.Forms.Button();
             this.txbItemIDTransfer = new System.Windows.Forms.TextBox();
             this.txbStockTransferReport = new System.Windows.Forms.TextBox();
@@ -37,22 +36,14 @@
             this.btnCancelSend = new System.Windows.Forms.Button();
             this.btnConfirmSend = new System.Windows.Forms.Button();
             this.cmbBranchSend = new System.Windows.Forms.ComboBox();
-            this.lblBranchSend = new System.Windows.Forms.Label();
-            this._stockI_TDataSet = new _213._stockI_TDataSet();
             this.branchesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._stockI_TDataSet = new _213._stockI_TDataSet();
+            this.lblBranchSend = new System.Windows.Forms.Label();
             this.branchesTableAdapter = new _213._stockI_TDataSetTableAdapters.BranchesTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnUndoLastTransfer
-            // 
-            this.btnUndoLastTransfer.Location = new System.Drawing.Point(89, 86);
-            this.btnUndoLastTransfer.Name = "btnUndoLastTransfer";
-            this.btnUndoLastTransfer.Size = new System.Drawing.Size(121, 23);
-            this.btnUndoLastTransfer.TabIndex = 22;
-            this.btnUndoLastTransfer.Text = "Undo Last Add";
-            this.btnUndoLastTransfer.UseVisualStyleBackColor = true;
             // 
             // btnAddToTransferList
             // 
@@ -61,6 +52,7 @@
             this.btnAddToTransferList.Size = new System.Drawing.Size(79, 23);
             this.btnAddToTransferList.TabIndex = 21;
             this.btnAddToTransferList.Text = "Add to List";
+            this.toolTip1.SetToolTip(this.btnAddToTransferList, "Click to add item to list");
             this.btnAddToTransferList.UseVisualStyleBackColor = true;
             this.btnAddToTransferList.Click += new System.EventHandler(this.btnAddToTransferList_Click);
             // 
@@ -70,14 +62,17 @@
             this.txbItemIDTransfer.Name = "txbItemIDTransfer";
             this.txbItemIDTransfer.Size = new System.Drawing.Size(121, 20);
             this.txbItemIDTransfer.TabIndex = 20;
+            this.toolTip1.SetToolTip(this.txbItemIDTransfer, "Scan in the ID of the item you want to transfer");
             // 
             // txbStockTransferReport
             // 
             this.txbStockTransferReport.Location = new System.Drawing.Point(227, 12);
             this.txbStockTransferReport.Multiline = true;
             this.txbStockTransferReport.Name = "txbStockTransferReport";
+            this.txbStockTransferReport.ReadOnly = true;
             this.txbStockTransferReport.Size = new System.Drawing.Size(286, 247);
             this.txbStockTransferReport.TabIndex = 19;
+            this.toolTip1.SetToolTip(this.txbStockTransferReport, "Here is a manifest of the items ready for transfer");
             // 
             // lblSelectItem
             // 
@@ -95,6 +90,7 @@
             this.btnCancelSend.Size = new System.Drawing.Size(75, 23);
             this.btnCancelSend.TabIndex = 17;
             this.btnCancelSend.Text = "Cancel";
+            this.toolTip1.SetToolTip(this.btnCancelSend, "Click to close this window");
             this.btnCancelSend.UseVisualStyleBackColor = true;
             this.btnCancelSend.Click += new System.EventHandler(this.btnCancelSend_Click_1);
             // 
@@ -105,20 +101,29 @@
             this.btnConfirmSend.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmSend.TabIndex = 16;
             this.btnConfirmSend.Text = "OK";
+            this.toolTip1.SetToolTip(this.btnConfirmSend, "Click to confirm transfer");
             this.btnConfirmSend.UseVisualStyleBackColor = true;
             this.btnConfirmSend.Click += new System.EventHandler(this.btnConfirmSend_Click_1);
             // 
             // cmbBranchSend
             // 
-            this.cmbBranchSend.DataSource = this.branchesBindingSource;
-            this.cmbBranchSend.DisplayMember = "branch_location";
             this.cmbBranchSend.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBranchSend.FormattingEnabled = true;
             this.cmbBranchSend.Location = new System.Drawing.Point(89, 15);
             this.cmbBranchSend.Name = "cmbBranchSend";
             this.cmbBranchSend.Size = new System.Drawing.Size(121, 21);
             this.cmbBranchSend.TabIndex = 15;
-            this.cmbBranchSend.ValueMember = "branch_location";
+            this.toolTip1.SetToolTip(this.cmbBranchSend, "Select a branch you would like to send stock too");
+            // 
+            // branchesBindingSource
+            // 
+            this.branchesBindingSource.DataMember = "Branches";
+            this.branchesBindingSource.DataSource = this._stockI_TDataSet;
+            // 
+            // _stockI_TDataSet
+            // 
+            this._stockI_TDataSet.DataSetName = "_stockI_TDataSet";
+            this._stockI_TDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // lblBranchSend
             // 
@@ -129,16 +134,6 @@
             this.lblBranchSend.TabIndex = 14;
             this.lblBranchSend.Text = "Select Branch";
             // 
-            // _stockI_TDataSet
-            // 
-            this._stockI_TDataSet.DataSetName = "_stockI_TDataSet";
-            this._stockI_TDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // branchesBindingSource
-            // 
-            this.branchesBindingSource.DataMember = "Branches";
-            this.branchesBindingSource.DataSource = this._stockI_TDataSet;
-            // 
             // branchesTableAdapter
             // 
             this.branchesTableAdapter.ClearBeforeFill = true;
@@ -148,7 +143,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(518, 265);
-            this.Controls.Add(this.btnUndoLastTransfer);
             this.Controls.Add(this.btnAddToTransferList);
             this.Controls.Add(this.txbItemIDTransfer);
             this.Controls.Add(this.txbStockTransferReport);
@@ -157,19 +151,20 @@
             this.Controls.Add(this.btnConfirmSend);
             this.Controls.Add(this.cmbBranchSend);
             this.Controls.Add(this.lblBranchSend);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "StockTransferSendForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StockTransferSendForm";
             this.Load += new System.EventHandler(this.StockTransferSendForm_Load_1);
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).EndInit();
+            this.Shown += new System.EventHandler(this.StockTransferSendForm_Shown_1);
             ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnUndoLastTransfer;
         private System.Windows.Forms.Button btnAddToTransferList;
         private System.Windows.Forms.TextBox txbItemIDTransfer;
         private System.Windows.Forms.TextBox txbStockTransferReport;
@@ -181,5 +176,6 @@
         private _stockI_TDataSet _stockI_TDataSet;
         private System.Windows.Forms.BindingSource branchesBindingSource;
         private _stockI_TDataSetTableAdapters.BranchesTableAdapter branchesTableAdapter;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

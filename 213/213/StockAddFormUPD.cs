@@ -27,6 +27,7 @@ namespace _213
             userNme = user;
         }
 
+
         private void txbQuantityAddUPD_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
@@ -50,24 +51,51 @@ namespace _213
         {
             if (MessageBox.Show("Are you sure you want to complete this action?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-                stockConnection.Open();
-                SqlCommand updateStock = new SqlCommand("UPDATE Stock SET  retial_price = '" + Convert.ToInt16(txbRPriceUPD.Text) + "', last_updated = GETDATE() WHERE description = '" + cmbListItemsAddUPD.Text +"'", stockConnection);
-                updateStock.ExecuteNonQuery();
-                SqlCommand getID = new SqlCommand("SELECT item_id FROM Stock WHERE description = '" + cmbListItemsAddUPD.Text + "'", stockConnection);
-                string itemID = getID.ExecuteScalar().ToString();
-                SqlCommand getUserActions = new SqlCommand("Select numberOfActions FROM Users WHERE userName = '" + userNme + "'", stockConnection);
-                int count = Convert.ToInt16(getUserActions.ExecuteScalar());
-                count = count + 1;
-                SqlCommand updateUserActions = new SqlCommand("UPDATE Users SET numberOfActions = '" + count + " WHERE userName = '" + userNme + "'", stockConnection);
-                updateUserActions.ExecuteNonQuery();
-                stockConnection.Close();
-                this.Hide();
-                this.Close();
-                string message = ("Stock updated: \r\n Item ID: " + itemID + "\r\n" + "Item Description: " + cmbListItemsAddUPD.Text + "\r\n" + "Date updated: " + DateTime.Now.ToString());
-              //  StockMainFormCLN frmStockMain = new StockMainFormCLN(message);
-              //  frmStockMain.Show();
+                try
+                {
+                    SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                  //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    stockConnection.Open();
+                    SqlCommand updateStock = new SqlCommand("UPDATE Stock SET retail_price = @retail_price, last_updated = @last_updated WHERE item_id = @description", stockConnection);
+                    updateStock.Parameters.AddWithValue("@retail_price", Convert.ToInt16(txbRPriceUPD.Text));
+                    updateStock.Parameters.AddWithValue("@last_updated", DateTime.Now);
+                    updateStock.Parameters.AddWithValue("@description", txbIDUPD.Text);
+                    updateStock.ExecuteNonQuery();
+                    SqlCommand getID = new SqlCommand("SELECT item_id FROM Stock WHERE item_id = @description", stockConnection);
+                    getID.Parameters.AddWithValue("@description", txbIDUPD.Text);
+                    string itemID = getID.ExecuteScalar().ToString();
+                    gebruik.addAction(userNme);
+                    gebruik.addAction(userNme);
+                    //  gebruik.log(DateTime.Now, userNme, "Updated stock " + txbIDUPD.text);
+                    stockConnection.Close();
+                    this.Hide();
+                    this.Close();
             }
+                catch (SqlException s)
+            {
+                {
+                    MessageBox.Show("Error in database", "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in the fields correctly" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
+        }
             else
             {
                 //as user nee se
@@ -79,39 +107,93 @@ namespace _213
         {
             this.Hide();
             this.Close();
-           // StockMainFormCLN frmStockMain = new StockMainFormCLN();
-           // frmStockMain.Show();
+
         }
 
         private void StockAddFormUPD_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the '_stockI_TDataSet.Stock' table. You can move, or remove it, as needed.
-           // this.stockTableAdapter.Fill(this._stockI_TDataSet.Stock);
+            // this.stockTableAdapter.Fill(this._stockI_TDataSet.Stock);
 
         }
 
         private void tmrCheckSelectedItemUPD_Tick(object sender, EventArgs e)
         {
-           
+
         }
 
         private void cmbListItemsAddUPD_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbListItemsAddUPD.SelectedIndex > -1)
+
+        }
+
+        private void methodCall()
+        {
+            try
             {
-                string itemName = cmbListItemsAddUPD.Text;
-                SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+               // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
-                SqlCommand displaySelectedStockBrand = new SqlCommand("SELECT manufacturer FROM Stock WHERE description = '" + cmbListItemsAddUPD.Text + "'", stockConnection);
-                SqlCommand displaySelectedStockMPrice = new SqlCommand("SELECT manufacuter_price FROM Stock WHERE description = '" + cmbListItemsAddUPD.Text + "'", stockConnection);
-                SqlCommand displaySelectedStockRPrice = new SqlCommand("SELECT retail_price FROM Stock WHERE description = '" + cmbListItemsAddUPD.Text + "'", stockConnection);
-              //  SqlCommand displaySelectedStockQuantity = new SqlCommand("SELECT quantity FROM Stock WHERE description = '" + cmbListItemsAddUPD.Text + "'", stockConnection);
+                SqlCommand displaySelectedStockName = new SqlCommand("SELECT item_name FROM Stock WHERE item_id = @des1", stockConnection);
+                displaySelectedStockName.Parameters.AddWithValue("@des1", txbIDUPD.Text);
+                SqlCommand displaySelectedStockBrand = new SqlCommand("SELECT manufacturer FROM Stock WHERE item_id = @des2", stockConnection);
+                displaySelectedStockBrand.Parameters.AddWithValue("@des2", txbIDUPD.Text);
+                SqlCommand displaySelectedStockMPrice = new SqlCommand("SELECT manufacturer_price FROM Stock WHERE item_id = @des3", stockConnection);
+                displaySelectedStockMPrice.Parameters.AddWithValue("@des3", txbIDUPD.Text);
+                SqlCommand displaySelectedStockRPrice = new SqlCommand("SELECT retail_price FROM Stock WHERE item_id = @des4", stockConnection);
+                displaySelectedStockRPrice.Parameters.AddWithValue("@des4", txbIDUPD.Text);
+
                 txbBrandAddUPD.Text = displaySelectedStockBrand.ExecuteScalar().ToString();
                 txbMPriceAddUPD.Text = displaySelectedStockMPrice.ExecuteScalar().ToString();
                 txbRPriceUPD.Text = displaySelectedStockRPrice.ExecuteScalar().ToString();
-              //  txbQuantityAddUPD.Text = displaySelectedStockQuantity.ExecuteScalar().ToString();
+                txbNameUPD.Text = displaySelectedStockName.ExecuteScalar().ToString();
                 stockConnection.Close();
-               
+            }
+            catch (SqlException s)
+            {
+                {
+                    MessageBox.Show("Error in database", "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in all the fields" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+
+
+        private void txbIDUPD_TextChanged(object sender, EventArgs e)
+        {
+            if(txbIDUPD.Text != "")
+            {
+                txbRPriceUPD.Enabled = true;
+            }
+        }
+
+        private void txbIDUPD_KeyPress(object sender, KeyPressEventArgs e)
+        { 
+
+        }
+
+        private void txbIDUPD_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyData == Keys.Tab)
+            {
+                methodCall();
             }
         }
     }

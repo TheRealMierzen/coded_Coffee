@@ -52,8 +52,6 @@ namespace _213
                 // SqlCommand addTransfer = new SqlCommand("INSERT INTO Transfers VALUES ('"+ TotalItems +"', '')", stockConnection);
                 this.Hide();
                 this.Close();
-                StockMainFormCLN frmStockMain = new StockMainFormCLN();
-                frmStockMain.Show();
             }
             else
             {
@@ -71,8 +69,6 @@ namespace _213
 
                 this.Hide();
                 this.Close();
-                StockMainFormCLN frmStockMain = new StockMainFormCLN();
-                frmStockMain.Show();
             }
             else
             {
@@ -102,64 +98,156 @@ namespace _213
 
         private void btnAddToTransferList_Click(object sender, EventArgs e)
         {
-            SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            stockConnection.Open();
-            SqlCommand getStockID = new SqlCommand("SELECT item_id FROM Stock Where item_id = '" + txbItemIDTransfer.Text + "'", stockConnection);
-            SqlCommand getDescription = new SqlCommand("SELECT description from Stock WHERE item_id = '" + txbItemIDTransfer.Text + "'", stockConnection);
+            try
+            {
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+              //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                stockConnection.Open();
+                SqlCommand getStockID = new SqlCommand("SELECT item_id FROM Stock WHERE item_id = @id AND Status = @status AND branch = @branch", stockConnection);
+                getStockID.Parameters.AddWithValue("@id", txbItemIDTransfer.Text);
+                getStockID.Parameters.AddWithValue("@status", "In Stock");
+                //getStockID.Parameters.AddWithValue("@branch", "Pretoria");
+                getStockID.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                SqlCommand getDescription = new SqlCommand("SELECT item_name from Stock WHERE item_id = @id and Status = @status AND branch = @branch", stockConnection);
+                getDescription.Parameters.AddWithValue("@id", txbItemIDTransfer.Text);
+                getDescription.Parameters.AddWithValue("@status", "In Stock");
+                //getDescription.Parameters.AddWithValue("@branch", "Pretoria");
+                getDescription.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                string stockName = "";
 
-            stockID = getStockID.ExecuteScalar().ToString();
-            SqlCommand updateStockTransfer = new SqlCommand("UPDATE Stock SET branch = 'In Trasit', last_updated = GETDATE() WHERE item_id = '" + stockID +"'", stockConnection);
-            updateStockTransfer.ExecuteNonQuery();
-            string stockName = getDescription.ExecuteScalar().ToString();
-            ids = ids + stockID + ",";
-            stockConnection.Close();
-            txbStockTransferReport.AppendText("\r\n" + stockID + "       " + stockName + "\r\n");
+
+                if ((getStockID.ExecuteScalar() == null) | (getDescription.ExecuteScalar() == null))
+                {
+                    MessageBox.Show("ID not found \r\nMake sure the item is not up for a custom build \r\nor if the item is ment for another branch \r\n or if the item is not already in transit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    try
+                    {
+                        stockID = getStockID.ExecuteScalar().ToString();
+                        stockName = getDescription.ExecuteScalar().ToString();
+                        SqlCommand updateStockTransfer = new SqlCommand("UPDATE Stock SET branch = @branch, last_updated = @last, Status = @status WHERE item_id = @id", stockConnection);
+                        //updateStockTransfer.Parameters.AddWithValue("@branch", "Pretoria");
+                        updateStockTransfer.Parameters.AddWithValue("@branch", "In Transit");
+                        updateStockTransfer.Parameters.AddWithValue("@last", DateTime.Now);
+                        updateStockTransfer.Parameters.AddWithValue("Status", "In Transit");
+                        updateStockTransfer.Parameters.AddWithValue("@id", stockID);
+                        updateStockTransfer.ExecuteNonQuery();
+
+                        ids = ids + stockID + ",";
+                        stockConnection.Close();
+                        txbStockTransferReport.AppendText("\r\n" + stockID + "       " + stockName + "\r\n");
+                        txbItemIDTransfer.Text = "";
+                        MessageBox.Show("Item transfer added to manuscript successfully", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (SqlException s)
+                    {
+                        MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (NullReferenceException s)
+                    {
+                        MessageBox.Show("Error: Please fill in valid info" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                    catch (InvalidOperationException s)
+                    {
+                        MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    catch (Exception s)
+                    {
+                        MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (SqlException s)
+            {
+                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in valid info" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
         private void StockTransferSendForm_Shown(object sender, EventArgs e)
         {
-            txbStockTransferReport.AppendText("MATRIX WAREHOUSE \r\n");
-            txbStockTransferReport.AppendText("====================== \r\n");
-            txbStockTransferReport.AppendText("Transfer stock from: \r\n");
-            txbStockTransferReport.AppendText("====================== \r\n");
+
+
+
 
         }
 
         private void btnUndoLastTransfer_Click(object sender, EventArgs e)
         {
-            SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            stockConnection.Open();
-            txbStockTransferReport.Text = (txbStockTransferReport.Text.Remove(txbStockTransferReport.Text.LastIndexOf(Environment.NewLine)));
-            ids = ids.Remove(ids.IndexOf(stockID), stockID.Length + 1);
-            SqlCommand updateStockTransfer = new SqlCommand("UPDATE Stock SET branch = 'Pretoria', last_updated = GETDATE() WHERE item_id = '" + stockID + "'", stockConnection);
-            updateStockTransfer.ExecuteNonQuery();
-            stockConnection.Close();
+           
 
         }
 
         private void btnConfirmSend_Click_1(object sender, EventArgs e)
         {
-            SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            stockConnection.Open();
-            SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
-            int TotalItems = 0;
-            //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
-            TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;           
-            //ids = ids + stockID + ",";
-            SqlCommand saveTransfer = new SqlCommand("INSERT INTO Transfers VALUES ('" + TotalItems + "', '" + "Pretoria" + "', '" + cmbBranchSend.Text + "', '" + ids + "', GETDATE(), GETDATE())", stockConnection);
-            SqlCommand getUserActions = new SqlCommand("Select numberOfActions FROM Users WHERE userName = '" + userNme + "'", stockConnection);
-            int count = Convert.ToInt16(getUserActions.ExecuteScalar());
-            count = count + 1;
-            SqlCommand updateUserActions = new SqlCommand("UPDATE Users SET numberOfActions = '" + count + " WHERE userName = '" + userNme + "'", stockConnection);
-            updateUserActions.ExecuteNonQuery();
-            saveTransfer.ExecuteNonQuery();
-            stockConnection.Close();
+            try
+            {
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+              // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    stockConnection.Open();
+                    SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
+                    int TotalItems = 0;
+                    //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
+                    TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;
+                    //ids = ids + stockID + ",";
+                    gebruik.addAction(userNme);
+                    SqlCommand saveTransfer = new SqlCommand("INSERT INTO Transfers VALUES (@id, @branchF, @branchS, @ids, @date1, @date2)", stockConnection);
+                    saveTransfer.Parameters.AddWithValue("@id", TotalItems);
+                    //saveTransfer.Parameters.AddWithValue("@brancF", "Pretoria");
+                    saveTransfer.Parameters.AddWithValue("@branchF", Properties.Settings.Default.Branch);
+                    saveTransfer.Parameters.AddWithValue("@branchS", cmbBranchSend.Text);
+                    saveTransfer.Parameters.AddWithValue("@ids", ids);
+                    saveTransfer.Parameters.AddWithValue("@date1", DateTime.Today);
+                    saveTransfer.Parameters.AddWithValue("@date2", DateTime.Today.AddDays(9));
+                    saveTransfer.ExecuteNonQuery();
+                    stockConnection.Close();
+                MessageBox.Show("Transfer complete", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                gebruik.addAction(userNme);
+                //  gebruik.log(DateTime.Now, userNme, "Transfer stock" + txbIDUPD.text);
+
+
+            }
+            catch (SqlException s)
+            {
+                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in valid info" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void StockTransferSendForm_Load_1(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the '_stockI_TDataSet.Branches' table. You can move, or remove it, as needed.
-            this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
 
         }
 
@@ -167,6 +255,59 @@ namespace _213
         {
             this.Hide();
             this.Close();
+        }
+
+        private void StockTransferSendForm_Shown_1(object sender, EventArgs e)
+        {
+            txbStockTransferReport.AppendText("MATRIX WAREHOUSE \r\n");
+            txbStockTransferReport.AppendText("====================== \r\n");
+           // txbStockTransferReport.AppendText("Transfer stock from: " + "Pretoria"  +"\r\n");
+            txbStockTransferReport.AppendText("Transfer stock from: " + Properties.Settings.Default.Branch + "\r\n");
+            txbStockTransferReport.AppendText("====================== \r\n");
+            //SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+            ////SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            //stockConnection.Open();
+            //SqlCommand cmd = new SqlCommand("SELECT branch_location FROM Branches WHERE branch_location <> @thisBranch", stockConnection);
+            ////cmd.Parameters.AddWithValue("@thisBranch", "Pretoria");
+            //cmd.Parameters.AddWithValue("@thisBranch", Properties.Settings.Default.Branch);  
+
+            //SqlDataReader dr = cmd.ExecuteReader();
+            //if (dr.Read())
+            //{
+            //    cmbBranchSend.Items.Add(dr[0]);
+            //}
+            //stockConnection.Close();
+            fillBranches();
+        }
+
+        private void btnUndoLastTransfer_Click_1(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void fillBranches()
+        {
+
+            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+                string cmdstring = "SELECT branch_location FROM Branches WHERE branch_location <> @thisbranch";
+
+                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                {
+                    con.Open();
+                    comm.Parameters.AddWithValue("@thisbranch", Properties.Settings.Default.Branch);
+
+                    using (var reader = comm.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cmbBranchSend.Items.Add(reader[0]);
+                        }
+                    }
+                    con.Close();
+
+                }
+            }
         }
     }
 }

@@ -2905,7 +2905,7 @@ namespace _213 {
             
             private global::System.Data.DataColumn columnretail_price;
             
-            private global::System.Data.DataColumn columndescription;
+            private global::System.Data.DataColumn columnitem_name;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -3014,9 +3014,9 @@ namespace _213 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn descriptionColumn {
+            public global::System.Data.DataColumn item_nameColumn {
                 get {
-                    return this.columndescription;
+                    return this.columnitem_name;
                 }
             }
             
@@ -3057,7 +3057,7 @@ namespace _213 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public StockRow AddStockRow(string branch, string item_id, string manufacturer, short quantity, string warranty, System.DateTime last_updated, System.DateTime intial_add, string manufacuter_price, string retail_price, string description) {
+            public StockRow AddStockRow(string branch, string item_id, string manufacturer, short quantity, string warranty, System.DateTime last_updated, System.DateTime intial_add, string manufacuter_price, string retail_price, string item_name) {
                 StockRow rowStockRow = ((StockRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         branch,
@@ -3069,7 +3069,7 @@ namespace _213 {
                         intial_add,
                         manufacuter_price,
                         retail_price,
-                        description};
+                        item_name};
                 rowStockRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStockRow);
                 return rowStockRow;
@@ -3108,7 +3108,7 @@ namespace _213 {
                 this.columnintial_add = base.Columns["intial_add"];
                 this.columnmanufacuter_price = base.Columns["manufacuter_price"];
                 this.columnretail_price = base.Columns["retail_price"];
-                this.columndescription = base.Columns["description"];
+                this.columnitem_name = base.Columns["item_name"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3132,8 +3132,8 @@ namespace _213 {
                 base.Columns.Add(this.columnmanufacuter_price);
                 this.columnretail_price = new global::System.Data.DataColumn("retail_price", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnretail_price);
-                this.columndescription = new global::System.Data.DataColumn("description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columndescription);
+                this.columnitem_name = new global::System.Data.DataColumn("item_name", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnitem_name);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnitem_id}, true));
                 this.columnbranch.AllowDBNull = false;
@@ -3152,8 +3152,8 @@ namespace _213 {
                 this.columnmanufacuter_price.MaxLength = 10;
                 this.columnretail_price.AllowDBNull = false;
                 this.columnretail_price.MaxLength = 10;
-                this.columndescription.AllowDBNull = false;
-                this.columndescription.MaxLength = 255;
+                this.columnitem_name.AllowDBNull = false;
+                this.columnitem_name.MaxLength = 255;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4494,12 +4494,12 @@ namespace _213 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string description {
+            public string item_name {
                 get {
-                    return ((string)(this[this.tableStock.descriptionColumn]));
+                    return ((string)(this[this.tableStock.item_nameColumn]));
                 }
                 set {
-                    this[this.tableStock.descriptionColumn] = value;
+                    this[this.tableStock.item_nameColumn] = value;
                 }
             }
         }
@@ -8368,11 +8368,11 @@ SELECT sale_branch, sale_id, sale_date, items, total_cost, total_paid, payment_m
             tableMapping.ColumnMappings.Add("intial_add", "intial_add");
             tableMapping.ColumnMappings.Add("manufacuter_price", "manufacuter_price");
             tableMapping.ColumnMappings.Add("retail_price", "retail_price");
-            tableMapping.ColumnMappings.Add("description", "description");
+            tableMapping.ColumnMappings.Add("item_name", "item_name");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[Stock] WHERE (([branch] = @Original_branch) AND ([item_id] = @Original_item_id) AND ([manufacturer] = @Original_manufacturer) AND ([quantity] = @Original_quantity) AND ([warranty] = @Original_warranty) AND ([last_updated] = @Original_last_updated) AND ([intial_add] = @Original_intial_add) AND ([manufacuter_price] = @Original_manufacuter_price) AND ([retail_price] = @Original_retail_price) AND ([description] = @Original_description))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[Stock] WHERE (([branch] = @Original_branch) AND ([item_id] = @Original_item_id) AND ([manufacturer] = @Original_manufacturer) AND ([quantity] = @Original_quantity) AND ([warranty] = @Original_warranty) AND ([last_updated] = @Original_last_updated) AND ([intial_add] = @Original_intial_add) AND ([manufacuter_price] = @Original_manufacuter_price) AND ([retail_price] = @Original_retail_price) AND ([item_name] = @Original_item_name))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_branch", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "branch", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_item_id", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -8383,11 +8383,11 @@ SELECT sale_branch, sale_id, sale_date, items, total_cost, total_paid, payment_m
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_intial_add", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "intial_add", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_manufacuter_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "manufacuter_price", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_retail_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "retail_price", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_description", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "description", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_item_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Stock] ([branch], [item_id], [manufacturer], [quantity], [warranty], [last_updated], [intial_add], [manufacuter_price], [retail_price], [description]) VALUES (@branch, @item_id, @manufacturer, @quantity, @warranty, @last_updated, @intial_add, @manufacuter_price, @retail_price, @description);
-SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_add, manufacuter_price, retail_price, description FROM Stock WHERE (item_id = @item_id)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Stock] ([branch], [item_id], [manufacturer], [quantity], [warranty], [last_updated], [intial_add], [manufacuter_price], [retail_price], [item_name]) VALUES (@branch, @item_id, @manufacturer, @quantity, @warranty, @last_updated, @intial_add, @manufacuter_price, @retail_price, @item_name);
+SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_add, manufacuter_price, retail_price, item_name FROM Stock WHERE (item_id = @item_id)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@branch", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "branch", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@item_id", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -8398,11 +8398,11 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@intial_add", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "intial_add", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@manufacuter_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "manufacuter_price", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@retail_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "retail_price", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@description", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "description", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@item_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Stock] SET [branch] = @branch, [item_id] = @item_id, [manufacturer] = @manufacturer, [quantity] = @quantity, [warranty] = @warranty, [last_updated] = @last_updated, [intial_add] = @intial_add, [manufacuter_price] = @manufacuter_price, [retail_price] = @retail_price, [description] = @description WHERE (([branch] = @Original_branch) AND ([item_id] = @Original_item_id) AND ([manufacturer] = @Original_manufacturer) AND ([quantity] = @Original_quantity) AND ([warranty] = @Original_warranty) AND ([last_updated] = @Original_last_updated) AND ([intial_add] = @Original_intial_add) AND ([manufacuter_price] = @Original_manufacuter_price) AND ([retail_price] = @Original_retail_price) AND ([description] = @Original_description));
-SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_add, manufacuter_price, retail_price, description FROM Stock WHERE (item_id = @item_id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Stock] SET [branch] = @branch, [item_id] = @item_id, [manufacturer] = @manufacturer, [quantity] = @quantity, [warranty] = @warranty, [last_updated] = @last_updated, [intial_add] = @intial_add, [manufacuter_price] = @manufacuter_price, [retail_price] = @retail_price, [item_name] = @item_name WHERE (([branch] = @Original_branch) AND ([item_id] = @Original_item_id) AND ([manufacturer] = @Original_manufacturer) AND ([quantity] = @Original_quantity) AND ([warranty] = @Original_warranty) AND ([last_updated] = @Original_last_updated) AND ([intial_add] = @Original_intial_add) AND ([manufacuter_price] = @Original_manufacuter_price) AND ([retail_price] = @Original_retail_price) AND ([item_name] = @Original_item_name));
+SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_add, manufacuter_price, retail_price, item_name FROM Stock WHERE (item_id = @item_id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@branch", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "branch", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@item_id", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -8413,7 +8413,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@intial_add", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "intial_add", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@manufacuter_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "manufacuter_price", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@retail_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "retail_price", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@description", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "description", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@item_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_branch", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "branch", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_item_id", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_manufacturer", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "manufacturer", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -8423,7 +8423,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_intial_add", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "intial_add", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_manufacuter_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "manufacuter_price", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_retail_price", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "retail_price", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_description", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "description", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_item_name", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "item_name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8440,7 +8440,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_ad" +
-                "d, manufacuter_price, retail_price, description FROM dbo.Stock";
+                "d, manufacuter_price, retail_price, item_name FROM dbo.Stock";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -8501,7 +8501,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string Original_branch, string Original_item_id, string Original_manufacturer, short Original_quantity, string Original_warranty, System.DateTime Original_last_updated, System.DateTime Original_intial_add, string Original_manufacuter_price, string Original_retail_price, string Original_description) {
+        public virtual int Delete(string Original_branch, string Original_item_id, string Original_manufacturer, short Original_quantity, string Original_warranty, System.DateTime Original_last_updated, System.DateTime Original_intial_add, string Original_manufacuter_price, string Original_retail_price, string Original_item_name) {
             if ((Original_branch == null)) {
                 throw new global::System.ArgumentNullException("Original_branch");
             }
@@ -8541,11 +8541,11 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             else {
                 this.Adapter.DeleteCommand.Parameters[8].Value = ((string)(Original_retail_price));
             }
-            if ((Original_description == null)) {
-                throw new global::System.ArgumentNullException("Original_description");
+            if ((Original_item_name == null)) {
+                throw new global::System.ArgumentNullException("Original_item_name");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((string)(Original_description));
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((string)(Original_item_name));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -8567,7 +8567,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string branch, string item_id, string manufacturer, short quantity, string warranty, System.DateTime last_updated, System.DateTime intial_add, string manufacuter_price, string retail_price, string description) {
+        public virtual int Insert(string branch, string item_id, string manufacturer, short quantity, string warranty, System.DateTime last_updated, System.DateTime intial_add, string manufacuter_price, string retail_price, string item_name) {
             if ((branch == null)) {
                 throw new global::System.ArgumentNullException("branch");
             }
@@ -8607,11 +8607,11 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             else {
                 this.Adapter.InsertCommand.Parameters[8].Value = ((string)(retail_price));
             }
-            if ((description == null)) {
-                throw new global::System.ArgumentNullException("description");
+            if ((item_name == null)) {
+                throw new global::System.ArgumentNullException("item_name");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(description));
+                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(item_name));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -8643,7 +8643,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
                     System.DateTime intial_add, 
                     string manufacuter_price, 
                     string retail_price, 
-                    string description, 
+                    string item_name, 
                     string Original_branch, 
                     string Original_item_id, 
                     string Original_manufacturer, 
@@ -8653,7 +8653,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
                     System.DateTime Original_intial_add, 
                     string Original_manufacuter_price, 
                     string Original_retail_price, 
-                    string Original_description) {
+                    string Original_item_name) {
             if ((branch == null)) {
                 throw new global::System.ArgumentNullException("branch");
             }
@@ -8693,11 +8693,11 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             else {
                 this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(retail_price));
             }
-            if ((description == null)) {
-                throw new global::System.ArgumentNullException("description");
+            if ((item_name == null)) {
+                throw new global::System.ArgumentNullException("item_name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(description));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(item_name));
             }
             if ((Original_branch == null)) {
                 throw new global::System.ArgumentNullException("Original_branch");
@@ -8738,11 +8738,11 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
             else {
                 this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(Original_retail_price));
             }
-            if ((Original_description == null)) {
-                throw new global::System.ArgumentNullException("Original_description");
+            if ((Original_item_name == null)) {
+                throw new global::System.ArgumentNullException("Original_item_name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(Original_description));
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(Original_item_name));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -8773,7 +8773,7 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
                     System.DateTime intial_add, 
                     string manufacuter_price, 
                     string retail_price, 
-                    string description, 
+                    string item_name, 
                     string Original_branch, 
                     string Original_item_id, 
                     string Original_manufacturer, 
@@ -8783,8 +8783,8 @@ SELECT branch, item_id, manufacturer, quantity, warranty, last_updated, intial_a
                     System.DateTime Original_intial_add, 
                     string Original_manufacuter_price, 
                     string Original_retail_price, 
-                    string Original_description) {
-            return this.Update(branch, Original_item_id, manufacturer, quantity, warranty, last_updated, intial_add, manufacuter_price, retail_price, description, Original_branch, Original_item_id, Original_manufacturer, Original_quantity, Original_warranty, Original_last_updated, Original_intial_add, Original_manufacuter_price, Original_retail_price, Original_description);
+                    string Original_item_name) {
+            return this.Update(branch, Original_item_id, manufacturer, quantity, warranty, last_updated, intial_add, manufacuter_price, retail_price, item_name, Original_branch, Original_item_id, Original_manufacturer, Original_quantity, Original_warranty, Original_last_updated, Original_intial_add, Original_manufacuter_price, Original_retail_price, Original_item_name);
         }
     }
     

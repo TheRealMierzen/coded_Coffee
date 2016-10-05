@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnCancelFind = new System.Windows.Forms.Button();
             this.btnConfirmFind = new System.Windows.Forms.Button();
             this.lblFindName = new System.Windows.Forms.Label();
@@ -36,6 +37,7 @@
             this.rbDisposal = new System.Windows.Forms.RadioButton();
             this.gbReasonsDelete = new System.Windows.Forms.GroupBox();
             this.rbFaulty = new System.Windows.Forms.RadioButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbReasonsDelete.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +48,7 @@
             this.btnCancelFind.Size = new System.Drawing.Size(113, 23);
             this.btnCancelFind.TabIndex = 12;
             this.btnCancelFind.Text = "Cancel/Back";
+            this.toolTip1.SetToolTip(this.btnCancelFind, "Click to close this window");
             this.btnCancelFind.UseVisualStyleBackColor = true;
             // 
             // btnConfirmFind
@@ -55,6 +58,7 @@
             this.btnConfirmFind.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmFind.TabIndex = 11;
             this.btnConfirmFind.Text = "OK";
+            this.toolTip1.SetToolTip(this.btnConfirmFind, "Click to confirm removal of stock");
             this.btnConfirmFind.UseVisualStyleBackColor = true;
             this.btnConfirmFind.Click += new System.EventHandler(this.btnConfirmFind_Click);
             // 
@@ -73,6 +77,7 @@
             this.txtDeleteID.Name = "txtDeleteID";
             this.txtDeleteID.Size = new System.Drawing.Size(100, 20);
             this.txtDeleteID.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.txtDeleteID, "Scan in the ID of the item you want to remove");
             // 
             // label1
             // 
@@ -92,6 +97,7 @@
             this.rbDisposal.TabIndex = 14;
             this.rbDisposal.TabStop = true;
             this.rbDisposal.Text = "Disposal";
+            this.toolTip1.SetToolTip(this.rbDisposal, "Select if the item is removed because of \"Disposal\"");
             this.rbDisposal.UseVisualStyleBackColor = true;
             this.rbDisposal.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -115,6 +121,7 @@
             this.rbFaulty.TabIndex = 15;
             this.rbFaulty.TabStop = true;
             this.rbFaulty.Text = "Faulty";
+            this.toolTip1.SetToolTip(this.rbFaulty, "Select if the item is removed because of \"Faulty\"");
             this.rbFaulty.UseVisualStyleBackColor = true;
             // 
             // StockRemoveForm
@@ -149,5 +156,6 @@
         private System.Windows.Forms.RadioButton rbDisposal;
         private System.Windows.Forms.GroupBox gbReasonsDelete;
         private System.Windows.Forms.RadioButton rbFaulty;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
