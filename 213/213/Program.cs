@@ -16,7 +16,7 @@ namespace _213
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OrderForm());
+            Application.Run(new Form1());
 
         }
     }

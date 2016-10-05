@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace _213
 {
@@ -17,6 +18,11 @@ namespace _213
         double costperItems = 0.0;
         double Grandtotal = 0.0;
         string selectedItem = null;
+        string path;
+        string Ordernumber;
+        int last;
+        bool custombuild = false;
+   
         private Action<object, EventArgs> roundButton3_Click;
 
         public OrderForm()
@@ -28,7 +34,22 @@ namespace _213
             cbxOrder.Sorted = true;
             AddOrderBtn.Enabled = false;
             cbxOrders.SelectedIndex = 0;
+            txtMaker.Focus();
         }
+
+        public OrderForm(FrmTechnical tf)
+        {
+            InitializeComponent();
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
+            cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
+            txtMaker.Focus();
+            parent = tf;
+        }
+        FrmTechnical parent;
 
         public OrderForm(string usert)
         {
@@ -44,6 +65,30 @@ namespace _213
 
         string user;
 
+        public OrderForm(string path,string ordernumber)
+        {
+            InitializeComponent();
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
+            cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
+        }
+
+        public OrderForm(bool custombuild)
+        {
+            InitializeComponent();
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
+            cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
+            this.custombuild = true;
+        }
+
+
         public OrderForm(Action<object, EventArgs> roundButton3_Click)
         {
             this.roundButton3_Click = roundButton3_Click;
@@ -58,10 +103,9 @@ namespace _213
 
         private void OrderForm_Load(object sender, EventArgs e)
         {
-            /*this.TopMost = true;
+            //this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;*/
-            txtMaker.Focus();
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void AddOrderBtn_Click(object sender, EventArgs e)
@@ -72,28 +116,49 @@ namespace _213
             //    MessageBox.Show("Order added");
             //else
             //    MessageBox.Show("Order was not added");
-
-            /*gebruik util = new gebruik();       
-            frOrderConfirm f1 = new frOrderConfirm();
-            f1.Show();*/
-
-            items = items.Remove(items.Length - 1);
-            if (items != null)
+            try
             {
-                if (MessageBox.Show("Are you sure you want to add this order ", "Place order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                items = items.Remove(items.Length - 1);
+                if (items != null )
                 {
-                    if (addOrder(Properties.Settings.Default.Branch, txtMaker.Text, items, Grandtotal.ToString(), 0, 0, DateTime.Now.ToString(), "", checkSpesialorder(), getEta(), txtCust_email.Text))
+                    if (MessageBox.Show("Are you sure you want to add this order ", "Place order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        displayListbox(1);
+                        if (addOrder(Properties.Settings.Default.Branch, txtMaker.Text, items, Grandtotal.ToString(), 0, 0, DateTime.Now.ToString(), "", checkSpesialorder(), getEta(), txtCust_email.Text))
+                        {
+                            path = AppDomain.CurrentDomain.BaseDirectory +@"\Orders\";
+                            Ordernumber = "Order," + last.ToString() + ".txt";
+                             StreamWriter skryf;
+
+                            skryf = File.CreateText(path + Ordernumber);
+                            skryf.WriteLine(lbxOutput.Text);
+                            skryf.Close();
+
+                            displayListbox(1);
+                            AddOrderBtn.Enabled = false;
+                            txtMaker.Clear();
+                        }
+                        gebruik.addAction(user);
+                        //gebruik.log(DateTime.Now, user, "Placed order");
+                        if(custombuild == true)
+                        {
+                            FrmTechnical tec = new FrmTechnical();
+                            tec.Show();
+                            tec.Activate();
+                            this.Hide();
+                            parent.setItems(items);
+
+                        }
                     }
-                    gebruik.addAction(user);
-                    //gebruik.log(DateTime.Now, user, "Placed order");
                 }
+                else
+                    MessageBox.Show("Please select items to place a order for", "Cannot place order", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else
-                MessageBox.Show("Please select items to place a order for","Cannot place order",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            
-        }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Please select items to place a order for", "Cannot place order", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+      }
+
 
         public bool addOrder(string branch, string order_supplier, string order_items, string total_cost, int invoice_sent, int received, string order_date, string received_date, int special_order,string eta, string cust_email)
         {
@@ -102,7 +167,6 @@ namespace _213
             {
 
                 gebruik util = new gebruik();
-                int last;
                 last = util.getLastIdentity("Orders", "order_id", "int");
 
                 using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
@@ -168,11 +232,15 @@ namespace _213
             gpxOrders.Hide();
             gbxPayment.Hide();
             gpxSearch.Show();
+            gpxSearch.Focus();
             btnCancel.Show();
             lbxsearchordelete.Items.Clear();
             cbxOrder.Items.Clear();
             populateCombobox();
             lblOrder.Text = "";
+            selectedItem = null;
+            tableLayoutPanel2.Hide();
+            tableLayoutPanel3.Show();
         }
 
         public void orders()
@@ -180,6 +248,8 @@ namespace _213
             gpxSearch.Hide();
             gpxOrders.Show();
             displayListbox(1);
+            tableLayoutPanel2.Show();
+            tableLayoutPanel3.Hide();
         }
 
 
@@ -204,11 +274,10 @@ namespace _213
                             using (SqlCommand comm = new SqlCommand("DELETE FROM Orders WHERE order_id LIKE " + selectedItem + " ", con))
                             {
                                 comm.ExecuteNonQuery();
+                                lbxsearchordelete.Items.Clear();
                             }
                             con.Close();
                         }
-                        lbxsearchordelete.Items.Clear();
-                        lblOrder.Text = "";
                     }
                     catch (SqlException)
                     {
@@ -218,6 +287,7 @@ namespace _213
             }
             else
                 MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
         private void btnAdditem_Click(object sender, EventArgs e)
         {
@@ -247,12 +317,14 @@ namespace _213
             }
             catch(FormatException)
             {
-                MessageBox.Show("Please enter valid criteria");
+                MessageBox.Show("Please enter valid createria", "Cannot place order", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void btnClearOrder_Click(object sender, EventArgs e)
         {
+            if(items == null)
+                MessageBox.Show("No items to order", "No items", MessageBoxButtons.OK, MessageBoxIcon.Information);   
             lbxOutput.Items.Clear();
             txtItem.Clear();
             txtPricofeachitem.Clear();
@@ -292,7 +364,7 @@ namespace _213
             }
         }
 
-        private void btnremovePrevouis_Click(object sender, EventArgs e)
+        private void btnremovePrevouis_Click(object sender, EventArgs e)//Removes the item from the output and from the local varible if the customer made a error
         {
             try
             {
@@ -303,7 +375,7 @@ namespace _213
                 items = null;
                 for (int i = 0; i < components.Length - 2; i++)
                 {
-                    items = items + components[i];
+                    items = items + components[i] +',';
                 }
                 lbxOutput.Items.RemoveAt(lbxOutput.Items.Count - 3);
                 lbxOutput.Items.RemoveAt(lbxOutput.Items.Count-1);
@@ -316,15 +388,17 @@ namespace _213
             {
                 items = null;
                 displayListbox(1);
+                MessageBox.Show("No items to remove", "Cannot remove item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
         }
 
-        public int lbxIndex()
+        public int lbxIndex()//I use this metode to manipulalte the ouput in the output displays
         {
            return lbxOutput.Items.Count;
         }
 
-        public string getEta()
+        public string getEta()// This metode set the eta for die order. For the customer to colect it
         {
             return DateTime.Now.AddDays(9).ToString();
         }
@@ -357,7 +431,7 @@ namespace _213
             }
         }
 
-        public void displayOrder(string id)
+        public void displayOrder(string id)//Display all the order in the ouput display
         {
             try
             {
@@ -396,7 +470,7 @@ namespace _213
             }
         }
 
-        public bool checkOrderfordelete()
+        public bool checkOrderfordelete()// The program check what orders there are in the database. If its finds a order you can delete it.
         {
             try
             {
@@ -424,11 +498,11 @@ namespace _213
             catch (SqlException)
             {
                 MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return true;
+                return false;
             }
         }
 
-        private void cbxOrder_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbxOrder_SelectedIndexChanged(object sender, EventArgs e)//Select all the orders from the database according to cbxOrder index 
         {
             selectedItem = cbxOrder.Text;
             try
@@ -450,6 +524,14 @@ namespace _213
             {
                 MessageBox.Show("Please enter a id to search for", "Order ID not entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)//back to home
+        {
+            Form1 f1 = new Form1();
+            f1.Activate();
+            this.Hide();
+            this.Close();
         }
     }
 }

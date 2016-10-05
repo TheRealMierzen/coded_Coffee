@@ -189,7 +189,12 @@ namespace _213
         //technical button
         private void roundButton5_Click(object sender, EventArgs e)
         {
-
+            FrmTechnical Tc = new FrmTechnical();
+            Tc.Activate();
+            Tc.Show();
+            Form1 f1 = new Form1();
+            f1.Hide();
+            f1.Close();
         }
 
         //hq button
