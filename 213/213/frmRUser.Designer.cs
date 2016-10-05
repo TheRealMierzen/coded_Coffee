@@ -101,6 +101,7 @@
             // txtAuthPass
             // 
             this.txtAuthPass.Location = new System.Drawing.Point(364, 81);
+            this.txtAuthPass.MaxLength = 8;
             this.txtAuthPass.Name = "txtAuthPass";
             this.txtAuthPass.PasswordChar = '*';
             this.txtAuthPass.Size = new System.Drawing.Size(121, 22);
@@ -109,6 +110,7 @@
             // 
             // txtAuthUser
             // 
+            this.txtAuthUser.Enabled = false;
             this.txtAuthUser.Location = new System.Drawing.Point(364, 53);
             this.txtAuthUser.Name = "txtAuthUser";
             this.txtAuthUser.Size = new System.Drawing.Size(121, 22);

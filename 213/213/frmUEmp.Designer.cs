@@ -104,9 +104,9 @@
             this.lblID.AutoSize = true;
             this.lblID.Location = new System.Drawing.Point(23, 90);
             this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(129, 17);
+            this.lblID.Size = new System.Drawing.Size(91, 17);
             this.lblID.TabIndex = 0;
-            this.lblID.Text = "Employee ID/ ID nr:";
+            this.lblID.Text = "Employee ID:";
             // 
             // lblCEmail
             // 
@@ -194,9 +194,9 @@
             this.lblPeriodId.AutoSize = true;
             this.lblPeriodId.Location = new System.Drawing.Point(23, 90);
             this.lblPeriodId.Name = "lblPeriodId";
-            this.lblPeriodId.Size = new System.Drawing.Size(129, 17);
+            this.lblPeriodId.Size = new System.Drawing.Size(91, 17);
             this.lblPeriodId.TabIndex = 0;
-            this.lblPeriodId.Text = "Employee ID/ ID nr:";
+            this.lblPeriodId.Text = "Employee ID:";
             // 
             // lblUntil
             // 
@@ -239,9 +239,9 @@
             this.lblCellId.AutoSize = true;
             this.lblCellId.Location = new System.Drawing.Point(23, 90);
             this.lblCellId.Name = "lblCellId";
-            this.lblCellId.Size = new System.Drawing.Size(126, 17);
+            this.lblCellId.Size = new System.Drawing.Size(88, 17);
             this.lblCellId.TabIndex = 0;
-            this.lblCellId.Text = "Empoyee ID/ ID nr:";
+            this.lblCellId.Text = "Empoyee ID:";
             // 
             // lblCCell
             // 
@@ -326,9 +326,9 @@
             this.lblSID.AutoSize = true;
             this.lblSID.Location = new System.Drawing.Point(23, 90);
             this.lblSID.Name = "lblSID";
-            this.lblSID.Size = new System.Drawing.Size(129, 17);
+            this.lblSID.Size = new System.Drawing.Size(91, 17);
             this.lblSID.TabIndex = 0;
-            this.lblSID.Text = "Employee ID/ ID nr:";
+            this.lblSID.Text = "Employee ID:";
             // 
             // cbUser
             // 
@@ -411,9 +411,9 @@
             this.lblOID.AutoSize = true;
             this.lblOID.Location = new System.Drawing.Point(23, 90);
             this.lblOID.Name = "lblOID";
-            this.lblOID.Size = new System.Drawing.Size(129, 17);
+            this.lblOID.Size = new System.Drawing.Size(91, 17);
             this.lblOID.TabIndex = 18;
-            this.lblOID.Text = "Employee ID/ ID nr:";
+            this.lblOID.Text = "Employee ID:";
             // 
             // lblOriBranch
             // 

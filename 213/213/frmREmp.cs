@@ -166,24 +166,6 @@ namespace _213
 
                         comm.Parameters.AddWithValue("@id", txtCREmp.Text);
 
-
-                        if (other.getUsername(getMail(txtCREmp.Text)) != "")
-                        {
-                            DialogResult result = MessageBox.Show("The system has detected the this employee has an account with the current email address. Would you like to automatically remove the user account too?", "Info", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
-
-                                removeUser(other.getUsername(getMail(txtCREmp.Text)));
-                                MessageBox.Show("The employee and user has successfully been removed.");
-
-                            }
-                            else
-                                MessageBox.Show("The employee has successfully been removed.");
-
-                        }
-                        else
-                            MessageBox.Show("The employee has successfully been removed.");
-
                         comm.ExecuteNonQuery();
 
                         gebruik.addAction(user);
@@ -191,9 +173,37 @@ namespace _213
                         gebruik.log(local, user, "removed employee");
 
                         updateEmployNum("remove");
+                        string message = "";
+                        if (other.getUsername(getMail(txtCREmp.Text)) != "")
+                        {
+                            DialogResult result = MessageBox.Show("The system has detected the this employee has an account with the current email address. Would you like to automatically remove the user account too?", "Info", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
 
-                        
-                        this.Close();
+                                removeUser(other.getUsername(getMail(txtCREmp.Text)));
+                                message = "The employee and user has successfully been removed.";
+
+                            }
+                            else
+                                message = "The employee has successfully been removed.";
+
+                        }
+                        else
+                            message = "The employee has successfully been removed.";
+
+
+                        DialogResult choice;
+                        choice = MessageBox.Show(message + "\r\nWould you like to remove another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (choice == DialogResult.Yes)
+                        {
+
+                            txtAuthPass.Clear();
+                            txtREmp.Clear();
+                            txtCREmp.Clear();
+                        }
+                        else
+                            this.Close();
 
                     }
                 }

@@ -19,13 +19,14 @@ namespace _213
         public static void log(DateTime tyd, string user, string action)
         {
 
-            string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments)) + @"\stockI.T" + @"\Activity Log.txt";
+            string appPath = AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt";
             if (File.Exists(appPath))
             {
+                File.SetAttributes(appPath, FileAttributes.Hidden);
                 StreamWriter outstream = File.AppendText(appPath);
                            
                 outstream.WriteLine("\n" + user + " " + action + " : " + tyd.ToString());
-
+                File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
                 outstream.Close();
             }
             else
@@ -34,7 +35,7 @@ namespace _213
                 File.CreateText(appPath).Close();
                 StreamWriter outstream = File.AppendText(appPath);
                 outstream.WriteLine(user + " logged in : " + tyd.ToString());
-
+                File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
                 outstream.Close();
 
             }
@@ -254,7 +255,7 @@ namespace _213
         private StreamReader outstream;
         private string filePath = "";
 
-        public void print(string fileP)
+        public void print(string fileP, bool toFile)
         {
 
             filePath = fileP;
@@ -266,8 +267,13 @@ namespace _213
 
                     printFont = new Font("Arial", 10);
                     PrintDocument pd = new PrintDocument();
+                    pd.PrinterSettings.PrintToFile = toFile;
+                    
+                    pd.PrintController = new StandardPrintController();
                     pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
                     pd.Print();
+                    
+                    
 
                 }
                 finally
@@ -279,8 +285,9 @@ namespace _213
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("An error occurred while printing. Please verify that the printer is connected and try again.");
+                DialogResult choice = MessageBox.Show("An error occurred while printing. Please verify that the printer is connected and try again.\r\nWould you like to print to a file instead?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (choice == DialogResult.Yes)
+                    print(filePath, true);
 
             }
         }
@@ -601,6 +608,7 @@ namespace _213
             }
 
         }
+
 
     }
 }

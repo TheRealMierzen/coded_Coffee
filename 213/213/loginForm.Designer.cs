@@ -35,6 +35,7 @@
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.btnLForgotPass = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.txtLPass = new wmgCMS.WaterMarkTextBox();
             this.txtLEmail = new wmgCMS.WaterMarkTextBox();
             this.textbox1 = new wmgCMS.WaterMarkTextBox();
@@ -74,7 +75,8 @@
             // btnCreate
             // 
             this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCreate.Location = new System.Drawing.Point(412, 268);
+            this.btnCreate.Enabled = false;
+            this.btnCreate.Location = new System.Drawing.Point(412, 299);
             this.btnCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(99, 27);
@@ -123,6 +125,11 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Welcom to stockI.T";
             // 
+            // notification
+            // 
+            this.notification.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notification.Visible = true;
+            // 
             // txtLPass
             // 
             this.txtLPass.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -148,6 +155,7 @@
             this.txtLEmail.Visible = false;
             this.txtLEmail.WaterMarkColor = System.Drawing.Color.Gray;
             this.txtLEmail.WaterMarkText = "Email address";
+            this.txtLEmail.TextChanged += new System.EventHandler(this.txtLEmail_TextChanged_1);
             // 
             // textbox1
             // 
@@ -201,5 +209,6 @@
         private wmgCMS.WaterMarkTextBox textbox1;
         private wmgCMS.WaterMarkTextBox txtLEmail;
         private wmgCMS.WaterMarkTextBox txtLPass;
+        private System.Windows.Forms.NotifyIcon notification;
     }
 }

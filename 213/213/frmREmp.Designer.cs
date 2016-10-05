@@ -45,7 +45,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(71, 86);
+            this.label4.Location = new System.Drawing.Point(19, 86);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(77, 17);
             this.label4.TabIndex = 6;
@@ -118,6 +118,7 @@
             // txtAuthPass
             // 
             this.txtAuthPass.Location = new System.Drawing.Point(385, 81);
+            this.txtAuthPass.MaxLength = 8;
             this.txtAuthPass.Name = "txtAuthPass";
             this.txtAuthPass.PasswordChar = '*';
             this.txtAuthPass.Size = new System.Drawing.Size(121, 22);

@@ -34,5 +34,41 @@ namespace _213.Properties {
                 this["Branch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
+        public string EOM {
+            get {
+                return ((string)(this["EOM"]));
+            }
+            set {
+                this["EOM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
+        public string PEOM {
+            get {
+                return ((string)(this["PEOM"]));
+            }
+            set {
+                this["PEOM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Month {
+            get {
+                return ((int)(this["Month"]));
+            }
+            set {
+                this["Month"] = value;
+            }
+        }
     }
 }

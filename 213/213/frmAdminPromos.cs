@@ -51,6 +51,7 @@ namespace _213
             cbAction.SelectedItem = "New promotion";
 
             cbItem.Focus();
+            
 
         }
 
@@ -493,10 +494,10 @@ namespace _213
 
                     gebruik.addAction(user);
                     gebruik.log(DateTime.Now, user, "updated promotion");
-                    
+
 
                     DialogResult choice;
-
+                    
                     if (DateTime.Now > dtPromoStart.Value)
                         choice = MessageBox.Show(txtEPromoItem.Text + " is now on promotion until " + dtEEnd.Value.ToShortDateString() + ".\r\nWould you like to edit another promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     else

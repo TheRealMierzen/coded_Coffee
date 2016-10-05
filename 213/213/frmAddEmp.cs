@@ -36,6 +36,8 @@ namespace _213
             cbIsUser.Checked = true;
             rbManager.Checked = true;
             branch = true;
+            btnCancelEmp.Enabled = false;
+            
         }
 
         string user;
@@ -47,7 +49,7 @@ namespace _213
             dtStart.MinDate = DateTime.Now;
             dtEnd.MinDate = DateTime.Now;
 
-            while (txtEmpID.Text == "")
+            while (txtEmpID.Text == "" || txtEmpID.Text.Length != 10)
             {
                 txtEmpID.Text = other.generateLuhn();
             }
@@ -248,7 +250,9 @@ namespace _213
         private void txtEmpRSAID_TextChanged(object sender, EventArgs e)
         {
 
-            if (txtEmpRSAID.Text.Length == 13)
+            gebruik other = new gebruik();
+
+            if (txtEmpRSAID.Text.Length == 13 && other.validateId(txtEmpRSAID.Text))
             {
 
                 txtEmpRSAID.ForeColor = DefaultForeColor;
@@ -612,9 +616,36 @@ namespace _213
                                 }
                                 else
                                 {
-                                    frmMessages placeHolder = new frmMessages("The employee's information has succesfully been added", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    
+                                    DialogResult choice;
+                                    choice = MessageBox.Show("The employee's informations has successfully been added..\r\nWould you like to add another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-                                    this.Close();
+                                    if (choice == DialogResult.Yes)
+                                    {
+                                        txtEmpID.Clear();
+                                        while (txtEmpID.Text == "")
+                                        {
+                                            txtEmpID.Text = other.generateLuhn();
+                                        }
+
+                                        txtEmpID.Enabled = false;
+
+                                        txtEmpName.Clear();
+                                        txtEmpSurname.Clear();
+                                        txtEmpRSAID.Clear();
+
+                                        txtEmpEmail.Clear();
+                                        txtEmpCell.Clear();
+
+                                        dtStart.Value = DateTime.Now;
+                                        dtEnd.Value = DateTime.Now;
+                                        rbFull.Checked = true;
+                                        cbIsUser.Checked = false;
+
+                                    }
+                                    else
+                                        this.Close();
+                                
                                 }
                             }
                             else

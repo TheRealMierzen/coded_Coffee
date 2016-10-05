@@ -26,7 +26,11 @@ namespace _213
 
         string user;
         string id;
-        
+
+        private List<string> ids = new List<string>();
+        private List<string> sur = new List<string>();
+        private List<string> email = new List<string>();
+        private List<string> cel = new List<string>();
 
         private void txtID_TextChanged(object sender, EventArgs e)
         {
@@ -592,19 +596,28 @@ namespace _213
                 if (cbUEmp.SelectedItem.ToString() == "Cellphone nr" || cbUEmp.SelectedItem.ToString() == "Extend/shorten employment" || cbUEmp.SelectedItem.ToString() == "Surname" || cbUEmp.SelectedItem.ToString() == "Other")
                 {
 
-                    if (cbPeriodID.SelectedItem.ToString().Length == 13)
-                        find = "id_num";
-                    else if (cbPeriodID.SelectedItem.ToString().Length == 10)
-                        find = "employee_id";
-
+                    try
+                    {
+                        if (cbPeriodID.SelectedItem != null & cbPeriodID.SelectedItem.ToString().Length == 13)
+                            find = "id_num";
+                        else if (cbPeriodID.SelectedItem.ToString().Length == 10)
+                            find = "employee_id";
+                    }
+                    catch(NullReferenceException)
+                    { }
 
                     if (cbOID.SelectedItem != null)
                         find = "employee_id";
 
-                    if (cbPeriodID.SelectedItem.ToString().Length == 13)
-                        find = "id_num";
-                    else if (cbPeriodID.SelectedItem.ToString().Length == 10)
-                        find = "employee_id";
+                    try
+                    {
+                        if (cbPeriodID.SelectedItem.ToString().Length == 13)
+                            find = "id_num";
+                        else if (cbPeriodID.SelectedItem.ToString().Length == 10)
+                            find = "employee_id";
+                    }
+                    catch(NullReferenceException)
+                    { }
 
                     if (cbSurID.SelectedItem != null)
                         find = "employee_id";
@@ -715,7 +728,30 @@ namespace _213
                             frmRUser rU = new frmRUser(user, other.getUsername(other.getEmail(id)));                            
 
                             rU.ShowDialog();
-                            this.Close();
+                            DialogResult choice;
+                            choice = MessageBox.Show("Would you like to update another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                            if (choice == DialogResult.Yes)
+                            {
+
+                                string old = cbUEmp.SelectedItem.ToString();
+                                if (cbUEmp.SelectedItem.ToString() == "Other")
+                                {
+
+                                    cbUEmp.SelectedItem = "Email address";
+                                    cbUEmp.SelectedItem = "Other";
+
+                                }
+                                else
+                                {
+                                    cbUEmp.SelectedItem = "Other";
+                                    cbUEmp.SelectedItem = old;
+                                }
+
+                            }
+                            else
+                                this.Close();
+                       
 
                         }
 
@@ -735,21 +771,90 @@ namespace _213
                             frmAddUser aU = new frmAddUser(user, other.getUsername(other.getEmail(id)));
 
                             aU.ShowDialog();
-                            this.Close();
+
+                            DialogResult choice2;
+                            choice2 = MessageBox.Show("The employee's informations has been updated.\r\nWould you like to update another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                            if (choice2 == DialogResult.Yes)
+                            {
+                                string old = cbUEmp.SelectedItem.ToString();
+                                if (cbUEmp.SelectedItem.ToString() == "Other")
+                                {
+
+                                    cbUEmp.SelectedItem = "Email address";
+                                    cbUEmp.SelectedItem = "Other";
+
+                                }
+                                else
+                                {
+                                    cbUEmp.SelectedItem = "Other";
+                                    cbUEmp.SelectedItem = old;
+                                }
+
+                            }
+                            else
+                                this.Close();
 
                         }
+
+                        DialogResult choice;
+                        choice = MessageBox.Show("The employee's informations has been updated.\r\nWould you like to update another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (choice == DialogResult.Yes)
+                        {
+
+                            string old = cbUEmp.SelectedItem.ToString();
+                            if (cbUEmp.SelectedItem.ToString() == "Other")
+                            {
+
+                                cbUEmp.SelectedItem = "Email address";
+                                cbUEmp.SelectedItem = "Other";
+
+                            }
+                            else
+                            {
+                                cbUEmp.SelectedItem = "Other";
+                                cbUEmp.SelectedItem = old;
+                            }
+
+                        }
+                        else
+                            this.Close();
 
                     }
                     else
                     {
+
                         comm.ExecuteNonQuery();
-                        MessageBox.Show("The employee's information has been updated.");
 
                         gebruik.addAction(user);
                         DateTime local = DateTime.Now;
                         gebruik.log(local, user, "updated employee");
 
-                        this.Close();
+                        DialogResult choice;
+                        choice = MessageBox.Show("The employee's informations has been updated.\r\nWould you like to update another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (choice == DialogResult.Yes)
+                        {
+
+                            string old = cbUEmp.SelectedItem.ToString();
+                            if (cbUEmp.SelectedItem.ToString() == "Other")
+                            {
+
+                                cbUEmp.SelectedItem = "Email address";
+                                cbUEmp.SelectedItem = "Other";
+
+                            }
+                            else
+                            {
+                                cbUEmp.SelectedItem = "Other";
+                                cbUEmp.SelectedItem = old;
+                            }
+
+                        }
+                        else
+                            this.Close();
+                     
                     }
 
                 }
@@ -827,11 +932,11 @@ namespace _213
         }
 
         private void fillIds()
-        {
+        { 
 
             using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
-                string cmdstring = "SELECT employee_id FROM Employees WHERE branch = @thisbranch";
+                string cmdstring = "SELECT employee_id, surname, email_address, cell FROM Employees WHERE branch = @thisbranch";
 
                 using (SqlCommand comm = new SqlCommand(cmdstring, con))
                 {
@@ -849,6 +954,11 @@ namespace _213
                             cbOID.Items.Add(id);
                             cbPeriodID.Items.Add(id);
                             cbSurID.Items.Add(id);
+
+                            ids.Add(id);
+                            sur.Add(reader.GetString(1));
+                            email.Add(reader.GetString(2));
+                            cel.Add(reader.GetString(3));
 
                         }
 
@@ -870,6 +980,8 @@ namespace _213
                 if (txtCCell.Text.Length == 10 && txtNCell.Text.Length == 10 && txtCNCell.Text.Length == 10)
                     btnUpdateEmp.Enabled = true;
 
+                txtCCell.Text = cel.ElementAt(ids.IndexOf(cbCellId.SelectedItem.ToString()));
+
             }
 
         }
@@ -889,6 +1001,8 @@ namespace _213
         {
             if (cbID.SelectedItem != null)
             {
+                txtCEmail.Text = email.ElementAt(ids.IndexOf(cbID.SelectedItem.ToString()));
+
                 id = cbID.SelectedItem.ToString();
                 if (txtCEmail.Text != "" && txtNEmail.Text != "" && txtCNEmail.Text == txtNEmail.Text)
                     btnUpdateEmp.Enabled = true;
@@ -920,6 +1034,8 @@ namespace _213
 
             if (cbSurID.SelectedItem != null)
             {
+                txtCSur.Text = sur.ElementAt(ids.IndexOf(cbSurID.SelectedItem.ToString()));
+
                 if (cbSurID.SelectedItem != null && txtNSur.Text == txtCNSur.Text && txtCNSur.Text != "" && txtCSur.Text != "")
                     btnUpdateEmp.Enabled = true;
             }

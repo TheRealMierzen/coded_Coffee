@@ -65,13 +65,23 @@ namespace _213
                                 comm.Parameters.AddWithValue("@user", txtCRUser.Text);
                                 comm.ExecuteNonQuery();
 
-                                MessageBox.Show("The account has successfully been deleted.");
-
                                 gebruik.addAction(user);
                                 DateTime local = DateTime.Now;
                                 gebruik.log(local, user, "removed user");
 
-                                this.Close();
+                                DialogResult choice;
+                                choice = MessageBox.Show("The account has been removed.\r\nWould you like to remove another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                                if (choice == DialogResult.Yes)
+                                {                               
+
+                                    txtAuthPass.Clear();
+                                    txtCRUser.Clear();
+                                    txtRUser.Clear();                                   
+
+                                }
+                                else
+                                    this.Close();
 
                             }
                         }

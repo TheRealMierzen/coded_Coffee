@@ -21,11 +21,11 @@ namespace _213
             InitializeComponent();
         }
 
-
-        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));//verander as networking reg is
         private int attempts = 0;
         private string prev;
         private bool firstrun = false;
+        private bool promoR;
+        private bool promoA;
 
         private void loginForm_Load(object sender, EventArgs e)
         {
@@ -43,6 +43,17 @@ namespace _213
             else
                 button2.Enabled = true;
 
+            if(DateTime.Now.Month != Properties.Settings.Default.Month)
+            {
+                
+                Properties.Settings.Default.EOM =  EOM();
+                Properties.Settings.Default.Month = DateTime.Now.Month;
+                Properties.Settings.Default.Save();
+                reset();
+
+            }
+
+
             if (Properties.Settings.Default.Branch == "-")
             {
                 //kort backgroundrunner
@@ -57,28 +68,43 @@ namespace _213
             {
 
                 //Create user and password file
-                if (MessageBox.Show("It appears that this is the first time you're using stockI.T. Would you like to create an administrative account now?", "Info",MessageBoxButtons.YesNo) == DialogResult.Yes)
+                MessageBox.Show("It appears that this is the first time you're using stockI.T. Please enter this branch's administrative account's details now.", "Info", MessageBoxButtons.OK);
                 {
 
                     textbox1.Enabled = true;
                     txtLPass.Enabled = true;
                     btnCreate.Visible = true;
-                    txtLEmail.Visible = true;             
+                    txtLEmail.Visible = true;
+                    button2.Enabled = true;            
 
                 }
-                else
-                {
-
-                    textbox1.Enabled = false;
-                    txtLPass.Enabled = false;
-                    txtLEmail.Visible = false;
-
-                }
+                
 
             }
             else 
             {
                 checkPromos();
+
+                
+                if (promoA && promoR)
+                {
+
+                    notification.ShowBalloonTip(1000, "Important Notice", "There are promotions starting today! Some promotions have also ended today.", ToolTipIcon.Info);
+
+                }
+                else if(promoA && !promoR)
+                {
+
+                    notification.ShowBalloonTip(1000, "Important Notice", "There are promotions active today.", ToolTipIcon.Info);
+
+                }
+                else if (!promoA && promoR)
+                {
+
+                    notification.ShowBalloonTip(1000, "Important Notice", "Some promotions have ended", ToolTipIcon.Info);
+
+                }
+
                 textbox1.Enabled = true;
                 txtLPass.Enabled = true;
                 button1.Visible = true;
@@ -314,7 +340,7 @@ namespace _213
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
             if (validateUser(textbox1.Text, txtLPass.Text))
             {
 
@@ -502,6 +528,7 @@ namespace _213
                         comm.ExecuteNonQuery();
                         con.Close();
 
+
                     }
                 }
             }
@@ -564,6 +591,7 @@ namespace _213
 
         private void setPromoActive(string id)
         {
+            promoA = true;
 
             using (SqlConnection conactive = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
@@ -579,7 +607,7 @@ namespace _213
 
                     conactive.Close();
 
-                    gebruik.log(DateTime.Now,id,"has been automatcaly activated");
+                    gebruik.log(DateTime.Now, "Promotion " + id,"has been automatcaly activated");
                 }
             }
 
@@ -587,6 +615,7 @@ namespace _213
 
         private void removePromo(string id)
         {
+            promoR = true;
 
             using (SqlConnection conRemove = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
             {
@@ -601,10 +630,77 @@ namespace _213
 
                     conRemove.Close();
 
-                    gebruik.log(DateTime.Now, id, "has been automatcaly removed");
+                    gebruik.log(DateTime.Now, "Promotion "  + id, "has been automatcaly removed");
                 }
             }
 
+        }
+
+
+        private string EOM()
+        {
+
+            using (SqlConnection conEOM = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+
+                string cmdstring = "SELECT name, surname FROM Employees WHERE email_address = (SELECT TOP 1 email_address FROM Users WHERE branch = @branch ORDER BY (numberOfActions * numberOfLogins))";
+                using (SqlCommand commEOM = new SqlCommand(cmdstring, conEOM))
+                {
+                    conEOM.Open();
+                    commEOM.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+
+                    string name = "";
+                    string surname = "";
+                    using (var reader = commEOM.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            name = reader.GetString(0);
+                            surname += reader.GetString(1);
+
+
+                        }
+
+                    }
+
+                    conEOM.Close();
+
+                    return name + " " + surname;
+                    
+                }
+
+            }
+
+        }
+        private void reset()
+        {
+
+            using (SqlConnection conRemove = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            {
+
+                string cmdstring = "UPDATE Users SET numberOfLogins = 0, numberOfActions = 0 WHERE branch = @branch";
+                using (SqlCommand commRemove = new SqlCommand(cmdstring, conRemove))
+                {
+                    conRemove.Open();
+                    commRemove.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+
+                    commRemove.ExecuteNonQuery();
+
+                    conRemove.Close();
+
+                    gebruik.log(DateTime.Now, "Employee of the month has been reset","");
+                }
+            }
+
+        }
+
+        private void txtLEmail_TextChanged_1(object sender, EventArgs e)
+        {
+            if (txtLEmail.Text.Contains(".com") && txtLPass.Text.Length == 8 && textbox1.Text != "")
+                btnCreate.Enabled = true;
+            else
+                btnCreate.Enabled = false;
         }
     }
 }

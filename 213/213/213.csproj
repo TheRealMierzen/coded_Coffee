@@ -52,8 +52,16 @@
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Dropbox.Api, Version=0.1.6116.35118, Culture=neutral, PublicKeyToken=310f0e82fbb45d01, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dropbox.Api.3.6.0\lib\net45\Dropbox.Api.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RoundButton">
@@ -96,11 +104,23 @@
     <Compile Include="frmAdminPromos.Designer.cs">
       <DependentUpon>frmAdminPromos.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmEOM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEOM.Designer.cs">
+      <DependentUpon>frmEOM.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmForgotPass.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmForgotPass.Designer.cs">
       <DependentUpon>frmForgotPass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogs.Designer.cs">
+      <DependentUpon>frmLogs.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMessages.cs">
       <SubType>Form</SubType>
@@ -158,9 +178,15 @@
     <EmbeddedResource Include="frmAdminPromos.resx">
       <DependentUpon>frmAdminPromos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmEOM.resx">
+      <DependentUpon>frmEOM.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmForgotPass.resx">
       <DependentUpon>frmForgotPass.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogs.resx">
+      <DependentUpon>frmLogs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMessages.resx">
       <DependentUpon>frmMessages.cs</DependentUpon>
@@ -205,6 +231,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Sale.pdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -229,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE.txt" />
+    <None Include="Resources\Sale.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

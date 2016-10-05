@@ -241,23 +241,57 @@ namespace _213
                         comm.Parameters.AddWithValue("@TValue", tValue);
 
                         comm.ExecuteNonQuery();
+                        string message = "";
 
                         if (cbUuser.SelectedItem.ToString() == "Email address")
-                            MessageBox.Show("The email address has been updated");
+                            message = "The email address has been updated";
                         else if (cbUuser.SelectedItem.ToString() == "Username")
-                            MessageBox.Show("The username has been updated");
+                            message = "The username has been updated";
                         else if (cbUuser.SelectedItem.ToString() == "Account level")
-                            MessageBox.Show("The account level has been updated");
+                            message = "The account level has been updated";
+
+                        gebruik.addAction(user);
+                        DateTime local = DateTime.Now;
+                        gebruik.log(local, user, "updated user");
+
+                        DialogResult choice;
+                        choice = MessageBox.Show(message + "\r\nWould you like to update another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        if (choice == DialogResult.Yes)
+                        {
+
+                            if (cbUuser.SelectedItem.ToString() == "Email address")
+                            {
+
+                                txtUserEmail.Clear();
+                                txtNEmail.Clear();
+                                txtCNEmail.Clear();
+
+                            }
+                            else if (cbUuser.SelectedItem.ToString() == "Username")
+                            {
+
+                                txtCUser.Clear();
+                                txtNUser.Clear();
+                                txtCNUser.Clear();
+
+                            }
+                            else if (cbUuser.SelectedItem.ToString() == "Account level")
+                            {
+                                txtLvlUser.Clear();
+                                cbLevel.SelectedItem = "5";
+
+                            }
+    
+
+                        }
+                        else
+                            this.Close();
 
                     }
                     con.Close();
 
-                    gebruik.addAction(user);
-                    DateTime local = DateTime.Now;
-                    gebruik.log(local, user, "updated user");
-                    this.Close();
+                    
 
-                    this.Close();
                 }
             }
             else

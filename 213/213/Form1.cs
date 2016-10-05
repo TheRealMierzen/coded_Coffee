@@ -39,7 +39,7 @@ namespace _213
         private string email;
 
         private string user;
-        private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
+        //private string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments));
         private gebruik util = new gebruik();
 
         private void button1_Click(object sender, EventArgs e)
@@ -74,14 +74,13 @@ namespace _213
             btnAdmLogout.Size = new Size(62, 62);
             btnExit.Size = new Size(62, 62);
             ///MAIN                     
-            saleBtn.Location = new Point((this.Width / 2)-52, ((this.Height) / 2 - 20) - 270);
-            hqBtn.Location = new Point(hqBtn.Location.X, ((this.Height) / 2 - 20) -130);
-            btnOrders.Location = new Point(btnOrders.Location.X, ((this.Height) / 2 - 20) - 130);
-            hqBtn.Location = new Point(hqBtn.Location.X, ((this.Height) / 2 - 20) - 130);
+            /*saleBtn.Location = new Point((this.Width / 2)-52, ((this.Height) / 2 - 20) - 270);
+            hqBtn.Location = new Point(hqBtn.Location.X - 75, ((this.Height) / 2 - 20) -130);
+            btnOrders.Location = new Point(btnOrders.Location.X - 48, ((this.Height) / 2 - 20) - 130);
 
-            stockBtn.Location = new Point(stockBtn.Location.X, ((this.Height) / 2 + 30));
-            TechBtn.Location = new Point(TechBtn.Location.X, ((this.Height) / 2 + 30));
-            btnEOD.Location = new Point((this.Width / 2) - 52, ((this.Height) / 2 - 20) + 180);
+            stockBtn.Location = new Point(stockBtn.Location.X - 75, ((this.Height) / 2 + 30));
+            TechBtn.Location = new Point(TechBtn.Location.X - 48, ((this.Height) / 2 + 30));
+            btnEOD.Location = new Point((this.Width / 2) - 52, ((this.Height) / 2 - 20) + 180);*/
             ///
             /////////Display admin panel
             if (util.checkAuthor(user))
@@ -89,9 +88,12 @@ namespace _213
             else
                 btnAdminShow.Visible = false;
 
+            btnAdminHide.BringToFront();
+            
             if(FR)
             {
-                frmMessages placeHolder = new frmMessages("The system has detected that this is a new branch. Please enter the branch manager's information on the next form.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                MessageBox.Show("The system has detected that this is a new branch. Please enter the branch manager's information on the next form.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 frmAddEmp f1 = new frmAddEmp(user, email);
                 f1.ShowDialog();
 
@@ -350,6 +352,22 @@ namespace _213
         {
 
             frmAdminPromos f1 = new frmAdminPromos(user);
+            f1.ShowDialog();
+
+        }
+
+        private void btnVLogs_Click(object sender, EventArgs e)
+        {
+
+            frmLogs fl = new frmLogs(AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt");
+            fl.ShowDialog();
+
+        }
+
+        private void btnEoM_Click(object sender, EventArgs e)
+        {
+
+            frmEOM  f1 = new frmEOM();
             f1.ShowDialog();
 
         }

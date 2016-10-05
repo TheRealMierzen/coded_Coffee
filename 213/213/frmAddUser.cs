@@ -87,13 +87,23 @@ namespace _213
                                     {
                                         if (lf.addUser(txtNUser.Text, ps, cbLevel.SelectedItem.ToString(), txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
                                         {
-                                            MessageBox.Show("The account has been created. The account's password has been sent to the new user's email address.");
+                                            DialogResult choice;
+                                            choice = MessageBox.Show("The account has been created. The account's password has been sent to the new user's email address.\r\nWould you like to add another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                                             gebruik.addAction(user);
                                             DateTime local = DateTime.Now;
-                                            gebruik.log(local, user, "added new user");
+                                            gebruik.log(local, user, "added new user");                
+                                            
+                                            if (choice == DialogResult.Yes)
+                                            {
 
-                                            this.Close();
+                                                txtAuthPass.Clear();
+                                                txtEmail.Clear();
+                                                txtNUser.Clear();
+
+                                            }
+                                            else
+                                                this.Close();
                                         }
                                     }
                                     else
