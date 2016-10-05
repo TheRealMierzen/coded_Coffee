@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtFPAdminU = new System.Windows.Forms.TextBox();
             this.txtFPAdminP = new System.Windows.Forms.TextBox();
             this.txtBlocked = new System.Windows.Forms.TextBox();
@@ -38,6 +39,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnFPRecover = new System.Windows.Forms.Button();
             this.btnFPCancel = new System.Windows.Forms.Button();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // txtFPAdminU
@@ -47,16 +49,18 @@
             this.txtFPAdminU.Name = "txtFPAdminU";
             this.txtFPAdminU.Size = new System.Drawing.Size(120, 22);
             this.txtFPAdminU.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtFPAdminU, "Enter this branch\'s adminstrator\'s username");
             this.txtFPAdminU.TextChanged += new System.EventHandler(this.txtFPAdminU_TextChanged);
             // 
             // txtFPAdminP
             // 
             this.txtFPAdminP.Location = new System.Drawing.Point(119, 160);
-            this.txtFPAdminP.MaxLength = 50;
+            this.txtFPAdminP.MaxLength = 8;
             this.txtFPAdminP.Name = "txtFPAdminP";
             this.txtFPAdminP.PasswordChar = '*';
             this.txtFPAdminP.Size = new System.Drawing.Size(120, 22);
             this.txtFPAdminP.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtFPAdminP, "Enter this branch\'s administrator\'s password");
             this.txtFPAdminP.TextChanged += new System.EventHandler(this.txtFPAdminP_TextChanged);
             // 
             // txtBlocked
@@ -65,6 +69,7 @@
             this.txtBlocked.Name = "txtBlocked";
             this.txtBlocked.Size = new System.Drawing.Size(120, 22);
             this.txtBlocked.TabIndex = 1;
+            this.passTT.SetToolTip(this.txtBlocked, "Enter the username for which you wish to generate a new password.");
             this.txtBlocked.TextChanged += new System.EventHandler(this.txtBlocked_TextChanged);
             this.txtBlocked.Leave += new System.EventHandler(this.txtBlocked_Leave);
             // 
@@ -120,6 +125,8 @@
             this.btnFPRecover.Size = new System.Drawing.Size(86, 36);
             this.btnFPRecover.TabIndex = 4;
             this.btnFPRecover.Text = "Recover";
+            this.passTT.SetToolTip(this.btnFPRecover, "Click to generate new password for the blocked account.\r\n\r\nThe new password will " +
+        "be sent to their email address.");
             this.btnFPRecover.UseVisualStyleBackColor = true;
             this.btnFPRecover.Click += new System.EventHandler(this.btnFPRecover_Click);
             // 
@@ -131,8 +138,19 @@
             this.btnFPCancel.Size = new System.Drawing.Size(86, 36);
             this.btnFPCancel.TabIndex = 5;
             this.btnFPCancel.Text = "Cancel";
+            this.passTT.SetToolTip(this.btnFPCancel, "Click this button to return to the login form.");
             this.btnFPCancel.UseVisualStyleBackColor = true;
             this.btnFPCancel.Click += new System.EventHandler(this.btnFPCancel_Click);
+            // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Password Help";
             // 
             // frmForgotPass
             // 
@@ -177,5 +195,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnFPRecover;
         private System.Windows.Forms.Button btnFPCancel;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

@@ -59,20 +59,25 @@ namespace _213
 
         private void rbTemp_CheckedChanged(object sender, EventArgs e)
         {
-
-            if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+            try
             {
-
-                if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
-                        if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                            btnAddEmp.Enabled = true;
-                        else if (!rbTemp.Checked)
-                            btnAddEmp.Enabled = true;
+                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                        {
+
+                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                btnAddEmp.Enabled = true;
+                            else if (!rbTemp.Checked)
+                                btnAddEmp.Enabled = true;
+                            else
+                                btnAddEmp.Enabled = false;
+
+                        }
                         else
                             btnAddEmp.Enabled = false;
 
@@ -84,24 +89,27 @@ namespace _213
                 else
                     btnAddEmp.Enabled = false;
 
+                if (rbTemp.Checked)
+                {
+
+                    dtEnd.Visible = true;
+                    lblEndDate.Visible = true;
+
+                }
+                else
+                {
+
+                    dtEnd.Visible = false;
+                    lblEndDate.Visible = false;
+
+                }
             }
-            else
-                btnAddEmp.Enabled = false;
-
-            if (rbTemp.Checked)
-            {
-
-                dtEnd.Visible = true;
-                lblEndDate.Visible = true;
-
-            }
-            else
-            {
-
-                dtEnd.Visible = false;
-                lblEndDate.Visible = false;
-
-            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void btnCancelEmp_Click(object sender, EventArgs e)
@@ -111,19 +119,166 @@ namespace _213
 
         private void txtEmpID_TextChanged(object sender, EventArgs e)
         {
-
-            if (txtEmpID.Text.Length == 10)
+            try
             {
-                txtEmpID.ForeColor = DefaultForeColor;
-                
-
-                if (txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                if (txtEmpID.Text.Length == 10)
                 {
-                    gebruik other = new gebruik();
-                    if (other.validateId(txtEmpRSAID.Text))
-                    {
-                        txtEmpRSAID.ForeColor = DefaultForeColor;
+                    txtEmpID.ForeColor = DefaultForeColor;
 
+
+                    if (txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                    {
+                        gebruik other = new gebruik();
+                        if (other.validateId(txtEmpRSAID.Text))
+                        {
+                            txtEmpRSAID.ForeColor = DefaultForeColor;
+
+                            if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                            {
+
+                                if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                                {
+
+                                    if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                        btnAddEmp.Enabled = true;
+                                    else if (!rbTemp.Checked)
+                                        btnAddEmp.Enabled = true;
+                                    else
+                                        btnAddEmp.Enabled = false;
+
+                                }
+                                else
+                                    btnAddEmp.Enabled = false;
+
+                            }
+                            else
+                                btnAddEmp.Enabled = false;
+                        }
+                        else
+                        {
+
+                            btnAddEmp.Enabled = false;
+                            txtEmpRSAID.ForeColor = Color.Red;
+
+                        }
+
+                    }
+
+                }
+                else if (txtEmpID.Text.Length != 10)
+                {
+                    txtEmpID.ForeColor = Color.Red;
+                    btnAddEmp.Enabled = false;
+                }
+                else
+                {
+                    btnAddEmp.Enabled = false;
+                }
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
+
+        }
+
+        private void txtEmpName_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                {
+
+                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                    {
+
+                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                        {
+
+                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                btnAddEmp.Enabled = true;
+                            else if (!rbTemp.Checked)
+                                btnAddEmp.Enabled = true;
+                            else
+                                btnAddEmp.Enabled = false;
+
+                        }
+                        else
+                            btnAddEmp.Enabled = false;
+
+                    }
+                    else
+                        btnAddEmp.Enabled = false;
+
+                }
+                else
+                    btnAddEmp.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
+
+        }
+
+        private void txtEmpSurname_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                {
+
+                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                    {
+
+                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                        {
+
+                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                btnAddEmp.Enabled = true;
+                            else if (!rbTemp.Checked)
+                                btnAddEmp.Enabled = true;
+                            else
+                                btnAddEmp.Enabled = false;
+
+                        }
+                        else
+                            btnAddEmp.Enabled = false;
+
+                    }
+                    else
+                        btnAddEmp.Enabled = false;
+
+                }
+                else
+                    btnAddEmp.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
+
+        }
+
+        private void txtEmpRSAID_TextChanged(object sender, EventArgs e)
+        {
+
+            gebruik other = new gebruik();
+
+            try
+            {
+                if (txtEmpRSAID.Text.Length == 13 && other.validateId(txtEmpRSAID.Text))
+                {
+
+                    txtEmpRSAID.ForeColor = DefaultForeColor;
+                    if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "")
+                    {
                         if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                         {
 
@@ -145,119 +300,137 @@ namespace _213
                         else
                             btnAddEmp.Enabled = false;
                     }
-                    else
-                    {
-
-                        btnAddEmp.Enabled = false;
-                        txtEmpRSAID.ForeColor = Color.Red;
-
-                    }
 
                 }
+                else if (txtEmpRSAID.Text.Length != 13)
+                {
+                    txtEmpRSAID.ForeColor = Color.Red;
+                    btnAddEmp.Enabled = false;
+                }
+                else
+                    btnAddEmp.Enabled = false;
+            }
+            catch (FormatException)
+            { }
+            catch (InvalidCastException)
+            { }
+            catch (Exception)
+            { }
 
-            }
-            else if (txtEmpID.Text.Length != 10)
-            {
-                txtEmpID.ForeColor = Color.Red;
-                btnAddEmp.Enabled = false;
-            }
-            else
-            {
-                btnAddEmp.Enabled = false;
-            }
 
-            long empID;
+        }
+
+        private void txtEmpEmail_TextChanged(object sender, EventArgs e)
+        {
             try
             {
-                empID = Convert.ToInt64(txtEmpID.Text);
+                if (txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                {
+                    txtEmpEmail.ForeColor = DefaultForeColor;
+                    if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                    {
 
+
+                        if (txtEmpCell.Text.Length == 10 && txtEmpCell.Text.StartsWith("0"))
+                        {
+
+                            if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                            {
+
+                                if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                    btnAddEmp.Enabled = true;
+                                else if (!rbTemp.Checked)
+                                    btnAddEmp.Enabled = true;
+                                else
+                                    btnAddEmp.Enabled = false;
+
+                            }
+                            else
+                                btnAddEmp.Enabled = false;
+                        }
+
+                    }
+
+                    else
+                        btnAddEmp.Enabled = false;
+
+                }
+                else if (!txtEmpEmail.Text.EndsWith(".com") || txtEmpEmail.Text.Length < 7)
+                {
+                    txtEmpEmail.ForeColor = Color.Red;
+                    btnAddEmp.Enabled = false;
+                }
+                else
+                    btnAddEmp.Enabled = false;
             }
-            catch
-            {
-
-                txtEmpID.Text = "";
-
-            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
 
         }
 
-        private void txtEmpName_TextChanged(object sender, EventArgs e)
+        private void txtEmpCell_TextChanged(object sender, EventArgs e)
         {
-
-            if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+            try
             {
-
-                if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                if (txtEmpCell.Text.Length == 10 && txtEmpCell.Text.StartsWith("0"))
                 {
-
-                    if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                    txtEmpCell.ForeColor = DefaultForeColor;
+                    if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                     {
 
-                        if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                            btnAddEmp.Enabled = true;
-                        else if (!rbTemp.Checked)
-                            btnAddEmp.Enabled = true;
-                        else
-                            btnAddEmp.Enabled = false;
+
+                        if (txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                        {
+                            if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                            {
+
+                                if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                    btnAddEmp.Enabled = true;
+                                else if (!rbTemp.Checked)
+                                    btnAddEmp.Enabled = true;
+                                else
+                                    btnAddEmp.Enabled = false;
+
+                            }
+                            else
+                                btnAddEmp.Enabled = false;
+                        }
 
                     }
+
                     else
                         btnAddEmp.Enabled = false;
+                }
+                else if (txtEmpCell.Text.Length != 10 || !txtEmpCell.Text.StartsWith("0"))
+                {
+                    txtEmpCell.ForeColor = Color.Red;
+                    btnAddEmp.Enabled = false;
 
                 }
                 else
                     btnAddEmp.Enabled = false;
 
             }
-            else
-                btnAddEmp.Enabled = false;
+            catch (FormatException)
+            { }
+            catch (InvalidCastException)
+            { }
+            catch (Exception)
+            { }
 
         }
 
-        private void txtEmpSurname_TextChanged(object sender, EventArgs e)
+        private void rbManager_TextChanged(object sender, EventArgs e)
         {
-
-            if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+            try
             {
-
-                if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
-                    {
-
-                        if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                            btnAddEmp.Enabled = true;
-                        else if (!rbTemp.Checked)
-                            btnAddEmp.Enabled = true;
-                        else
-                            btnAddEmp.Enabled = false;
-
-                    }
-                    else
-                        btnAddEmp.Enabled = false;
-
-                }
-                else
-                    btnAddEmp.Enabled = false;
-
-            }
-            else
-                btnAddEmp.Enabled = false;
-
-        }
-
-        private void txtEmpRSAID_TextChanged(object sender, EventArgs e)
-        {
-
-            gebruik other = new gebruik();
-
-            if (txtEmpRSAID.Text.Length == 13 && other.validateId(txtEmpRSAID.Text))
-            {
-
-                txtEmpRSAID.ForeColor = DefaultForeColor;
-                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "")
-                {
                     if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
@@ -278,203 +451,41 @@ namespace _213
                     }
                     else
                         btnAddEmp.Enabled = false;
-                }
-
-            }
-            else if (txtEmpRSAID.Text.Length != 13)
-            {
-                txtEmpRSAID.ForeColor = Color.Red;
-                btnAddEmp.Enabled = false;
-            }
-            else
-                btnAddEmp.Enabled = false;
-
-
-            long empID;
-            try
-            {
-                empID = Convert.ToInt64(txtEmpRSAID.Text);
-
-            }
-            catch
-            {
-                try
-                {
-                    txtEmpRSAID.Text = txtEmpRSAID.Text.Substring(0, txtEmpRSAID.Text.Length - 1);
-                    txtEmpRSAID.Focus();
-                    txtEmpRSAID.SelectionStart = txtEmpRSAID.Text.Length;
-                }
-                catch
-                {
-
-                    txtEmpRSAID.Text = "";
-
-                }
-
-            }
-
-        }
-
-        private void txtEmpEmail_TextChanged(object sender, EventArgs e)
-        {
-            if (txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
-            {
-                txtEmpEmail.ForeColor = DefaultForeColor;
-                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
-                {
-
-
-                    if (txtEmpCell.Text.Length == 10 && txtEmpCell.Text.StartsWith("0"))
-                    {
-
-                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
-                        {
-
-                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                                btnAddEmp.Enabled = true;
-                            else if (!rbTemp.Checked)
-                                btnAddEmp.Enabled = true;
-                            else
-                                btnAddEmp.Enabled = false;
-
-                        }
-                        else
-                            btnAddEmp.Enabled = false;
-                    }
-
-                }
-
-                else
-                    btnAddEmp.Enabled = false;
-
-            }
-            else if (!txtEmpEmail.Text.EndsWith(".com") || txtEmpEmail.Text.Length < 7)
-            {
-                txtEmpEmail.ForeColor = Color.Red;
-                btnAddEmp.Enabled = false;
-            }
-            else
-                btnAddEmp.Enabled = false;
-
-        }
-
-        private void txtEmpCell_TextChanged(object sender, EventArgs e)
-        {
-            if (txtEmpCell.Text.Length == 10 && txtEmpCell.Text.StartsWith("0"))
-            {
-                txtEmpCell.ForeColor = DefaultForeColor;
-                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
-                {
-
-
-                    if (txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
-                    {
-                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
-                        {
-
-                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                                btnAddEmp.Enabled = true;
-                            else if (!rbTemp.Checked)
-                                btnAddEmp.Enabled = true;
-                            else
-                                btnAddEmp.Enabled = false;
-
-                        }
-                        else
-                            btnAddEmp.Enabled = false;
-                    }
-
-                }
-
-                else
-                    btnAddEmp.Enabled = false;
-
-            }
-            else if (txtEmpCell.Text.Length != 10 || !txtEmpCell.Text.StartsWith("0"))
-            {
-                txtEmpCell.ForeColor = Color.Red;
-                btnAddEmp.Enabled = false;
-
-            }
-            else
-                btnAddEmp.Enabled = false;
-
-
-            long cell;
-            try
-            {
-                cell = Convert.ToInt64(txtEmpCell.Text);
-
-            }
-            catch
-            {
-
-                try
-                {
-                    txtEmpCell.Text = txtEmpCell.Text.Substring(0, txtEmpCell.Text.Length - 1);
-                    txtEmpCell.Focus();
-                    txtEmpCell.SelectionStart = txtEmpCell.Text.Length;
-                }
-                catch
-                {
-
-                    txtEmpCell.Text = "";
-
-                }
-
-            }
-
-        }
-
-        private void rbManager_TextChanged(object sender, EventArgs e)
-        {
-
-            if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
-            {
-
-                if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
-                {
-
-                    if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
-                    {
-
-                        if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                            btnAddEmp.Enabled = true;
-                        else if (!rbTemp.Checked)
-                            btnAddEmp.Enabled = true;
-                        else
-                            btnAddEmp.Enabled = false;
-
-                    }
-                    else
-                        btnAddEmp.Enabled = false;
 
                 }
                 else
                     btnAddEmp.Enabled = false;
-
             }
-            else
-                btnAddEmp.Enabled = false;
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
 
         }
 
         private void rbFull_ControlAdded(object sender, ControlEventArgs e)
         {
-
-            if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+            try
             {
-
-                if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
-                        if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
-                            btnAddEmp.Enabled = true;
-                        else if (!rbTemp.Checked)
-                            btnAddEmp.Enabled = true;
+                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                        {
+
+                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                                btnAddEmp.Enabled = true;
+                            else if (!rbTemp.Checked)
+                                btnAddEmp.Enabled = true;
+                            else
+                                btnAddEmp.Enabled = false;
+
+                        }
                         else
                             btnAddEmp.Enabled = false;
 
@@ -485,10 +496,13 @@ namespace _213
                 }
                 else
                     btnAddEmp.Enabled = false;
-
             }
-            else
-                btnAddEmp.Enabled = false;
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
 
         }
 
@@ -502,24 +516,30 @@ namespace _213
         private void dtEnd_ValueChanged(object sender, EventArgs e)
         {
 
-            if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+            try
             {
-
-                if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
+                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
-                        if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                        if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
                         {
-                            dtEnd.CalendarForeColor = DefaultForeColor;
-                            btnAddEmp.Enabled = true;
+
+                            if (rbTemp.Checked && dtEnd.Value >= dtStart.Value)
+                            {
+                                dtEnd.CalendarForeColor = DefaultForeColor;
+                                btnAddEmp.Enabled = true;
+                            }
+                            else if (dtEnd.Value < dtStart.Value)
+                                dtEnd.CalendarForeColor = Color.Red;
+                            else if (!rbTemp.Checked)
+                                btnAddEmp.Enabled = true;
+                            else
+                                btnAddEmp.Enabled = false;
+
                         }
-                        else if (dtEnd.Value < dtStart.Value)
-                            dtEnd.CalendarForeColor = Color.Red;
-                        else if (!rbTemp.Checked)
-                            btnAddEmp.Enabled = true;
                         else
                             btnAddEmp.Enabled = false;
 
@@ -531,204 +551,285 @@ namespace _213
                 else
                     btnAddEmp.Enabled = false;
 
+                if (dtEnd.Value < dtStart.Value)
+                {
+                    dtEnd.CalendarForeColor = Color.Red;
+                    btnAddEmp.Enabled = false;
+                }
             }
-            else
-                btnAddEmp.Enabled = false;
-
-            if (dtEnd.Value < dtStart.Value)
-            {
-                dtEnd.CalendarForeColor = Color.Red;
-                btnAddEmp.Enabled = false;
-            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
 
         }
 
         private void btnAddEmp_Click(object sender, EventArgs e)
         {
-
-            if (dtEnd.Value >= dtStart.Value && rbTemp.Checked)
+            try
             {
+                if (dtEnd.Value >= dtStart.Value && rbTemp.Checked)
+                {
 
-                addEmp();
+                    addEmp();
 
-            }
-            else if (!rbTemp.Checked)
-            {
-                if (branch)
-                    updateBranch();
-                addEmp();
+                }
+                else if (!rbTemp.Checked)
+                {
+                    if (branch)
+                        updateBranch();
+                    addEmp();
 
+                }
+                else
+                {
+                    frmMessages placeHolder = new frmMessages("The end date of employment can not be earlier than the starting date. Please verify the dates and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
-            {
-                frmMessages placeHolder = new frmMessages("The end date of employment can not be earlier than the starting date. Please verify the dates and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch(Exception)
+            { }
         }
 
         private void addEmp()
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-
-                string cmdstring = "INSERT INTO Employees (branch, employee_id, name, surname, id_num, email_address, cell, is_user, date_appointed, employed_until, is_temp) VALUES (@branch, @emp_id, @name, @surname, @id, @email, @cell, @user, @dateApp, @dateEmp, @temp)";
-
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    con.Open();
 
-                    gebruik other = new gebruik();
+                    string cmdstring = "INSERT INTO Employees (branch, employee_id, name, surname, id_num, email_address, cell, is_user, date_appointed, employed_until, is_temp) VALUES (@branch, @emp_id, @name, @surname, @id, @email, @cell, @user, @dateApp, @dateEmp, @temp)";
 
-                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                    comm.Parameters.AddWithValue("@emp_id", txtEmpID.Text);
-                    comm.Parameters.AddWithValue("@name", txtEmpName.Text);
-                    comm.Parameters.AddWithValue("@surname", txtEmpSurname.Text);
-                    comm.Parameters.AddWithValue("@id", txtEmpRSAID.Text);
-                    comm.Parameters.AddWithValue("@email", txtEmpEmail.Text);
-                    comm.Parameters.AddWithValue("@cell", txtEmpCell.Text);
-                    comm.Parameters.AddWithValue("@user", cbIsUser.Checked);
-                    comm.Parameters.AddWithValue("@dateApp", dtStart.Value);
-                    comm.Parameters.AddWithValue("@dateEmp", dtEnd.Value);
-                    comm.Parameters.AddWithValue("@temp", rbTemp.Checked);
 
-                    if (other.Mail(txtEmpEmail.Text, "Added as employee", "You have been added as an employee at Matrix Warehouse, " + Properties.Settings.Default.Branch + ".\r\n\r\nYour employee id is: " + txtEmpID.Text + "\r\n\r\nAccording to our system, your starting date is: " + dtStart.Value.ToString().Substring(0,9) + "\r\n\r\nPlease keep this email for future reference."))
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
                     {
-                        comm.ExecuteNonQuery();
+                        con.Open();
 
-                        gebruik.addAction(user);
-                        gebruik.log(DateTime.Now, user, "added employee");
-                        updateEmployNum("add");
+                        gebruik other = new gebruik();
 
-                        if (cbIsUser.Checked)
+                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                        comm.Parameters.AddWithValue("@emp_id", txtEmpID.Text);
+                        comm.Parameters.AddWithValue("@name", txtEmpName.Text);
+                        comm.Parameters.AddWithValue("@surname", txtEmpSurname.Text);
+                        comm.Parameters.AddWithValue("@id", txtEmpRSAID.Text);
+                        comm.Parameters.AddWithValue("@email", txtEmpEmail.Text);
+                        comm.Parameters.AddWithValue("@cell", txtEmpCell.Text);
+                        comm.Parameters.AddWithValue("@user", cbIsUser.Checked);
+                        comm.Parameters.AddWithValue("@dateApp", dtStart.Value);
+                        comm.Parameters.AddWithValue("@dateEmp", dtEnd.Value);
+                        comm.Parameters.AddWithValue("@temp", rbTemp.Checked);
+
+                        if (other.Mail(txtEmpEmail.Text, "Added as employee", "You have been added as an employee at Matrix Warehouse, " + Properties.Settings.Default.Branch + ".\r\n\r\nYour employee id is: " + txtEmpID.Text + "\r\n\r\nAccording to our system, your starting date is: " + dtStart.Value.ToString().Substring(0, 9) + "\r\n\r\nPlease keep this email for future reference."))
                         {
+                            comm.ExecuteNonQuery();
 
-                            if (!branch)
+                            gebruik.addAction(user);
+                            gebruik.log(DateTime.Now, user, "added employee");
+                            updateEmployNum("add");
+
+                            if (cbIsUser.Checked)
                             {
-                                DialogResult result = MessageBox.Show("The employee's information has successfully been added.\r\n\r\nThe system has detected that this employee will use this system. Would you like to create their account now?", "Info", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.Yes)
+
+                                if (!branch)
                                 {
-                                    frmAddUser adU = new frmAddUser(user, txtEmpEmail.Text);
-
-                                    adU.ShowDialog();
-                                    this.Close();
-
-                                }
-                                else
-                                {
-                                    
-                                    DialogResult choice;
-                                    choice = MessageBox.Show("The employee's informations has successfully been added..\r\nWould you like to add another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                                    if (choice == DialogResult.Yes)
+                                    DialogResult result = MessageBox.Show("The employee's information has successfully been added.\r\n\r\nThe system has detected that this employee will use this system. Would you like to create their account now?", "Info", MessageBoxButtons.YesNo);
+                                    if (result == DialogResult.Yes)
                                     {
-                                        txtEmpID.Clear();
-                                        while (txtEmpID.Text == "")
-                                        {
-                                            txtEmpID.Text = other.generateLuhn();
-                                        }
+                                        frmAddUser adU = new frmAddUser(user, txtEmpEmail.Text);
 
-                                        txtEmpID.Enabled = false;
-
-                                        txtEmpName.Clear();
-                                        txtEmpSurname.Clear();
-                                        txtEmpRSAID.Clear();
-
-                                        txtEmpEmail.Clear();
-                                        txtEmpCell.Clear();
-
-                                        dtStart.Value = DateTime.Now;
-                                        dtEnd.Value = DateTime.Now;
-                                        rbFull.Checked = true;
-                                        cbIsUser.Checked = false;
+                                        adU.ShowDialog();
+                                        this.Close();
 
                                     }
                                     else
-                                        this.Close();
-                                
+                                    {
+
+                                        DialogResult choice;
+                                        choice = MessageBox.Show("The employee's informations has successfully been added..\r\nWould you like to add another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                                        if (choice == DialogResult.Yes)
+                                        {
+                                            txtEmpID.Clear();
+                                            while (txtEmpID.Text == "")
+                                            {
+                                                txtEmpID.Text = other.generateLuhn();
+                                            }
+
+                                            txtEmpID.Enabled = false;
+
+                                            txtEmpName.Clear();
+                                            txtEmpSurname.Clear();
+                                            txtEmpRSAID.Clear();
+
+                                            txtEmpEmail.Clear();
+                                            txtEmpCell.Clear();
+
+                                            dtStart.Value = DateTime.Now;
+                                            dtEnd.Value = DateTime.Now;
+                                            rbFull.Checked = true;
+                                            cbIsUser.Checked = false;
+
+                                        }
+                                        else
+                                            this.Close();
+
+                                    }
                                 }
+                                else
+                                {
+
+                                    frmMessages placeHolder = new frmMessages("The employee's information has succesfully been added", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    this.Close();
+
+                                }
+
+
                             }
                             else
                             {
-
                                 frmMessages placeHolder = new frmMessages("The employee's information has succesfully been added", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                 this.Close();
-
                             }
-
-
                         }
                         else
                         {
-                            frmMessages placeHolder = new frmMessages("The employee's information has succesfully been added", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            this.Close();
+                            MessageBox.Show("An error occurred while adding the employee. Please check your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                         }
-                    }
-                    else
-                    {
-
-                        MessageBox.Show("An error occurred while adding the employee. Please check your internet connection and try again.","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     }
-
                 }
             }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        addEmp();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                
+
+            }
+            catch(Exception)
+            { }
 
         }
 
         private void updateEmployNum(string logic)
         {
 
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
+            {
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
+
+                    con.Open();
+                    string cmdstring = "";
+                    if (logic == "add")
+                        cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum + 1 WHERE branch_location = @branch";
+                    else
+                        cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum - 1 WHERE branch_location = @branch";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+
+                        comm.ExecuteNonQuery();
+                    }
+                    con.Close();
+
+                }
+            }
+            catch (SqlException se)
             {
 
-                con.Open();
-                string cmdstring = "";
-                if (logic == "add")
-                    cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum + 1 WHERE branch_location = @branch";
-                else
-                    cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum - 1 WHERE branch_location = @branch";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                if (se.Number == 53)
                 {
-                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        updateEmployNum(logic);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    comm.ExecuteNonQuery();
-                }
-                con.Close();
+                }             
 
             }
+            catch(Exception)
+            { }
 
         }
 
         private void updateBranch()
         {
+            try
+            {
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
 
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                    con.Open();
+                    string cmdstring = "";
+
+                    cmdstring = "UPDATE Branches SET manager_name = @name, manager_email = @mail, manager_cell = @cell WHERE branch_location = @branch";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@name", txtEmpName.Text);
+                        comm.Parameters.AddWithValue("@mail", txtEmpEmail.Text);
+                        comm.Parameters.AddWithValue("@cell", txtEmpCell.Text);
+                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+
+
+                        comm.ExecuteNonQuery();
+                    }
+                    con.Close();
+
+                }
+            }
+            catch (SqlException se)
             {
 
-                con.Open();
-                string cmdstring = "";
-                
-                cmdstring = "UPDATE Branches SET manager_name = @name, manager_email = @mail, manager_cell = @cell WHERE branch_location = @branch";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                if (se.Number == 53)
                 {
-                    comm.Parameters.AddWithValue("@name", txtEmpName.Text);
-                    comm.Parameters.AddWithValue("@mail", txtEmpEmail.Text);
-                    comm.Parameters.AddWithValue("@cell", txtEmpCell.Text);
-                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                       updateBranch();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-
-                    comm.ExecuteNonQuery();
                 }
-                con.Close();
+                
 
             }
+            catch(Exception)
+            { }
 
         }
 
+        private void txtEmpRSAID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtEmpCell_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

@@ -54,80 +54,89 @@ namespace _213
             gebruik other = new gebruik();
             Random start = new Random();
 
-            if (txtAuthPass.Text != "" && txtEmail.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtNUser.Text != "")
+            try
             {
-                if (lf.validateUser(txtAuthUser.Text, txtAuthPass.Text) && other.checkAuthor(txtAuthUser.Text))
+                if (txtAuthPass.Text != "" && txtEmail.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtNUser.Text != "")
                 {
-                    string ps = other.genPassword(start.Next(0, 10));
-                    if (lf.checkUser(txtNUser.Text))
+                    if (lf.validateUser(txtAuthUser.Text, txtAuthPass.Text) && other.checkAuthor(txtAuthUser.Text))
                     {
-                        using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                        string ps = other.genPassword(start.Next(0, 10));
+                        if (lf.checkUser(txtNUser.Text))
                         {
-                            string cmdstring = "SELECT email_address FROM Users WHERE userName = @username";
-                            using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                             {
-                                comm.Parameters.AddWithValue("@username", user);
-
-                                string mail = "";
-                                con.Open();
-                                SqlDataReader dr = comm.ExecuteReader();
-
-                                while (dr.Read())
+                                string cmdstring = "SELECT email_address FROM Users WHERE userName = @username";
+                                using (SqlCommand comm = new SqlCommand(cmdstring, con))
                                 {
+                                    comm.Parameters.AddWithValue("@username", user);
 
-                                    mail = dr.GetString(0);
+                                    string mail = "";
+                                    con.Open();
+                                    SqlDataReader dr = comm.ExecuteReader();
 
-                                }
-                                dr.Close();
-                                con.Close();
-
-                                if (other.Mail(txtEmail.Text, "StockI.T account created!", "Your stockI.T account has been created and you can now use the software using the following details:\r\n\r\n\tUsername: " + txtNUser.Text + "\r\n\tYour account level is: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nYour account level determines which tasks you can perform on the system.\r\n\r\nPlease keep this email for future reference."))
-                                {
-                                    if (other.Mail(mail, "New user added", "A new user has been added.\r\n\r\nThe new account's details are:\r\n\tUsername: " + txtNUser.Text + "\r\n\tAccount Level: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nIf you did not authorize this account, you can remove the new account at any time."))
+                                    while (dr.Read())
                                     {
-                                        if (lf.addUser(txtNUser.Text, ps, cbLevel.SelectedItem.ToString(), txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
+
+                                        mail = dr.GetString(0);
+
+                                    }
+                                    dr.Close();
+                                    con.Close();
+
+                                    if (other.Mail(txtEmail.Text, "StockI.T account created!", "Your stockI.T account has been created and you can now use the software using the following details:\r\n\r\n\tUsername: " + txtNUser.Text + "\r\n\tYour account level is: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nYour account level determines which tasks you can perform on the system.\r\n\r\nPlease keep this email for future reference."))
+                                    {
+                                        if (other.Mail(mail, "New user added", "A new user has been added.\r\n\r\nThe new account's details are:\r\n\tUsername: " + txtNUser.Text + "\r\n\tAccount Level: " + cbLevel.SelectedItem.ToString() + "\r\n\r\nIf you did not authorize this account, you can remove the new account at any time."))
                                         {
-                                            DialogResult choice;
-                                            choice = MessageBox.Show("The account has been created. The account's password has been sent to the new user's email address.\r\nWould you like to add another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                                            gebruik.addAction(user);
-                                            DateTime local = DateTime.Now;
-                                            gebruik.log(local, user, "added new user");                
-                                            
-                                            if (choice == DialogResult.Yes)
+                                            if (lf.addUser(txtNUser.Text, ps, cbLevel.SelectedItem.ToString(), txtEmail.Text, txtAuthUser.Text, txtAuthPass.Text))
                                             {
+                                                DialogResult choice;
+                                                choice = MessageBox.Show("The account has been created. The account's password has been sent to the new user's email address.\r\nWould you like to add another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-                                                txtAuthPass.Clear();
-                                                txtEmail.Clear();
-                                                txtNUser.Clear();
+                                                gebruik.addAction(user);
+                                                DateTime local = DateTime.Now;
+                                                gebruik.log(local, user, "added new user");
 
+                                                if (choice == DialogResult.Yes)
+                                                {
+
+                                                    txtAuthPass.Clear();
+                                                    txtEmail.Clear();
+                                                    txtNUser.Clear();
+
+                                                }
+                                                else
+                                                    this.Close();
                                             }
-                                            else
-                                                this.Close();
                                         }
+                                        else
+                                            MessageBox.Show("The user was not added. Please check your internet connection and try again.");
                                     }
                                     else
                                         MessageBox.Show("The user was not added. Please check your internet connection and try again.");
-                                }
-                                else
-                                    MessageBox.Show("The user was not added. Please check your internet connection and try again.");
 
+                                }
                             }
                         }
+                        else
+                            MessageBox.Show("The username: " + txtNUser.Text + " is already taken. Please enter another username and try again.");
+
                     }
                     else
-                        MessageBox.Show("The username: " + txtNUser.Text + " is already taken. Please enter another username and try again.");
+                    {
 
+                        MessageBox.Show("The authorization account's password is incorrect. Please try again.");
+
+                    }
                 }
                 else
-                {
- 
-                    MessageBox.Show("The authorization account's password is incorrect. Please try again.");
-
-                }
+                    MessageBox.Show("Some required field are empty. Please verify the entered information and try again.");
             }
-            else
-                MessageBox.Show("Some required field are empty. Please verify the entered information and try again.");
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
 
         }
 
@@ -169,26 +178,47 @@ namespace _213
 
         private void txtNUser_TextChanged(object sender, EventArgs e)
         {
-            if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
-                btnCreateAcc.Enabled = true;
-            else
-                btnCreateAcc.Enabled = false;
+            try
+            {
+                if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+                    btnCreateAcc.Enabled = true;
+                else
+                    btnCreateAcc.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
-            if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
-                btnCreateAcc.Enabled = true;
-            else
-                btnCreateAcc.Enabled = false;
+            try
+            {
+                if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+                    btnCreateAcc.Enabled = true;
+                else
+                    btnCreateAcc.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void txtAuthPass_TextChanged(object sender, EventArgs e)
         {
-            if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
-                btnCreateAcc.Enabled = true;
-            else
-                btnCreateAcc.Enabled = false;
+            try
+            {
+                if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+                    btnCreateAcc.Enabled = true;
+                else
+                    btnCreateAcc.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(Exception)
+            { }
         }
     }
 }

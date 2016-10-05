@@ -64,13 +64,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TT = new System.Windows.Forms.ToolTip(this.components);
             this.cbOriBranch = new System.Windows.Forms.ComboBox();
-            this.lblOID = new System.Windows.Forms.Label();
-            this.lblOriBranch = new System.Windows.Forms.Label();
             this.cbID = new System.Windows.Forms.ComboBox();
             this.cbOID = new System.Windows.Forms.ComboBox();
             this.cbSurID = new System.Windows.Forms.ComboBox();
             this.cbPeriodID = new System.Windows.Forms.ComboBox();
             this.cbCellId = new System.Windows.Forms.ComboBox();
+            this.lblOID = new System.Windows.Forms.Label();
+            this.lblOriBranch = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbUEmp
@@ -88,6 +88,7 @@
             this.cbUEmp.Name = "cbUEmp";
             this.cbUEmp.Size = new System.Drawing.Size(190, 24);
             this.cbUEmp.TabIndex = 1;
+            this.TT.SetToolTip(this.cbUEmp, "Select information you wish to update");
             this.cbUEmp.SelectedIndexChanged += new System.EventHandler(this.cbUEmp_SelectedIndexChanged_1);
             // 
             // label1
@@ -141,6 +142,7 @@
             this.txtCEmail.Name = "txtCEmail";
             this.txtCEmail.Size = new System.Drawing.Size(162, 22);
             this.txtCEmail.TabIndex = 3;
+            this.TT.SetToolTip(this.txtCEmail, "Enter current email address of employee \r\nyou wish to update");
             this.txtCEmail.TextChanged += new System.EventHandler(this.txtCEmail_TextChanged);
             // 
             // txtNEmail
@@ -149,6 +151,7 @@
             this.txtNEmail.Name = "txtNEmail";
             this.txtNEmail.Size = new System.Drawing.Size(162, 22);
             this.txtNEmail.TabIndex = 4;
+            this.TT.SetToolTip(this.txtNEmail, "Enter the new email address of the mployee");
             this.txtNEmail.TextChanged += new System.EventHandler(this.txtNEmail_TextChanged);
             // 
             // txtCNEmail
@@ -157,6 +160,7 @@
             this.txtCNEmail.Name = "txtCNEmail";
             this.txtCNEmail.Size = new System.Drawing.Size(162, 22);
             this.txtCNEmail.TabIndex = 5;
+            this.TT.SetToolTip(this.txtCNEmail, "Confirm new email address of employee");
             this.txtCNEmail.TextChanged += new System.EventHandler(this.txtCNEmail_TextChanged);
             // 
             // uEmpCancel
@@ -167,6 +171,7 @@
             this.uEmpCancel.Size = new System.Drawing.Size(130, 36);
             this.uEmpCancel.TabIndex = 8;
             this.uEmpCancel.Text = "Cancel";
+            this.TT.SetToolTip(this.uEmpCancel, "Click to close this window");
             this.uEmpCancel.UseVisualStyleBackColor = true;
             // 
             // btnUpdateEmp
@@ -177,6 +182,7 @@
             this.btnUpdateEmp.Size = new System.Drawing.Size(134, 36);
             this.btnUpdateEmp.TabIndex = 7;
             this.btnUpdateEmp.Text = "Update employee";
+            this.TT.SetToolTip(this.btnUpdateEmp, "Click to update employee\'s information");
             this.btnUpdateEmp.UseVisualStyleBackColor = true;
             this.btnUpdateEmp.Click += new System.EventHandler(this.btnUpdateEmp_Click);
             // 
@@ -187,6 +193,7 @@
             this.dtUntil.Name = "dtUntil";
             this.dtUntil.Size = new System.Drawing.Size(162, 22);
             this.dtUntil.TabIndex = 3;
+            this.TT.SetToolTip(this.dtUntil, "Select the new date until which this employee will be \r\nemployed");
             this.dtUntil.ValueChanged += new System.EventHandler(this.dtUntil_ValueChanged);
             // 
             // lblPeriodId
@@ -214,7 +221,9 @@
             this.txtCCell.Name = "txtCCell";
             this.txtCCell.Size = new System.Drawing.Size(162, 22);
             this.txtCCell.TabIndex = 3;
+            this.TT.SetToolTip(this.txtCCell, "Enter current cellphone number of employee \r\nyou wish to update");
             this.txtCCell.TextChanged += new System.EventHandler(this.txtCCell_TextChanged);
+            this.txtCCell.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCCell_KeyPress);
             // 
             // txtNCell
             // 
@@ -223,7 +232,9 @@
             this.txtNCell.Name = "txtNCell";
             this.txtNCell.Size = new System.Drawing.Size(162, 22);
             this.txtNCell.TabIndex = 4;
+            this.TT.SetToolTip(this.txtNCell, "Enter new cellphone number of employee");
             this.txtNCell.TextChanged += new System.EventHandler(this.txtNCell_TextChanged);
+            this.txtNCell.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNCell_KeyPress);
             // 
             // txtCNCell
             // 
@@ -232,7 +243,9 @@
             this.txtCNCell.Name = "txtCNCell";
             this.txtCNCell.Size = new System.Drawing.Size(162, 22);
             this.txtCNCell.TabIndex = 5;
+            this.TT.SetToolTip(this.txtCNCell, "Confirm new cellphone number of employee");
             this.txtCNCell.TextChanged += new System.EventHandler(this.txtCNCell_TextChanged);
+            this.txtCNCell.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCNCell_KeyPress);
             // 
             // lblCellId
             // 
@@ -276,6 +289,7 @@
             this.txtNSur.Name = "txtNSur";
             this.txtNSur.Size = new System.Drawing.Size(162, 22);
             this.txtNSur.TabIndex = 4;
+            this.TT.SetToolTip(this.txtNSur, "Enter new surname of employee");
             this.txtNSur.TextChanged += new System.EventHandler(this.txtNSur_TextChanged);
             // 
             // txtCNSur
@@ -284,6 +298,7 @@
             this.txtCNSur.Name = "txtCNSur";
             this.txtCNSur.Size = new System.Drawing.Size(162, 22);
             this.txtCNSur.TabIndex = 5;
+            this.TT.SetToolTip(this.txtCNSur, "Confirm new surname of employee");
             this.txtCNSur.TextChanged += new System.EventHandler(this.txtCNSur_TextChanged);
             // 
             // txtCSur
@@ -292,6 +307,7 @@
             this.txtCSur.Name = "txtCSur";
             this.txtCSur.Size = new System.Drawing.Size(162, 22);
             this.txtCSur.TabIndex = 3;
+            this.TT.SetToolTip(this.txtCSur, "Enter current surname of employee you wish to update");
             this.txtCSur.TextChanged += new System.EventHandler(this.txtCSur_TextChanged);
             // 
             // lblCNSur
@@ -338,6 +354,7 @@
             this.cbUser.Size = new System.Drawing.Size(125, 21);
             this.cbUser.TabIndex = 5;
             this.cbUser.Text = "Is stockI.T user";
+            this.TT.SetToolTip(this.cbUser, "Check if employee will be using stockI.T after this update");
             this.cbUser.UseVisualStyleBackColor = true;
             // 
             // cbBranches
@@ -352,8 +369,8 @@
             this.cbBranches.Size = new System.Drawing.Size(162, 24);
             this.cbBranches.Sorted = true;
             this.cbBranches.TabIndex = 4;
-            this.TT.SetToolTip(this.cbBranches, "Please leave this field empty if you do not \r\nwish to move this employee to anoth" +
-        "er branch.");
+            this.TT.SetToolTip(this.cbBranches, "Select the branch you wish to move this employee to\r\n\r\n*Please leave this field e" +
+        "mpty if you do not wish to \r\nmove this employee to another branch.");
             // 
             // cbTemp
             // 
@@ -363,6 +380,7 @@
             this.cbTemp.Size = new System.Drawing.Size(173, 21);
             this.cbTemp.TabIndex = 6;
             this.cbTemp.Text = "Is temporary employee";
+            this.TT.SetToolTip(this.cbTemp, "Check if employee should be a temprary employee \r\nafter this update");
             this.cbTemp.UseVisualStyleBackColor = true;
             // 
             // lblBranches
@@ -386,7 +404,7 @@
             // TT
             // 
             this.TT.AutoPopDelay = 5000;
-            this.TT.InitialDelay = 100;
+            this.TT.InitialDelay = 750;
             this.TT.IsBalloon = true;
             this.TT.ReshowDelay = 100;
             this.TT.Tag = "";
@@ -403,8 +421,73 @@
             this.cbOriBranch.Size = new System.Drawing.Size(162, 24);
             this.cbOriBranch.Sorted = true;
             this.cbOriBranch.TabIndex = 3;
-            this.TT.SetToolTip(this.cbOriBranch, "If this field is disabled, you do not have permission to move employees from othe" +
-        "r branches.");
+            this.TT.SetToolTip(this.cbOriBranch, "Select the branch you wish to transfer employee from\r\n\r\n*If this field is disable" +
+        "d, you do not have permission to \r\nmove employees from other branches.");
+            // 
+            // cbID
+            // 
+            this.cbID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbID.FormattingEnabled = true;
+            this.cbID.Location = new System.Drawing.Point(256, 87);
+            this.cbID.Name = "cbID";
+            this.cbID.Size = new System.Drawing.Size(162, 24);
+            this.cbID.Sorted = true;
+            this.cbID.TabIndex = 2;
+            this.TT.SetToolTip(this.cbID, "Select employee id of employee you wish to update");
+            this.cbID.SelectedIndexChanged += new System.EventHandler(this.cbID_SelectedIndexChanged);
+            // 
+            // cbOID
+            // 
+            this.cbOID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbOID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbOID.FormattingEnabled = true;
+            this.cbOID.Location = new System.Drawing.Point(256, 87);
+            this.cbOID.Name = "cbOID";
+            this.cbOID.Size = new System.Drawing.Size(162, 24);
+            this.cbOID.Sorted = true;
+            this.cbOID.TabIndex = 2;
+            this.TT.SetToolTip(this.cbOID, "Select employee id of employee you wish to update");
+            this.cbOID.SelectedIndexChanged += new System.EventHandler(this.cbOID_SelectedIndexChanged);
+            // 
+            // cbSurID
+            // 
+            this.cbSurID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbSurID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbSurID.FormattingEnabled = true;
+            this.cbSurID.Location = new System.Drawing.Point(256, 87);
+            this.cbSurID.Name = "cbSurID";
+            this.cbSurID.Size = new System.Drawing.Size(162, 24);
+            this.cbSurID.Sorted = true;
+            this.cbSurID.TabIndex = 2;
+            this.TT.SetToolTip(this.cbSurID, "Select employee id of employee you wish to update");
+            this.cbSurID.SelectedIndexChanged += new System.EventHandler(this.cbSurID_SelectedIndexChanged);
+            // 
+            // cbPeriodID
+            // 
+            this.cbPeriodID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbPeriodID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbPeriodID.FormattingEnabled = true;
+            this.cbPeriodID.Location = new System.Drawing.Point(256, 87);
+            this.cbPeriodID.Name = "cbPeriodID";
+            this.cbPeriodID.Size = new System.Drawing.Size(162, 24);
+            this.cbPeriodID.Sorted = true;
+            this.cbPeriodID.TabIndex = 2;
+            this.TT.SetToolTip(this.cbPeriodID, "Select employee id of employee you wish to update");
+            this.cbPeriodID.SelectedIndexChanged += new System.EventHandler(this.cbPeriodID_SelectedIndexChanged);
+            // 
+            // cbCellId
+            // 
+            this.cbCellId.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbCellId.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbCellId.FormattingEnabled = true;
+            this.cbCellId.Location = new System.Drawing.Point(256, 87);
+            this.cbCellId.Name = "cbCellId";
+            this.cbCellId.Size = new System.Drawing.Size(162, 24);
+            this.cbCellId.Sorted = true;
+            this.cbCellId.TabIndex = 2;
+            this.TT.SetToolTip(this.cbCellId, "Select employee id of employee you wish to update");
+            this.cbCellId.SelectedIndexChanged += new System.EventHandler(this.cbCellId_SelectedIndexChanged);
             // 
             // lblOID
             // 
@@ -424,73 +507,13 @@
             this.lblOriBranch.TabIndex = 20;
             this.lblOriBranch.Text = "Move from branch:";
             // 
-            // cbID
-            // 
-            this.cbID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbID.FormattingEnabled = true;
-            this.cbID.Location = new System.Drawing.Point(256, 87);
-            this.cbID.Name = "cbID";
-            this.cbID.Size = new System.Drawing.Size(162, 24);
-            this.cbID.Sorted = true;
-            this.cbID.TabIndex = 2;
-            this.cbID.SelectedIndexChanged += new System.EventHandler(this.cbID_SelectedIndexChanged);
-            // 
-            // cbOID
-            // 
-            this.cbOID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbOID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbOID.FormattingEnabled = true;
-            this.cbOID.Location = new System.Drawing.Point(256, 87);
-            this.cbOID.Name = "cbOID";
-            this.cbOID.Size = new System.Drawing.Size(162, 24);
-            this.cbOID.Sorted = true;
-            this.cbOID.TabIndex = 2;
-            this.cbOID.SelectedIndexChanged += new System.EventHandler(this.cbOID_SelectedIndexChanged);
-            // 
-            // cbSurID
-            // 
-            this.cbSurID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbSurID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbSurID.FormattingEnabled = true;
-            this.cbSurID.Location = new System.Drawing.Point(256, 87);
-            this.cbSurID.Name = "cbSurID";
-            this.cbSurID.Size = new System.Drawing.Size(162, 24);
-            this.cbSurID.Sorted = true;
-            this.cbSurID.TabIndex = 2;
-            this.cbSurID.SelectedIndexChanged += new System.EventHandler(this.cbSurID_SelectedIndexChanged);
-            // 
-            // cbPeriodID
-            // 
-            this.cbPeriodID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbPeriodID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbPeriodID.FormattingEnabled = true;
-            this.cbPeriodID.Location = new System.Drawing.Point(256, 87);
-            this.cbPeriodID.Name = "cbPeriodID";
-            this.cbPeriodID.Size = new System.Drawing.Size(162, 24);
-            this.cbPeriodID.Sorted = true;
-            this.cbPeriodID.TabIndex = 2;
-            this.cbPeriodID.SelectedIndexChanged += new System.EventHandler(this.cbPeriodID_SelectedIndexChanged);
-            // 
-            // cbCellId
-            // 
-            this.cbCellId.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbCellId.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbCellId.FormattingEnabled = true;
-            this.cbCellId.Location = new System.Drawing.Point(256, 87);
-            this.cbCellId.Name = "cbCellId";
-            this.cbCellId.Size = new System.Drawing.Size(162, 24);
-            this.cbCellId.Sorted = true;
-            this.cbCellId.TabIndex = 2;
-            this.cbCellId.SelectedIndexChanged += new System.EventHandler(this.cbCellId_SelectedIndexChanged);
-            // 
             // frmUEmp
             // 
             this.AcceptButton = this.btnUpdateEmp;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.uEmpCancel;
-            this.ClientSize = new System.Drawing.Size(455, 291);
+            this.ClientSize = new System.Drawing.Size(441, 291);
             this.Controls.Add(this.cbCellId);
             this.Controls.Add(this.cbPeriodID);
             this.Controls.Add(this.cbSurID);

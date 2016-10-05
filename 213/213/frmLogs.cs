@@ -28,22 +28,32 @@ namespace _213
         string path;
         private void frmLogs_Load(object sender, EventArgs e)
         {
+            try
+            {
+                if (File.Exists(path))
+                {
 
-            if (File.Exists(path))
+                    txtLog.AppendText(File.ReadAllText(path));
+                    File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Something went wrong and the activity log is missing.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
+            }
+            catch(IOException)
             {
 
-                txtLog.AppendText(File.ReadAllText(path));
-                File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+                MessageBox.Show("An error occurred while attempting to open the Activity log. Please try again.","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            else
-            {
+            catch(Exception)
+            { }
 
-                MessageBox.Show("Something went wrong and the activity log is missing.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-
-            }
-
-        }
+        }       
 
     }
 }

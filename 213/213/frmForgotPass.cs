@@ -48,119 +48,162 @@ namespace _213
 
         private void btnFPRecover_Click(object sender, EventArgs e)
         {
-
-            if(txtBlocked.Text != "")
+            try
             {
-                if (txtFPAdminU.Text != "")
+                if (txtBlocked.Text != "")
                 {
-                    if (txtFPAdminP.Text != "")
+                    if (txtFPAdminU.Text != "")
                     {
+                        if (txtFPAdminP.Text != "")
+                        {
 
-                        if (checkUsername(user))
-                        {//username is there
+                            if (checkUsername(user))
+                            {//username is there
 
-                            loginForm lf = new loginForm();
-                            gebruik util = new gebruik();
+                                loginForm lf = new loginForm();
+                                gebruik util = new gebruik();
 
-                            MessageBox.Show(util.checkAuthor(txtFPAdminU.Text).ToString());
-                            if (lf.validateUser(txtFPAdminU.Text, txtFPAdminP.Text) && util.checkAuthor(txtFPAdminU.Text))
-                            {
-                                
-                                Random start = new Random();
-
-                                string newPass = util.genPassword(start.Next(0, 10));
-                                
-                                //kort background runners
-                                string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
-                                string hsh = BCrypt.Net.BCrypt.HashPassword(newPass, saltyness);
-
-                                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                                MessageBox.Show(util.checkAuthor(txtFPAdminU.Text).ToString());
+                                if (lf.validateUser(txtFPAdminU.Text, txtFPAdminP.Text) && util.checkAuthor(txtFPAdminU.Text))
                                 {
-                                    string cmdstring = "UPDATE Users SET password = @pas, salt = @salty WHERE Username = @user";
 
-                                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                                    Random start = new Random();
+
+                                    string newPass = util.genPassword(start.Next(0, 10));
+
+                                    //kort background runners
+                                    string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
+                                    string hsh = BCrypt.Net.BCrypt.HashPassword(newPass, saltyness);
+
+                                    using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                                     {
-                                        con.Open();
+                                        string cmdstring = "UPDATE Users SET password = @pas, salt = @salty WHERE Username = @user";
 
-                                        comm.Parameters.AddWithValue("@pas", hsh);
-                                        comm.Parameters.AddWithValue("@salty", saltyness);
-                                        comm.Parameters.AddWithValue("@user", user);
-                                        comm.ExecuteNonQuery();
-
-                                        using (SqlConnection con1 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                                        using (SqlCommand comm = new SqlCommand(cmdstring, con))
                                         {
-                                            string cmdstring1 = "SELECT email_address FROM Users WHERE userName = @username";
+                                            con.Open();
 
-                                            using (SqlCommand comm1 = new SqlCommand(cmdstring1, con1))
+                                            comm.Parameters.AddWithValue("@pas", hsh);
+                                            comm.Parameters.AddWithValue("@salty", saltyness);
+                                            comm.Parameters.AddWithValue("@user", user);
+                                            comm.ExecuteNonQuery();
+
+                                            using (SqlConnection con1 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                                             {
+                                                string cmdstring1 = "SELECT email_address FROM Users WHERE userName = @username";
 
-                                                comm1.Parameters.AddWithValue("@username", txtFPAdminU.Text);
-
-                                                string mail = "";
-                                                con1.Open();
-                                                SqlDataReader dr = comm1.ExecuteReader();
-                                                while (dr.Read())
+                                                using (SqlCommand comm1 = new SqlCommand(cmdstring1, con1))
                                                 {
 
-                                                    mail = dr.GetString(0);
+                                                    comm1.Parameters.AddWithValue("@username", txtBlocked.Text);
+
+                                                    string mail = "";
+                                                    con1.Open();
+                                                    SqlDataReader dr = comm1.ExecuteReader();
+                                                    while (dr.Read())
+                                                    {
+
+                                                        mail = dr.GetString(0);
+
+                                                    }
+                                                    dr.Close();
+                                                    con1.Close();
+
+                                                    if (util.Mail(mail, "Password recovery", "A new password has been generated.\r\n\r\nThe new details are:\r\n\tUsername: " + user + "\r\n\tPassword: " + newPass + "\r\n\t\r\n\r\nPlease keep this email for future reference."))
+                                                    {
+                                                        MessageBox.Show("The password has been updated. Please consult the adminstrator for the new password.");
+                                                        gebruik.addAction(txtFPAdminP.Text);
+                                                        this.Close();
+                                                    }
+                                                    else
+                                                        MessageBox.Show("The password was not updated. Please check your internet connection and try again.");
 
                                                 }
-                                                dr.Close();
-                                                con1.Close();
-
-                                                if (util.Mail(mail, "Password recovery", "A new password has been generated.\r\n\r\nThe new details are:\r\n\tUsername: " + user + "\r\n\tPassword: " + newPass + "\r\n\t\r\n\r\nPlease keep this email for future reference."))
-                                                {
-                                                    MessageBox.Show("The password has been updated. Please consult the adminstrator for the new password.");
-                                                    gebruik.addAction(txtFPAdminP.Text);
-                                                    this.Close();
-                                                }
-                                                else
-                                                    MessageBox.Show("The password was not updated. Please check your internet connection and try again.");
-
                                             }
+
+                                            con.Close();
                                         }
-
-                                        con.Close();
                                     }
-                                }
 
+                                }
+                                else
+                                    MessageBox.Show("The details entered as the adminstrative account's are incorrect. Please verify the details and try again.");
                             }
                             else
-                                MessageBox.Show("The details entered as the adminstrative account's are incorrect. Please verify the details and try again.");
+                                MessageBox.Show("The username '" + txtBlocked.Text + "' does not exist. Please verify that the spelling is correct and try again.");
+
                         }
                         else
-                            MessageBox.Show("The username '" + txtBlocked.Text + "' does not exist. Please verify that the spelling is correct and try again.");
-
+                            MessageBox.Show("Please enter the administrative account's password.");
                     }
                     else
-                        MessageBox.Show("Please enter the administrative account's password.");
+                        MessageBox.Show("Please enter the administrative account's username.");
                 }
                 else
-                    MessageBox.Show("Please enter the administrative account's username.");
+                    MessageBox.Show("Please enter the username of the account to be recovered.");
             }
-            else
-                MessageBox.Show("Please enter the username of the account to be recovered.");
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        btnFPRecover.PerformClick();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
 
         }
 
         //false if username is not in database
         private bool checkUsername(string user)
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                con.Open();
-                string cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Users WHERE userName = @user";
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@user", user);
-                    int records = Convert.ToInt32(comm.ExecuteScalar());
-                    con.Close();
-                    if (records > 0)
-                        return true;
-                    else
-                        return false;
+                    con.Open();
+                    string cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Users WHERE userName = @user";
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@user", user);
+                        int records = Convert.ToInt32(comm.ExecuteScalar());
+                        con.Close();
+                        if (records > 0)
+                            return true;
+                        else
+                            return false;
+                    }
                 }
+            }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return checkUsername(user);
+                    else
+                    {
+
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+                else
+                    return false;
+
             }
 
         }
@@ -172,26 +215,53 @@ namespace _213
 
         private void txtBlocked_TextChanged(object sender, EventArgs e)
         {
-            if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
-                btnFPRecover.Enabled = true;
-            else
-                btnFPRecover.Enabled = false;
+            try
+            {
+                if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
+                    btnFPRecover.Enabled = true;
+                else
+                    btnFPRecover.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void txtFPAdminU_TextChanged(object sender, EventArgs e)
         {
-            if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
-                btnFPRecover.Enabled = true;
-            else
-                btnFPRecover.Enabled = false;
+            try
+            {
+                if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
+                    btnFPRecover.Enabled = true;
+                else
+                    btnFPRecover.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void txtFPAdminP_TextChanged(object sender, EventArgs e)
         {
-            if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
-                btnFPRecover.Enabled = true;
-            else
-                btnFPRecover.Enabled = false;
+            try
+            {
+                if (txtBlocked.Text != "" && txtFPAdminU.Text != "" && txtFPAdminP.Text != "")
+                    btnFPRecover.Enabled = true;
+                else
+                    btnFPRecover.Enabled = false;
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
     }
 }

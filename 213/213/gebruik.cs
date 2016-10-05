@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Drawing.Printing;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace _213
 {
@@ -20,25 +21,32 @@ namespace _213
         {
 
             string appPath = AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt";
-            if (File.Exists(appPath))
+            try
             {
-                File.SetAttributes(appPath, FileAttributes.Hidden);
-                StreamWriter outstream = File.AppendText(appPath);
-                           
-                outstream.WriteLine("\n" + user + " " + action + " : " + tyd.ToString());
-                File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
-                outstream.Close();
-            }
-            else
-            {
+                if (File.Exists(appPath))
+                {
+                    File.SetAttributes(appPath, FileAttributes.Hidden);
+                    StreamWriter outstream = File.AppendText(appPath);
 
-                File.CreateText(appPath).Close();
-                StreamWriter outstream = File.AppendText(appPath);
-                outstream.WriteLine(user + " logged in : " + tyd.ToString());
-                File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
-                outstream.Close();
+                    outstream.WriteLine("\n" + user + " " + action + " : " + tyd.ToString());
+                    File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+                    outstream.Close();
+                }
+                else
+                {
 
+                    File.CreateText(appPath).Close();
+                    StreamWriter outstream = File.AppendText(appPath);
+                    outstream.WriteLine(user + " logged in : " + tyd.ToString());
+                    File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+                    outstream.Close();
+
+                }
             }
+            catch(IOException)
+            { }
+            catch(Exception)
+            { }
 
 
         }
@@ -46,16 +54,34 @@ namespace _213
         //As user iets delete/add/update of whatever
         public static void addAction(string user)
         {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
 
-            using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                    conn.Open();
+                    SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + user + "'", conn);
+                    uLogin.ExecuteNonQuery();
+                    conn.Close();
+
+                }
+            }
+            catch (SqlException se)
             {
 
-                conn.Open();
-                SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + user + "'", conn);
-                uLogin.ExecuteNonQuery();
-                conn.Close();
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        addAction(user);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
 
             }
+            catch (Exception)
+            { }
 
         }
 
@@ -242,106 +268,70 @@ namespace _213
 
         //Printing
 //////////////////////////////////////////////////////////////////////////////////
-        public string getDefaultPrinter()
+        public void print(string fileP)
         {
 
-            PrinterSettings settings = new PrinterSettings();
 
-            return settings.PrinterName;
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.Verb = "print";
+            info.FileName = fileP;
+            info.CreateNoWindow = true;
+            info.WindowStyle = ProcessWindowStyle.Hidden;
 
-        }
+            Process p = new Process();
+            p.StartInfo = info;
+            p.Start();
 
-        private Font printFont;
-        private StreamReader outstream;
-        private string filePath = "";
-
-        public void print(string fileP, bool toFile)
-        {
-
-            filePath = fileP;
-            try
-            {
-                outstream = new StreamReader(filePath);
-                try
-                {
-
-                    printFont = new Font("Arial", 10);
-                    PrintDocument pd = new PrintDocument();
-                    pd.PrinterSettings.PrintToFile = toFile;
-                    
-                    pd.PrintController = new StandardPrintController();
-                    pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
-                    pd.Print();
-                    
-                    
-
-                }
-                finally
-                {
-
-                    outstream.Close();
-
-                }
-            }
-            catch (Exception ex)
-            {
-                DialogResult choice = MessageBox.Show("An error occurred while printing. Please verify that the printer is connected and try again.\r\nWould you like to print to a file instead?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                if (choice == DialogResult.Yes)
-                    print(filePath, true);
-
-            }
-        }
-
-        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
-        {
-
-            float linesPerPage = 0;
-            float yPos = 0;
-            int count = 0;
-            float leftMargin = ev.MarginBounds.Left;
-            float topMargin = ev.MarginBounds.Top;
-            string line = null;
-
-            linesPerPage = ev.MarginBounds.Height;
-            printFont.GetHeight(ev.Graphics);
-
-            while (count < linesPerPage && (line = outstream.ReadLine()) != null)
-            {
-
-                yPos = topMargin + (count * printFont.GetHeight(ev.Graphics));
-                ev.Graphics.DrawString(line, printFont, Brushes.Black, leftMargin, yPos, new StringFormat());
-                count++;
-
-            }
-
-            if (line != null)
-                ev.HasMorePages = true;
-            else
-                ev.HasMorePages = false;
+            p.WaitForInputIdle();
+            System.Threading.Thread.Sleep(3000);
+            if (false == p.CloseMainWindow())
+                p.Kill();
 
         }
-        //////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 
         public bool checkAuthor(string username)
         {
 
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                string cmdstring = "SELECT authLevel FROM Users WHERE userName = @user";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    con.Open();
-                    int level = 0;
-                    comm.Parameters.AddWithValue("@user", username);
-                    level = (Int16)comm.ExecuteScalar();
+                    string cmdstring = "SELECT authLevel FROM Users WHERE userName = @user";
 
-                    if (level == 10)
-                        return true;
-                    else
-                        return false;
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        con.Open();
+                        int level = 0;
+                        comm.Parameters.AddWithValue("@user", username);
+                        level = (Int16)comm.ExecuteScalar();
+
+                        if (level == 10)
+                            return true;
+                        else
+                            return false;
+                    }
                 }
             }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return checkAuthor(username);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                    return false;
+
+            }
+            catch (Exception)
+            { }
+
+            return false;
         }
         //////////////////////////////////////////////////////////////////////////////////////
         public string getIP()
@@ -375,6 +365,7 @@ namespace _213
 
         public string GetLocation(string ip)
         {
+
             int tel = 0;
             var res = "";
 
@@ -409,206 +400,324 @@ namespace _213
         /////////////////////////////////////////////////////////////////////////////////////////////
         public bool isUser(string id)
         {
-
-            using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                string find = "";
-
-                if (id.Length == 13)
-                    find = "id_num";
-                else if (id.Length == 10)
-                    find = "employee_id";
-
-                string cmdstring = "SELECT is_user FROM Employees WHERE " + find + " = @find";
-                using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    conUser.Open();
-                    commUser.Parameters.AddWithValue("@find", id);
-                    using (var reader = commUser.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
+                    string find = "";
 
-                            bool user = reader.GetBoolean(0);
-                            if (user)
-                                return true;
-                            else
-                                return false;
+                    if (id.Length == 13)
+                        find = "id_num";
+                    else if (id.Length == 10)
+                        find = "employee_id";
+
+                    string cmdstring = "SELECT is_user FROM Employees WHERE " + find + " = @find";
+                    using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                    {
+                        conUser.Open();
+                        commUser.Parameters.AddWithValue("@find", id);
+                        using (var reader = commUser.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                bool user = reader.GetBoolean(0);
+                                if (user)
+                                    return true;
+                                else
+                                    return false;
+
+                            }
 
                         }
 
+                        conUser.Close();
+                        return false;
+
                     }
-
-                    conUser.Close();
-                    return false;
-
                 }
             }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return isUser(id);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                    return false;
+
+            }
+            catch (Exception)
+            { }
+
+            return false;
 
         }
 
         public string getUsername(string email)
         {
-
-            using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-
-                string cmdstring = "SELECT userName FROM Users WHERE email_address = @email";
-                using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                using (SqlConnection conUser = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    conUser.Open();
-                    commUser.Parameters.AddWithValue("@email", email);
-                    using (var reader = commUser.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
 
-                            string user = reader.GetString(0);
-                            return user;
+                    string cmdstring = "SELECT userName FROM Users WHERE email_address = @email";
+                    using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
+                    {
+                        conUser.Open();
+                        commUser.Parameters.AddWithValue("@email", email);
+                        using (var reader = commUser.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                string user = reader.GetString(0);
+                                return user;
+
+                            }
 
                         }
 
+                        conUser.Close();
+                        return "";
+
                     }
-
-                    conUser.Close();
-                    return "";
-
                 }
             }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return getUsername(email);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                    return "";
+
+            }
+            catch (Exception)
+            { }
+
+            
+            return "";
 
         }
 
         public string getEmail(string id)
         {
 
-            using (SqlConnection conEmail = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                string cmdstring = "";
-                if (id.Length == 10)
-                    cmdstring = "SELECT email_address FROM Employees WHERE employee_id = @id";
-                else if (id.Length == 13)
-                    cmdstring = "SELECT email_address FROM Employees WHERE id_num = @id";
-
-                using (SqlCommand commEmail = new SqlCommand(cmdstring, conEmail))
+                using (SqlConnection conEmail = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    conEmail.Open();
-                    commEmail.Parameters.AddWithValue("@id", id);
-                    using (var reader = commEmail.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
+                    string cmdstring = "";
+                    if (id.Length == 10)
+                        cmdstring = "SELECT email_address FROM Employees WHERE employee_id = @id";
+                    else if (id.Length == 13)
+                        cmdstring = "SELECT email_address FROM Employees WHERE id_num = @id";
 
-                            string empID = reader.GetString(0);
-                            return empID;
+                    using (SqlCommand commEmail = new SqlCommand(cmdstring, conEmail))
+                    {
+                        conEmail.Open();
+                        commEmail.Parameters.AddWithValue("@id", id);
+                        using (var reader = commEmail.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                string empID = reader.GetString(0);
+                                return empID;
+
+                            }
 
                         }
 
+                        conEmail.Close();
+                        return "";
+
                     }
-
-                    conEmail.Close();
-                    return "";
-
                 }
             }
+            catch (SqlException se)
+            {
 
-        }
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return getEmail(id);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                    return "";
 
-        public void checkPromos()
-        {
 
+            }
+            catch (Exception)
+            { }
 
+            return "";
 
         }
 
 
         public string generateLuhn()
         {
-            string id = "";
 
-            Random nxt = new Random();
-
-            for (int i = 1; i < 11; i++)
+            try
             {
-                id += nxt.Next(0, 9).ToString();
-            }
+                string id = "";
 
-            while (!validateId(id))
-            {
+                Random nxt = new Random();
 
                 for (int i = 1; i < 11; i++)
                 {
                     id += nxt.Next(0, 9).ToString();
                 }
 
-            }
+                while (!validateId(id))
+                {
 
-            if (id == "")
-                id = generateLuhn();
+                    for (int i = 1; i < 11; i++)
+                    {
+                        id += nxt.Next(0, 9).ToString();
+                    }
 
-            if (!checkID(id))
+                }
+
+                if (id == "")
+                    id = generateLuhn();
+
+                if (!checkID(id))
+                    return id;
+                else
+                    id = generateLuhn();
+
                 return id;
-            else
-                id = generateLuhn();
+            }
+            catch (FormatException)
+            { }
+            catch (InvalidCastException)
+            { }
+            catch (Exception)
+            { }
 
-            return id;  
-                  
+            return "";                  
                         
         }
 
         public bool validateId(string id)
         {
-
-            int idLength = id.Length;
-            int current;
-            int sum = 0;
-            int c = 0; 
-
-            for (int i = idLength - 1; i >= 0; i--)
+            try
             {
+                int idLength = id.Length;
+                int current;
+                int sum = 0;
+                int c = 0;
 
-                string idCurrentRightmostDigit = id.Substring(i, 1);
-
-                if (!int.TryParse(idCurrentRightmostDigit, out current))
-                    return false;
-
-                if (c % 2 != 0)
+                for (int i = idLength - 1; i >= 0; i--)
                 {
-                    if ((current *= 2) > 9)
-                        current -= 9;
+
+                    string idCurrentRightmostDigit = id.Substring(i, 1);
+
+                    if (!int.TryParse(idCurrentRightmostDigit, out current))
+                        return false;
+
+                    if (c % 2 != 0)
+                    {
+                        if ((current *= 2) > 9)
+                            current -= 9;
+                    }
+                    c++;
+
+                    sum += current;
                 }
-                c++;
 
-                sum += current;
+                return (sum % 10 == 0);
             }
+            catch(InvalidCastException)
+            { }
+            catch(FormatException)
+            { }
+            catch(Exception)
+            { }
 
-            return (sum % 10 == 0);
+            return false;
         }
 
         //true if found else false
         private bool checkID(string id)
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                con.Open();
-
-                string cmdstring = "SELECT COUNT(*) FROM Employees WHERE employee_id = @id";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@id", id);
-                    int recs = (int)comm.ExecuteScalar();
-                    con.Close();
+                    con.Open();
 
-                    if (recs == 0)
-                        return false;
-                    else
-                        return true;
+                    string cmdstring = "SELECT COUNT(*) FROM Employees WHERE employee_id = @id";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@id", id);
+                        int recs = (int)comm.ExecuteScalar();
+                        con.Close();
+
+                        if (recs == 0)
+                            return false;
+                        else
+                            return true;
+                    }
                 }
             }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return checkID(id);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                    return false;
+
+            }
+            catch (Exception)
+            { }
+            return false;
 
         }
 
+
+        public bool CheckConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (var stream = client.OpenRead("http://www.google.com"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
     }
 }

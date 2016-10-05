@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnExit = new System.Windows.Forms.Button();
             this.pnlAdmin = new System.Windows.Forms.Panel();
             this.btnAdminHide = new GaryPerkin.UserControls.Buttons.RoundButton();
@@ -58,6 +59,7 @@
             this.TechBtn = new GaryPerkin.UserControls.Buttons.RoundButton();
             this.btnEOD = new GaryPerkin.UserControls.Buttons.RoundButton();
             this.saleBtn = new GaryPerkin.UserControls.Buttons.RoundButton();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.pnlAdmin.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +72,7 @@
             this.btnExit.Size = new System.Drawing.Size(78, 78);
             this.btnExit.TabIndex = 11;
             this.btnExit.Text = "Exit";
+            this.passTT.SetToolTip(this.btnExit, "Click to exit stockI.T");
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.button1_Click_1);
             this.btnExit.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
@@ -116,6 +119,7 @@
             this.btnAdminHide.Size = new System.Drawing.Size(35, 35);
             this.btnAdminHide.TabIndex = 12;
             this.btnAdminHide.Text = "<<";
+            this.passTT.SetToolTip(this.btnAdminHide, "Click to hide admin panel");
             this.btnAdminHide.UseVisualStyleBackColor = false;
             this.btnAdminHide.Click += new System.EventHandler(this.btnAdminHide_Click);
             // 
@@ -128,6 +132,7 @@
             this.btnMPromo.Size = new System.Drawing.Size(78, 78);
             this.btnMPromo.TabIndex = 8;
             this.btnMPromo.Text = "Promotions";
+            this.passTT.SetToolTip(this.btnMPromo, "Click to create/edit promotions");
             this.btnMPromo.UseVisualStyleBackColor = true;
             this.btnMPromo.Click += new System.EventHandler(this.btnMPromo_Click);
             // 
@@ -139,6 +144,7 @@
             this.btnAdmLogout.Size = new System.Drawing.Size(78, 78);
             this.btnAdmLogout.TabIndex = 10;
             this.btnAdmLogout.Text = "Log out";
+            this.passTT.SetToolTip(this.btnAdmLogout, "Click to return to the login screen");
             this.btnAdmLogout.UseVisualStyleBackColor = true;
             this.btnAdmLogout.Click += new System.EventHandler(this.btnAdmLogout_Click);
             // 
@@ -204,6 +210,7 @@
             this.btnVLogs.Size = new System.Drawing.Size(78, 78);
             this.btnVLogs.TabIndex = 9;
             this.btnVLogs.Text = "View activity log";
+            this.passTT.SetToolTip(this.btnVLogs, "Click to view users\' activities on stockI.T");
             this.btnVLogs.UseVisualStyleBackColor = true;
             this.btnVLogs.Click += new System.EventHandler(this.btnVLogs_Click);
             // 
@@ -214,6 +221,7 @@
             this.btnEoM.Size = new System.Drawing.Size(78, 78);
             this.btnEoM.TabIndex = 7;
             this.btnEoM.Text = "Employee of the month";
+            this.passTT.SetToolTip(this.btnEoM, "Click to view employee of the month details");
             this.btnEoM.UseVisualStyleBackColor = true;
             this.btnEoM.Click += new System.EventHandler(this.btnEoM_Click);
             // 
@@ -224,6 +232,7 @@
             this.btnREmp.Size = new System.Drawing.Size(78, 78);
             this.btnREmp.TabIndex = 6;
             this.btnREmp.Text = "Remove Employee";
+            this.passTT.SetToolTip(this.btnREmp, "Click to remove existing employees of Matrix Warehouse");
             this.btnREmp.UseVisualStyleBackColor = true;
             this.btnREmp.Click += new System.EventHandler(this.btnREmp_Click);
             // 
@@ -234,6 +243,7 @@
             this.btnUEmp.Size = new System.Drawing.Size(78, 78);
             this.btnUEmp.TabIndex = 5;
             this.btnUEmp.Text = "Update Employee";
+            this.passTT.SetToolTip(this.btnUEmp, "Click to update information of existing Matrix Warehouse employees");
             this.btnUEmp.UseVisualStyleBackColor = true;
             this.btnUEmp.Click += new System.EventHandler(this.btnUEmp_Click);
             // 
@@ -244,6 +254,7 @@
             this.btnAddEmp.Size = new System.Drawing.Size(78, 78);
             this.btnAddEmp.TabIndex = 4;
             this.btnAddEmp.Text = "Add Employee";
+            this.passTT.SetToolTip(this.btnAddEmp, "Click to add employees of Matrix Warehouse");
             this.btnAddEmp.UseVisualStyleBackColor = true;
             this.btnAddEmp.Click += new System.EventHandler(this.btnAddEmp_Click);
             // 
@@ -254,6 +265,7 @@
             this.btnRUser.Size = new System.Drawing.Size(78, 78);
             this.btnRUser.TabIndex = 3;
             this.btnRUser.Text = "Remove User";
+            this.passTT.SetToolTip(this.btnRUser, "Click to remove existing stockI.T users");
             this.btnRUser.UseVisualStyleBackColor = true;
             this.btnRUser.Click += new System.EventHandler(this.btnRUser_Click);
             // 
@@ -296,6 +308,7 @@
             this.btnUUser.Size = new System.Drawing.Size(78, 78);
             this.btnUUser.TabIndex = 2;
             this.btnUUser.Text = "Update User";
+            this.passTT.SetToolTip(this.btnUUser, "Click to update details of existing stockI.T users");
             this.btnUUser.UseVisualStyleBackColor = true;
             this.btnUUser.Click += new System.EventHandler(this.btnUUser_Click);
             // 
@@ -306,6 +319,7 @@
             this.btnAddUser.Size = new System.Drawing.Size(78, 78);
             this.btnAddUser.TabIndex = 1;
             this.btnAddUser.Text = "Add User";
+            this.passTT.SetToolTip(this.btnAddUser, "Click to create more users for stockI.T");
             this.btnAddUser.UseVisualStyleBackColor = true;
             this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
             // 
@@ -341,6 +355,7 @@
             this.btnAdminShow.Size = new System.Drawing.Size(35, 35);
             this.btnAdminShow.TabIndex = 15;
             this.btnAdminShow.Text = ">>";
+            this.passTT.SetToolTip(this.btnAdminShow, "Click to show admin panel");
             this.btnAdminShow.UseVisualStyleBackColor = false;
             this.btnAdminShow.Click += new System.EventHandler(this.btnAdminShow_Click);
             // 
@@ -430,6 +445,16 @@
             this.saleBtn.MouseEnter += new System.EventHandler(this.saleButton_MouseEnter);
             this.saleBtn.MouseLeave += new System.EventHandler(this.saleButton_MouseLeave);
             // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Admin Help";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -489,6 +514,7 @@
         private GaryPerkin.UserControls.Buttons.RoundButton TechBtn;
         private GaryPerkin.UserControls.Buttons.RoundButton btnEOD;
         private GaryPerkin.UserControls.Buttons.RoundButton saleBtn;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }
 

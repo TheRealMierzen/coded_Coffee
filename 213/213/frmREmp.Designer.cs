@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label4 = new System.Windows.Forms.Label();
             this.txtCREmp = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.txtAuthUser = new System.Windows.Forms.TextBox();
             this.txtREmp = new System.Windows.Forms.TextBox();
             this.btnREmp = new System.Windows.Forms.Button();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // label4
@@ -58,7 +60,9 @@
             this.txtCREmp.Name = "txtCREmp";
             this.txtCREmp.Size = new System.Drawing.Size(121, 22);
             this.txtCREmp.TabIndex = 14;
+            this.passTT.SetToolTip(this.txtCREmp, "Confirm employee id nr");
             this.txtCREmp.TextChanged += new System.EventHandler(this.txtCREmp_TextChanged);
+            this.txtCREmp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCREmp_KeyPress);
             // 
             // label6
             // 
@@ -95,6 +99,7 @@
             this.btnREmpCancel.Size = new System.Drawing.Size(121, 36);
             this.btnREmpCancel.TabIndex = 17;
             this.btnREmpCancel.Text = "Cancel";
+            this.passTT.SetToolTip(this.btnREmpCancel, "Click to close this window");
             this.btnREmpCancel.UseVisualStyleBackColor = true;
             // 
             // label2
@@ -123,6 +128,7 @@
             this.txtAuthPass.PasswordChar = '*';
             this.txtAuthPass.Size = new System.Drawing.Size(121, 22);
             this.txtAuthPass.TabIndex = 15;
+            this.passTT.SetToolTip(this.txtAuthPass, "Enter currently logged in administrator\'s password");
             this.txtAuthPass.TextChanged += new System.EventHandler(this.txtAuthPass_TextChanged);
             // 
             // txtAuthUser
@@ -131,6 +137,7 @@
             this.txtAuthUser.Name = "txtAuthUser";
             this.txtAuthUser.Size = new System.Drawing.Size(121, 22);
             this.txtAuthUser.TabIndex = 12;
+            this.passTT.SetToolTip(this.txtAuthUser, "Currently logged in adminstrator\'s username");
             // 
             // txtREmp
             // 
@@ -139,7 +146,9 @@
             this.txtREmp.Name = "txtREmp";
             this.txtREmp.Size = new System.Drawing.Size(121, 22);
             this.txtREmp.TabIndex = 13;
+            this.passTT.SetToolTip(this.txtREmp, "Enter employee id of the employee you wish to remove");
             this.txtREmp.TextChanged += new System.EventHandler(this.txtREmp_TextChanged);
+            this.txtREmp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtREmp_KeyPress);
             // 
             // btnREmp
             // 
@@ -150,8 +159,19 @@
             this.btnREmp.Size = new System.Drawing.Size(144, 36);
             this.btnREmp.TabIndex = 16;
             this.btnREmp.Text = "Remove Employee";
+            this.passTT.SetToolTip(this.btnREmp, "Click to remove employee");
             this.btnREmp.UseVisualStyleBackColor = true;
             this.btnREmp.Click += new System.EventHandler(this.btnREmp_Click);
+            // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmREmp
             // 
@@ -197,5 +217,6 @@
         private System.Windows.Forms.TextBox txtAuthUser;
         private System.Windows.Forms.TextBox txtREmp;
         private System.Windows.Forms.Button btnREmp;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

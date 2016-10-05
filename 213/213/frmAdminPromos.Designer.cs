@@ -102,6 +102,7 @@
             this.txtOriginalPrice.Name = "txtOriginalPrice";
             this.txtOriginalPrice.Size = new System.Drawing.Size(100, 22);
             this.txtOriginalPrice.TabIndex = 7;
+            this.passTT.SetToolTip(this.txtOriginalPrice, "Original price of item");
             // 
             // txtDiscount
             // 
@@ -110,6 +111,7 @@
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(100, 22);
             this.txtDiscount.TabIndex = 9;
+            this.passTT.SetToolTip(this.txtDiscount, "The percentage discount the item will have");
             // 
             // dtPromoStart
             // 
@@ -118,6 +120,7 @@
             this.dtPromoStart.Name = "dtPromoStart";
             this.dtPromoStart.Size = new System.Drawing.Size(200, 22);
             this.dtPromoStart.TabIndex = 5;
+            this.passTT.SetToolTip(this.dtPromoStart, "Select the start date of the promotion");
             this.dtPromoStart.ValueChanged += new System.EventHandler(this.dtPromoStart_ValueChanged);
             // 
             // dtPromoEnd
@@ -127,6 +130,7 @@
             this.dtPromoEnd.Name = "dtPromoEnd";
             this.dtPromoEnd.Size = new System.Drawing.Size(200, 22);
             this.dtPromoEnd.TabIndex = 6;
+            this.passTT.SetToolTip(this.dtPromoEnd, "Select the end date of the promotion");
             // 
             // txtPromoId
             // 
@@ -135,6 +139,7 @@
             this.txtPromoId.Name = "txtPromoId";
             this.txtPromoId.Size = new System.Drawing.Size(200, 22);
             this.txtPromoId.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtPromoId, "Promotion id of new promotion");
             // 
             // txtDisPrice
             // 
@@ -142,6 +147,7 @@
             this.txtDisPrice.Name = "txtDisPrice";
             this.txtDisPrice.Size = new System.Drawing.Size(100, 22);
             this.txtDisPrice.TabIndex = 8;
+            this.passTT.SetToolTip(this.txtDisPrice, "Enter the price of the item whilst on promotion");
             this.txtDisPrice.TextChanged += new System.EventHandler(this.txtDisPrice_TextChanged);
             // 
             // label1
@@ -238,6 +244,8 @@
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(200, 22);
             this.txtAmount.TabIndex = 4;
+            this.passTT.SetToolTip(this.txtAmount, "Enter the quantity of the item you wish to place on \r\npromotion (cannot be more t" +
+        "han there are in stock)");
             this.txtAmount.WaterMarkColor = System.Drawing.Color.Gray;
             this.txtAmount.WaterMarkText = "Max: ";
             this.txtAmount.TextChanged += new System.EventHandler(this.txtAmount_TextChanged);
@@ -279,6 +287,7 @@
             this.btnCancelPromo.Size = new System.Drawing.Size(149, 36);
             this.btnCancelPromo.TabIndex = 11;
             this.btnCancelPromo.Text = "Cancel";
+            this.passTT.SetToolTip(this.btnCancelPromo, "Click to close this window");
             this.btnCancelPromo.UseVisualStyleBackColor = true;
             // 
             // btnAddPromo
@@ -289,6 +298,7 @@
             this.btnAddPromo.Size = new System.Drawing.Size(149, 36);
             this.btnAddPromo.TabIndex = 10;
             this.btnAddPromo.Text = "Add promotion";
+            this.passTT.SetToolTip(this.btnAddPromo, "Click to add new promotion");
             this.btnAddPromo.UseVisualStyleBackColor = true;
             this.btnAddPromo.Click += new System.EventHandler(this.btnAddPromo_Click);
             // 
@@ -305,6 +315,7 @@
             this.cbAction.Size = new System.Drawing.Size(136, 24);
             this.cbAction.Sorted = true;
             this.cbAction.TabIndex = 1;
+            this.passTT.SetToolTip(this.cbAction, "Select action you want to perform");
             this.cbAction.SelectedIndexChanged += new System.EventHandler(this.cbAction_SelectedIndexChanged);
             // 
             // label9
@@ -356,9 +367,11 @@
             this.txtEQ.Name = "txtEQ";
             this.txtEQ.Size = new System.Drawing.Size(200, 22);
             this.txtEQ.TabIndex = 5;
+            this.passTT.SetToolTip(this.txtEQ, "Enter the quantity of the item you wish to place on ");
             this.txtEQ.WaterMarkColor = System.Drawing.Color.Gray;
             this.txtEQ.WaterMarkText = "Max: ";
             this.txtEQ.TextChanged += new System.EventHandler(this.txtEQ_TextChanged);
+            this.txtEQ.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEQ_KeyPress);
             // 
             // label10
             // 
@@ -376,6 +389,7 @@
             this.txtEPromoItem.Name = "txtEPromoItem";
             this.txtEPromoItem.Size = new System.Drawing.Size(200, 22);
             this.txtEPromoItem.TabIndex = 1;
+            this.passTT.SetToolTip(this.txtEPromoItem, "The item on promotion");
             // 
             // cbEID
             // 
@@ -384,6 +398,7 @@
             this.cbEID.Name = "cbEID";
             this.cbEID.Size = new System.Drawing.Size(200, 24);
             this.cbEID.TabIndex = 0;
+            this.passTT.SetToolTip(this.cbEID, "Select the promotion you wish to update");
             this.cbEID.SelectedIndexChanged += new System.EventHandler(this.cbEID_SelectedIndexChanged);
             // 
             // gbEPromo
@@ -430,7 +445,9 @@
             this.txtEDP.Name = "txtEDP";
             this.txtEDP.Size = new System.Drawing.Size(100, 22);
             this.txtEDP.TabIndex = 7;
+            this.passTT.SetToolTip(this.txtEDP, "Enter the price of the item whilst on promotion");
             this.txtEDP.TextChanged += new System.EventHandler(this.txtEDP_TextChanged);
+            this.txtEDP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEDP_KeyPress);
             // 
             // txtEOri
             // 
@@ -439,6 +456,7 @@
             this.txtEOri.Name = "txtEOri";
             this.txtEOri.Size = new System.Drawing.Size(100, 22);
             this.txtEOri.TabIndex = 6;
+            this.passTT.SetToolTip(this.txtEOri, "Original price of item");
             // 
             // label12
             // 
@@ -465,6 +483,7 @@
             this.txtEDPP.Name = "txtEDPP";
             this.txtEDPP.Size = new System.Drawing.Size(100, 22);
             this.txtEDPP.TabIndex = 8;
+            this.passTT.SetToolTip(this.txtEDPP, "The percentage discount the item will have");
             // 
             // label14
             // 
@@ -491,6 +510,7 @@
             this.dtEStart.Name = "dtEStart";
             this.dtEStart.Size = new System.Drawing.Size(200, 22);
             this.dtEStart.TabIndex = 4;
+            this.passTT.SetToolTip(this.dtEStart, "Select the start date of the promotion");
             this.dtEStart.ValueChanged += new System.EventHandler(this.dtEStart_ValueChanged);
             // 
             // dtEEnd
@@ -500,6 +520,7 @@
             this.dtEEnd.Name = "dtEEnd";
             this.dtEEnd.Size = new System.Drawing.Size(200, 22);
             this.dtEEnd.TabIndex = 5;
+            this.passTT.SetToolTip(this.dtEEnd, "Select the end date of the promotion");
             // 
             // btnUPromo
             // 
@@ -509,24 +530,25 @@
             this.btnUPromo.Size = new System.Drawing.Size(149, 36);
             this.btnUPromo.TabIndex = 10;
             this.btnUPromo.Text = "Update promotion";
+            this.passTT.SetToolTip(this.btnUPromo, "Click to update promotion");
             this.btnUPromo.UseVisualStyleBackColor = true;
             this.btnUPromo.Click += new System.EventHandler(this.btnUPromo_Click);
             // 
             // passTT
             // 
             this.passTT.AutoPopDelay = 5000;
-            this.passTT.InitialDelay = 100;
+            this.passTT.InitialDelay = 750;
             this.passTT.IsBalloon = true;
             this.passTT.ReshowDelay = 100;
             this.passTT.Tag = "";
             this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.passTT.ToolTipTitle = "Promotion help";
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmAdminPromos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 513);
+            this.ClientSize = new System.Drawing.Size(479, 513);
             this.Controls.Add(this.btnUPromo);
             this.Controls.Add(this.gbEPromo);
             this.Controls.Add(this.gbEItem);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.btnRAcc = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtCRUser = new System.Windows.Forms.TextBox();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // label6
@@ -77,6 +79,7 @@
             this.btnRUCancel.Size = new System.Drawing.Size(121, 36);
             this.btnRUCancel.TabIndex = 5;
             this.btnRUCancel.Text = "Cancel";
+            this.passTT.SetToolTip(this.btnRUCancel, "Click to close this window");
             this.btnRUCancel.UseVisualStyleBackColor = true;
             this.btnRUCancel.Click += new System.EventHandler(this.btnRUCancel_Click);
             // 
@@ -106,6 +109,7 @@
             this.txtAuthPass.PasswordChar = '*';
             this.txtAuthPass.Size = new System.Drawing.Size(121, 22);
             this.txtAuthPass.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtAuthPass, "Currently logged in administrator\'s password");
             this.txtAuthPass.TextChanged += new System.EventHandler(this.txtAuthPass_TextChanged);
             // 
             // txtAuthUser
@@ -115,6 +119,7 @@
             this.txtAuthUser.Name = "txtAuthUser";
             this.txtAuthUser.Size = new System.Drawing.Size(121, 22);
             this.txtAuthUser.TabIndex = 0;
+            this.passTT.SetToolTip(this.txtAuthUser, "Currently logged in adminstrator\'s username");
             // 
             // txtRUser
             // 
@@ -122,6 +127,7 @@
             this.txtRUser.Name = "txtRUser";
             this.txtRUser.Size = new System.Drawing.Size(121, 22);
             this.txtRUser.TabIndex = 1;
+            this.passTT.SetToolTip(this.txtRUser, "Enter username of user you wish to remove");
             this.txtRUser.TextChanged += new System.EventHandler(this.txtRUser_TextChanged);
             // 
             // btnRAcc
@@ -133,6 +139,7 @@
             this.btnRAcc.Size = new System.Drawing.Size(134, 36);
             this.btnRAcc.TabIndex = 4;
             this.btnRAcc.Text = "Remove Account";
+            this.passTT.SetToolTip(this.btnRAcc, "Click to remove user");
             this.btnRAcc.UseVisualStyleBackColor = true;
             this.btnRAcc.Click += new System.EventHandler(this.btnRAcc_Click);
             // 
@@ -151,7 +158,18 @@
             this.txtCRUser.Name = "txtCRUser";
             this.txtCRUser.Size = new System.Drawing.Size(121, 22);
             this.txtCRUser.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtCRUser, "Confirm username you wish to remove");
             this.txtCRUser.TextChanged += new System.EventHandler(this.txtCRUser_TextChanged);
+            // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmRUser
             // 
@@ -198,5 +216,6 @@
         private System.Windows.Forms.Button btnRAcc;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtCRUser;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

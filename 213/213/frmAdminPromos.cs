@@ -57,118 +57,173 @@ namespace _213
 
         private void fillItems()
         {
-
-            using (SqlConnection conItem = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-
-                
-                string selection = "SELECT DISTINCT item_name FROM Stock WHERE item_name NOT IN (SELECT item_name FROM Promotions WHERE branch = @branch)";
-                using (SqlCommand commItem = new SqlCommand(selection, conItem))
+                using (SqlConnection conItem = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    conItem.Open();
-                    commItem.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
-                    using (var reader = commItem.ExecuteReader())
+
+                    string selection = "SELECT DISTINCT item_name FROM Stock WHERE item_name NOT IN (SELECT item_name FROM Promotions WHERE branch = @branch)";
+                    using (SqlCommand commItem = new SqlCommand(selection, conItem))
                     {
+                        conItem.Open();
+                        commItem.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
-                        while (reader.Read())
+                        using (var reader = commItem.ExecuteReader())
                         {
 
-                            string item = reader.GetString(0);
-                            cbItem.Items.Add(item);
+                            while (reader.Read())
+                            {
 
+                                string item = reader.GetString(0);
+                                cbItem.Items.Add(item);
+
+                            }
+                            reader.Close();
                         }
-                        reader.Close();
+
+                        conItem.Close();
+
                     }
-
-                    conItem.Close();
-
                 }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        fillItems();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
 
         }
 
         private void cbItem_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if (cbItem.SelectedItem != null)
+            try
             {
-                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                if (cbItem.SelectedItem != null)
                 {
-                    con.Open();
-
-                    string cmdstring = "SELECT COUNT(*) FROM Stock WHERE item_name = @item AND branch = @branch";
-
-                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                     {
-                        comm.Parameters.AddWithValue("@item", cbItem.SelectedItem.ToString());
-                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                        int recs = (int)comm.ExecuteScalar();
-                        con.Close();
+                        con.Open();
 
-                        txtAmount.WaterMarkText = "Max: " + recs.ToString();
-                        max = recs;
+                        string cmdstring = "SELECT COUNT(*) FROM Stock WHERE item_name = @item AND branch = @branch";
 
-                    }
-
-                    cmdstring = "SELECT retail_price FROM Stock WHERE item_name = @item";
-                    con.Open();
-                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
-                    {
-
-                        comm.Parameters.AddWithValue("@item", cbItem.SelectedItem.ToString());
-
-                        using (var reader = comm.ExecuteReader())
+                        using (SqlCommand comm = new SqlCommand(cmdstring, con))
                         {
-                            while (reader.Read())
-                            {
+                            comm.Parameters.AddWithValue("@item", cbItem.SelectedItem.ToString());
+                            comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                            int recs = (int)comm.ExecuteScalar();
+                            con.Close();
 
-                                string price = reader.GetString(0);
-                                price = price.Remove(0, 1);
-                                txtOriginalPrice.Text = price.ToString();
+                            txtAmount.WaterMarkText = "Max: " + recs.ToString();
+                            max = recs;
 
-
-                            }
-                            reader.Close();
                         }
-                        con.Close();
 
-                        txtOriginalPrice.Enabled = false;
+                        cmdstring = "SELECT retail_price FROM Stock WHERE item_name = @item";
+                        con.Open();
+                        using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                        {
 
+                            comm.Parameters.AddWithValue("@item", cbItem.SelectedItem.ToString());
+
+                            using (var reader = comm.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+
+                                    string price = reader.GetString(0);
+                                    price = price.Remove(0, 1);
+                                    txtOriginalPrice.Text = price.ToString();
+
+
+                                }
+                                reader.Close();
+                            }
+                            con.Close();
+
+                            txtOriginalPrice.Enabled = false;
+
+                        }
                     }
                 }
+
+                if (txtAmount.Text != "" && txtDiscount.Text != "" && cbItem.SelectedItem != null && Convert.ToInt16(txtAmount.Text) <= max && Convert.ToInt16(txtAmount.Text) > 0 && Convert.ToInt16(txtDisPrice.Text) < Convert.ToInt16(txtOriginalPrice.Text) && Convert.ToInt16(txtOriginalPrice.Text) > 0)
+                    btnAddPromo.Enabled = true;
+                else
+                    btnAddPromo.Enabled = false;
             }
-            if (txtAmount.Text != "" && txtDiscount.Text != "" && cbItem.SelectedItem != null && Convert.ToInt16(txtAmount.Text) <= max && Convert.ToInt16(txtAmount.Text) > 0 && Convert.ToInt16(txtDisPrice.Text) < Convert.ToInt16(txtOriginalPrice.Text) && Convert.ToInt16(txtOriginalPrice.Text) > 0)
-                btnAddPromo.Enabled = true;
-            else
-                btnAddPromo.Enabled = false;
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        cbItem_SelectedIndexChanged(sender, e);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
 
         }
 
         private void txtAmount_TextChanged(object sender, EventArgs e)
         {
-            if (txtAmount.Text != "")
+
+            try
             {
-                if (Convert.ToInt16(txtAmount.Text) > max)
+                if (txtAmount.Text != "")
                 {
+                    if (Convert.ToInt16(txtAmount.Text) > max)
+                    {
 
-                    txtAmount.ForeColor = Color.Red;
+                        txtAmount.ForeColor = Color.Red;
 
+                    }
+                    else if (Convert.ToInt16(txtAmount.Text) < 0)
+                    {
+
+                        txtAmount.ForeColor = Color.Red;
+
+                    }
+                    else
+                        txtAmount.ForeColor = DefaultForeColor;
+
+                    if (txtAmount.Text != "" && txtDiscount.Text != "" && cbItem.SelectedItem != null && Convert.ToInt16(txtAmount.Text) < max && Convert.ToInt16(txtAmount.Text) > 0 && Convert.ToInt16(txtDisPrice.Text) < Convert.ToInt16(txtOriginalPrice.Text) && Convert.ToInt16(txtOriginalPrice.Text) > 0)
+                        btnAddPromo.Enabled = true;
+                    else
+                        btnAddPromo.Enabled = false;
                 }
-                else if (Convert.ToInt16(txtAmount.Text) < 0)
-                {
-
-                    txtAmount.ForeColor = Color.Red;
-
-                }
-                else
-                    txtAmount.ForeColor = DefaultForeColor;
-
-                if (txtAmount.Text != "" && txtDiscount.Text != "" && cbItem.SelectedItem != null && Convert.ToInt16(txtAmount.Text) < max && Convert.ToInt16(txtAmount.Text) > 0 && Convert.ToInt16(txtDisPrice.Text) < Convert.ToInt16(txtOriginalPrice.Text) && Convert.ToInt16(txtOriginalPrice.Text) > 0)
-                    btnAddPromo.Enabled = true;
-                else
-                    btnAddPromo.Enabled = false;
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
 
         }
 
@@ -235,225 +290,301 @@ namespace _213
 
         private void btnAddPromo_Click(object sender, EventArgs e)
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                con.Open();
-
-                string cmdstring = "INSERT INTO Promotions (branch, promo_id, item_name, item_originalprice, item_promoprice, discount, start_date, end_date, quantity, active) VALUES (@branch, @id, @item, @ori, @dp, @discount, @start, @end, @quant, @active)";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                    comm.Parameters.AddWithValue("@id", txtPromoId.Text);
-                    comm.Parameters.AddWithValue("@item", cbItem.SelectedItem.ToString());
-                    comm.Parameters.AddWithValue("@ori", txtOriginalPrice.Text);
-                    comm.Parameters.AddWithValue("@dp", txtDisPrice.Text);
-                    comm.Parameters.AddWithValue("@discount", txtDiscount.Text.Remove(txtDiscount.Text.Length - 1,1));
-                    comm.Parameters.AddWithValue("@start", dtPromoStart.Value);
-                    comm.Parameters.AddWithValue("@end", dtPromoEnd.Value);
-                    comm.Parameters.AddWithValue("@quant", txtAmount.Text);
+                    con.Open();
 
-                    if(DateTime.Now > dtPromoStart.Value)
-                        comm.Parameters.AddWithValue("@active", 1);
-                    else
-                        comm.Parameters.AddWithValue("@active", 0);
-                    
-                    //kan duplicate pk gee
-                        comm.ExecuteNonQuery();
-                    
-                    con.Close();
+                    string cmdstring = "INSERT INTO Promotions (branch, promo_id, item_name, item_originalprice, item_promoprice, discount, start_date, end_date, quantity, active) VALUES (@branch, @id, @item, @ori, @dp, @discount, @start, @end, @quant, @active)";
 
-                    gebruik.addAction(user);
-                    gebruik.log(DateTime.Now, user, "added promotion");
-
-                    DialogResult choice;
-
-                    if(DateTime.Now > dtPromoStart.Value)
-                        choice = MessageBox.Show(cbItem.SelectedItem.ToString() + " is now on promotion until " + dtPromoEnd.Value.ToShortDateString() + ".\r\nWould you like to place another item on promotion?", "Info",MessageBoxButtons.YesNo,MessageBoxIcon.Information);
-                    else
-                        choice = MessageBox.Show(cbItem.SelectedItem.ToString() + " will be on promotion from " + dtPromoStart.Value.ToShortDateString() + ", until " + dtPromoEnd.Value.ToShortDateString() + ".\r\nWould you like to place another item on promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                    if (choice == DialogResult.No)
-                        this.Close();
-                    else
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
                     {
+                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                        comm.Parameters.AddWithValue("@id", txtPromoId.Text);
+                        comm.Parameters.AddWithValue("@item", cbItem.SelectedItem.ToString());
+                        comm.Parameters.AddWithValue("@ori", txtOriginalPrice.Text);
+                        comm.Parameters.AddWithValue("@dp", txtDisPrice.Text);
+                        comm.Parameters.AddWithValue("@discount", txtDiscount.Text.Remove(txtDiscount.Text.Length - 1, 1));
+                        comm.Parameters.AddWithValue("@start", dtPromoStart.Value);
+                        comm.Parameters.AddWithValue("@end", dtPromoEnd.Value);
+                        comm.Parameters.AddWithValue("@quant", txtAmount.Text);
 
-                        gebruik other = new gebruik();
+                        if (DateTime.Now > dtPromoStart.Value)
+                            comm.Parameters.AddWithValue("@active", 1);
+                        else
+                            comm.Parameters.AddWithValue("@active", 0);
 
-                        while (txtPromoId.Text == "")
+                        //kan duplicate pk gee
+                        comm.ExecuteNonQuery();
+
+                        con.Close();
+
+                        gebruik.addAction(user);
+                        gebruik.log(DateTime.Now, user, "added promotion");
+
+                        DialogResult choice;
+
+                        if (DateTime.Now > dtPromoStart.Value)
+                            choice = MessageBox.Show(cbItem.SelectedItem.ToString() + " is now on promotion until " + dtPromoEnd.Value.ToShortDateString() + ".\r\nWould you like to place another item on promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        else
+                            choice = MessageBox.Show(cbItem.SelectedItem.ToString() + " will be on promotion from " + dtPromoStart.Value.ToShortDateString() + ", until " + dtPromoEnd.Value.ToShortDateString() + ".\r\nWould you like to place another item on promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (choice == DialogResult.No)
+                            this.Close();
+                        else
                         {
-                            txtPromoId.Text = other.generateLuhn();
+
+                            gebruik other = new gebruik();
+
+                            while (txtPromoId.Text == "")
+                            {
+                                txtPromoId.Text = other.generateLuhn();
+                            }
+                            while (txtPromoId.Text.Length > 10)
+                            {
+
+                                txtPromoId.Clear();
+                                txtPromoId.Text = other.generateLuhn();
+
+                            }
+                            txtPromoId.Enabled = false;
+
+                            cbItem.Focus();
+                            cbItem.SelectedItem = null;
+                            txtAmount.Text = "";
+                            dtPromoStart.Value = DateTime.Now;
+                            dtPromoEnd.Value = DateTime.Now;
+                            txtOriginalPrice.Text = "";
+                            txtDiscount.Text = "";
+                            txtDisPrice.Text = "";
+
                         }
-                        while (txtPromoId.Text.Length > 10)
-                        {
-
-                            txtPromoId.Clear();
-                            txtPromoId.Text = other.generateLuhn();
-
-                        }
-                        txtPromoId.Enabled = false;
-
-                        cbItem.Focus();
-                        cbItem.SelectedItem = null;
-                        txtAmount.Text = "";
-                        dtPromoStart.Value = DateTime.Now;
-                        dtPromoEnd.Value = DateTime.Now;
-                        txtOriginalPrice.Text = "";
-                        txtDiscount.Text = "";
-                        txtDisPrice.Text = "";
-
                     }
                 }
+
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        btnAddPromo.PerformClick();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
         }
 
         private void cbAction_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbAction.SelectedItem.ToString() == "New promotion")
+            try
             {
+                if (cbAction.SelectedItem.ToString() == "New promotion")
+                {
 
-                gbNItem.Visible = true;
-                gbNPromo.Visible = true;
-                btnAddPromo.Visible = true;
+                    gbNItem.Visible = true;
+                    gbNPromo.Visible = true;
+                    btnAddPromo.Visible = true;
 
+                }
+                else
+                {
+                    btnAddPromo.Visible = false;
+                    gbNItem.Visible = false;
+                    gbNPromo.Visible = false;
+
+                    txtAmount.Text = "";
+
+                    cbItem.SelectedItem = null;
+
+                    dtPromoEnd.Value = DateTime.Now;
+                    dtPromoStart.Value = DateTime.Now;
+
+                    txtOriginalPrice.Text = "";
+                    txtDisPrice.Text = "";
+                    txtDiscount.Text = "";
+
+                }
+
+                if (cbAction.SelectedItem.ToString() == "Edit promotion")
+                {
+
+                    gbEItem.Visible = true;
+                    gbEPromo.Visible = true;
+                    btnUPromo.Visible = true;
+
+                }
+                else
+                {
+
+                    btnUPromo.Visible = false;
+                    gbEItem.Visible = false;
+                    gbEPromo.Visible = false;
+                    txtEQ.Text = "";
+                    txtEPromoItem.Clear();
+                    cbEID.SelectedItem = null;
+
+                    dtEEnd.Value = DateTime.Now;
+                    dtEStart.Value = DateTime.Now;
+
+                    txtEOri.Text = "";
+                    txtEDP.Text = "";
+                    txtEDPP.Text = "";
+
+                }
             }
-            else
-            {
-                btnAddPromo.Visible = false;
-                gbNItem.Visible = false;
-                gbNPromo.Visible = false;
-
-                txtAmount.Text = "";
-                
-                cbItem.SelectedItem = null;
-
-                dtPromoEnd.Value = DateTime.Now;
-                dtPromoStart.Value = DateTime.Now;
-
-                txtOriginalPrice.Text = "";
-                txtDisPrice.Text = "";
-                txtDiscount.Text = "";
-
-            }
-
-            if (cbAction.SelectedItem.ToString() == "Edit promotion")
-            {
-
-                gbEItem.Visible = true;
-                gbEPromo.Visible = true;
-                btnUPromo.Visible = true;
-
-            }
-            else
-            {
-
-                btnUPromo.Visible = false;
-                gbEItem.Visible = false;
-                gbEPromo.Visible = false;
-                txtEQ.Text = "";
-                txtEPromoItem.Clear();
-                cbEID.SelectedItem = null;
-
-                dtEEnd.Value = DateTime.Now;
-                dtEStart.Value = DateTime.Now;
-
-                txtEOri.Text = "";
-                txtEDP.Text = "";
-                txtEDPP.Text = "";
-
-            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void cbEID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+
+            try
             {
-                con.Open();
 
-                string cmdstring;
-
-                cmdstring = "SELECT item_name, item_originalprice, item_promoprice, discount, start_date, end_date FROM Promotions WHERE promo_id = @id";
-             
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
+                    con.Open();
 
-                    comm.Parameters.AddWithValue("@id", cbEID.SelectedItem.ToString());
+                    string cmdstring;
 
-                    using (var reader = comm.ExecuteReader())
+                    cmdstring = "SELECT item_name, item_originalprice, item_promoprice, discount, start_date, end_date FROM Promotions WHERE promo_id = @id";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
                     {
-                        while (reader.Read())
+
+                        comm.Parameters.AddWithValue("@id", cbEID.SelectedItem.ToString());
+
+                        using (var reader = comm.ExecuteReader())
                         {
+                            while (reader.Read())
+                            {
 
-                            txtEPromoItem.Text = reader.GetString(0);
-                            txtEOri.Text = reader.GetString(1);
-                            txtEDP.Text = reader.GetString(2);
-                            txtEDPP.Text = (reader.GetFloat(3)).ToString() + "%";
-                            dtEStart.Value = reader.GetDateTime(4);
-                            dtEEnd.Value = reader.GetDateTime(5);
+                                txtEPromoItem.Text = reader.GetString(0);
+                                txtEOri.Text = reader.GetString(1);
+                                txtEDP.Text = reader.GetString(2);
+                                txtEDPP.Text = (reader.GetFloat(3)).ToString() + "%";
+                                dtEStart.Value = reader.GetDateTime(4);
+                                dtEEnd.Value = reader.GetDateTime(5);
 
 
+                            }
+                            reader.Close();
                         }
-                        reader.Close();
+                        con.Close();
+
+                        txtOriginalPrice.Enabled = false;
+
                     }
-                    con.Close();
 
-                    txtOriginalPrice.Enabled = false;
+                    cmdstring = "SELECT COUNT(*) FROM Stock WHERE item_name = @item AND branch = @branch";
+                    con.Open();
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@item", txtEPromoItem.Text);
+                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                        int recs = (int)comm.ExecuteScalar();
+                        con.Close();
 
+                        txtEQ.WaterMarkText = "Max: " + recs.ToString();
+                        max = recs;
+
+                    }
                 }
 
-                cmdstring = "SELECT COUNT(*) FROM Stock WHERE item_name = @item AND branch = @branch";
-                con.Open();
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
-                {
-                    comm.Parameters.AddWithValue("@item", txtEPromoItem.Text);
-                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                    int recs = (int)comm.ExecuteScalar();
-                    con.Close();
-
-                    txtEQ.WaterMarkText = "Max: " + recs.ToString();
-                    max = recs;
-
-                }
+                if (txtEQ.Text != "" && txtEDPP.Text != "" && cbEID.SelectedItem != null && Convert.ToInt16(txtEQ.Text) <= max && Convert.ToInt16(txtEQ.Text) > 0 && Convert.ToInt16(txtEDP.Text) < Convert.ToInt16(txtEOri.Text) && Convert.ToInt16(txtEOri.Text) > 0)
+                    btnUPromo.Enabled = true;
+                else
+                    btnUPromo.Enabled = false;
             }
+            catch (FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
 
-            if (txtEQ.Text != "" && txtEDPP.Text != "" && cbEID.SelectedItem != null && Convert.ToInt16(txtEQ.Text) <= max && Convert.ToInt16(txtEQ.Text) > 0 && Convert.ToInt16(txtEDP.Text) < Convert.ToInt16(txtEOri.Text) && Convert.ToInt16(txtEOri.Text) > 0)
-                btnUPromo.Enabled = true;
-            else
-                btnUPromo.Enabled = false;
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        cbEID_SelectedIndexChanged(sender, e);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
         }
-
         private void fillIds()
         {
 
-            using (SqlConnection conItem = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-
-
-                string selection = "SELECT promo_id FROM Promotions WHERE branch = @branch";
-                using (SqlCommand commItem = new SqlCommand(selection, conItem))
+                using (SqlConnection conItem = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    conItem.Open();
-                    commItem.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
-                    using (var reader = commItem.ExecuteReader())
+
+                    string selection = "SELECT promo_id FROM Promotions WHERE branch = @branch";
+                    using (SqlCommand commItem = new SqlCommand(selection, conItem))
                     {
+                        conItem.Open();
+                        commItem.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
-                        while (reader.Read())
+                        using (var reader = commItem.ExecuteReader())
                         {
 
-                            string item = reader.GetString(0);
-                            cbEID.Items.Add(item);
+                            while (reader.Read())
+                            {
 
+                                string item = reader.GetString(0);
+                                cbEID.Items.Add(item);
+
+                            }
+                            reader.Close();
                         }
-                        reader.Close();
+
+                        conItem.Close();
+
                     }
-
-                    conItem.Close();
-
                 }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
 
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        fillIds();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
         }
 
         private void btnUpPromo_Click(object sender, EventArgs e)
@@ -468,72 +599,96 @@ namespace _213
 
         private void btnUPromo_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+
+            try
             {
-                con.Open();
-
-                string cmdstring = "UPDATE Promotions SET item_promoprice = @dp, discount = @dis, start_date = @sd, end_date = @ed, quantity = @q, active = @active WHERE promo_id = @id";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@dp", txtEDP.Text);
-                    comm.Parameters.AddWithValue("@dis", txtEDPP.Text.Remove(txtEDPP.Text.Length - 1, 1));
-                    comm.Parameters.AddWithValue("@sd", dtEStart.Value.ToShortDateString());
-                    comm.Parameters.AddWithValue("@ed", dtEEnd.Value.ToShortDateString());
-                    comm.Parameters.AddWithValue("@q", txtEQ.Text);
-                    comm.Parameters.AddWithValue("@id", cbEID.SelectedItem.ToString());
+                    con.Open();
 
+                    string cmdstring = "UPDATE Promotions SET item_promoprice = @dp, discount = @dis, start_date = @sd, end_date = @ed, quantity = @q, active = @active WHERE promo_id = @id";
 
-                    if (DateTime.Now > dtPromoStart.Value)
-                        comm.Parameters.AddWithValue("@active", 1);
-                    else
-                        comm.Parameters.AddWithValue("@active", 0);
-
-                    comm.ExecuteNonQuery();
-                    con.Close();
-
-                    gebruik.addAction(user);
-                    gebruik.log(DateTime.Now, user, "updated promotion");
-
-
-                    DialogResult choice;
-                    
-                    if (DateTime.Now > dtPromoStart.Value)
-                        choice = MessageBox.Show(txtEPromoItem.Text + " is now on promotion until " + dtEEnd.Value.ToShortDateString() + ".\r\nWould you like to edit another promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                    else
-                        choice = MessageBox.Show(txtEPromoItem.Text + " will be on promotion from " + dtEStart.Value.ToShortDateString() + ", until " + dtEEnd.Value.ToShortDateString() + ".\r\nWould you like to edit another promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                    if (choice == DialogResult.No)
-                        this.Close();
-                    else
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
                     {
+                        comm.Parameters.AddWithValue("@dp", txtEDP.Text);
+                        comm.Parameters.AddWithValue("@dis", txtEDPP.Text.Remove(txtEDPP.Text.Length - 1, 1));
+                        comm.Parameters.AddWithValue("@sd", dtEStart.Value.ToShortDateString());
+                        comm.Parameters.AddWithValue("@ed", dtEEnd.Value.ToShortDateString());
+                        comm.Parameters.AddWithValue("@q", txtEQ.Text);
+                        comm.Parameters.AddWithValue("@id", cbEID.SelectedItem.ToString());
 
-                        gebruik other = new gebruik();
 
-                        cbEID.SelectedItem = null;
+                        if (DateTime.Now > dtPromoStart.Value)
+                            comm.Parameters.AddWithValue("@active", 1);
+                        else
+                            comm.Parameters.AddWithValue("@active", 0);
 
-                        cbEID.Focus();
-                        txtEQ.Text = "";
-                        dtEStart.Value = DateTime.Now;
-                        dtEEnd.Value = DateTime.Now;
-                        txtEOri.Text = "";
-                        txtEDP.Text = "";
-                        txtEDPP.Text = "";
+                        comm.ExecuteNonQuery();
+                        con.Close();
 
+                        gebruik.addAction(user);
+                        gebruik.log(DateTime.Now, user, "updated promotion");
+
+
+                        DialogResult choice;
+
+                        if (DateTime.Now > dtPromoStart.Value)
+                            choice = MessageBox.Show(txtEPromoItem.Text + " is now on promotion until " + dtEEnd.Value.ToShortDateString() + ".\r\nWould you like to edit another promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        else
+                            choice = MessageBox.Show(txtEPromoItem.Text + " will be on promotion from " + dtEStart.Value.ToShortDateString() + ", until " + dtEEnd.Value.ToShortDateString() + ".\r\nWould you like to edit another promotion?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (choice == DialogResult.No)
+                            this.Close();
+                        else
+                        {
+
+                            gebruik other = new gebruik();
+
+                            cbEID.SelectedItem = null;
+
+                            cbEID.Focus();
+                            txtEQ.Text = "";
+                            dtEStart.Value = DateTime.Now;
+                            dtEEnd.Value = DateTime.Now;
+                            txtEOri.Text = "";
+                            txtEDP.Text = "";
+                            txtEDPP.Text = "";
+
+                        }
                     }
                 }
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        btnUPromo.PerformClick();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
             }
         }
 
         private void txtEDP_TextChanged(object sender, EventArgs e)
         {
-            if (txtEDP.Text == "")
-            {
-                txtEDPP.Text = "0%";
-                btnUPromo.Enabled = false;
-            }
+
             try
             {
+                if (txtEDP.Text == "")
+                {
+                    txtEDPP.Text = "0%";
+                    btnUPromo.Enabled = false;
+                }
+
                 if (txtEOri.Text != "" && txtEDP.Text != "")
                 {
                     if (txtEDP.Text != "")
@@ -572,41 +727,51 @@ namespace _213
                     }
 
                 }
-            }
-            catch (FormatException fe)
-            {
-
-
 
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void txtEQ_TextChanged(object sender, EventArgs e)
         {
-            if (txtEQ.Text != "")
+            try
             {
-                if (Convert.ToInt16(txtEQ.Text) > max)
+                if (txtEQ.Text != "")
                 {
+                    if (Convert.ToInt16(txtEQ.Text) > max)
+                    {
 
-                    txtEQ.ForeColor = Color.Red;
+                        txtEQ.ForeColor = Color.Red;
 
+                    }
+                    else if (Convert.ToInt16(txtEQ.Text) < 0)
+                    {
+
+                        txtEQ.ForeColor = Color.Red;
+
+                    }
+                    else
+                        txtEQ.ForeColor = DefaultForeColor;
+
+                    if (txtEQ.Text != "" && txtEDPP.Text != "" && cbEID.SelectedItem != null && Convert.ToInt16(txtEQ.Text) < max && Convert.ToInt16(txtEQ.Text) > 0 && Convert.ToInt16(txtEDP.Text) < Convert.ToInt16(txtEOri.Text) && Convert.ToInt16(txtEOri.Text) > 0)
+                        btnUPromo.Enabled = true;
+                    else
+                        btnUPromo.Enabled = false;
                 }
-                else if (Convert.ToInt16(txtEQ.Text) < 0)
-                {
-
-                    txtEQ.ForeColor = Color.Red;
-
-                }
-                else
-                    txtEQ.ForeColor = DefaultForeColor;
-
-                if (txtEQ.Text != "" && txtEDPP.Text != "" && cbEID.SelectedItem != null && Convert.ToInt16(txtEQ.Text) < max && Convert.ToInt16(txtEQ.Text) > 0 && Convert.ToInt16(txtEDP.Text) < Convert.ToInt16(txtEOri.Text) && Convert.ToInt16(txtEOri.Text) > 0)
-                    btnUPromo.Enabled = true;
                 else
                     btnUPromo.Enabled = false;
             }
-            else
-                btnUPromo.Enabled = false;
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void dtPromoStart_ValueChanged(object sender, EventArgs e)
@@ -617,6 +782,24 @@ namespace _213
         private void dtEStart_ValueChanged(object sender, EventArgs e)
         {
             dtEEnd.MinDate = dtEStart.Value;
+        }
+
+        private void txtEQ_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtEDP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

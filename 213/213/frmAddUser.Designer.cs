@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnCreateAcc = new System.Windows.Forms.Button();
             this.txtNUser = new System.Windows.Forms.TextBox();
             this.txtAuthUser = new System.Windows.Forms.TextBox();
@@ -43,6 +44,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.cbLevel = new System.Windows.Forms.ComboBox();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // btnCreateAcc
@@ -53,6 +55,7 @@
             this.btnCreateAcc.Size = new System.Drawing.Size(121, 36);
             this.btnCreateAcc.TabIndex = 6;
             this.btnCreateAcc.Text = "Create Account";
+            this.passTT.SetToolTip(this.btnCreateAcc, "Click to create new user");
             this.btnCreateAcc.UseVisualStyleBackColor = true;
             this.btnCreateAcc.Click += new System.EventHandler(this.btnCreateAcc_Click);
             // 
@@ -62,6 +65,7 @@
             this.txtNUser.Name = "txtNUser";
             this.txtNUser.Size = new System.Drawing.Size(121, 22);
             this.txtNUser.TabIndex = 1;
+            this.passTT.SetToolTip(this.txtNUser, "Enter new username");
             this.txtNUser.TextChanged += new System.EventHandler(this.txtNUser_TextChanged);
             // 
             // txtAuthUser
@@ -70,6 +74,7 @@
             this.txtAuthUser.Name = "txtAuthUser";
             this.txtAuthUser.Size = new System.Drawing.Size(121, 22);
             this.txtAuthUser.TabIndex = 4;
+            this.passTT.SetToolTip(this.txtAuthUser, "Currently logged in administrator");
             // 
             // txtAuthPass
             // 
@@ -78,6 +83,7 @@
             this.txtAuthPass.PasswordChar = '*';
             this.txtAuthPass.Size = new System.Drawing.Size(121, 22);
             this.txtAuthPass.TabIndex = 5;
+            this.passTT.SetToolTip(this.txtAuthPass, "Currently logged in administrator\'s password");
             this.txtAuthPass.TextChanged += new System.EventHandler(this.txtAuthPass_TextChanged);
             // 
             // label1
@@ -106,6 +112,7 @@
             this.btnAduCancel.Size = new System.Drawing.Size(121, 36);
             this.btnAduCancel.TabIndex = 7;
             this.btnAduCancel.Text = "Cancel";
+            this.passTT.SetToolTip(this.btnAduCancel, "Click to close this window");
             this.btnAduCancel.UseVisualStyleBackColor = true;
             this.btnAduCancel.Click += new System.EventHandler(this.btnAduCancel_Click);
             // 
@@ -169,6 +176,7 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(121, 22);
             this.txtEmail.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtEmail, "Enter new user\'s email address");
             this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
             // cbLevel
@@ -191,6 +199,18 @@
             this.cbLevel.Name = "cbLevel";
             this.cbLevel.Size = new System.Drawing.Size(121, 24);
             this.cbLevel.TabIndex = 2;
+            this.passTT.SetToolTip(this.cbLevel, "Select new user\'s account level to determine their \r\naccount\'s access on stockI.T" +
+        " ");
+            // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmAddUser
             // 
@@ -243,5 +263,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.ComboBox cbLevel;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

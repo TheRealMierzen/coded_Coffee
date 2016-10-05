@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgEOM = new System.Windows.Forms.DataGridView();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.surname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFor = new System.Windows.Forms.Label();
             this.lblCEOM = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.surname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgEOM)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,6 +55,22 @@
             this.dgEOM.RowTemplate.Height = 24;
             this.dgEOM.Size = new System.Drawing.Size(377, 251);
             this.dgEOM.TabIndex = 0;
+            this.passTT.SetToolTip(this.dgEOM, "This is a list of all employees, ordered \r\nby their performance on stockI.T from " +
+        "\r\nhighest to lowest");
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Name";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 115;
+            // 
+            // surname
+            // 
+            this.surname.HeaderText = "Surname";
+            this.surname.Name = "surname";
+            this.surname.ReadOnly = true;
+            this.surname.Width = 115;
             // 
             // lblFor
             // 
@@ -71,6 +89,7 @@
             this.lblCEOM.Size = new System.Drawing.Size(90, 17);
             this.lblCEOM.TabIndex = 2;
             this.lblCEOM.Text = "Current EOM";
+            this.passTT.SetToolTip(this.lblCEOM, "The employee with the highest performance on stockI.T");
             // 
             // btnClose
             // 
@@ -79,22 +98,19 @@
             this.btnClose.Size = new System.Drawing.Size(124, 39);
             this.btnClose.TabIndex = 3;
             this.btnClose.Text = "Close";
+            this.passTT.SetToolTip(this.btnClose, "Click to close this window");
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // name
+            // passTT
             // 
-            this.name.HeaderText = "Name";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 115;
-            // 
-            // surname
-            // 
-            this.surname.HeaderText = "Surname";
-            this.surname.Name = "surname";
-            this.surname.ReadOnly = true;
-            this.surname.Width = 115;
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmEOM
             // 
@@ -126,5 +142,6 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn surname;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

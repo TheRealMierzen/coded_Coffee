@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace _213
 {
@@ -358,6 +359,8 @@ namespace _213
 
         private void btnVLogs_Click(object sender, EventArgs e)
         {
+
+            //Process.Start(@"C:\Users\Marco\Desktop\Bewys van registrasie.pdf");
 
             frmLogs fl = new frmLogs(AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt");
             fl.ShowDialog();

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtEmpName = new System.Windows.Forms.TextBox();
             this.txtEmpSurname = new System.Windows.Forms.TextBox();
             this.txtEmpRSAID = new System.Windows.Forms.TextBox();
@@ -54,6 +55,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.btnAddEmp = new System.Windows.Forms.Button();
             this.btnCancelEmp = new System.Windows.Forms.Button();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.gbEmpDetails.SuspendLayout();
             this.gbContact.SuspendLayout();
             this.gbEmplDetails.SuspendLayout();
@@ -66,6 +68,7 @@
             this.txtEmpName.Name = "txtEmpName";
             this.txtEmpName.Size = new System.Drawing.Size(146, 22);
             this.txtEmpName.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtEmpName, "Enter name of new employee");
             this.txtEmpName.TextChanged += new System.EventHandler(this.txtEmpName_TextChanged);
             // 
             // txtEmpSurname
@@ -74,6 +77,7 @@
             this.txtEmpSurname.Name = "txtEmpSurname";
             this.txtEmpSurname.Size = new System.Drawing.Size(146, 22);
             this.txtEmpSurname.TabIndex = 4;
+            this.passTT.SetToolTip(this.txtEmpSurname, "Enter surname of new employee");
             this.txtEmpSurname.TextChanged += new System.EventHandler(this.txtEmpSurname_TextChanged);
             // 
             // txtEmpRSAID
@@ -83,7 +87,9 @@
             this.txtEmpRSAID.Name = "txtEmpRSAID";
             this.txtEmpRSAID.Size = new System.Drawing.Size(146, 22);
             this.txtEmpRSAID.TabIndex = 5;
+            this.passTT.SetToolTip(this.txtEmpRSAID, "Enter government issued id nr");
             this.txtEmpRSAID.TextChanged += new System.EventHandler(this.txtEmpRSAID_TextChanged);
+            this.txtEmpRSAID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEmpRSAID_KeyPress);
             // 
             // label2
             // 
@@ -145,6 +151,7 @@
             this.txtEmpID.Name = "txtEmpID";
             this.txtEmpID.Size = new System.Drawing.Size(146, 22);
             this.txtEmpID.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtEmpID, "New employee\'s employee id");
             this.txtEmpID.TextChanged += new System.EventHandler(this.txtEmpID_TextChanged);
             // 
             // gbContact
@@ -176,7 +183,9 @@
             this.txtEmpCell.Name = "txtEmpCell";
             this.txtEmpCell.Size = new System.Drawing.Size(146, 22);
             this.txtEmpCell.TabIndex = 8;
+            this.passTT.SetToolTip(this.txtEmpCell, "Enter cellphone number of new employee");
             this.txtEmpCell.TextChanged += new System.EventHandler(this.txtEmpCell_TextChanged);
+            this.txtEmpCell.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEmpCell_KeyPress);
             // 
             // txtEmpEmail
             // 
@@ -184,6 +193,7 @@
             this.txtEmpEmail.Name = "txtEmpEmail";
             this.txtEmpEmail.Size = new System.Drawing.Size(146, 22);
             this.txtEmpEmail.TabIndex = 7;
+            this.passTT.SetToolTip(this.txtEmpEmail, "Enter email address of new employee");
             this.txtEmpEmail.TextChanged += new System.EventHandler(this.txtEmpEmail_TextChanged);
             // 
             // label6
@@ -218,6 +228,7 @@
             this.cbIsUser.Size = new System.Drawing.Size(125, 21);
             this.cbIsUser.TabIndex = 16;
             this.cbIsUser.Text = "Is stockI.T user";
+            this.passTT.SetToolTip(this.cbIsUser, "Check if new employee will use stockI.T");
             this.cbIsUser.UseVisualStyleBackColor = true;
             this.cbIsUser.CheckedChanged += new System.EventHandler(this.cbIsUser_CheckedChanged);
             // 
@@ -242,6 +253,7 @@
             this.rbTemp.TabIndex = 14;
             this.rbTemp.TabStop = true;
             this.rbTemp.Text = "Termporary employee";
+            this.passTT.SetToolTip(this.rbTemp, "Select if employee is only a temporary employee");
             this.rbTemp.UseVisualStyleBackColor = true;
             this.rbTemp.CheckedChanged += new System.EventHandler(this.rbTemp_CheckedChanged);
             // 
@@ -254,6 +266,7 @@
             this.rbManager.TabIndex = 12;
             this.rbManager.TabStop = true;
             this.rbManager.Text = "Manager";
+            this.passTT.SetToolTip(this.rbManager, "Select if new employee is a manager at this branch");
             this.rbManager.UseVisualStyleBackColor = true;
             this.rbManager.TextChanged += new System.EventHandler(this.rbManager_TextChanged);
             // 
@@ -267,6 +280,7 @@
             this.rbFull.TabIndex = 13;
             this.rbFull.TabStop = true;
             this.rbFull.Text = "Full time";
+            this.passTT.SetToolTip(this.rbFull, "Select if new employee is a full time employee");
             this.rbFull.UseVisualStyleBackColor = true;
             this.rbFull.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.rbFull_ControlAdded);
             // 
@@ -286,6 +300,8 @@
             this.dtEnd.Name = "dtEnd";
             this.dtEnd.Size = new System.Drawing.Size(149, 22);
             this.dtEnd.TabIndex = 15;
+            this.passTT.SetToolTip(this.dtEnd, "Select the date until which the new temporary\r\nemployee will be working at Matrix" +
+        " Warehouse");
             this.dtEnd.Visible = false;
             this.dtEnd.ValueChanged += new System.EventHandler(this.dtEnd_ValueChanged);
             // 
@@ -296,6 +312,7 @@
             this.dtStart.Name = "dtStart";
             this.dtStart.Size = new System.Drawing.Size(146, 22);
             this.dtStart.TabIndex = 10;
+            this.passTT.SetToolTip(this.dtStart, "Select the date the new employee will \r\nstart working at Matrix Warehouse");
             // 
             // label9
             // 
@@ -314,6 +331,7 @@
             this.btnAddEmp.Size = new System.Drawing.Size(121, 36);
             this.btnAddEmp.TabIndex = 17;
             this.btnAddEmp.Text = "Add employee";
+            this.passTT.SetToolTip(this.btnAddEmp, "Click to add new employee");
             this.btnAddEmp.UseVisualStyleBackColor = true;
             this.btnAddEmp.Click += new System.EventHandler(this.btnAddEmp_Click);
             // 
@@ -325,8 +343,19 @@
             this.btnCancelEmp.Size = new System.Drawing.Size(121, 36);
             this.btnCancelEmp.TabIndex = 18;
             this.btnCancelEmp.Text = "Cancel";
+            this.passTT.SetToolTip(this.btnCancelEmp, "Click to close this window");
             this.btnCancelEmp.UseVisualStyleBackColor = true;
             this.btnCancelEmp.Click += new System.EventHandler(this.btnCancelEmp_Click);
+            // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmAddEmp
             // 
@@ -386,5 +415,6 @@
         private System.Windows.Forms.Button btnCancelEmp;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtEmpID;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

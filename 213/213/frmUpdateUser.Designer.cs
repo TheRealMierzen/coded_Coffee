@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtCUser = new System.Windows.Forms.TextBox();
             this.txtNUser = new System.Windows.Forms.TextBox();
             this.lblCUser = new System.Windows.Forms.Label();
@@ -48,96 +49,93 @@
             this.lblUserEmail = new System.Windows.Forms.Label();
             this.txtUserEmail = new System.Windows.Forms.TextBox();
             this.cbLevel = new System.Windows.Forms.ComboBox();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // txtCUser
             // 
-            this.txtCUser.Location = new System.Drawing.Point(418, 130);
-            this.txtCUser.Margin = new System.Windows.Forms.Padding(6);
+            this.txtCUser.Location = new System.Drawing.Point(209, 67);
             this.txtCUser.Name = "txtCUser";
-            this.txtCUser.Size = new System.Drawing.Size(292, 38);
+            this.txtCUser.Size = new System.Drawing.Size(148, 22);
             this.txtCUser.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtCUser, "Enter current username");
             this.txtCUser.TextChanged += new System.EventHandler(this.txtCUser_TextChanged);
             // 
             // txtNUser
             // 
-            this.txtNUser.Location = new System.Drawing.Point(418, 188);
-            this.txtNUser.Margin = new System.Windows.Forms.Padding(6);
+            this.txtNUser.Location = new System.Drawing.Point(209, 97);
             this.txtNUser.Name = "txtNUser";
-            this.txtNUser.Size = new System.Drawing.Size(292, 38);
+            this.txtNUser.Size = new System.Drawing.Size(148, 22);
             this.txtNUser.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtNUser, "Enter new username");
             this.txtNUser.TextChanged += new System.EventHandler(this.txtNUser_TextChanged);
             // 
             // lblCUser
             // 
             this.lblCUser.AutoSize = true;
-            this.lblCUser.Location = new System.Drawing.Point(46, 136);
-            this.lblCUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblCUser.Location = new System.Drawing.Point(23, 70);
             this.lblCUser.Name = "lblCUser";
-            this.lblCUser.Size = new System.Drawing.Size(327, 32);
+            this.lblCUser.Size = new System.Drawing.Size(163, 17);
             this.lblCUser.TabIndex = 0;
             this.lblCUser.Text = "Current username/email:";
             // 
             // lblNUser
             // 
             this.lblNUser.AutoSize = true;
-            this.lblNUser.Location = new System.Drawing.Point(46, 194);
-            this.lblNUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblNUser.Location = new System.Drawing.Point(23, 100);
             this.lblNUser.Name = "lblNUser";
-            this.lblNUser.Size = new System.Drawing.Size(212, 32);
+            this.lblNUser.Size = new System.Drawing.Size(106, 17);
             this.lblNUser.TabIndex = 0;
             this.lblNUser.Text = "New username:";
             // 
             // lblLevel
             // 
             this.lblLevel.AutoSize = true;
-            this.lblLevel.Location = new System.Drawing.Point(46, 194);
-            this.lblLevel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLevel.Location = new System.Drawing.Point(23, 100);
             this.lblLevel.Name = "lblLevel";
-            this.lblLevel.Size = new System.Drawing.Size(258, 32);
+            this.lblLevel.Size = new System.Drawing.Size(128, 17);
             this.lblLevel.TabIndex = 0;
             this.lblLevel.Text = "Authorization level:";
             // 
             // lblNEmail
             // 
             this.lblNEmail.AutoSize = true;
-            this.lblNEmail.Location = new System.Drawing.Point(46, 194);
-            this.lblNEmail.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblNEmail.Location = new System.Drawing.Point(23, 100);
             this.lblNEmail.Name = "lblNEmail";
-            this.lblNEmail.Size = new System.Drawing.Size(263, 32);
+            this.lblNEmail.Size = new System.Drawing.Size(131, 17);
             this.lblNEmail.TabIndex = 0;
             this.lblNEmail.Text = "New email address:";
             // 
             // txtNEmail
             // 
-            this.txtNEmail.Location = new System.Drawing.Point(418, 188);
-            this.txtNEmail.Margin = new System.Windows.Forms.Padding(6);
+            this.txtNEmail.Location = new System.Drawing.Point(209, 97);
             this.txtNEmail.Name = "txtNEmail";
-            this.txtNEmail.Size = new System.Drawing.Size(292, 38);
+            this.txtNEmail.Size = new System.Drawing.Size(148, 22);
             this.txtNEmail.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtNEmail, "Enter new email address");
             this.txtNEmail.TextChanged += new System.EventHandler(this.txtNEmail_TextChanged);
             // 
             // btnUpdate
             // 
             this.btnUpdate.Enabled = false;
-            this.btnUpdate.Location = new System.Drawing.Point(198, 339);
-            this.btnUpdate.Margin = new System.Windows.Forms.Padding(6);
+            this.btnUpdate.Location = new System.Drawing.Point(99, 175);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(208, 70);
+            this.btnUpdate.Size = new System.Drawing.Size(104, 36);
             this.btnUpdate.TabIndex = 5;
             this.btnUpdate.Text = "Update user";
+            this.passTT.SetToolTip(this.btnUpdate, "Click to update user\'s information");
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // uUserCancel
             // 
             this.uUserCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.uUserCancel.Location = new System.Drawing.Point(418, 339);
-            this.uUserCancel.Margin = new System.Windows.Forms.Padding(6);
+            this.uUserCancel.Location = new System.Drawing.Point(209, 175);
             this.uUserCancel.Name = "uUserCancel";
-            this.uUserCancel.Size = new System.Drawing.Size(208, 70);
+            this.uUserCancel.Size = new System.Drawing.Size(104, 36);
             this.uUserCancel.TabIndex = 6;
             this.uUserCancel.Text = "Cancel";
+            this.passTT.SetToolTip(this.uUserCancel, "Click to close this window");
             this.uUserCancel.UseVisualStyleBackColor = true;
             this.uUserCancel.Click += new System.EventHandler(this.uUserCancel_Click);
             // 
@@ -150,97 +148,92 @@
             "Account level",
             "Email address",
             "Username"});
-            this.cbUuser.Location = new System.Drawing.Point(418, 29);
-            this.cbUuser.Margin = new System.Windows.Forms.Padding(6);
+            this.cbUuser.Location = new System.Drawing.Point(209, 15);
             this.cbUuser.Name = "cbUuser";
-            this.cbUuser.Size = new System.Drawing.Size(292, 39);
+            this.cbUuser.Size = new System.Drawing.Size(148, 24);
             this.cbUuser.TabIndex = 1;
+            this.passTT.SetToolTip(this.cbUuser, "Select information you wish to update");
             this.cbUuser.SelectedIndexChanged += new System.EventHandler(this.cbUuser_SelectedIndexChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(26, 35);
-            this.label8.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label8.Location = new System.Drawing.Point(13, 18);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(380, 32);
+            this.label8.Size = new System.Drawing.Size(190, 17);
             this.label8.TabIndex = 0;
             this.label8.Text = "Please select item to update:";
             // 
             // txtCNEmail
             // 
-            this.txtCNEmail.Location = new System.Drawing.Point(418, 244);
-            this.txtCNEmail.Margin = new System.Windows.Forms.Padding(6);
+            this.txtCNEmail.Location = new System.Drawing.Point(209, 126);
             this.txtCNEmail.Name = "txtCNEmail";
-            this.txtCNEmail.Size = new System.Drawing.Size(292, 38);
+            this.txtCNEmail.Size = new System.Drawing.Size(148, 22);
             this.txtCNEmail.TabIndex = 4;
+            this.passTT.SetToolTip(this.txtCNEmail, "Confirm new email address");
             this.txtCNEmail.TextChanged += new System.EventHandler(this.txtCNEmail_TextChanged);
             // 
             // lblCNEmail
             // 
             this.lblCNEmail.AutoSize = true;
-            this.lblCNEmail.Location = new System.Drawing.Point(46, 250);
-            this.lblCNEmail.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblCNEmail.Location = new System.Drawing.Point(23, 129);
             this.lblCNEmail.Name = "lblCNEmail";
-            this.lblCNEmail.Size = new System.Drawing.Size(365, 32);
+            this.lblCNEmail.Size = new System.Drawing.Size(181, 17);
             this.lblCNEmail.TabIndex = 0;
             this.lblCNEmail.Text = "Confirm new email address:";
             // 
             // lblCNUser
             // 
             this.lblCNUser.AutoSize = true;
-            this.lblCNUser.Location = new System.Drawing.Point(46, 250);
-            this.lblCNUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblCNUser.Location = new System.Drawing.Point(23, 129);
             this.lblCNUser.Name = "lblCNUser";
-            this.lblCNUser.Size = new System.Drawing.Size(314, 32);
+            this.lblCNUser.Size = new System.Drawing.Size(156, 17);
             this.lblCNUser.TabIndex = 0;
             this.lblCNUser.Text = "Confirm new username:";
             // 
             // txtCNUser
             // 
-            this.txtCNUser.Location = new System.Drawing.Point(418, 244);
-            this.txtCNUser.Margin = new System.Windows.Forms.Padding(6);
+            this.txtCNUser.Location = new System.Drawing.Point(209, 126);
             this.txtCNUser.Name = "txtCNUser";
-            this.txtCNUser.Size = new System.Drawing.Size(292, 38);
+            this.txtCNUser.Size = new System.Drawing.Size(148, 22);
             this.txtCNUser.TabIndex = 4;
+            this.passTT.SetToolTip(this.txtCNUser, "Confirm new username");
             this.txtCNUser.TextChanged += new System.EventHandler(this.txtCNUser_TextChanged);
             // 
             // lblLvlUser
             // 
             this.lblLvlUser.AutoSize = true;
-            this.lblLvlUser.Location = new System.Drawing.Point(46, 136);
-            this.lblLvlUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLvlUser.Location = new System.Drawing.Point(23, 70);
             this.lblLvlUser.Name = "lblLvlUser";
-            this.lblLvlUser.Size = new System.Drawing.Size(153, 32);
+            this.lblLvlUser.Size = new System.Drawing.Size(77, 17);
             this.lblLvlUser.TabIndex = 0;
             this.lblLvlUser.Text = "Username:";
             // 
             // txtLvlUser
             // 
-            this.txtLvlUser.Location = new System.Drawing.Point(418, 130);
-            this.txtLvlUser.Margin = new System.Windows.Forms.Padding(6);
+            this.txtLvlUser.Location = new System.Drawing.Point(209, 67);
             this.txtLvlUser.Name = "txtLvlUser";
-            this.txtLvlUser.Size = new System.Drawing.Size(292, 38);
+            this.txtLvlUser.Size = new System.Drawing.Size(148, 22);
             this.txtLvlUser.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtLvlUser, "Enter username");
             this.txtLvlUser.TextChanged += new System.EventHandler(this.txtLvlUser_TextChanged);
             // 
             // lblUserEmail
             // 
             this.lblUserEmail.AutoSize = true;
-            this.lblUserEmail.Location = new System.Drawing.Point(46, 136);
-            this.lblUserEmail.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblUserEmail.Location = new System.Drawing.Point(23, 70);
             this.lblUserEmail.Name = "lblUserEmail";
-            this.lblUserEmail.Size = new System.Drawing.Size(153, 32);
+            this.lblUserEmail.Size = new System.Drawing.Size(77, 17);
             this.lblUserEmail.TabIndex = 7;
             this.lblUserEmail.Text = "Username:";
             // 
             // txtUserEmail
             // 
-            this.txtUserEmail.Location = new System.Drawing.Point(418, 130);
-            this.txtUserEmail.Margin = new System.Windows.Forms.Padding(6);
+            this.txtUserEmail.Location = new System.Drawing.Point(209, 67);
             this.txtUserEmail.Name = "txtUserEmail";
-            this.txtUserEmail.Size = new System.Drawing.Size(292, 38);
+            this.txtUserEmail.Size = new System.Drawing.Size(148, 22);
             this.txtUserEmail.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtUserEmail, "Enter current email address of user");
             this.txtUserEmail.TextChanged += new System.EventHandler(this.txtUserEmail_TextChanged);
             // 
             // cbLevel
@@ -258,18 +251,30 @@
             "8",
             "9",
             "10"});
-            this.cbLevel.Location = new System.Drawing.Point(418, 188);
+            this.cbLevel.Location = new System.Drawing.Point(209, 97);
+            this.cbLevel.Margin = new System.Windows.Forms.Padding(2);
             this.cbLevel.Name = "cbLevel";
-            this.cbLevel.Size = new System.Drawing.Size(292, 39);
+            this.cbLevel.Size = new System.Drawing.Size(148, 24);
             this.cbLevel.TabIndex = 8;
+            this.passTT.SetToolTip(this.cbLevel, "Select new account level of user");
+            // 
+            // passTT
+            // 
+            this.passTT.AutoPopDelay = 5000;
+            this.passTT.InitialDelay = 750;
+            this.passTT.IsBalloon = true;
+            this.passTT.ReshowDelay = 100;
+            this.passTT.Tag = "";
+            this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.passTT.ToolTipTitle = "Need help?";
             // 
             // frmUpdateUser
             // 
             this.AcceptButton = this.btnUpdate;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.uUserCancel;
-            this.ClientSize = new System.Drawing.Size(758, 453);
+            this.ClientSize = new System.Drawing.Size(381, 234);
             this.Controls.Add(this.cbLevel);
             this.Controls.Add(this.txtUserEmail);
             this.Controls.Add(this.lblUserEmail);
@@ -292,7 +297,6 @@
             this.Controls.Add(this.txtCUser);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "frmUpdateUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update User";
@@ -324,5 +328,6 @@
         private System.Windows.Forms.Label lblUserEmail;
         private System.Windows.Forms.TextBox txtUserEmail;
         private System.Windows.Forms.ComboBox cbLevel;
+        private System.Windows.Forms.ToolTip passTT;
     }
 }

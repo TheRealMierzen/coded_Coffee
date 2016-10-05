@@ -34,301 +34,421 @@ namespace _213
 
         private void txtCREmp_TextChanged(object sender, EventArgs e)
         {
-
-            if(txtCREmp.Text.Length != 13 && txtCREmp.Text.Length != 10)
-            {
-
-                txtCREmp.ForeColor = Color.Red;
-                btnREmp.Enabled = false;
-
-            }
-
-            if(txtCREmp.Text == txtREmp.Text)
-            {
-
-                txtCREmp.ForeColor = DefaultForeColor;
-                if (txtAuthPass.Text != "")
-                    btnREmp.Enabled = true;
-
-            }
-
-            long cell;
             try
             {
-                cell = Convert.ToInt64(txtCREmp.Text);
-
-            }
-            catch
-            {
-
-                try
+                if (txtCREmp.Text.Length != 13 && txtCREmp.Text.Length != 10)
                 {
-                    txtCREmp.Text = txtCREmp.Text.Substring(0, txtCREmp.Text.Length - 1);
-                    txtCREmp.Focus();
-                    txtCREmp.SelectionStart = txtCREmp.Text.Length;
+
+                    txtCREmp.ForeColor = Color.Red;
+                    btnREmp.Enabled = false;
+
                 }
-                catch
+
+                if (txtCREmp.Text == txtREmp.Text)
                 {
 
-                    txtCREmp.Text = "";
+                    txtCREmp.ForeColor = DefaultForeColor;
+                    if (txtAuthPass.Text != "")
+                        btnREmp.Enabled = true;
 
                 }
 
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
+            
         }
 
         private void txtREmp_TextChanged(object sender, EventArgs e)
         {
-            long cell;
-
-            if (txtREmp.Text.Length != 13 && txtREmp.Text.Length != 10)
-            {
-
-                txtREmp.ForeColor = Color.Red;
-                btnREmp.Enabled = false;
-
-            }
-            else
-                txtREmp.ForeColor = DefaultForeColor;
-            if(txtREmp.Text != txtCREmp.Text)
-            {
-
-                txtCREmp.ForeColor = Color.Red;
-                btnREmp.Enabled = false;
-
-            }
-
-            if(txtCREmp.Text == txtREmp.Text && txtCREmp.Text != "")
-            {
-
-                txtCREmp.ForeColor = DefaultForeColor;
-                if (txtAuthPass.Text != "")
-                    btnREmp.Enabled = false;
-
-            }
-
             try
             {
-                cell = Convert.ToInt64(txtREmp.Text);
-
-            }
-            catch
-            {
-
-                try
+                if (txtREmp.Text.Length != 13 && txtREmp.Text.Length != 10)
                 {
-                    txtREmp.Text = txtREmp.Text.Substring(0, txtREmp.Text.Length - 1);
-                    txtREmp.Focus();
-                    txtREmp.SelectionStart = txtREmp.Text.Length;
+
+                    txtREmp.ForeColor = Color.Red;
+                    btnREmp.Enabled = false;
+
                 }
-                catch
+                else
+                    txtREmp.ForeColor = DefaultForeColor;
+                if (txtREmp.Text != txtCREmp.Text)
                 {
 
-                    txtREmp.Text = "";
+                    txtCREmp.ForeColor = Color.Red;
+                    btnREmp.Enabled = false;
 
                 }
 
+                if (txtCREmp.Text == txtREmp.Text && txtCREmp.Text != "")
+                {
+
+                    txtCREmp.ForeColor = DefaultForeColor;
+                    if (txtAuthPass.Text != "")
+                        btnREmp.Enabled = false;
+
+                }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
+           
         }
 
         private void txtAuthPass_TextChanged(object sender, EventArgs e)
         {
-            if (txtAuthPass.Text != "")
+            try
             {
-                if (txtCREmp.Text == txtREmp.Text && txtREmp.Text != "")
-                    btnREmp.Enabled = true;
+                if (txtAuthPass.Text != "")
+                {
+                    if (txtCREmp.Text == txtREmp.Text && txtREmp.Text != "")
+                        btnREmp.Enabled = true;
+                }
+                else
+                    btnREmp.Enabled = false;
             }
-            else
-                btnREmp.Enabled = false;
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch(Exception)
+            { }
         }
 
         private void btnREmp_Click(object sender, EventArgs e)
         {
-
-            //Employee exists
-            if(checkID(txtCREmp.Text))
+            try
             {
-
-                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                //Employee exists
+                if (checkID(txtCREmp.Text))
                 {
-                    gebruik other = new gebruik();
 
-                    con.Open();
-
-                    string cmdstring = "";
-                    if (txtCREmp.Text.Length == 13)
-                        cmdstring = "DELETE FROM Employees WHERE id_num = @id";
-                    else
-                        cmdstring = "DELETE FROM Employees WHERE employee_id = @id";
-
-                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                     {
+                        gebruik other = new gebruik();
 
-                        comm.Parameters.AddWithValue("@id", txtCREmp.Text);
+                        con.Open();
 
-                        comm.ExecuteNonQuery();
+                        string cmdstring = "";
+                        if (txtCREmp.Text.Length == 13)
+                            cmdstring = "DELETE FROM Employees WHERE id_num = @id";
+                        else
+                            cmdstring = "DELETE FROM Employees WHERE employee_id = @id";
 
-                        gebruik.addAction(user);
-                        DateTime local = DateTime.Now;
-                        gebruik.log(local, user, "removed employee");
-
-                        updateEmployNum("remove");
-                        string message = "";
-                        if (other.getUsername(getMail(txtCREmp.Text)) != "")
+                        using (SqlCommand comm = new SqlCommand(cmdstring, con))
                         {
-                            DialogResult result = MessageBox.Show("The system has detected the this employee has an account with the current email address. Would you like to automatically remove the user account too?", "Info", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.Yes)
-                            {
 
-                                removeUser(other.getUsername(getMail(txtCREmp.Text)));
-                                message = "The employee and user has successfully been removed.";
+                            comm.Parameters.AddWithValue("@id", txtCREmp.Text);
+
+                            comm.ExecuteNonQuery();
+
+                            gebruik.addAction(user);
+                            DateTime local = DateTime.Now;
+                            gebruik.log(local, user, "removed employee");
+
+                            updateEmployNum("remove");
+                            string message = "";
+                            if (other.getUsername(getMail(txtCREmp.Text)) != "")
+                            {
+                                DialogResult result = MessageBox.Show("The system has detected the this employee has an account with the current email address. Would you like to automatically remove the user account too?", "Info", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+
+                                    removeUser(other.getUsername(getMail(txtCREmp.Text)));
+                                    message = "The employee and user has successfully been removed.";
+
+                                }
+                                else
+                                    message = "The employee has successfully been removed.";
 
                             }
                             else
                                 message = "The employee has successfully been removed.";
 
+
+                            DialogResult choice;
+                            choice = MessageBox.Show(message + "\r\nWould you like to remove another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                            if (choice == DialogResult.Yes)
+                            {
+
+                                txtAuthPass.Clear();
+                                txtREmp.Clear();
+                                txtCREmp.Clear();
+                            }
+                            else
+                                this.Close();
+
                         }
-                        else
-                            message = "The employee has successfully been removed.";
-
-
-                        DialogResult choice;
-                        choice = MessageBox.Show(message + "\r\nWould you like to remove another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                        if (choice == DialogResult.Yes)
-                        {
-
-                            txtAuthPass.Clear();
-                            txtREmp.Clear();
-                            txtCREmp.Clear();
-                        }
-                        else
-                            this.Close();
-
                     }
                 }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
 
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        btnREmp.PerformClick();
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
         }
 
         private bool checkID(string id)
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                con.Open();
-
-                string cmdstring = "";
-                if(id.Length == 13)
-                    cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Employees WHERE id_num = @id";
-                else
-                    cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Employees WHERE employee_id = @id";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@id", id);
+                    con.Open();
 
-                    int records = Convert.ToInt32(comm.ExecuteScalar());
-
-                    con.Close();
-
-                    if (records > 0)
-                        return true;
+                    string cmdstring = "";
+                    if (id.Length == 13)
+                        cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Employees WHERE id_num = @id";
                     else
-                        return false;
+                        cmdstring = "SELECT COUNT(*) AS CountOfRecords FROM Employees WHERE employee_id = @id";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@id", id);
+
+                        int records = Convert.ToInt32(comm.ExecuteScalar());
+
+                        con.Close();
+
+                        if (records > 0)
+                            return true;
+                        else
+                            return false;
+                    }
                 }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return checkID(id);
+                    else
+                    {
+
+                        
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+                else
+                    return false;
+
+            }
+            catch(Exception)
+            { }
+
+            return false;
 
         }
 
         private string getMail(string id)
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                con.Open();
-
-                string cmdstring = "";
-                if (id.Length == 13)
-                    cmdstring = "SELECT email_address FROM Employees WHERE id_num = @id";
-                else
-                    cmdstring = "SELECT email_address FROM Employees WHERE employee_id = @id";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@id", id);
+                    con.Open();
 
-                    using (var reader = comm.ExecuteReader())
+                    string cmdstring = "";
+                    if (id.Length == 13)
+                        cmdstring = "SELECT email_address FROM Employees WHERE id_num = @id";
+                    else
+                        cmdstring = "SELECT email_address FROM Employees WHERE employee_id = @id";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
                     {
-                        while (reader.Read())
-                        {
+                        comm.Parameters.AddWithValue("@id", id);
 
-                            string email = reader.GetString(0);
-                            return email;
+                        using (var reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                string email = reader.GetString(0);
+                                return email;
+
+                            }
 
                         }
 
+                        con.Close();
+
+                        return "";
+
                     }
-
-                    con.Close();
-
-                    return "";
-                    
                 }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        return getMail(id);
+                    else
+                    {
+                        
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return "";
+                    }
+                }
+                else
+                    return "";
+
+            }
+            catch(Exception)
+            { }
+            return "";
         }
 
 
         private void removeUser(string username)
         {
-
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+            try
             {
-                con.Open();
-
-                string cmdstring = "DELETE FROM Users WHERE userName = @user";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    comm.Parameters.AddWithValue("@user", username);
+                    con.Open();
 
-                    comm.ExecuteNonQuery();
+                    string cmdstring = "DELETE FROM Users WHERE userName = @user";
 
-                    gebruik.addAction(user);
-                    DateTime local = DateTime.Now;
-                    gebruik.log(local, user, "removed user");
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@user", username);
 
-                    con.Close();
+                        comm.ExecuteNonQuery();
 
+                        gebruik.addAction(user);
+                        DateTime local = DateTime.Now;
+                        gebruik.log(local, user, "removed user");
+
+                        con.Close();
+
+                    }
                 }
             }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        removeUser(username);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            catch(Exception)
+            { }
 
         }
 
         private void updateEmployNum(string logic)
         {
+            try
+            {
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
 
-            using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                    con.Open();
+                    string cmdstring = "";
+                    if (logic == "add")
+                        cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum + 1 WHERE branch_location = @branch";
+                    else
+                        cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum - 1 WHERE branch_location = @branch";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+
+                        comm.ExecuteNonQuery();
+                    }
+                    con.Close();
+
+                }
+            }
+            catch(FormatException)
+            { }
+            catch(InvalidCastException)
+            { }
+            catch (SqlException se)
             {
 
-                con.Open();
-                string cmdstring = "";
-                if (logic == "add")
-                    cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum + 1 WHERE branch_location = @branch";
-                else
-                    cmdstring = "UPDATE Branches SET branch_employeenum = branch_employeenum - 1 WHERE branch_location = @branch";
-
-                using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                if (se.Number == 53)
                 {
-                    comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-
-                    comm.ExecuteNonQuery();
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        updateEmployNum(logic);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                con.Close();
+                
 
             }
+            catch(Exception)
+            { }
 
         }
 
+        private void txtREmp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtCREmp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

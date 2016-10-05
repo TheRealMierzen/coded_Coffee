@@ -36,6 +36,7 @@
             this.btnLForgotPass = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.notification = new System.Windows.Forms.NotifyIcon(this.components);
+            this.lblRemaining = new System.Windows.Forms.Label();
             this.txtLPass = new wmgCMS.WaterMarkTextBox();
             this.txtLEmail = new wmgCMS.WaterMarkTextBox();
             this.textbox1 = new wmgCMS.WaterMarkTextBox();
@@ -53,6 +54,7 @@
             this.button2.Size = new System.Drawing.Size(99, 27);
             this.button2.TabIndex = 5;
             this.button2.Text = "Exit";
+            this.passTT.SetToolTip(this.button2, "Click to exit stockI.T");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -68,6 +70,7 @@
             this.button1.Size = new System.Drawing.Size(99, 27);
             this.button1.TabIndex = 4;
             this.button1.Text = "Login";
+            this.passTT.SetToolTip(this.button1, "Click to log in with your credentials");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -76,12 +79,13 @@
             // 
             this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCreate.Enabled = false;
-            this.btnCreate.Location = new System.Drawing.Point(412, 299);
+            this.btnCreate.Location = new System.Drawing.Point(412, 268);
             this.btnCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(99, 27);
             this.btnCreate.TabIndex = 4;
             this.btnCreate.Text = "Create User";
+            this.passTT.SetToolTip(this.btnCreate, "Click to create the administrative account");
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Visible = false;
             this.btnCreate.Click += new System.EventHandler(this.button3_Click);
@@ -89,12 +93,12 @@
             // passTT
             // 
             this.passTT.AutoPopDelay = 5000;
-            this.passTT.InitialDelay = 100;
+            this.passTT.InitialDelay = 750;
             this.passTT.IsBalloon = true;
             this.passTT.ReshowDelay = 100;
             this.passTT.Tag = "";
             this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.passTT.ToolTipTitle = "Password Help";
+            this.passTT.ToolTipTitle = "Login Help";
             // 
             // btnLForgotPass
             // 
@@ -105,9 +109,9 @@
             this.btnLForgotPass.Size = new System.Drawing.Size(28, 28);
             this.btnLForgotPass.TabIndex = 2;
             this.btnLForgotPass.Text = "?";
-            this.passTT.SetToolTip(this.btnLForgotPass, "Forgot your password?\r\n\r\nConsult an administrator for your password.\r\n\r\nLost the " +
-        "password email?\r\n\r\nClick here to let an adminstrator generate a \r\nnew password f" +
-        "or your account.");
+            this.passTT.SetToolTip(this.btnLForgotPass, "Forgot your password?\r\n\r\nConsult your password email for your password.\r\n\r\nLost t" +
+        "he password email?\r\n\r\nClick here to allow an adminstrator generate a \r\nnew passw" +
+        "ord for your account.");
             this.btnLForgotPass.UseVisualStyleBackColor = true;
             this.btnLForgotPass.Visible = false;
             this.btnLForgotPass.VisibleChanged += new System.EventHandler(this.btnLForgotPass_VisibleChanged);
@@ -130,16 +134,29 @@
             this.notification.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notification.Visible = true;
             // 
+            // lblRemaining
+            // 
+            this.lblRemaining.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblRemaining.AutoSize = true;
+            this.lblRemaining.BackColor = System.Drawing.SystemColors.Window;
+            this.lblRemaining.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lblRemaining.Location = new System.Drawing.Point(545, 194);
+            this.lblRemaining.Name = "lblRemaining";
+            this.lblRemaining.Size = new System.Drawing.Size(82, 17);
+            this.lblRemaining.TabIndex = 0;
+            this.lblRemaining.Text = "8 remaining";
+            // 
             // txtLPass
             // 
             this.txtLPass.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtLPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.txtLPass.Location = new System.Drawing.Point(412, 191);
-            this.txtLPass.MaxLength = 100;
+            this.txtLPass.MaxLength = 8;
             this.txtLPass.Name = "txtLPass";
             this.txtLPass.PasswordChar = '*';
             this.txtLPass.Size = new System.Drawing.Size(215, 22);
             this.txtLPass.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtLPass, "Enter your stockI.T password");
             this.txtLPass.WaterMarkColor = System.Drawing.Color.Gray;
             this.txtLPass.WaterMarkText = "Password";
             this.txtLPass.TextChanged += new System.EventHandler(this.txtLPass_TextChanged);
@@ -152,6 +169,7 @@
             this.txtLEmail.Name = "txtLEmail";
             this.txtLEmail.Size = new System.Drawing.Size(215, 22);
             this.txtLEmail.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtLEmail, "Enter your email address you wish to use for stockI.T");
             this.txtLEmail.Visible = false;
             this.txtLEmail.WaterMarkColor = System.Drawing.Color.Gray;
             this.txtLEmail.WaterMarkText = "Email address";
@@ -166,6 +184,7 @@
             this.textbox1.Name = "textbox1";
             this.textbox1.Size = new System.Drawing.Size(215, 22);
             this.textbox1.TabIndex = 1;
+            this.passTT.SetToolTip(this.textbox1, "Enter your stockI.T username");
             this.textbox1.WaterMarkColor = System.Drawing.Color.Gray;
             this.textbox1.WaterMarkText = "Username";
             this.textbox1.TextChanged += new System.EventHandler(this.textbox1_TextChanged_1);
@@ -180,6 +199,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(953, 447);
+            this.Controls.Add(this.lblRemaining);
             this.Controls.Add(this.txtLPass);
             this.Controls.Add(this.txtLEmail);
             this.Controls.Add(this.textbox1);
@@ -210,5 +230,6 @@
         private wmgCMS.WaterMarkTextBox txtLEmail;
         private wmgCMS.WaterMarkTextBox txtLPass;
         private System.Windows.Forms.NotifyIcon notification;
+        private System.Windows.Forms.Label lblRemaining;
     }
 }
