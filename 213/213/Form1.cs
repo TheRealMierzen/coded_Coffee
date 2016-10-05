@@ -362,7 +362,8 @@ namespace _213
 
             //Process.Start(@"C:\Users\Marco\Desktop\Bewys van registrasie.pdf");
 
-            frmLogs fl = new frmLogs(AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt");
+            frmManual fl = new frmManual();
+            //frmLogs fl = new frmLogs(AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt");
             fl.ShowDialog();
 
         }
