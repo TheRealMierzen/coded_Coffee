@@ -23,32 +23,30 @@ namespace _213
             string appPath = AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt";
             try
             {
-                if (File.Exists(appPath))
-                {
+            if (File.Exists(appPath))
+            {
                     File.SetAttributes(appPath, FileAttributes.Hidden);
-                    StreamWriter outstream = File.AppendText(appPath);
-
+                StreamWriter outstream = File.AppendText(appPath);
+                
                     outstream.WriteLine("\n" + user + " " + action + ": " + tyd.ToString());
                     File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
-                    outstream.Close();
-                }
-                else
-                {
-
-                    File.CreateText(appPath).Close();
-                    StreamWriter outstream = File.AppendText(appPath);
+                outstream.Close();
+            }
+            else
+            {
+                File.CreateText(appPath).Close();
+                StreamWriter outstream = File.AppendText(appPath);
                     outstream.WriteLine(user + " logged in: " + tyd.ToString());
                     File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
-                    outstream.Close();
-
-                }
+                outstream.Close();
+            }
             }
             catch(IOException)
             { }
             catch(Exception)
             { }
-
-
+            
+            
         }
 
         //As user iets delete/add/update of whatever
@@ -59,12 +57,12 @@ namespace _213
                 using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
 
-                    conn.Open();
-                    SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + user + "'", conn);
-                    uLogin.ExecuteNonQuery();
-                    conn.Close();
+                conn.Open();
+                SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + user + "'", conn);
+                uLogin.ExecuteNonQuery();
+                conn.Close();
 
-                }
+            }
             }
             catch (SqlException se)
             {
@@ -76,8 +74,8 @@ namespace _213
                         addAction(user);
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                
+        }
+       
 
             }
             catch (Exception)
@@ -147,10 +145,10 @@ namespace _213
                 som = Convert.ToInt32(som.ToString() + som2.ToString());
 
             }
-
+            
 
             string antwoord = "";
-
+            
             //kry 2 randomly en sit hulle in antwoord
             for (int deel = 0; deel < som.ToString().Length; deel++)
             {
@@ -176,7 +174,7 @@ namespace _213
                     getal2 = gedeelte.Next(0, antwoord.Length);
 
                 }
-
+                
                 string test = antwoord.Substring(getal, 1) + antwoord.Substring(getal2, 1);
 
                 password += Convert.ToChar(Convert.ToInt16(test));
@@ -184,7 +182,7 @@ namespace _213
 
             //validation
             for (int check = 0; check < 8; check++)
-            {
+                {
 
                 char[] symbol = password.ToCharArray();
                 int count = 0;
@@ -204,8 +202,8 @@ namespace _213
                                 count = 0;
                                 password = this.genPassword(begin);
                             }
-
-
+                            
+                                
                         }
                         count = 0;
                     }
@@ -220,7 +218,7 @@ namespace _213
             }
 
             return password;
-
+            
         }
 
 
@@ -696,7 +694,7 @@ namespace _213
             }
             catch (Exception)
             { }
-            return false;
+                return false;
 
         }
 
@@ -717,7 +715,7 @@ namespace _213
             {
                 return false;
             }
-        }
+            }        
 
         public bool CheckDate(String date)
         {

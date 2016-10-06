@@ -115,7 +115,7 @@ namespace _213
 
             gebruik.log(local, user, "logout");
             gebruik.log(local, user, "exited application");
-
+  
             Application.Exit();
         }
 
@@ -227,14 +227,16 @@ namespace _213
         //end of day button
         private void roundButton2_Click(object sender, EventArgs e)
         {
-
+            
 
         }
 
         //sale button
         private void saleButton_Click(object sender, EventArgs e)
         {
-
+            salesForm f1 = new salesForm();
+            f1.Show();
+            this.Hide();
         }
 
         //order button Zander Jagals
@@ -274,7 +276,7 @@ namespace _213
             StockMainFormCLN stockMainForm = new StockMainFormCLN(user);
             this.Hide();
             stockMainForm.Show();
-            
+
         }
 
         private void button1_Click_2(object sender, EventArgs e)
