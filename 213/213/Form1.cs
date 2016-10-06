@@ -263,7 +263,9 @@ namespace _213
         //hq button
         private void roundButton6_Click(object sender, EventArgs e)
         {
-
+            frmHQ hq = new frmHQ(user);
+            hq.Show();
+            this.Hide();
         }
 
         //stock button

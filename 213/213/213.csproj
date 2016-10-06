@@ -158,6 +158,24 @@
     <Compile Include="Admin\frmUpdateUser.Designer.cs">
       <DependentUpon>frmUpdateUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHQ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHQ.Designer.cs">
+      <DependentUpon>frmHQ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHQSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHQSearch.Designer.cs">
+      <DependentUpon>frmHQSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRemoveOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRemoveOrder.Designer.cs">
+      <DependentUpon>frmRemoveOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="gebruik.cs" />
     <Compile Include="loginForm.cs">
       <SubType>Form</SubType>
