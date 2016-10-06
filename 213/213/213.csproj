@@ -86,76 +86,76 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddEmp.cs">
+    <Compile Include="Admin\frmAddEmp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddEmp.Designer.cs">
+    <Compile Include="Admin\frmAddEmp.Designer.cs">
       <DependentUpon>frmAddEmp.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddUser.cs">
+    <Compile Include="Admin\frmAddUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddUser.Designer.cs">
+    <Compile Include="Admin\frmAddUser.Designer.cs">
       <DependentUpon>frmAddUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAdminPromos.cs">
+    <Compile Include="Admin\frmAdminPromos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAdminPromos.Designer.cs">
+    <Compile Include="Admin\frmAdminPromos.Designer.cs">
       <DependentUpon>frmAdminPromos.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmEOM.cs">
+    <Compile Include="Admin\frmEOM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmEOM.Designer.cs">
+    <Compile Include="Admin\frmEOM.Designer.cs">
       <DependentUpon>frmEOM.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmForgotPass.cs">
+    <Compile Include="Admin\frmForgotPass.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmForgotPass.Designer.cs">
+    <Compile Include="Admin\frmForgotPass.Designer.cs">
       <DependentUpon>frmForgotPass.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLogs.cs">
+    <Compile Include="Admin\frmLogs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogs.Designer.cs">
+    <Compile Include="Admin\frmLogs.Designer.cs">
       <DependentUpon>frmLogs.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmManual.cs">
+    <Compile Include="Admin\frmManual.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmManual.Designer.cs">
+    <Compile Include="Admin\frmManual.Designer.cs">
       <DependentUpon>frmManual.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMessages.cs">
+    <Compile Include="Admin\frmMessages.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMessages.Designer.cs">
+    <Compile Include="Admin\frmMessages.Designer.cs">
       <DependentUpon>frmMessages.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmREmp.cs">
+    <Compile Include="Admin\frmREmp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmREmp.Designer.cs">
+    <Compile Include="Admin\frmREmp.Designer.cs">
       <DependentUpon>frmREmp.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRUser.cs">
+    <Compile Include="Admin\frmRUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRUser.Designer.cs">
+    <Compile Include="Admin\frmRUser.Designer.cs">
       <DependentUpon>frmRUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUEmp.cs">
+    <Compile Include="Admin\frmUEmp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUEmp.Designer.cs">
+    <Compile Include="Admin\frmUEmp.Designer.cs">
       <DependentUpon>frmUEmp.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUpdateUser.cs">
+    <Compile Include="Admin\frmUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUpdateUser.Designer.cs">
+    <Compile Include="Admin\frmUpdateUser.Designer.cs">
       <DependentUpon>frmUpdateUser.cs</DependentUpon>
     </Compile>
     <Compile Include="gebruik.cs" />
@@ -179,92 +179,87 @@
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddEmp.resx">
+    <EmbeddedResource Include="Admin\frmAddEmp.resx">
       <DependentUpon>frmAddEmp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddUser.resx">
+    <EmbeddedResource Include="Admin\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAdminPromos.resx">
+    <EmbeddedResource Include="Admin\frmAdminPromos.resx">
       <DependentUpon>frmAdminPromos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmEOM.resx">
+    <EmbeddedResource Include="Admin\frmEOM.resx">
       <DependentUpon>frmEOM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmForgotPass.resx">
+    <EmbeddedResource Include="Admin\frmForgotPass.resx">
       <DependentUpon>frmForgotPass.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogs.resx">
+    <EmbeddedResource Include="Admin\frmLogs.resx">
       <DependentUpon>frmLogs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmManual.resx">
+    <EmbeddedResource Include="Admin\frmManual.resx">
       <DependentUpon>frmManual.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMessages.resx">
+    <EmbeddedResource Include="Admin\frmMessages.resx">
       <DependentUpon>frmMessages.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmREmp.resx">
+    <EmbeddedResource Include="Admin\frmREmp.resx">
       <DependentUpon>frmREmp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRUser.resx">
+    <EmbeddedResource Include="Admin\frmRUser.resx">
       <DependentUpon>frmRUser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUEmp.resx">
+    <EmbeddedResource Include="Admin\frmUEmp.resx">
       <DependentUpon>frmUEmp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUpdateUser.resx">
+    <EmbeddedResource Include="Admin\frmUpdateUser.resx">
       <DependentUpon>frmUpdateUser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="StockAddFormCLN.cs">
+    <Compile Include="Stock\StockAddFormCLN.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockAddFormCLN.designer.cs">
+    <Compile Include="Stock\StockAddFormCLN.designer.cs">
       <DependentUpon>StockAddFormCLN.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockAddFormUPD.cs">
+    <Compile Include="Stock\StockAddFormUPD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockAddFormUPD.designer.cs">
+    <Compile Include="Stock\StockAddFormUPD.designer.cs">
       <DependentUpon>StockAddFormUPD.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockFindForm.cs">
+    <Compile Include="Stock\StockFindForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockFindForm.designer.cs">
+    <Compile Include="Stock\StockFindForm.designer.cs">
       <DependentUpon>StockFindForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockMainForm.cs">
+    <Compile Include="Stock\StockMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockMainForm.designer.cs">
+    <Compile Include="Stock\StockMainForm.designer.cs">
       <DependentUpon>StockMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockRemoveForm.cs">
+    <Compile Include="Stock\StockRemoveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockRemoveForm.Designer.cs">
+    <Compile Include="Stock\StockRemoveForm.Designer.cs">
       <DependentUpon>StockRemoveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockTransferRecieve.cs">
+    <Compile Include="Stock\StockTransferRecieve.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockTransferRecieve.Designer.cs">
+    <Compile Include="Stock\StockTransferRecieve.Designer.cs">
       <DependentUpon>StockTransferRecieve.cs</DependentUpon>
     </Compile>
-    <Compile Include="StockTransferSendForm.cs">
+    <Compile Include="Stock\StockTransferSendForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockTransferSendForm.Designer.cs">
+    <Compile Include="Stock\StockTransferSendForm.Designer.cs">
       <DependentUpon>StockTransferSendForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_stockI_TDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
     </Compile>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
@@ -275,28 +270,27 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockAddFormCLN.resx">
+    <EmbeddedResource Include="Stock\StockAddFormCLN.resx">
       <DependentUpon>StockAddFormCLN.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockAddFormUPD.resx">
+    <EmbeddedResource Include="Stock\StockAddFormUPD.resx">
       <DependentUpon>StockAddFormUPD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockFindForm.resx">
+    <EmbeddedResource Include="Stock\StockFindForm.resx">
       <DependentUpon>StockFindForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockMainForm.resx">
+    <EmbeddedResource Include="Stock\StockMainForm.resx">
       <DependentUpon>StockMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockRemoveForm.resx">
+    <EmbeddedResource Include="Stock\StockRemoveForm.resx">
       <DependentUpon>StockRemoveForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockTransferRecieve.resx">
+    <EmbeddedResource Include="Stock\StockTransferRecieve.resx">
       <DependentUpon>StockTransferRecieve.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StockTransferSendForm.resx">
+    <EmbeddedResource Include="Stock\StockTransferSendForm.resx">
       <DependentUpon>StockTransferSendForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -307,17 +301,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="_stockI_TDataSet.xsc">
-      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="_stockI_TDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>_stockI_TDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="_stockI_TDataSet.xss">
-      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

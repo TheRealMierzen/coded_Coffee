@@ -369,10 +369,7 @@ namespace _213
         private void btnVLogs_Click(object sender, EventArgs e)
         {
 
-            //Process.Start(@"C:\Users\Marco\Desktop\Bewys van registrasie.pdf");
-
-            frmManual fl = new frmManual();
-            //frmLogs fl = new frmLogs(AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt");
+            frmLogs fl = new frmLogs(AppDomain.CurrentDomain.BaseDirectory + @"\Activity log.txt");
             fl.ShowDialog();
 
         }

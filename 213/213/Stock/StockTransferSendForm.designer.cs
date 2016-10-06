@@ -37,12 +37,9 @@
             this.btnConfirmSend = new System.Windows.Forms.Button();
             this.cmbBranchSend = new System.Windows.Forms.ComboBox();
             this.branchesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._stockI_TDataSet = new _213._stockI_TDataSet();
             this.lblBranchSend = new System.Windows.Forms.Label();
-            this.branchesTableAdapter = new _213._stockI_TDataSetTableAdapters.BranchesTableAdapter();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddToTransferList
@@ -118,12 +115,6 @@
             // branchesBindingSource
             // 
             this.branchesBindingSource.DataMember = "Branches";
-            this.branchesBindingSource.DataSource = this._stockI_TDataSet;
-            // 
-            // _stockI_TDataSet
-            // 
-            this._stockI_TDataSet.DataSetName = "_stockI_TDataSet";
-            this._stockI_TDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // lblBranchSend
             // 
@@ -136,7 +127,6 @@
             // 
             // branchesTableAdapter
             // 
-            this.branchesTableAdapter.ClearBeforeFill = true;
             // 
             // StockTransferSendForm
             // 
@@ -158,7 +148,6 @@
             this.Load += new System.EventHandler(this.StockTransferSendForm_Load_1);
             this.Shown += new System.EventHandler(this.StockTransferSendForm_Shown_1);
             ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,9 +162,7 @@
         private System.Windows.Forms.Button btnConfirmSend;
         private System.Windows.Forms.ComboBox cmbBranchSend;
         private System.Windows.Forms.Label lblBranchSend;
-        private _stockI_TDataSet _stockI_TDataSet;
         private System.Windows.Forms.BindingSource branchesBindingSource;
-        private _stockI_TDataSetTableAdapters.BranchesTableAdapter branchesTableAdapter;
         private System.Windows.Forms.ToolTip toolTip1;
     }
 }
