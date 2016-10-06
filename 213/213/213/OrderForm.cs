@@ -37,7 +37,7 @@ namespace _213
             txtMaker.Focus();
         }
 
-        public OrderForm(FrmTechnical tf)
+        public OrderForm(FrmTechnical tf, string usert)
         {
             InitializeComponent();
             gpxOrders.Hide();
@@ -48,6 +48,7 @@ namespace _213
             cbxOrders.SelectedIndex = 0;
             txtMaker.Focus();
             parent = tf;
+            user = usert;
         }
         FrmTechnical parent;
 
@@ -141,11 +142,10 @@ namespace _213
                         //gebruik.log(DateTime.Now, user, "Placed order");
                         if(custombuild == true)
                         {
-                            FrmTechnical tec = new FrmTechnical(items,Ordernumber);
-                            tec.Show();
-                            tec.Activate();
-                            this.Hide();
-                            //parent.setItems(items);
+
+                            parent.setItems(items);
+                            this.Close();
+                            
 
                         }
                     }
