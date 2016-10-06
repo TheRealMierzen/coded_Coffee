@@ -34,7 +34,7 @@ namespace _213
             Application.Exit();
         }
 
-        
+
         private void Form1_Load(object sender, EventArgs e)
         {
             this.TopMost = true;
@@ -47,7 +47,7 @@ namespace _213
         {
             DateTime local = DateTime.Now;
             gebruik.log(local, user, "logout", appPath + @"\stockI.T" + @"\Activity Log.txt");
-  
+
             Application.Exit();
         }
 
@@ -56,12 +56,12 @@ namespace _213
         //Determines which round button is the nearest to resize the button if close enough 
         private Object detNearest()
         {
-            Point T = new Point(750,50);
-            Point TL = new Point(500,250);
-            Point TR = new Point(1000,250);
-            Point BL = new Point(500,550);
-            Point BR = new Point(1000,550);
-            Point B = new Point(750,750);
+            Point T = new Point(750, 50);
+            Point TL = new Point(500, 250);
+            Point TR = new Point(1000, 250);
+            Point BL = new Point(500, 550);
+            Point BR = new Point(1000, 550);
+            Point B = new Point(750, 750);
             Point mousePoint = Cursor.Position;
 
             object nearest;
@@ -124,15 +124,15 @@ namespace _213
                 label1.Text = detNearest().ToString();
         }*/
 
-       /* private void roundButton1_MouseEnter(object sender, System.EventArgs e)
-        {
-            
-        }*/
+        /* private void roundButton1_MouseEnter(object sender, System.EventArgs e)
+         {
+
+         }*/
 
         private void button1_MouseEnter(object sender, EventArgs e)
         {
             // Update the mouse event label to indicate the MouseEnter event occurred.
-            
+
         }
 
 
@@ -159,7 +159,7 @@ namespace _213
         //end of day button
         private void roundButton2_Click(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -183,7 +183,7 @@ namespace _213
             OF.Show();
             Form1 f1 = new Form1();
             f1.Hide();*/
-            
+
         }
 
         //technical button
@@ -195,9 +195,11 @@ namespace _213
         //hq button
         private void roundButton6_Click(object sender, EventArgs e)
         {
-
+            frmHQ hq = new frmHQ(user);
+            hq.Show();
+            this.Hide();
         }
-
+        
         //stock button
         private void roundButton4_Click(object sender, EventArgs e)
         {
