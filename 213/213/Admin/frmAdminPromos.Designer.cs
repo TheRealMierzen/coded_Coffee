@@ -73,6 +73,7 @@
             this.dtEEnd = new System.Windows.Forms.DateTimePicker();
             this.btnUPromo = new System.Windows.Forms.Button();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
+            this.lblMax = new System.Windows.Forms.Label();
             this.gbNItem.SuspendLayout();
             this.gbNPromo.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -200,9 +201,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(16, 87);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(165, 17);
+            this.label6.Size = new System.Drawing.Size(143, 17);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Discount percentage(%):";
+            this.label6.Text = "Discount percentage:";
             // 
             // label7
             // 
@@ -329,6 +330,7 @@
             // 
             // gbEItem
             // 
+            this.gbEItem.Controls.Add(this.lblMax);
             this.gbEItem.Controls.Add(this.label17);
             this.gbEItem.Controls.Add(this.lblPromoID);
             this.gbEItem.Controls.Add(this.txtEQ);
@@ -369,7 +371,7 @@
             this.txtEQ.TabIndex = 5;
             this.passTT.SetToolTip(this.txtEQ, "Enter the quantity of the item you wish to place on ");
             this.txtEQ.WaterMarkColor = System.Drawing.Color.Gray;
-            this.txtEQ.WaterMarkText = "Max: ";
+            this.txtEQ.WaterMarkText = "";
             this.txtEQ.TextChanged += new System.EventHandler(this.txtEQ_TextChanged);
             this.txtEQ.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEQ_KeyPress);
             // 
@@ -472,9 +474,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(16, 87);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(165, 17);
+            this.label13.Size = new System.Drawing.Size(143, 17);
             this.label13.TabIndex = 0;
-            this.label13.Text = "Discount percentage(%):";
+            this.label13.Text = "Discount percentage:";
             // 
             // txtEDPP
             // 
@@ -543,6 +545,17 @@
             this.passTT.Tag = "";
             this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.passTT.ToolTipTitle = "Need help?";
+            // 
+            // lblMax
+            // 
+            this.lblMax.AutoSize = true;
+            this.lblMax.BackColor = System.Drawing.SystemColors.Window;
+            this.lblMax.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lblMax.Location = new System.Drawing.Point(336, 107);
+            this.lblMax.Name = "lblMax";
+            this.lblMax.Size = new System.Drawing.Size(65, 17);
+            this.lblMax.TabIndex = 6;
+            this.lblMax.Text = "Max: 200";
             // 
             // frmAdminPromos
             // 
@@ -628,5 +641,6 @@
         private System.Windows.Forms.DateTimePicker dtEEnd;
         private System.Windows.Forms.Button btnUPromo;
         private System.Windows.Forms.ToolTip passTT;
+        private System.Windows.Forms.Label lblMax;
     }
 }

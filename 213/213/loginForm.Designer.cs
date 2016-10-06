@@ -34,12 +34,12 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.btnLForgotPass = new System.Windows.Forms.Button();
-            this.txtLPass = new wmgCMS.WaterMarkTextBox();
-            this.txtLEmail = new wmgCMS.WaterMarkTextBox();
-            this.textbox1 = new wmgCMS.WaterMarkTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.lblRemaining = new System.Windows.Forms.Label();
+            this.txtLPass = new wmgCMS.WaterMarkTextBox();
+            this.txtLEmail = new wmgCMS.WaterMarkTextBox();
+            this.textbox1 = new wmgCMS.WaterMarkTextBox();
             this.SuspendLayout();
             // 
             // button2
@@ -117,6 +117,35 @@
             this.btnLForgotPass.VisibleChanged += new System.EventHandler(this.btnLForgotPass_VisibleChanged);
             this.btnLForgotPass.Click += new System.EventHandler(this.btnLForgotPass_Click);
             // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(388, 57);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(267, 36);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Welcom to stockI.T";
+            // 
+            // notification
+            // 
+            this.notification.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notification.Visible = true;
+            // 
+            // lblRemaining
+            // 
+            this.lblRemaining.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblRemaining.AutoSize = true;
+            this.lblRemaining.BackColor = System.Drawing.SystemColors.Window;
+            this.lblRemaining.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lblRemaining.Location = new System.Drawing.Point(545, 194);
+            this.lblRemaining.Name = "lblRemaining";
+            this.lblRemaining.Size = new System.Drawing.Size(82, 17);
+            this.lblRemaining.TabIndex = 0;
+            this.lblRemaining.Text = "8 remaining";
+            // 
             // txtLPass
             // 
             this.txtLPass.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -159,35 +188,6 @@
             this.textbox1.WaterMarkColor = System.Drawing.Color.Gray;
             this.textbox1.WaterMarkText = "Username";
             this.textbox1.TextChanged += new System.EventHandler(this.textbox1_TextChanged_1);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(388, 57);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 36);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Welcom to stockI.T";
-            // 
-            // notification
-            // 
-            this.notification.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notification.Visible = true;
-            // 
-            // lblRemaining
-            // 
-            this.lblRemaining.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblRemaining.AutoSize = true;
-            this.lblRemaining.BackColor = System.Drawing.SystemColors.Window;
-            this.lblRemaining.ForeColor = System.Drawing.SystemColors.ActiveBorder;
-            this.lblRemaining.Location = new System.Drawing.Point(545, 194);
-            this.lblRemaining.Name = "lblRemaining";
-            this.lblRemaining.Size = new System.Drawing.Size(82, 17);
-            this.lblRemaining.TabIndex = 0;
-            this.lblRemaining.Text = "8 remaining";
             // 
             // loginForm
             // 

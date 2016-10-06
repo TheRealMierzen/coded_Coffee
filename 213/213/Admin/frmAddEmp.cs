@@ -26,6 +26,7 @@ namespace _213
 
      
         private bool branch;
+        private gebruik other = new gebruik();
 
         public frmAddEmp(string usert, string em)
         {
@@ -64,7 +65,7 @@ namespace _213
                 if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                    if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
                         if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
@@ -191,7 +192,7 @@ namespace _213
                 if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                    if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
                         if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
@@ -232,7 +233,7 @@ namespace _213
                 if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                    if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
                         if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
@@ -273,13 +274,14 @@ namespace _213
 
             try
             {
+               
                 if (txtEmpRSAID.Text.Length == 13 && other.validateId(txtEmpRSAID.Text))
                 {
 
                     txtEmpRSAID.ForeColor = DefaultForeColor;
                     if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "")
                     {
-                        if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                        if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                         {
 
                             if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
@@ -308,7 +310,19 @@ namespace _213
                     btnAddEmp.Enabled = false;
                 }
                 else
+                {
+                    txtEmpRSAID.ForeColor = Color.Red;
                     btnAddEmp.Enabled = false;
+                }
+
+                if (!other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)))
+                {
+
+                    btnAddEmp.Enabled = false;
+                    txtEmpRSAID.ForeColor = Color.Red;
+
+                }
+
             }
             catch (FormatException)
             { }
@@ -327,7 +341,7 @@ namespace _213
                 if (txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                 {
                     txtEmpEmail.ForeColor = DefaultForeColor;
-                    if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                    if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                     {
 
 
@@ -379,7 +393,7 @@ namespace _213
                 if (txtEmpCell.Text.Length == 10 && txtEmpCell.Text.StartsWith("0"))
                 {
                     txtEmpCell.ForeColor = DefaultForeColor;
-                    if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
+                    if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                     {
 
 
@@ -521,7 +535,7 @@ namespace _213
                 if (txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
                 {
 
-                    if (txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
+                    if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpCell.Text.Length == 10 && txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                     {
 
                         if (rbTemp.Checked || rbManager.Checked || rbFull.Checked)
@@ -830,6 +844,11 @@ namespace _213
             {
                 e.Handled = true;
             }
+        }
+
+        private void dtStart_ValueChanged(object sender, EventArgs e)
+        {
+            dtEnd.MinDate = dtStart.Value;
         }
     }
 }

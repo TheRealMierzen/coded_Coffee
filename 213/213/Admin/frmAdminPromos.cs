@@ -32,7 +32,6 @@ namespace _213
             fillItems();
             fillIds();
             dtPromoStart.MinDate = DateTime.Now;
-            dtPromoEnd.MinDate = DateTime.Now;
 
             gebruik other = new gebruik();
 
@@ -129,7 +128,7 @@ namespace _213
                             int recs = (int)comm.ExecuteScalar();
                             con.Close();
 
-                            txtAmount.WaterMarkText = "Max: " + recs.ToString();
+                            lblMax.Text = "Max: " + recs.ToString();
                             max = recs;
 
                         }
@@ -251,7 +250,15 @@ namespace _213
 
                         }
 
-                        else
+                        else if(Convert.ToInt16(txtDisPrice.Text) < Convert.ToInt16(txtOriginalPrice.Text))
+                        {
+                            txtDisPrice.ForeColor = DefaultForeColor;
+                            double discount = (Convert.ToDouble(txtOriginalPrice.Text) - Convert.ToDouble(txtDisPrice.Text));
+                            discount = discount / Convert.ToDouble(txtOriginalPrice.Text);
+                            txtDiscount.Text = (Math.Round(discount * 100.00, 2)).ToString() + "%";
+
+                        }
+                        else if (Convert.ToInt16(txtDisPrice.Text) > Convert.ToInt16(txtOriginalPrice.Text))
                         {
                             txtDisPrice.ForeColor = DefaultForeColor;
                             double discount = (Convert.ToDouble(txtOriginalPrice.Text) - Convert.ToDouble(txtDisPrice.Text));
@@ -264,6 +271,12 @@ namespace _213
                             btnAddPromo.Enabled = true;
                         else
                             btnAddPromo.Enabled = false;
+
+                        if (Convert.ToInt16(txtDisPrice.Text) < 0)
+                        {
+                            txtDisPrice.ForeColor = Color.Red;
+                            btnAddPromo.Enabled = false;
+                        }
                     }
                     else
                     {
@@ -502,7 +515,7 @@ namespace _213
                         int recs = (int)comm.ExecuteScalar();
                         con.Close();
 
-                        txtEQ.WaterMarkText = "Max: " + recs.ToString();
+                        lblMax.Text = "Max: " + recs.ToString();
                         max = recs;
 
                     }
@@ -585,16 +598,6 @@ namespace _213
             }
             catch(Exception)
             { }
-        }
-
-        private void btnUpPromo_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void btnUpPromo_Click_1(object sender, EventArgs e)
-        {
-            
         }
 
         private void btnUPromo_Click(object sender, EventArgs e)
@@ -719,6 +722,12 @@ namespace _213
                             btnUPromo.Enabled = true;
                         else
                             btnUPromo.Enabled = false;
+
+                        if (Convert.ToInt16(txtEDP.Text) < 0)
+                        {
+                            txtEDP.ForeColor = Color.Red;
+                            btnAddPromo.Enabled = false;
+                        }
                     }
                     else
                     {
@@ -776,7 +785,7 @@ namespace _213
 
         private void dtPromoStart_ValueChanged(object sender, EventArgs e)
         {
-            dtPromoEnd.MinDate = dtPromoEnd.Value;
+            dtPromoEnd.MinDate = dtPromoStart.Value;
         }
 
         private void dtEStart_ValueChanged(object sender, EventArgs e)

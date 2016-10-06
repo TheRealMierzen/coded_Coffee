@@ -28,7 +28,7 @@ namespace _213
                     File.SetAttributes(appPath, FileAttributes.Hidden);
                     StreamWriter outstream = File.AppendText(appPath);
 
-                    outstream.WriteLine("\n" + user + " " + action + " : " + tyd.ToString());
+                    outstream.WriteLine("\n" + user + " " + action + ": " + tyd.ToString());
                     File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
                     outstream.Close();
                 }
@@ -37,7 +37,7 @@ namespace _213
 
                     File.CreateText(appPath).Close();
                     StreamWriter outstream = File.AppendText(appPath);
-                    outstream.WriteLine(user + " logged in : " + tyd.ToString());
+                    outstream.WriteLine(user + " logged in: " + tyd.ToString());
                     File.SetAttributes(appPath, File.GetAttributes(appPath) | FileAttributes.Hidden | FileAttributes.ReadOnly);
                     outstream.Close();
 
@@ -712,6 +712,28 @@ namespace _213
                         return true;
                     }
                 }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool CheckDate(String date)
+        {
+            string t;
+            try
+            {
+
+                if (Convert.ToInt16(date.Substring(0, 2)) > 20)
+                    t = "19" + date.Substring(0, 2);
+                else
+                    t = "20" + date.Substring(0, 2);
+                t += "/";
+                t += date.Substring(2, 2) + "/" + date.Substring(4, 2);
+
+                DateTime dt = DateTime.Parse(t);
+                return true;
             }
             catch
             {

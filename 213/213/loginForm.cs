@@ -84,13 +84,13 @@ namespace _213
             else if(util.CheckConnection())
             {
                 checkPromos();
-
                 
+
                 if (promoA && promoR)
                 {
-                    notification.Icon = SystemIcons.Information;
-                    notification.ShowBalloonTip(100000, "Important Notice", "There are promotions starting today! Some promotions have also ended today.", ToolTipIcon.Info);
 
+                    notification.Icon = SystemIcons.Information;
+                    notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended, but there are still others active today.", ToolTipIcon.Info);
                 }
                 else if(promoA && !promoR)
                 {
@@ -101,7 +101,7 @@ namespace _213
                 else if (!promoA && promoR)
                 {
                     notification.Icon = SystemIcons.Information;
-                    notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended", ToolTipIcon.Info);
+                    notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended.", ToolTipIcon.Info);
 
                 }
 
@@ -865,7 +865,7 @@ namespace _213
 
                         conactive.Close();
 
-                        gebruik.log(DateTime.Now, "Promotion " + id, "has been automatcaly activated");
+                        gebruik.log(DateTime.Now, "Promotion " + id, "has been automatically activated");
                     }
                 }
             }
@@ -910,7 +910,7 @@ namespace _213
 
                         conRemove.Close();
 
-                        gebruik.log(DateTime.Now, "Promotion " + id, "has been automatcaly removed");
+                        gebruik.log(DateTime.Now, "Promotion " + id, "has been automatically removed");
                     }
                 }
             }
@@ -1059,6 +1059,7 @@ namespace _213
             catch(Exception)
             { }
         }
+
     }
 }
 

@@ -313,6 +313,7 @@
             this.dtStart.Size = new System.Drawing.Size(146, 22);
             this.dtStart.TabIndex = 10;
             this.passTT.SetToolTip(this.dtStart, "Select the date the new employee will \r\nstart working at Matrix Warehouse");
+            this.dtStart.ValueChanged += new System.EventHandler(this.dtStart_ValueChanged);
             // 
             // label9
             // 
