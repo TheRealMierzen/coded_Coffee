@@ -65,7 +65,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="RoundButton">
-      <HintPath>C:\Users\Marco\Downloads\RoundButton_src\RoundButtonHost\RoundButton\bin\Release\RoundButton.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\RoundButtonHost\RoundButtonHost\bin\Release\RoundButton.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -219,6 +219,53 @@
       <DependentUpon>frmUpdateUser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Compile Include="StockAddFormCLN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockAddFormCLN.designer.cs">
+      <DependentUpon>StockAddFormCLN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockAddFormUPD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockAddFormUPD.designer.cs">
+      <DependentUpon>StockAddFormUPD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockFindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockFindForm.designer.cs">
+      <DependentUpon>StockFindForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockMainForm.designer.cs">
+      <DependentUpon>StockMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockRemoveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockRemoveForm.Designer.cs">
+      <DependentUpon>StockRemoveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockTransferRecieve.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockTransferRecieve.Designer.cs">
+      <DependentUpon>StockTransferRecieve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockTransferSendForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockTransferSendForm.Designer.cs">
+      <DependentUpon>StockTransferSendForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_stockI_TDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -228,6 +275,28 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="StockAddFormCLN.resx">
+      <DependentUpon>StockAddFormCLN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockAddFormUPD.resx">
+      <DependentUpon>StockAddFormUPD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockFindForm.resx">
+      <DependentUpon>StockFindForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockMainForm.resx">
+      <DependentUpon>StockMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockRemoveForm.resx">
+      <DependentUpon>StockRemoveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockTransferRecieve.resx">
+      <DependentUpon>StockTransferRecieve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockTransferSendForm.resx">
+      <DependentUpon>StockTransferSendForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -238,6 +307,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="_stockI_TDataSet.xsc">
+      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="_stockI_TDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>_stockI_TDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="_stockI_TDataSet.xss">
+      <DependentUpon>_stockI_TDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

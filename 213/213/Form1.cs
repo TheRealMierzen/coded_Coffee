@@ -20,6 +20,12 @@ namespace _213
 
         }
 
+        public Form1(string user)
+        {
+            InitializeComponent();
+
+        }
+
         public Form1(string userName, loginForm lf)
         {
             InitializeComponent();
@@ -263,7 +269,10 @@ namespace _213
         //stock button
         private void roundButton4_Click(object sender, EventArgs e)
         {
-
+            StockMainFormCLN stockMainForm = new StockMainFormCLN(user);
+            this.Hide();
+            stockMainForm.Show();
+            
         }
 
         private void button1_Click_2(object sender, EventArgs e)

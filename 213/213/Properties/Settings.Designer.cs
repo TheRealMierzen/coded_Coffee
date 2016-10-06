@@ -70,5 +70,17 @@ namespace _213.Properties {
                 this["Month"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string stockI_TConnectionString {
+            get {
+                return ((string)(this["stockI_TConnectionString"]));
+            }
+            set {
+                this["stockI_TConnectionString"] = value;
+            }
+        }
     }
 }

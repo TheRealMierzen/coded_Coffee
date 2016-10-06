@@ -353,7 +353,7 @@ namespace _213
 
                 return a4;
             }
-            catch (System.Net.WebException we)
+            catch (WebException)
             {
 
                 //MessageBox.Show("An error occurred during the " + we.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + we.Message, "Error");
