@@ -53,18 +53,18 @@ namespace _213
 
             }
 
-
+            gebruik util = new gebruik();
             if (Properties.Settings.Default.Branch == "-")
             {
                 //kort backgroundrunner
-                gebruik util = new gebruik();
+                
                 util.setLocation();
                 checkBranch(Properties.Settings.Default.Branch);
                 firstrun = true;
 
             }
             
-            if (!checkFile())
+            if (!checkFile() && util.CheckConnection())
             {
 
                 //Create user and password file
@@ -81,7 +81,7 @@ namespace _213
                 
 
             }
-            else 
+            else if(util.CheckConnection())
             {
                 checkPromos();
 
@@ -110,6 +110,15 @@ namespace _213
                 button1.Visible = true;
                 textbox1.Focus();
   
+            }
+            else
+            {
+
+                txtLEmail.Enabled = false;
+                txtLPass.Enabled = false;
+                textbox1.Enabled = false;
+                button2.Enabled = true;
+
             }
         }
         

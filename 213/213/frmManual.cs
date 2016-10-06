@@ -33,7 +33,7 @@ namespace _213
             using (Stream file = File.Create(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf"))
             { }
 
-            File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf",/*Properties.Resources.Bewys_van_registrasie*/);
+            //File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf",/*Properties.Resources.Bewys_van_registrasie*/);
            
             RenderPdf(AppDomain.CurrentDomain.BaseDirectory + "Manual.pdf");
             

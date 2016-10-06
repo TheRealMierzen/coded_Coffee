@@ -69,25 +69,5 @@ namespace _213.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Bewys_van_registrasie {
-            get {
-                object obj = ResourceManager.GetObject("Bewys_van_registrasie", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Sale {
-            get {
-                object obj = ResourceManager.GetObject("Sale", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
