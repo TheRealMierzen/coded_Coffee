@@ -80,6 +80,23 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.pnlOrder = new System.Windows.Forms.Panel();
             this.pnlAddOrders = new System.Windows.Forms.Panel();
+            this.pnlUpdateOrders = new System.Windows.Forms.Panel();
+            this.label27 = new System.Windows.Forms.Label();
+            this.txtOrderID = new System.Windows.Forms.TextBox();
+            this.cbxRecievedUp = new System.Windows.Forms.CheckBox();
+            this.cbxSpecialUp = new System.Windows.Forms.CheckBox();
+            this.cbxInvoiceUp = new System.Windows.Forms.CheckBox();
+            this.btnUpdateOrder = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.txtEmailUp = new System.Windows.Forms.TextBox();
+            this.txtCostUp = new System.Windows.Forms.TextBox();
+            this.txtSupplierUp = new System.Windows.Forms.TextBox();
+            this.txtItemsUp = new System.Windows.Forms.TextBox();
+            this.txtBranchUp = new System.Windows.Forms.TextBox();
             this.cbxSpecial = new System.Windows.Forms.CheckBox();
             this.cbxInvoice = new System.Windows.Forms.CheckBox();
             this.btnAddOrder = new System.Windows.Forms.Button();
@@ -97,23 +114,6 @@
             this.btnRemoveOrders = new System.Windows.Forms.Button();
             this.btnUpdateOrders = new System.Windows.Forms.Button();
             this.btnAddOrders = new System.Windows.Forms.Button();
-            this.pnlUpdateOrders = new System.Windows.Forms.Panel();
-            this.cbxSpecialUp = new System.Windows.Forms.CheckBox();
-            this.cbxInvoiceUp = new System.Windows.Forms.CheckBox();
-            this.btnUpdateOrder = new System.Windows.Forms.Button();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.txtEmailUp = new System.Windows.Forms.TextBox();
-            this.txtCostUp = new System.Windows.Forms.TextBox();
-            this.txtSupplierUp = new System.Windows.Forms.TextBox();
-            this.txtItemsUp = new System.Windows.Forms.TextBox();
-            this.txtBranchUp = new System.Windows.Forms.TextBox();
-            this.cbxRecievedUp = new System.Windows.Forms.CheckBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.txtOrderID = new System.Windows.Forms.TextBox();
             this.pnlStock.SuspendLayout();
             this.pnlTransfer.SuspendLayout();
             this.pnlRevise.SuspendLayout();
@@ -121,8 +121,8 @@
             this.pnlStockButtons.SuspendLayout();
             this.pnlOrder.SuspendLayout();
             this.pnlAddOrders.SuspendLayout();
-            this.pnlOrdersActions.SuspendLayout();
             this.pnlUpdateOrders.SuspendLayout();
+            this.pnlOrdersActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbmMainAction
@@ -673,6 +673,187 @@
             this.pnlAddOrders.TabIndex = 2;
             this.pnlAddOrders.Visible = false;
             // 
+            // pnlUpdateOrders
+            // 
+            this.pnlUpdateOrders.Controls.Add(this.label27);
+            this.pnlUpdateOrders.Controls.Add(this.txtOrderID);
+            this.pnlUpdateOrders.Controls.Add(this.cbxRecievedUp);
+            this.pnlUpdateOrders.Controls.Add(this.cbxSpecialUp);
+            this.pnlUpdateOrders.Controls.Add(this.cbxInvoiceUp);
+            this.pnlUpdateOrders.Controls.Add(this.btnUpdateOrder);
+            this.pnlUpdateOrders.Controls.Add(this.label22);
+            this.pnlUpdateOrders.Controls.Add(this.label23);
+            this.pnlUpdateOrders.Controls.Add(this.label24);
+            this.pnlUpdateOrders.Controls.Add(this.label25);
+            this.pnlUpdateOrders.Controls.Add(this.label26);
+            this.pnlUpdateOrders.Controls.Add(this.txtEmailUp);
+            this.pnlUpdateOrders.Controls.Add(this.txtCostUp);
+            this.pnlUpdateOrders.Controls.Add(this.txtSupplierUp);
+            this.pnlUpdateOrders.Controls.Add(this.txtItemsUp);
+            this.pnlUpdateOrders.Controls.Add(this.txtBranchUp);
+            this.pnlUpdateOrders.Location = new System.Drawing.Point(0, 0);
+            this.pnlUpdateOrders.Name = "pnlUpdateOrders";
+            this.pnlUpdateOrders.Size = new System.Drawing.Size(350, 310);
+            this.pnlUpdateOrders.TabIndex = 2;
+            this.pnlUpdateOrders.Visible = false;
+            // 
+            // label27
+            // 
+            this.label27.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(16, 13);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(50, 13);
+            this.label27.TabIndex = 47;
+            this.label27.Text = "Order ID:";
+            // 
+            // txtOrderID
+            // 
+            this.txtOrderID.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtOrderID.Location = new System.Drawing.Point(176, 10);
+            this.txtOrderID.Name = "txtOrderID";
+            this.txtOrderID.Size = new System.Drawing.Size(159, 20);
+            this.txtOrderID.TabIndex = 46;
+            this.txtOrderID.TextChanged += new System.EventHandler(this.txtOrderID_TextChanged);
+            // 
+            // cbxRecievedUp
+            // 
+            this.cbxRecievedUp.AutoSize = true;
+            this.cbxRecievedUp.Location = new System.Drawing.Point(108, 199);
+            this.cbxRecievedUp.Name = "cbxRecievedUp";
+            this.cbxRecievedUp.Size = new System.Drawing.Size(101, 17);
+            this.cbxRecievedUp.TabIndex = 45;
+            this.cbxRecievedUp.Text = "Order Recieved";
+            this.cbxRecievedUp.UseVisualStyleBackColor = true;
+            // 
+            // cbxSpecialUp
+            // 
+            this.cbxSpecialUp.AutoSize = true;
+            this.cbxSpecialUp.Location = new System.Drawing.Point(215, 199);
+            this.cbxSpecialUp.Name = "cbxSpecialUp";
+            this.cbxSpecialUp.Size = new System.Drawing.Size(90, 17);
+            this.cbxSpecialUp.TabIndex = 44;
+            this.cbxSpecialUp.Text = "Special Order";
+            this.cbxSpecialUp.UseVisualStyleBackColor = true;
+            this.cbxSpecialUp.CheckedChanged += new System.EventHandler(this.cbxSpecialUp_CheckedChanged);
+            // 
+            // cbxInvoiceUp
+            // 
+            this.cbxInvoiceUp.AutoSize = true;
+            this.cbxInvoiceUp.Location = new System.Drawing.Point(18, 199);
+            this.cbxInvoiceUp.Name = "cbxInvoiceUp";
+            this.cbxInvoiceUp.Size = new System.Drawing.Size(84, 17);
+            this.cbxInvoiceUp.TabIndex = 43;
+            this.cbxInvoiceUp.Text = "Invoice sent";
+            this.cbxInvoiceUp.UseVisualStyleBackColor = true;
+            // 
+            // btnUpdateOrder
+            // 
+            this.btnUpdateOrder.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnUpdateOrder.Enabled = false;
+            this.btnUpdateOrder.Location = new System.Drawing.Point(101, 252);
+            this.btnUpdateOrder.Name = "btnUpdateOrder";
+            this.btnUpdateOrder.Size = new System.Drawing.Size(137, 23);
+            this.btnUpdateOrder.TabIndex = 42;
+            this.btnUpdateOrder.Text = "Update";
+            this.btnUpdateOrder.UseVisualStyleBackColor = true;
+            this.btnUpdateOrder.Click += new System.EventHandler(this.btnUpdateOrder_Click);
+            // 
+            // label22
+            // 
+            this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(16, 143);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(81, 13);
+            this.label22.TabIndex = 41;
+            this.label22.Text = "Customer email:";
+            // 
+            // label23
+            // 
+            this.label23.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(16, 117);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(57, 13);
+            this.label23.TabIndex = 40;
+            this.label23.Text = "Total cost:";
+            // 
+            // label24
+            // 
+            this.label24.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(16, 91);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(77, 13);
+            this.label24.TabIndex = 39;
+            this.label24.Text = "Supplier name:";
+            // 
+            // label25
+            // 
+            this.label25.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(16, 65);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(101, 13);
+            this.label25.TabIndex = 38;
+            this.label25.Text = "Items to be ordered:";
+            // 
+            // label26
+            // 
+            this.label26.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(16, 39);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(152, 13);
+            this.label26.TabIndex = 37;
+            this.label26.Text = "Branch where order is needed:";
+            // 
+            // txtEmailUp
+            // 
+            this.txtEmailUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtEmailUp.Enabled = false;
+            this.txtEmailUp.Location = new System.Drawing.Point(176, 140);
+            this.txtEmailUp.Name = "txtEmailUp";
+            this.txtEmailUp.Size = new System.Drawing.Size(159, 20);
+            this.txtEmailUp.TabIndex = 36;
+            // 
+            // txtCostUp
+            // 
+            this.txtCostUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtCostUp.Location = new System.Drawing.Point(176, 114);
+            this.txtCostUp.Name = "txtCostUp";
+            this.txtCostUp.Size = new System.Drawing.Size(159, 20);
+            this.txtCostUp.TabIndex = 35;
+            this.txtCostUp.TextChanged += new System.EventHandler(this.txtCostUp_TextChanged);
+            // 
+            // txtSupplierUp
+            // 
+            this.txtSupplierUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtSupplierUp.Location = new System.Drawing.Point(176, 88);
+            this.txtSupplierUp.Name = "txtSupplierUp";
+            this.txtSupplierUp.Size = new System.Drawing.Size(159, 20);
+            this.txtSupplierUp.TabIndex = 34;
+            this.txtSupplierUp.TextChanged += new System.EventHandler(this.txtSupplierUp_TextChanged);
+            // 
+            // txtItemsUp
+            // 
+            this.txtItemsUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtItemsUp.Location = new System.Drawing.Point(176, 62);
+            this.txtItemsUp.Name = "txtItemsUp";
+            this.txtItemsUp.Size = new System.Drawing.Size(159, 20);
+            this.txtItemsUp.TabIndex = 33;
+            this.txtItemsUp.TextChanged += new System.EventHandler(this.txtItemsUp_TextChanged);
+            // 
+            // txtBranchUp
+            // 
+            this.txtBranchUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtBranchUp.Location = new System.Drawing.Point(176, 36);
+            this.txtBranchUp.Name = "txtBranchUp";
+            this.txtBranchUp.Size = new System.Drawing.Size(159, 20);
+            this.txtBranchUp.TabIndex = 32;
+            this.txtBranchUp.TextChanged += new System.EventHandler(this.txtBranchUp_TextChanged);
+            // 
             // cbxSpecial
             // 
             this.cbxSpecial.AutoSize = true;
@@ -845,187 +1026,6 @@
             this.btnAddOrders.UseVisualStyleBackColor = true;
             this.btnAddOrders.Click += new System.EventHandler(this.btnAddOrders_Click);
             // 
-            // pnlUpdateOrders
-            // 
-            this.pnlUpdateOrders.Controls.Add(this.label27);
-            this.pnlUpdateOrders.Controls.Add(this.txtOrderID);
-            this.pnlUpdateOrders.Controls.Add(this.cbxRecievedUp);
-            this.pnlUpdateOrders.Controls.Add(this.cbxSpecialUp);
-            this.pnlUpdateOrders.Controls.Add(this.cbxInvoiceUp);
-            this.pnlUpdateOrders.Controls.Add(this.btnUpdateOrder);
-            this.pnlUpdateOrders.Controls.Add(this.label22);
-            this.pnlUpdateOrders.Controls.Add(this.label23);
-            this.pnlUpdateOrders.Controls.Add(this.label24);
-            this.pnlUpdateOrders.Controls.Add(this.label25);
-            this.pnlUpdateOrders.Controls.Add(this.label26);
-            this.pnlUpdateOrders.Controls.Add(this.txtEmailUp);
-            this.pnlUpdateOrders.Controls.Add(this.txtCostUp);
-            this.pnlUpdateOrders.Controls.Add(this.txtSupplierUp);
-            this.pnlUpdateOrders.Controls.Add(this.txtItemsUp);
-            this.pnlUpdateOrders.Controls.Add(this.txtBranchUp);
-            this.pnlUpdateOrders.Location = new System.Drawing.Point(0, 0);
-            this.pnlUpdateOrders.Name = "pnlUpdateOrders";
-            this.pnlUpdateOrders.Size = new System.Drawing.Size(350, 310);
-            this.pnlUpdateOrders.TabIndex = 2;
-            this.pnlUpdateOrders.Visible = false;
-            // 
-            // cbxSpecialUp
-            // 
-            this.cbxSpecialUp.AutoSize = true;
-            this.cbxSpecialUp.Location = new System.Drawing.Point(215, 199);
-            this.cbxSpecialUp.Name = "cbxSpecialUp";
-            this.cbxSpecialUp.Size = new System.Drawing.Size(90, 17);
-            this.cbxSpecialUp.TabIndex = 44;
-            this.cbxSpecialUp.Text = "Special Order";
-            this.cbxSpecialUp.UseVisualStyleBackColor = true;
-            this.cbxSpecialUp.CheckedChanged += new System.EventHandler(this.cbxSpecialUp_CheckedChanged);
-            // 
-            // cbxInvoiceUp
-            // 
-            this.cbxInvoiceUp.AutoSize = true;
-            this.cbxInvoiceUp.Location = new System.Drawing.Point(18, 199);
-            this.cbxInvoiceUp.Name = "cbxInvoiceUp";
-            this.cbxInvoiceUp.Size = new System.Drawing.Size(84, 17);
-            this.cbxInvoiceUp.TabIndex = 43;
-            this.cbxInvoiceUp.Text = "Invoice sent";
-            this.cbxInvoiceUp.UseVisualStyleBackColor = true;
-            // 
-            // btnUpdateOrder
-            // 
-            this.btnUpdateOrder.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnUpdateOrder.Enabled = false;
-            this.btnUpdateOrder.Location = new System.Drawing.Point(101, 252);
-            this.btnUpdateOrder.Name = "btnUpdateOrder";
-            this.btnUpdateOrder.Size = new System.Drawing.Size(137, 23);
-            this.btnUpdateOrder.TabIndex = 42;
-            this.btnUpdateOrder.Text = "Update";
-            this.btnUpdateOrder.UseVisualStyleBackColor = true;
-            this.btnUpdateOrder.Click += new System.EventHandler(this.btnUpdateOrder_Click);
-            // 
-            // label22
-            // 
-            this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(16, 143);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(81, 13);
-            this.label22.TabIndex = 41;
-            this.label22.Text = "Customer email:";
-            // 
-            // label23
-            // 
-            this.label23.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(16, 117);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(57, 13);
-            this.label23.TabIndex = 40;
-            this.label23.Text = "Total cost:";
-            // 
-            // label24
-            // 
-            this.label24.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(16, 91);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(77, 13);
-            this.label24.TabIndex = 39;
-            this.label24.Text = "Supplier name:";
-            // 
-            // label25
-            // 
-            this.label25.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(16, 65);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(101, 13);
-            this.label25.TabIndex = 38;
-            this.label25.Text = "Items to be ordered:";
-            // 
-            // label26
-            // 
-            this.label26.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(16, 39);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(152, 13);
-            this.label26.TabIndex = 37;
-            this.label26.Text = "Branch where order is needed:";
-            // 
-            // txtEmailUp
-            // 
-            this.txtEmailUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtEmailUp.Enabled = false;
-            this.txtEmailUp.Location = new System.Drawing.Point(176, 140);
-            this.txtEmailUp.Name = "txtEmailUp";
-            this.txtEmailUp.Size = new System.Drawing.Size(159, 20);
-            this.txtEmailUp.TabIndex = 36;
-            // 
-            // txtCostUp
-            // 
-            this.txtCostUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtCostUp.Location = new System.Drawing.Point(176, 114);
-            this.txtCostUp.Name = "txtCostUp";
-            this.txtCostUp.Size = new System.Drawing.Size(159, 20);
-            this.txtCostUp.TabIndex = 35;
-            this.txtCostUp.TextChanged += new System.EventHandler(this.txtCostUp_TextChanged);
-            // 
-            // txtSupplierUp
-            // 
-            this.txtSupplierUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtSupplierUp.Location = new System.Drawing.Point(176, 88);
-            this.txtSupplierUp.Name = "txtSupplierUp";
-            this.txtSupplierUp.Size = new System.Drawing.Size(159, 20);
-            this.txtSupplierUp.TabIndex = 34;
-            this.txtSupplierUp.TextChanged += new System.EventHandler(this.txtSupplierUp_TextChanged);
-            // 
-            // txtItemsUp
-            // 
-            this.txtItemsUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtItemsUp.Location = new System.Drawing.Point(176, 62);
-            this.txtItemsUp.Name = "txtItemsUp";
-            this.txtItemsUp.Size = new System.Drawing.Size(159, 20);
-            this.txtItemsUp.TabIndex = 33;
-            this.txtItemsUp.TextChanged += new System.EventHandler(this.txtItemsUp_TextChanged);
-            // 
-            // txtBranchUp
-            // 
-            this.txtBranchUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtBranchUp.Location = new System.Drawing.Point(176, 36);
-            this.txtBranchUp.Name = "txtBranchUp";
-            this.txtBranchUp.Size = new System.Drawing.Size(159, 20);
-            this.txtBranchUp.TabIndex = 32;
-            this.txtBranchUp.TextChanged += new System.EventHandler(this.txtBranchUp_TextChanged);
-            // 
-            // cbxRecievedUp
-            // 
-            this.cbxRecievedUp.AutoSize = true;
-            this.cbxRecievedUp.Location = new System.Drawing.Point(108, 199);
-            this.cbxRecievedUp.Name = "cbxRecievedUp";
-            this.cbxRecievedUp.Size = new System.Drawing.Size(101, 17);
-            this.cbxRecievedUp.TabIndex = 45;
-            this.cbxRecievedUp.Text = "Order Recieved";
-            this.cbxRecievedUp.UseVisualStyleBackColor = true;
-            // 
-            // label27
-            // 
-            this.label27.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(16, 13);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(50, 13);
-            this.label27.TabIndex = 47;
-            this.label27.Text = "Order ID:";
-            // 
-            // txtOrderID
-            // 
-            this.txtOrderID.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtOrderID.Location = new System.Drawing.Point(176, 10);
-            this.txtOrderID.Name = "txtOrderID";
-            this.txtOrderID.Size = new System.Drawing.Size(159, 20);
-            this.txtOrderID.TabIndex = 46;
-            this.txtOrderID.TextChanged += new System.EventHandler(this.txtOrderID_TextChanged);
-            // 
             // frmHQ
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1048,9 +1048,9 @@
             this.pnlOrder.ResumeLayout(false);
             this.pnlAddOrders.ResumeLayout(false);
             this.pnlAddOrders.PerformLayout();
-            this.pnlOrdersActions.ResumeLayout(false);
             this.pnlUpdateOrders.ResumeLayout(false);
             this.pnlUpdateOrders.PerformLayout();
+            this.pnlOrdersActions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

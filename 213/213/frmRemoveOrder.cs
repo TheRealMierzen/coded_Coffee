@@ -44,15 +44,23 @@ namespace _213
         private void btnRemove_Click(object sender, EventArgs e)
         {
             try
-            { 
+            {
+
+                string cmdStr;
+
                 using (conn)
                 {
-                    conn.Open();
 
-                    SqlCommand deleteOrder = new SqlCommand("Delete from Orders where order_id ='" + txtOrderID.Text + "'", conn);
-                    deleteOrder.ExecuteNonQuery();
+                    cmdStr = "Delete from Orders where order_id = @id";
 
-                    conn.Close();
+                    using (SqlCommand deleteOrder = new SqlCommand(cmdStr, conn))
+                    {
+                        deleteOrder.Parameters.AddWithValue("@id", txtOrderID.Text);
+
+                        conn.Open();
+                        deleteOrder.ExecuteNonQuery();
+                        conn.Close();
+                    }
                 }
 
                 gebruik.addAction(user);

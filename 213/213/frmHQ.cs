@@ -29,17 +29,22 @@ namespace _213
         {
             try
             {
+                string cmdStr = "Delete from Stock where item_id = @id'";
+
                 using (conn)
                 {
-                    conn.Open();
+                    using (SqlCommand deleteStock = new SqlCommand(cmdStr, conn))
+                    {
+                        deleteStock.Parameters.AddWithValue("@id", txtItemID.Text);
 
-                    SqlCommand deleteStock = new SqlCommand("Delete from Stock where item_id ='" + txtItemID.Text + "'", conn);
-                    deleteStock.ExecuteNonQuery();
-
-                    conn.Close();
+                        conn.Open();
+                        deleteStock.ExecuteNonQuery();
+                        conn.Close();
+                    }
                 }
 
                 gebruik.addAction(user);
+
             }catch(SqlException se)
             {
                 if(se.Number == 53)
@@ -206,7 +211,8 @@ namespace _213
         {
             try
             {
-                string fBranch, tBranch, itemIDs;
+                string fBranch, tBranch, itemIDs, cmdStr;
+                int temp;
 
                 fBranch = txtFrom.Text;
                 tBranch = txtTo.Text;
@@ -214,12 +220,30 @@ namespace _213
 
                 using (conn)
                 {
-                    conn.Open();
-                    SqlCommand count = new SqlCommand("Select Count(transfer_id) from Transfers", conn);
-                    int temp = Convert.ToInt32(count.ExecuteScalar());
+                    cmdStr = "Select Count(transfer_id) from Transfers";
 
-                    SqlCommand addTransfer = new SqlCommand("Insert into Transfers Values('" + Convert.ToString(temp + 1) + "','" + fBranch + "','" + tBranch + "','" + itemIDs + "','" + DateTime.Today + "','" + DateTime.Today.AddDays(3) + "')", conn);
-                    addTransfer.ExecuteNonQuery();
+                    using (SqlCommand count = new SqlCommand(cmdStr, conn))
+                    {
+                        conn.Open();
+                        temp = Convert.ToInt32(count.ExecuteScalar());
+                        conn.Close();
+                    }
+
+                    cmdStr = "Insert into Transfers Values(@id, @fBranch, @tBranch, @itemIDs, @sendDate, @eta)";
+
+                    using (SqlCommand addTransfer = new SqlCommand(cmdStr, conn))
+                    {
+                        addTransfer.Parameters.AddWithValue("@id", Convert.ToString(temp + 1));
+                        addTransfer.Parameters.AddWithValue("@fBranch", fBranch);
+                        addTransfer.Parameters.AddWithValue("@tBranch", tBranch);
+                        addTransfer.Parameters.AddWithValue("@itemIDs", txtItemIDs);
+                        addTransfer.Parameters.AddWithValue("@sendDate", DateTime.Today);
+                        addTransfer.Parameters.AddWithValue("@eta", DateTime.Today.AddDays(3));
+
+                        conn.Open();
+                        addTransfer.ExecuteNonQuery();
+                        conn.Close();
+                    }
 
                     while (itemIDs != "")
                     {
@@ -227,14 +251,22 @@ namespace _213
                         string tempID = itemIDs.Substring(1, pos - 1);
                         itemIDs.Remove(0, pos);
 
-                        SqlCommand updateTransfers = new SqlCommand("Update Stock set status = 'In Transit' where item_id = '" + tempID + "'", conn);
-                        updateTransfers.ExecuteNonQuery();
+                        cmdStr = "Update Stock set status = 'In Transit' where item_id = @id";
+
+                        using (SqlCommand updateTransfers = new SqlCommand(cmdStr, conn)) 
+                        {
+                            updateTransfers.Parameters.AddWithValue("@id", tempID);
+
+                            conn.Open();
+                            updateTransfers.ExecuteNonQuery();
+                            conn.Close();
+                        }
                     }
 
-                    conn.Close();
                     gebruik.addAction(user);
                 }
-            }catch(SqlException se)
+            }
+            catch (SqlException se)
             {
                 if(se.Number == 53)
                 {
@@ -269,8 +301,8 @@ namespace _213
         {
             try
             { 
-                string branch, supplier, items, cost, email;
-                int invoice, special;
+                string branch, supplier, items, cost, email, cmdStr;
+                int invoice, special, temp;
 
                 branch = txtBranchO.Text;
                 supplier = txtSuppliers.Text;
@@ -290,16 +322,42 @@ namespace _213
                 else
                     special = 0;
 
-                conn.Open();
+                using (conn)
+                {
+                    cmdStr = "Select Count(order_id) from Orders";
 
-                SqlCommand count = new SqlCommand("Select Count(order_id) from Orders", conn);
-                int temp = Convert.ToInt32(count.ExecuteScalar());
+                    using (SqlCommand count = new SqlCommand(cmdStr, conn))
+                    {
+                        conn.Open();              
+                        temp = Convert.ToInt32(count.ExecuteScalar());
+                        conn.Close();
+                    }
 
-                SqlCommand addOrders = new SqlCommand("Insert into Orders Values('" + branch + "','" + Convert.ToString(temp + 1) + "','" + supplier + "','" + items + "','" + cost + "','" + invoice + "','0'," + DateTime.Today + "','" + DateTime.Today.AddDays(3) + "','" + DateTime.Today.AddDays(3) + "','" + special + "','" + email + "')", conn);
-                addOrders.ExecuteNonQuery();
+                    cmdStr = "Insert into Orders Values(@branch, @id, @supplier, @items, @cost, @invoice, @recieved, @orderDate, @eta, @recievedDate, @special, @email)";
 
-                conn.Close();
-                gebruik.addAction(user);
+                    using (SqlCommand addOrders = new SqlCommand(cmdStr, conn))
+                    {
+                        addOrders.Parameters.AddWithValue("@branch",branch);
+                        addOrders.Parameters.AddWithValue("@id", Convert.ToString(temp + 1));
+                        addOrders.Parameters.AddWithValue("@supplier", supplier);
+                        addOrders.Parameters.AddWithValue("@items", items);
+                        addOrders.Parameters.AddWithValue("@cost", cost);
+                        addOrders.Parameters.AddWithValue("@invoice", invoice);
+                        addOrders.Parameters.AddWithValue("@recieved", "0");
+                        addOrders.Parameters.AddWithValue("@orderDate", DateTime.Today);
+                        addOrders.Parameters.AddWithValue("@eta", DateTime.Today.AddDays(3));
+                        addOrders.Parameters.AddWithValue("@recievedDate", DateTime.Today.AddDays(3));
+                        addOrders.Parameters.AddWithValue("@special", special);
+                        addOrders.Parameters.AddWithValue("@email", email);
+
+                        conn.Open();
+                        addOrders.ExecuteNonQuery();
+                        conn.Close();
+
+                    }
+
+                    gebruik.addAction(user);
+                }
             }
             catch (SqlException se)
             {
@@ -327,7 +385,7 @@ namespace _213
         {
             try
             {
-                string branch, supplier, items, cost, email, id;
+                string branch, supplier, items, cost, email, id, cmdStr;
                 int invoice, special, recieved;
                 DateTime recievedDate = DateTime.Today.AddDays(3);
 
@@ -360,13 +418,30 @@ namespace _213
                 else
                     recieved = 0;
 
+                using (conn)
+                {
 
-                conn.Open();
+                    cmdStr = "Update Orders set branch = @branch, order_supplier = @supplier, order_items = @items, total_cost = @cost, invoice_sent = @invoice, recieved = @recieved, recieved_date = @recievedDate, special_order = @special, cust_email = @email where order_id = @id";
 
-                SqlCommand addOrders = new SqlCommand("Update Orders set branch ='" + branch + "', order_supplier ='" + supplier + "', order_items ='" + items + "', total_cost ='" + cost + "', invoice_sent ='" + invoice + "', recieved ='" + recieved + "', recieved_date ='" + recievedDate + "', special_order ='" + special + "', cust_email ='" + email + "' where order_id ='" + id + "'", conn);
-                addOrders.ExecuteNonQuery();
+                    using (SqlCommand updateOrder = new SqlCommand(cmdStr, conn))
+                    {
+                        updateOrder.Parameters.AddWithValue("@branch", branch);
+                        updateOrder.Parameters.AddWithValue("@id", id);
+                        updateOrder.Parameters.AddWithValue("@supplier", supplier);
+                        updateOrder.Parameters.AddWithValue("@items", items);
+                        updateOrder.Parameters.AddWithValue("@cost", cost);
+                        updateOrder.Parameters.AddWithValue("@invoice", invoice);
+                        updateOrder.Parameters.AddWithValue("@recieved", recieved);
+                        updateOrder.Parameters.AddWithValue("@recievedDate", recievedDate);
+                        updateOrder.Parameters.AddWithValue("@special", special);
+                        updateOrder.Parameters.AddWithValue("@email", email);
 
-                conn.Close();
+                        conn.Open();
+                        updateOrder.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                
                 gebruik.addAction(user);
             }
             catch (SqlException se)
@@ -521,16 +596,24 @@ namespace _213
 
         private void frmHQ_Load(object sender, EventArgs e)
         {
+            string cmdStr;
+            int authLevel;
             cbmMainAction.SelectedItem = "Stock";
-
             conn  = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
 
-            /*conn.Open();
+            /*using (conn)
+            {
+                cmdStr = "Select authLevel from Stock where userName = @user";
 
-            SqlCommand getAuthLevel = new SqlCommand("Select authLevel from Stock where userName = '" + user + "'", conn);
-            int authLevel = Convert.ToInt16(getAuthLevel.ExecuteScalar());
+                using (SqlCommand getAuthLevel = new SqlCommand(cmdStr, conn))
+                {
+                    getAuthLevel.Parameters.AddWithValue("@user", user);
 
-            conn.Close();
+                    conn.Open(); 
+                    authLevel = Convert.ToInt16(getAuthLevel.ExecuteScalar());
+                    conn.Close();
+                }
+            }
 
 
             if(authLevel >= 7)
@@ -574,15 +657,18 @@ namespace _213
             itemType = itype;
             itemWarranty = iwarranty;
 
-            txtItemID.Text = id;
-            txtItemID.Enabled = false;
-            txtName.Text = name;
-            txtManName.Text = itemManufacturer;
-            txtManPrice.Text = itemManPrice;
-            txtRetail.Text = itemRePrice;
-            txtItemType.Text = itemType;
-            txtItembranch.Text = itemBranch;
-            txtWarrant.Text = itemWarranty;
+            if (pnlRevise.Visible)
+            {
+                txtItemID.Text = id;
+                txtItemID.Enabled = false;
+                txtName.Text = name;
+                txtManName.Text = itemManufacturer;
+                txtManPrice.Text = itemManPrice;
+                txtRetail.Text = itemRePrice;
+                txtItemType.Text = itemType;
+                txtItembranch.Text = itemBranch;
+                txtWarrant.Text = itemWarranty;
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -597,7 +683,8 @@ namespace _213
         {
             try
             {
-                string branch, itemName, manufacturer, manPrice, rePrice, type, warranty;
+                string branch, itemName, manufacturer, manPrice, rePrice, type, warranty, cmdStr;
+                int temp;
 
                 branch = txtBranch.Text;
                 itemName = txtItemName.Text;
@@ -608,19 +695,41 @@ namespace _213
                 warranty = txtWarranty.Text + " Years";
 
                 using (conn)
-                { 
-                    conn.Open();
-                    SqlCommand count = new SqlCommand("Select Count(item_id) from Stock", conn);
-                    int temp = Convert.ToInt32(count.ExecuteScalar());
+                {
 
-                    /*SqlCommand getID = new SqlCommand("Select Max(item_id) from Stock", conn);
-                    int tempID = getID.ExecuteNonQuery();*/
+                    cmdStr = "Select Count(item_id) from Stock";
 
-                    SqlCommand addStock = new SqlCommand("Insert into Stock Values('" + branch + "','" + Convert.ToString(temp + 1) + "','" + itemName + "','" + manufacturer + "','" + warranty + "','" + DateTime.Now + "','" + DateTime.Today + "','" + manPrice + "','" + rePrice + "','1','" + "In Stock','" + type + "')", conn);
-                    addStock.ExecuteNonQuery();
-                    conn.Close();
+                    using (SqlCommand count = new SqlCommand(cmdStr, conn))
+                    {
+                        conn.Open();
+                        temp = Convert.ToInt32(count.ExecuteScalar());
+                        conn.Close();
+                    }
 
+                    cmdStr = "Insert into Stock Values(@branch, @id, @itemName, @manufacturer, @warranty, @updated, @intial, @manPrice, @rePrice, @checked, @status, @type)";
+
+                    using (SqlCommand addStock = new SqlCommand(cmdStr, conn))
+                    {
+                        addStock.Parameters.AddWithValue("@branch", branch);
+                        addStock.Parameters.AddWithValue("@id", Convert.ToString(temp + 1));
+                        addStock.Parameters.AddWithValue("@itemName", itemName);
+                        addStock.Parameters.AddWithValue("@manufacturer", manufacturer);
+                        addStock.Parameters.AddWithValue("@warranty", warranty);
+                        addStock.Parameters.AddWithValue("@updated", DateTime.Now);
+                        addStock.Parameters.AddWithValue("@initial", DateTime.Today);
+                        addStock.Parameters.AddWithValue("@manPrice", manPrice);
+                        addStock.Parameters.AddWithValue("@rePrice", rePrice);
+                        addStock.Parameters.AddWithValue("@checked", "1");
+                        addStock.Parameters.AddWithValue("@status", "In Stock");
+                        addStock.Parameters.AddWithValue("@type", type);
+
+                        conn.Open();
+                        addStock.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                
                     gebruik.addAction(user);
+
                 }
             }
             catch (SqlException se)
@@ -649,14 +758,30 @@ namespace _213
         {
             try
             {
+
+                string cmdStr;
+
                 using (conn)
                 {
-                    conn.Open();
 
-                    SqlCommand updateStock = new SqlCommand("Update Stock set branch ='" + txtItembranch.Text + "', item_name ='"  + txtName.Text + "', manufacturer ='" + txtManName.Text + "', warranty ='" + txtWarrant.Text + "', last_updated ='" + DateTime.Now + "', manufacturer_price ='" + txtManPrice.Text + "', retail_price ='" + txtRetail.Text + "', item_Type ='" + txtItemType.Text + "' where item_id ='" + txtItemID.Text + "'", conn);
-                    updateStock.ExecuteNonQuery();
+                    cmdStr = "Update Stock set branch = @branch, item_name = @itemName, manufacturer = @manufacturer, warranty = @warranty, last_updated = @updated, manufacturer_price = @manPrice, retail_price = @rePrice, item_Type = @type where item_id = @id";
 
-                    conn.Close();
+                    using (SqlCommand updateStock = new SqlCommand(cmdStr, conn))
+                    {
+                        updateStock.Parameters.AddWithValue("@branch", txtItembranch.Text);
+                        updateStock.Parameters.AddWithValue("@id", txtItemID.Text);
+                        updateStock.Parameters.AddWithValue("@itemName", txtName.Text);
+                        updateStock.Parameters.AddWithValue("@manufacturer", txtManName.Text);
+                        updateStock.Parameters.AddWithValue("@warranty", txtWarrant.Text);
+                        updateStock.Parameters.AddWithValue("@updated", DateTime.Now);
+                        updateStock.Parameters.AddWithValue("@manPrice", txtManPrice.Text);
+                        updateStock.Parameters.AddWithValue("@rePrice", txtRetail.Text);
+                        updateStock.Parameters.AddWithValue("@type", txtItemType.Text);
+
+                        conn.Open();
+                        updateStock.ExecuteNonQuery();
+                        conn.Close();
+                    }
                 }
 
                 gebruik.addAction(user);

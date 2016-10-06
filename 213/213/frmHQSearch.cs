@@ -26,41 +26,88 @@ namespace _213
         {
             try
             {
-                string id;
+                string id, itemName, branch, manufacturer, warranty, manPrice, rePrice, type, cmdStr;
 
                 id = txtID.Text;
                     
                 if (id != "")
                 {
-                    conn.Open();
-                    SqlCommand getItemID = new SqlCommand("Select item_id from Stock where item_id = '" + id + "'", conn);
-                    id = Convert.ToString(getItemID.ExecuteScalar());
+                    using (conn)
+                    {
+                        
+                        conn.Open();
 
-                    SqlCommand getItemName = new SqlCommand("Select item_name from Stock where item_id = '" + id + "'", conn);
-                    string itemName = Convert.ToString(getItemName.ExecuteScalar());
+                        cmdStr = "Select item_id from Stock where item_id = @id";
 
-                    SqlCommand getBranch = new SqlCommand("Select branch from Stock where item_id = '" + id + "'", conn);
-                    string branch = Convert.ToString(getBranch.ExecuteScalar());
+                        using (SqlCommand getItemID = new SqlCommand(cmdStr, conn))
+                        {
+                            getItemID.Parameters.AddWithValue("@id", id);                          
+                            id = Convert.ToString(getItemID.ExecuteScalar());  
+                        }
 
-                    SqlCommand getManufacturer = new SqlCommand("Select manufacturer from Stock where item_id = '" + id + "'", conn);
-                    string manufacturer = Convert.ToString(getManufacturer.ExecuteScalar());
+                        cmdStr = "Select item_name from Stock where item_id = @id";
 
-                    SqlCommand getWarranty = new SqlCommand("Select warranty from Stock where item_id = '" + id + "'", conn);
-                    string warranty = Convert.ToString(getWarranty.ExecuteScalar());
+                        using (SqlCommand getItemName = new SqlCommand(cmdStr, conn))
+                        {
+                            getItemName.Parameters.AddWithValue("@id", id);
+                            itemName = Convert.ToString(getItemName.ExecuteScalar());
+                        }
 
-                    SqlCommand getManPrice = new SqlCommand("Select manufacturer_price from Stock where item_id = '" + id + "'", conn);
-                    string manPrice = Convert.ToString(getManPrice.ExecuteScalar());
+                        cmdStr = "Select branch from Stock where item_id = @id";
 
-                    SqlCommand getrePrice = new SqlCommand("Select retail_price from Stock where item_id = '" + id + "'", conn);
-                    string rePrice = Convert.ToString(getrePrice.ExecuteScalar());
+                        using (SqlCommand getBranch = new SqlCommand(cmdStr, conn))
+                        {
+                            getBranch.Parameters.AddWithValue("@id", id);
+                            branch = Convert.ToString(getBranch.ExecuteScalar());
+                        }
 
-                    SqlCommand getType = new SqlCommand("Select item_Type from Stock where item_id = '" + id + "'", conn);
-                    string type = Convert.ToString(getType.ExecuteScalar());
-                    conn.Close();
+                        cmdStr = "Select manufacturer from Stock where item_id = @id";
 
-                    btnAccept.Enabled = true;
-                    frmHQ hq = new frmHQ(id, itemName, branch, manufacturer, manPrice, rePrice, type, warranty);
-                    this.Hide();
+                        using (SqlCommand getManufacturer = new SqlCommand(cmdStr, conn))
+                        {
+                            getManufacturer.Parameters.AddWithValue("@id", id);
+                            manufacturer = Convert.ToString(getManufacturer.ExecuteScalar());
+                        }
+
+                        cmdStr = "Select warranty from Stock where item_id = @id";
+
+                        using (SqlCommand getWarranty = new SqlCommand(cmdStr, conn))
+                        {
+                            getWarranty.Parameters.AddWithValue("@id", id);
+                            warranty = Convert.ToString(getWarranty.ExecuteScalar());
+                        }
+
+                        cmdStr = "Select manufacturer_price from Stock where item_id = @id";
+
+                        using (SqlCommand getManPrice = new SqlCommand(cmdStr, conn))
+                        {
+                            getManPrice.Parameters.AddWithValue("@id", id);
+                            manPrice = Convert.ToString(getManPrice.ExecuteScalar());
+                        }
+
+                        cmdStr = "Select retail_price from Stock where item_id = @id";
+
+                        using (SqlCommand getRePrice = new SqlCommand(cmdStr, conn))
+                        {
+                            getRePrice.Parameters.AddWithValue("@id", id);
+                            rePrice = Convert.ToString(getRePrice.ExecuteScalar());
+                        } 
+
+                        cmdStr = "Select item_Type from Stock where item_id = @id";
+
+                        using (SqlCommand getType = new SqlCommand(cmdStr, conn))
+                        {
+                            getType.Parameters.AddWithValue("@id", id);
+                            type = Convert.ToString(getType.ExecuteScalar());
+                        }
+
+                        conn.Close();
+
+                        btnAccept.Enabled = true;
+                        frmHQ hq = new frmHQ(id, itemName, branch, manufacturer, manPrice, rePrice, type, warranty);
+                        this.Hide();
+
+                    }
                 }
                 else
                     btnAccept.Enabled = false;
