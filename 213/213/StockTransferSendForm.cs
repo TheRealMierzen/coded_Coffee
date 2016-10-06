@@ -41,15 +41,12 @@ namespace _213
             if (MessageBox.Show("Are you sure you want to complete this action?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 //as user ja se
-                //Hier kom die code om die nuwe Stock listing te add
                 SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
 
                 SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
                 int TotalItems = 0;
-                //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
                 TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;
-                // SqlCommand addTransfer = new SqlCommand("INSERT INTO Transfers VALUES ('"+ TotalItems +"', '')", stockConnection);
                 this.Hide();
                 this.Close();
             }
@@ -79,10 +76,6 @@ namespace _213
 
         private void StockTransferSendForm_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the '_stockI_TDataSet.Branches' table. You can move, or remove it, as needed.
-           // this.branchesTableAdapter.Fill(this._stockI_TDataSet.Branches);
-            // TODO: This line of code loads data into the '_stockI_TDataSet.Employees' table. You can move, or remove it, as needed.
-           // this.employeesTableAdapter.Fill(this._stockI_TDataSet.Employees);
 
         }
 
@@ -101,17 +94,16 @@ namespace _213
             try
             {
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-              //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
                 SqlCommand getStockID = new SqlCommand("SELECT item_id FROM Stock WHERE item_id = @id AND Status = @status AND branch = @branch", stockConnection);
                 getStockID.Parameters.AddWithValue("@id", txbItemIDTransfer.Text);
                 getStockID.Parameters.AddWithValue("@status", "In Stock");
-                //getStockID.Parameters.AddWithValue("@branch", "Pretoria");
+
                 getStockID.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 SqlCommand getDescription = new SqlCommand("SELECT item_name from Stock WHERE item_id = @id and Status = @status AND branch = @branch", stockConnection);
                 getDescription.Parameters.AddWithValue("@id", txbItemIDTransfer.Text);
                 getDescription.Parameters.AddWithValue("@status", "In Stock");
-                //getDescription.Parameters.AddWithValue("@branch", "Pretoria");
+
                 getDescription.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 string stockName = "";
 
@@ -127,7 +119,6 @@ namespace _213
                         stockID = getStockID.ExecuteScalar().ToString();
                         stockName = getDescription.ExecuteScalar().ToString();
                         SqlCommand updateStockTransfer = new SqlCommand("UPDATE Stock SET branch = @branch, last_updated = @last, Status = @status WHERE item_id = @id", stockConnection);
-                        //updateStockTransfer.Parameters.AddWithValue("@branch", "Pretoria");
                         updateStockTransfer.Parameters.AddWithValue("@branch", "In Transit");
                         updateStockTransfer.Parameters.AddWithValue("@last", DateTime.Now);
                         updateStockTransfer.Parameters.AddWithValue("Status", "In Transit");
@@ -201,17 +192,17 @@ namespace _213
             try
             {
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-              // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
                     stockConnection.Open();
                     SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
                     int TotalItems = 0;
-                    //stockAddAdapterCLN.SelectCommand = getStockCountCLN;
+
                     TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar()) + 1;
                     //ids = ids + stockID + ",";
                     gebruik.addAction(userNme);
                     SqlCommand saveTransfer = new SqlCommand("INSERT INTO Transfers VALUES (@id, @branchF, @branchS, @ids, @date1, @date2)", stockConnection);
                     saveTransfer.Parameters.AddWithValue("@id", TotalItems);
-                    //saveTransfer.Parameters.AddWithValue("@brancF", "Pretoria");
+
                     saveTransfer.Parameters.AddWithValue("@branchF", Properties.Settings.Default.Branch);
                     saveTransfer.Parameters.AddWithValue("@branchS", cmbBranchSend.Text);
                     saveTransfer.Parameters.AddWithValue("@ids", ids);
@@ -261,22 +252,9 @@ namespace _213
         {
             txbStockTransferReport.AppendText("MATRIX WAREHOUSE \r\n");
             txbStockTransferReport.AppendText("====================== \r\n");
-           // txbStockTransferReport.AppendText("Transfer stock from: " + "Pretoria"  +"\r\n");
             txbStockTransferReport.AppendText("Transfer stock from: " + Properties.Settings.Default.Branch + "\r\n");
             txbStockTransferReport.AppendText("====================== \r\n");
-            //SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-            ////SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            //stockConnection.Open();
-            //SqlCommand cmd = new SqlCommand("SELECT branch_location FROM Branches WHERE branch_location <> @thisBranch", stockConnection);
-            ////cmd.Parameters.AddWithValue("@thisBranch", "Pretoria");
-            //cmd.Parameters.AddWithValue("@thisBranch", Properties.Settings.Default.Branch);  
 
-            //SqlDataReader dr = cmd.ExecuteReader();
-            //if (dr.Read())
-            //{
-            //    cmbBranchSend.Items.Add(dr[0]);
-            //}
-            //stockConnection.Close();
             fillBranches();
         }
 

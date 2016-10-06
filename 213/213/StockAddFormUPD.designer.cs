@@ -36,18 +36,12 @@
             this.lblBrandAddUPD = new System.Windows.Forms.Label();
             this.lblNameAddUPD = new System.Windows.Forms.Label();
             this.txbBrandAddUPD = new System.Windows.Forms.TextBox();
-            this.stockBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._stockI_TDataSet = new _213._stockI_TDataSet();
-            this.stockTableAdapter = new _213._stockI_TDataSetTableAdapters.StockTableAdapter();
             this.txbRPriceUPD = new System.Windows.Forms.TextBox();
             this.lblRPriceUPD = new System.Windows.Forms.Label();
-            this.tmrCheckSelectedItemUPD = new System.Windows.Forms.Timer(this.components);
             this.txbNameUPD = new System.Windows.Forms.TextBox();
             this.txbIDUPD = new System.Windows.Forms.TextBox();
             this.lblIDUPD = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // txbMPriceAddUPD
@@ -119,20 +113,6 @@
             this.txbBrandAddUPD.Size = new System.Drawing.Size(100, 20);
             this.txbBrandAddUPD.TabIndex = 3;
             // 
-            // stockBindingSource
-            // 
-            this.stockBindingSource.DataMember = "Stock";
-            this.stockBindingSource.DataSource = this._stockI_TDataSet;
-            // 
-            // _stockI_TDataSet
-            // 
-            this._stockI_TDataSet.DataSetName = "_stockI_TDataSet";
-            this._stockI_TDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // stockTableAdapter
-            // 
-            this.stockTableAdapter.ClearBeforeFill = true;
-            // 
             // txbRPriceUPD
             // 
             this.txbRPriceUPD.Enabled = false;
@@ -151,11 +131,6 @@
             this.lblRPriceUPD.Size = new System.Drawing.Size(64, 13);
             this.lblRPriceUPD.TabIndex = 23;
             this.lblRPriceUPD.Text = "Retail Price:";
-            // 
-            // tmrCheckSelectedItemUPD
-            // 
-            this.tmrCheckSelectedItemUPD.Enabled = true;
-            this.tmrCheckSelectedItemUPD.Tick += new System.EventHandler(this.tmrCheckSelectedItemUPD_Tick);
             // 
             // txbNameUPD
             // 
@@ -209,8 +184,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update Stock";
             this.Load += new System.EventHandler(this.StockAddFormUPD_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,12 +197,8 @@
         private System.Windows.Forms.Label lblBrandAddUPD;
         private System.Windows.Forms.Label lblNameAddUPD;
         private System.Windows.Forms.TextBox txbBrandAddUPD;
-        private _stockI_TDataSet _stockI_TDataSet;
-        private System.Windows.Forms.BindingSource stockBindingSource;
-        private _stockI_TDataSetTableAdapters.StockTableAdapter stockTableAdapter;
         private System.Windows.Forms.TextBox txbRPriceUPD;
         private System.Windows.Forms.Label lblRPriceUPD;
-        private System.Windows.Forms.Timer tmrCheckSelectedItemUPD;
         private System.Windows.Forms.TextBox txbNameUPD;
         private System.Windows.Forms.TextBox txbIDUPD;
         private System.Windows.Forms.Label lblIDUPD;

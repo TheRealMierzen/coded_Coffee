@@ -49,15 +49,11 @@ namespace _213
                 try
                 {
                     //Stock Connection String
-                    //SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-
                     SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-
                     stockConnection.Open();
                     //Set Variables
                     string branchAddCLN = cmbTypeAddCLN.SelectedItem.ToString();
                     string manufacturerAddCLN = txbBrandAddCLN.Text;
-                    //string branchAdd = "Pretoria";
                     string branchAdd = Properties.Settings.Default.Branch;
                     string warrantyAddCLN = txbWarrantyAddCLN.Text + " Year(s)";
                     string mPriceAddCLN = (txtManfacturerPriceCLN.Text);
@@ -211,17 +207,11 @@ namespace _213
 
         }
 
-        private void checkCMS()
-        {
-            SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-        }
-
        
 
         private void StockAddFormCLN_Shown(object sender, EventArgs e)
         {
-            //Start check timer
-            tmrStockAddCLN.Enabled = true;
+
         }
 
         private void txbQuantityAddCLN_KeyPress(object sender, KeyPressEventArgs e)

@@ -47,6 +47,7 @@
             this.txbRPriceUPD.Enabled = false;
             this.txbRPriceUPD.Location = new System.Drawing.Point(141, 88);
             this.txbRPriceUPD.Name = "txbRPriceUPD";
+            this.txbRPriceUPD.ReadOnly = true;
             this.txbRPriceUPD.ShortcutsEnabled = false;
             this.txbRPriceUPD.Size = new System.Drawing.Size(100, 20);
             this.txbRPriceUPD.TabIndex = 34;

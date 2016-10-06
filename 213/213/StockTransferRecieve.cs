@@ -49,7 +49,6 @@ namespace _213
                     gID = id.Substring(0, pos);
                     id = id.Remove(0, pos + 1);
                     SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                    // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                     stockConnection.Open();
                     SqlCommand getDes = new SqlCommand("SELECT item_name, manufacturer, manufacturer_price, retail_price FROM Stock WHERE item_id = @id", stockConnection);
                     getDes.Parameters.AddWithValue("@id", gID);
@@ -113,11 +112,9 @@ namespace _213
         private void update(string gID)
         {
             SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-         //   SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
             stockConnection.Open();
             gebruik.addAction(userNme);
             SqlCommand updates = new SqlCommand("UPDATE Stock SET branch = @branch, status = @stock WHERE item_id = @id", stockConnection);
-            //update.Parameters.AddWithValue("@branch", "Pretoria");
             updates.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
             updates.Parameters.AddWithValue("@stock", "In Stock");
             updates.Parameters.AddWithValue("@id", gID);

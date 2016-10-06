@@ -16,18 +16,19 @@ namespace _213
 {
     public partial class StockFindForm : Form
     {
+        //Class variables
         private string userNme;
+        //Default constructor
         public StockFindForm()
         {
             InitializeComponent();
         }
-
+        //Overloaded constructor
         public StockFindForm(string user)
         {
             InitializeComponent();
             userNme = user;
         }
-
         private void txtFindName_TextChanged(object sender, EventArgs e)
         {
 
@@ -52,7 +53,7 @@ namespace _213
                     else if (txtFindName.Text != "")
                     {
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                      //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
                         stockConnection.Open();
                         SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE item_name LIKE @description", stockConnection);
                         stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + txtFindName.Text + "%");
@@ -65,7 +66,7 @@ namespace _213
                     else if (txtFindBrand.Text != "")
                     {
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                      //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
                         SqlCommand stockM = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE manufacturer LIKE @description");                       
                          SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockM.CommandText, stockConnection);
                         stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + txtFindBrand.Text + "%");
@@ -79,7 +80,7 @@ namespace _213
                     {
                         string price = txtFindPrice.Text;
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                       // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
                         stockConnection.Open();
                         SqlCommand stockP = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE retail_price LIKE @description");
 
@@ -94,7 +95,6 @@ namespace _213
                     else if (cmbTypeSearch.Text != "")
                     {
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                       // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                         stockConnection.Open();
                         SqlCommand stockP = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE item_Type LIKE @description");
 

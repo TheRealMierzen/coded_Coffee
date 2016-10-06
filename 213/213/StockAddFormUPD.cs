@@ -16,18 +16,21 @@ namespace _213
 {
     public partial class StockAddFormUPD : Form
     {
+        //Class variables
         private string userNme;
+        //Default constructor
         public StockAddFormUPD()
         {
             InitializeComponent();
         }
+        //Overloaded constructor
         public StockAddFormUPD(string user)
         {
             InitializeComponent();
             userNme = user;
         }
 
-
+        //Does not allow user to input text, only int
         private void txbQuantityAddUPD_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
@@ -49,12 +52,13 @@ namespace _213
 
         private void btnConfirmAddCLN_Click(object sender, EventArgs e)
         {
+            //Asks user if user is sure about current action
             if (MessageBox.Show("Are you sure you want to complete this action?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
+                    //Connection string
                     SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                  //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                     stockConnection.Open();
                     SqlCommand updateStock = new SqlCommand("UPDATE Stock SET retail_price = @retail_price, last_updated = @last_updated WHERE item_id = @description", stockConnection);
                     updateStock.Parameters.AddWithValue("@retail_price", Convert.ToInt16(txbRPriceUPD.Text));
@@ -66,10 +70,11 @@ namespace _213
                     string itemID = getID.ExecuteScalar().ToString();
                     gebruik.addAction(userNme);
                     gebruik.addAction(userNme);
-                    //  gebruik.log(DateTime.Now, userNme, "Updated stock " + txbIDUPD.text);
+                    //gebruik.log(DateTime.Now, userNme, "Updated stock " + txbIDUPD.text);
                     stockConnection.Close();
                     this.Hide();
                     this.Close();
+                    //Exceptions
             }
                 catch (SqlException s)
             {
@@ -98,7 +103,7 @@ namespace _213
         }
             else
             {
-                //as user nee se
+                //if user says no
 
             }
         }
@@ -112,8 +117,6 @@ namespace _213
 
         private void StockAddFormUPD_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the '_stockI_TDataSet.Stock' table. You can move, or remove it, as needed.
-            // this.stockTableAdapter.Fill(this._stockI_TDataSet.Stock);
 
         }
 
@@ -131,8 +134,9 @@ namespace _213
         {
             try
             {
+                //Connection String
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-               // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+              
                 stockConnection.Open();
                 SqlCommand displaySelectedStockName = new SqlCommand("SELECT item_name FROM Stock WHERE item_id = @des1", stockConnection);
                 displaySelectedStockName.Parameters.AddWithValue("@des1", txbIDUPD.Text);
@@ -149,6 +153,7 @@ namespace _213
                 txbNameUPD.Text = displaySelectedStockName.ExecuteScalar().ToString();
                 stockConnection.Close();
             }
+            //Exceptions
             catch (SqlException s)
             {
                 {

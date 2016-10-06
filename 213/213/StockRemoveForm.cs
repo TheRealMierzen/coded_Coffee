@@ -32,7 +32,6 @@ namespace _213
             try
             {
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-              //  SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
 
                 SqlCommand stockCon = new SqlCommand("SELECT item_id FROM Stock WHERE item_id = @id",stockConnection);

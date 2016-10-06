@@ -47,7 +47,6 @@ namespace _213
                 txbStockTake.AppendText("\r\nList of Items Recorded:");
                 txbStockTake.AppendText("\r\n=======================================");
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-               // SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
 
                 SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(item_id) FROM Stock", stockConnection);
@@ -57,8 +56,8 @@ namespace _213
 
                 SqlCommand getStock = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE initial_add = @add AND branch = @branch", stockConnection);
                 getStock.Parameters.AddWithValue("@add", DateTime.Today);
-                getStock.Parameters.AddWithValue("@branch", "Pretoria");
-                //getStock.Parameters.AddWithValue("@branch", Properties.Setting.Default.Branch);
+
+                getStock.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 if (getStock.ExecuteScalar() == null)
                 {
                     txbStockTakeReport.AppendText("\r\nNo Stock Added Today");
@@ -86,8 +85,7 @@ namespace _213
                 SqlCommand getSale = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @up AND status = @status AND branch = @branch", stockConnection);
                 getSale.Parameters.AddWithValue("@up", DateTime.Today);
                 getSale.Parameters.AddWithValue("@status", "Sold");
-                getSale.Parameters.AddWithValue("@branch", "Pretoria");
-                // getSale.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                getSale.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 if (getSale.ExecuteScalar() == null)
                 {
                     txbStockTakeReport.AppendText("\r\nNo Stock Sold Today");
@@ -108,14 +106,13 @@ namespace _213
                     }
                     reader.Close();
                 }
-                //
+                
                 txbStockTakeReport.AppendText("\r\n=======================================");
                 txbStockTakeReport.AppendText("\r\n Items Removed Today:");
                 SqlCommand getStockR = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @upp AND status = @status AND branch = @branch", stockConnection);
                 getStockR.Parameters.AddWithValue("@upp", DateTime.Today);
                 getStockR.Parameters.AddWithValue("@status", "Removed");
-                getStockR.Parameters.AddWithValue("@branch", "Pretoria");
-                // getStockR.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                getStockR.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 if (getStockR.ExecuteScalar() == null)
                 {
                     txbStockTakeReport.AppendText("\r\nNo Stock Removed Today");
@@ -142,8 +139,7 @@ namespace _213
 
                 SqlCommand getStockT = new SqlCommand("SELECT transfer_id, item_ids FROM Transfers WHERE send_date = @send AND from_branch = @branch", stockConnection);
                 getStockT.Parameters.AddWithValue("@send", DateTime.Today);
-                getStockT.Parameters.AddWithValue("@branch", "Pretoria");
-                // getStockT.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                getStockT.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
                 if (getStockT.ExecuteScalar() == null)
                 {
@@ -161,7 +157,6 @@ namespace _213
                             do
                             {
                                 SqlConnection stockConnection2 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                              //  SqlConnection stockConnection2 = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                                 stockConnection2.Open();
 
                                 int pos = ids.IndexOf(',');
@@ -268,8 +263,7 @@ namespace _213
 
         private void StockMainForm_Load(object sender, EventArgs e)
         {
-          // Properties.Settings.Default.Branch = "Pretoria";
-          // Properties.Settings.Default.Save();
+
         }
 
         private void btnBackMain_Click(object sender, EventArgs e)
@@ -295,13 +289,11 @@ namespace _213
         {
             try
             {
-              //  SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
                 SqlCommand getMiss = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE checked = @check AND branch = @branch", stockConnection);
                 getMiss.Parameters.AddWithValue("@check", 0);
-                getMiss.Parameters.AddWithValue("@branch", "Pretoria");
-                //getMiss.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                getMiss.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 if (getMiss.ExecuteScalar() == null)
                 {
 
@@ -315,17 +307,14 @@ namespace _213
                     {
                         while (reader.Read())
                         {
-
                             txbStockTake.AppendText("\r\n" + reader.GetString(1) + "\t" + reader.GetString(0));
-                            // SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, description, manufacturer, retail_price FROM Stock WHERE branch = '" + Properties.Settings.Default.Branch + "'", stockConnection);
-
                         }
                     }
                     else
                     {
                         txtStockTakeItemID.AppendText("\r\n");
                     }
-                    //////////////////////////////////////// reader.Close();
+                    reader.Close();
                 }
                 if (missID == "")
                 {
@@ -376,8 +365,7 @@ namespace _213
                 SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
                 SqlCommand checkOrders = new SqlCommand("SELECT order_id, order_items FROM Orders WHERE branch = @branch AND eta = @eta", stockConnection);
-                checkOrders.Parameters.AddWithValue("@branch", "Pretoria");
-                // checkOrders.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                checkOrders.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 checkOrders.Parameters.AddWithValue("@eta", DateTime.Today);
                 if (checkOrders.ExecuteScalar() != null)
                 {
@@ -439,10 +427,8 @@ namespace _213
 
 
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                //SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
                 SqlCommand checkTransfers = new SqlCommand("SELECT transfer_id, item_ids, from_branch FROM Transfers WHERE to_branch = @branch AND eta = @eta", stockConnection);
-                // checkTransfers.Parameters.AddWithValue("@branch", "Pretoria");
 
                 checkTransfers.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 checkTransfers.Parameters.AddWithValue("@eta", DateTime.Today);
@@ -504,8 +490,7 @@ namespace _213
                 SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
                 SqlCommand getID = new SqlCommand("SELECT item_ID, item_name FROM Stock WHERE item_id = @itemID AND branch = @branch AND status = @status", stockConnection);
-                getID.Parameters.AddWithValue("@branch", "Pretoria");
-                // getID.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                getID.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 getID.Parameters.AddWithValue("@itemID", txtStockTakeItemID.Text);
                 getID.Parameters.AddWithValue("@status", "In Stock");
                 if (getID.ExecuteScalar() != null)

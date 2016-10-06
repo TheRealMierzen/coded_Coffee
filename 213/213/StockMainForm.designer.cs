@@ -62,7 +62,7 @@
             "Remove Stock"});
             this.cmbSelectStockAction.Location = new System.Drawing.Point(60, 3);
             this.cmbSelectStockAction.Name = "cmbSelectStockAction";
-            this.cmbSelectStockAction.Size = new System.Drawing.Size(194, 21);
+            this.cmbSelectStockAction.Size = new System.Drawing.Size(193, 21);
             this.cmbSelectStockAction.TabIndex = 1;
             this.toolTip1.SetToolTip(this.cmbSelectStockAction, "Select an action to visit that window");
             this.cmbSelectStockAction.SelectedIndexChanged += new System.EventHandler(this.cmbSelectStockAction_SelectedIndexChanged);
@@ -71,9 +71,9 @@
             // btnBackMain
             // 
             this.btnBackMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnBackMain.Location = new System.Drawing.Point(260, 3);
+            this.btnBackMain.Location = new System.Drawing.Point(259, 3);
             this.btnBackMain.Name = "btnBackMain";
-            this.btnBackMain.Size = new System.Drawing.Size(91, 35);
+            this.btnBackMain.Size = new System.Drawing.Size(92, 35);
             this.btnBackMain.TabIndex = 4;
             this.btnBackMain.Text = "Back";
             this.toolTip1.SetToolTip(this.btnBackMain, "Click to close this form and go back to main form");
@@ -140,7 +140,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.47191F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.52809F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel2.Controls.Add(this.btnCompare, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.lblStockTakeItemID, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.txtStockTakeItemID, 1, 0);
@@ -158,9 +158,9 @@
             // btnCompare
             // 
             this.btnCompare.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCompare.Location = new System.Drawing.Point(262, 3);
+            this.btnCompare.Location = new System.Drawing.Point(261, 3);
             this.btnCompare.Name = "btnCompare";
-            this.btnCompare.Size = new System.Drawing.Size(89, 26);
+            this.btnCompare.Size = new System.Drawing.Size(90, 26);
             this.btnCompare.TabIndex = 16;
             this.btnCompare.Text = "Compare/Add";
             this.toolTip1.SetToolTip(this.btnCompare, "Click to add item to check list");
@@ -183,13 +183,13 @@
             this.txtStockTakeItemID.Location = new System.Drawing.Point(61, 3);
             this.txtStockTakeItemID.Name = "txtStockTakeItemID";
             this.txtStockTakeItemID.ShortcutsEnabled = false;
-            this.txtStockTakeItemID.Size = new System.Drawing.Size(195, 20);
+            this.txtStockTakeItemID.Size = new System.Drawing.Size(194, 20);
             this.txtStockTakeItemID.TabIndex = 15;
             this.toolTip1.SetToolTip(this.txtStockTakeItemID, "Scan in the ID you have to let the system know you have that item");
             // 
             // btnCompleteStockTake
             // 
-            this.btnCompleteStockTake.Location = new System.Drawing.Point(262, 35);
+            this.btnCompleteStockTake.Location = new System.Drawing.Point(261, 35);
             this.btnCompleteStockTake.Name = "btnCompleteStockTake";
             this.btnCompleteStockTake.Size = new System.Drawing.Size(85, 26);
             this.btnCompleteStockTake.TabIndex = 20;
@@ -213,7 +213,7 @@
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.26415F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.73585F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
             this.tableLayoutPanel3.Controls.Add(this.lblActionSelect, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnBackMain, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.cmbSelectStockAction, 1, 0);

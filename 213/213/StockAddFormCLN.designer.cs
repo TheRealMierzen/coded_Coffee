@@ -37,31 +37,16 @@
             this.txbDescAddCLN = new System.Windows.Forms.TextBox();
             this.txbBrandAddCLN = new System.Windows.Forms.TextBox();
             this.txbPriceRetailAddCLN = new System.Windows.Forms.TextBox();
-            this.tmrStockAddCLN = new System.Windows.Forms.Timer(this.components);
             this.txtManfacturerPriceCLN = new System.Windows.Forms.TextBox();
             this.lblManufacturerPriceCLN = new System.Windows.Forms.Label();
             this.lblTypeAddCLN = new System.Windows.Forms.Label();
             this.cmbTypeAddCLN = new System.Windows.Forms.ComboBox();
-            this.branchesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.stockITDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._stockI_TDataSet = new _213._stockI_TDataSet();
             this.txbWarrantyAddCLN = new System.Windows.Forms.TextBox();
             this.lblWarrantyAddCLN = new System.Windows.Forms.Label();
-            this.branchesTableAdapter = new _213._stockI_TDataSetTableAdapters.BranchesTableAdapter();
-            this.stockBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.stockTableAdapter = new _213._stockI_TDataSetTableAdapters.StockTableAdapter();
-            this.stockBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.stockBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.btnBack = new System.Windows.Forms.Button();
             this.txbItemID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource2)).BeginInit();
             this.SuspendLayout();
             // 
             // lblDescAddCLN
@@ -145,10 +130,6 @@
             this.txbPriceRetailAddCLN.TextChanged += new System.EventHandler(this.txbPriceRetailAddCLN_TextChanged);
             this.txbPriceRetailAddCLN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbPriceRetailAddCLN_KeyPress);
             // 
-            // tmrStockAddCLN
-            // 
-            this.tmrStockAddCLN.Tick += new System.EventHandler(this.tmrStockAddCLN_Tick);
-            // 
             // txtManfacturerPriceCLN
             // 
             this.txtManfacturerPriceCLN.Location = new System.Drawing.Point(147, 130);
@@ -199,21 +180,6 @@
             this.toolTip1.SetToolTip(this.cmbTypeAddCLN, "Select the item type of the item");
             this.cmbTypeAddCLN.TextChanged += new System.EventHandler(this.cmbTypeAddCLN_TextChanged);
             // 
-            // branchesBindingSource
-            // 
-            this.branchesBindingSource.DataMember = "Branches";
-            this.branchesBindingSource.DataSource = this.stockITDataSetBindingSource;
-            // 
-            // stockITDataSetBindingSource
-            // 
-            this.stockITDataSetBindingSource.DataSource = this._stockI_TDataSet;
-            this.stockITDataSetBindingSource.Position = 0;
-            // 
-            // _stockI_TDataSet
-            // 
-            this._stockI_TDataSet.DataSetName = "_stockI_TDataSet";
-            this._stockI_TDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // txbWarrantyAddCLN
             // 
             this.txbWarrantyAddCLN.Location = new System.Drawing.Point(147, 156);
@@ -233,29 +199,6 @@
             this.lblWarrantyAddCLN.Size = new System.Drawing.Size(76, 13);
             this.lblWarrantyAddCLN.TabIndex = 14;
             this.lblWarrantyAddCLN.Text = "Item Warranty:";
-            // 
-            // branchesTableAdapter
-            // 
-            this.branchesTableAdapter.ClearBeforeFill = true;
-            // 
-            // stockBindingSource
-            // 
-            this.stockBindingSource.DataMember = "Stock";
-            this.stockBindingSource.DataSource = this._stockI_TDataSet;
-            // 
-            // stockTableAdapter
-            // 
-            this.stockTableAdapter.ClearBeforeFill = true;
-            // 
-            // stockBindingSource1
-            // 
-            this.stockBindingSource1.DataMember = "Stock";
-            this.stockBindingSource1.DataSource = this._stockI_TDataSet;
-            // 
-            // stockBindingSource2
-            // 
-            this.stockBindingSource2.DataMember = "Stock";
-            this.stockBindingSource2.DataSource = this._stockI_TDataSet;
             // 
             // btnBack
             // 
@@ -317,12 +260,6 @@
             this.toolTip1.SetToolTip(this, "Click if you are ready to add the item");
             this.Load += new System.EventHandler(this.StockAddFormCLN_Load);
             this.Shown += new System.EventHandler(this.StockAddFormCLN_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.branchesBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockITDataSetBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._stockI_TDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockBindingSource2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,21 +275,12 @@
         private System.Windows.Forms.TextBox txbDescAddCLN;
         private System.Windows.Forms.TextBox txbBrandAddCLN;
         private System.Windows.Forms.TextBox txbPriceRetailAddCLN;
-        private System.Windows.Forms.Timer tmrStockAddCLN;
         private System.Windows.Forms.TextBox txtManfacturerPriceCLN;
         private System.Windows.Forms.Label lblManufacturerPriceCLN;
         private System.Windows.Forms.Label lblTypeAddCLN;
         private System.Windows.Forms.ComboBox cmbTypeAddCLN;
         private System.Windows.Forms.TextBox txbWarrantyAddCLN;
         private System.Windows.Forms.Label lblWarrantyAddCLN;
-        private System.Windows.Forms.BindingSource stockITDataSetBindingSource;
-        private _stockI_TDataSet _stockI_TDataSet;
-        private System.Windows.Forms.BindingSource branchesBindingSource;
-        private _stockI_TDataSetTableAdapters.BranchesTableAdapter branchesTableAdapter;
-        private System.Windows.Forms.BindingSource stockBindingSource;
-        private _stockI_TDataSetTableAdapters.StockTableAdapter stockTableAdapter;
-        private System.Windows.Forms.BindingSource stockBindingSource1;
-        private System.Windows.Forms.BindingSource stockBindingSource2;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.TextBox txbItemID;
         private System.Windows.Forms.Label label1;
