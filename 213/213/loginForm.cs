@@ -179,6 +179,7 @@ namespace _213
             try
             {
                 bgWCreate.ReportProgress(10);
+
                 //Find authorize in file and check level, if level is valid create user
                 if (authorize == "admin" && authorizePass == "HUEHUEHUE")
                 {
@@ -194,9 +195,9 @@ namespace _213
                         con.Open();
                         SqlCommand cAddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address, branch) VALUES ('" + username + "','" + hsh + "', 10, '" + saltyness + "', 0, 0, '" + email + "','" + Properties.Settings.Default.Branch + "')", con);
                         cAddUser.ExecuteNonQuery();
-                        btnCreate.Visible = false;
-                        button1.Visible = true;
+                        
                         con.Close();
+                        bgWCreate.ReportProgress(85);
                         return true;
 
                     }
@@ -213,8 +214,6 @@ namespace _213
 
                             string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                             string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
-
-                            bgWCreate.ReportProgress(65);
 
                             con.Open();
                             SqlCommand findAdmin = new SqlCommand("SELECT userName, password, authLevel, salt FROM Users WHERE userName= '" + authorize + "'", con);
@@ -235,8 +234,6 @@ namespace _213
 
                             }
 
-                            bgWCreate.ReportProgress(80);
-
                             dr.Close();
                             //Valid authorization account, add new user
                             if (authorize == user && BCrypt.Net.BCrypt.Verify(authorizePass, hPass))
@@ -250,7 +247,7 @@ namespace _213
                             btnCreate.Visible = false;
                             button1.Visible = true;
                             con.Close();
-                            bgWCreate.ReportProgress(100);
+
                             return true;
 
                         }
@@ -287,8 +284,10 @@ namespace _213
                     return false;
 
             }
-            catch(Exception)
-            { }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
             return false;
 
         }
@@ -323,8 +322,14 @@ namespace _213
 
                     if (userName == user && BCrypt.Net.BCrypt.Verify(pass, hPass))
                     {
-                        bgWLogin.ReportProgress(100);
-                        return true;
+                        if (txtLEmail.Visible != true)
+                        {
+                            bgWLogin.ReportProgress(100);
+                            return true;
+                        }
+                        else
+
+                            return true;
                     }
                     else
                         return false;
@@ -408,47 +413,16 @@ namespace _213
 
             try
             {
-                checkBranchExist(Properties.Settings.Default.Branch);
 
-                Cursor.Current = Cursors.WaitCursor;
+                textbox1.Enabled = false;
+                txtLPass.Enabled = false;
+                txtLEmail.Enabled = false;
+                btnCreate.Enabled = false;
+                button2.Enabled = false;
 
-                bool valid = true;
-                bool tooShort = false;
-                bool adres = false;
-
-                for (int c = 0; c < txtLPass.Text.Length; c++)
-                {
-
-                    if (!checkUser(textbox1.Text))
-                    {
-                        valid = false;
-
-                    }
-
-                }
-
-                if (txtLPass.Text.Length != 8)
-                    tooShort = true;
-
-                if (textbox1.Text != "")
-                    adres = true;
-
-                if (valid && !tooShort && adres)
-                {
-                    loginProgress.Visible = true;
-                    lblWait.Visible = true;
-
-                    bgWCreate.RunWorkerAsync();
-                    Cursor.Current = Cursors.Default;
-                }
-                else if (!valid)
-                    MessageBox.Show("The username you entered is already taken. Please enter another username and try again.", "Error");
-                else if (txtLPass.Text.Length < 8)
-                    MessageBox.Show("The entered password is too short. Please choose another password. (Password must be 8 characters in length.)", "Error");
-                else if (textbox1.Text == "")
-                    MessageBox.Show("It appears that no email address was entered. Please enter one and attempt to create the account again.", "Error");
-                else
-                    MessageBox.Show("The entered password is too long. Please choose another password. (Password must be 8 characters in length.)", "Error");
+                bgWCreate.ReportProgress(20);
+                loginProgress.Visible = true;
+                bgWCreate.RunWorkerAsync();
             }
             catch(FormatException)
             { }
@@ -472,46 +446,9 @@ namespace _213
                 Cursor.Current = Cursors.WaitCursor;
 
                 bgWLogin.RunWorkerAsync();
-                Cursor.Current = Cursors.Default;
                 
-                if (valid)
-                {
-
-                    DateTime local = DateTime.Now;
-                    gebruik.log(local, textbox1.Text, "logged in");
-
-                    using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
-                    {
-
-                        conn.Open();
-                        SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + textbox1.Text + "'", conn);
-                        uLogin.ExecuteNonQuery();
-                        conn.Close();
-
-                    }
-
-                }
-                else
-                {
-
-                    if (prev == textbox1.Text)
-                        attempts += 1;
-                    else
-                        attempts = 1;
-
-                    if (attempts >= 3)
-                        btnLForgotPass.Visible = true;
-
-
-                    prev = textbox1.Text;
-
-                    MessageBox.Show("The username or password you entered was incorrect", "Error");
-
-                    txtLPass.Text = "";
-                    textbox1.Text = "";
-                    textbox1.Focus();
-
-                }
+               
+                
             }
             catch(InvalidCastException)
             { }
@@ -713,6 +650,7 @@ namespace _213
 
             try
             {
+
                 using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     con.Open();
@@ -750,6 +688,7 @@ namespace _213
 
                         }
                     }
+                    bgWLogin.ReportProgress(20);
                 }
             }
             catch(InvalidCastException)
@@ -769,8 +708,10 @@ namespace _213
                 }
                 
             }
-            catch(Exception)
-            { }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
         }
 
@@ -1076,7 +1017,8 @@ namespace _213
 
             try
             {
-                if (txtLEmail.Text.Contains(".com") && txtLPass.Text.Length == 8 && textbox1.Text != "")
+                gebruik other = new gebruik();
+                if (other.IsValidEmail(txtLEmail.Text) && txtLPass.Text.Length == 8 && textbox1.Text != "")
                     btnCreate.Enabled = true;
                 else
                     btnCreate.Enabled = false;
@@ -1112,7 +1054,7 @@ namespace _213
                 if (firstrun)
                     f1 = new Form1(textbox1.Text, this, firstrun, txtLEmail.Text);
                 else
-                    f1 = new Form1(textbox1.Text);
+                    f1 = new Form1(textbox1.Text, this);
 
                 f1.Show();
                 DateTime local = DateTime.Now;
@@ -1129,19 +1071,105 @@ namespace _213
 
                 }
 
+                textbox1.Clear();
+                txtLPass.Clear();
+                lblWait.Visible = false;
+                loginProgress.Value = 0;
+                loginProgress.Visible = false;
+                textbox1.Enabled = true;
+                txtLPass.Enabled = true;
+                textbox1.Focus();
+
+
             }
             else
+            {
+
+                if (prev == textbox1.Text)
+                    attempts += 1;
+                else
+                    attempts = 1;
+
+                if (attempts >= 3)
+                    btnLForgotPass.Visible = true;
+
+
+                prev = textbox1.Text;
+
+                loginProgress.Visible = false;
                 MessageBox.Show("The username or password you entered was incorrect", "Error");
+
+                txtLPass.Text = "";
+                textbox1.Text = "";
+                textbox1.Focus();
+
+            }
+
+            Cursor.Current = Cursors.Default;
+
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////
         private void bgWCreate_DoWork(object sender, DoWorkEventArgs e)
         {
 
+            Cursor.Current = Cursors.WaitCursor;
             BackgroundWorker worker = sender as BackgroundWorker;
             //loginProgress.Visible = true;
             //lblWait.Visible = true;
+            checkBranchExist(Properties.Settings.Default.Branch);
 
-            addUser(textbox1.Text, txtLPass.Text, "10", txtLEmail.Text, "admin", "HUEHUEHUE");
+            bool valid = true;
+            bool tooShort = false;
+            bool adres = false;
+
+            if (!checkUser(textbox1.Text))
+            {
+                valid = false;
+
+            }
+
+            if (txtLPass.Text.Length != 8)
+                tooShort = true;
+
+            gebruik other = new gebruik();
+            if (other.IsValidEmail(txtLEmail.Text))
+                adres = true;
+            bgWCreate.ReportProgress(50);
+            if (valid && !tooShort && adres)
+            {
+
+                if(addUser(textbox1.Text, txtLPass.Text, "10", txtLEmail.Text, "admin", "HUEHUEHUE"))
+                    bgWCreate.ReportProgress(100);
+
+                Cursor.Current = Cursors.Default;
+            }
+            else if (!valid)
+            {
+                loginProgress.Visible = false;
+                MessageBox.Show("The username you entered is already taken. Please enter another username and try again.", "Error");
+            }
+            else if (txtLPass.Text.Length < 8)
+            {
+                loginProgress.Visible = false;
+                MessageBox.Show("The entered password is too short. Please choose another password. (Password must be 8 characters in length.)", "Error");
+
+            }
+                
+            else if (textbox1.Text == "")
+            {
+                loginProgress.Visible = false;
+                MessageBox.Show("It appears that no email address was entered. Please enter one and attempt to create the account again.", "Error");
+
+            }
+                
+            else
+            {
+                loginProgress.Visible = false;
+                MessageBox.Show("The entered password is too long. Please choose another password. (Password must be 8 characters in length.)", "Error");
+
+            }
+                
+            
 
         }
 

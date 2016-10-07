@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace _213
 {
@@ -30,18 +31,23 @@ namespace _213
         {
             InitializeComponent();
             user = userName;
-            lf.Hide();
+            login = lf;
+            login.Hide();
+            login.ShowInTaskbar = false;
         }
 
         public Form1(string userName, loginForm lf, bool first, string em)
         {
             InitializeComponent();
             user = userName;
-            lf.Hide();
+            login = lf;
+            login.Hide();
+            login.ShowInTaskbar = false;
             FR = first;
             email = em;
         }
 
+        private loginForm login;
         private bool FR;
         private string email;
 
@@ -57,9 +63,15 @@ namespace _213
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            //this.TopMost = true;
+            /////////////////////////////////////////////////////
+            this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+
+            ProcessModule objCurrentModule = Process.GetCurrentProcess().MainModule;
+            objKeyboardProcess = new LowLevelKeyboardProc(captureKey);
+            ptrHook = SetWindowsHookEx(13, objKeyboardProcess, GetModuleHandle(objCurrentModule.ModuleName), 0);
+            /////////////////////////////////////////////////////
 
             //////VISUALS
             ///ADMIN STUFF
@@ -96,7 +108,7 @@ namespace _213
                 btnAdminShow.Visible = false;
 
             btnAdminHide.BringToFront();
-            
+
             if(FR)
             {
 
@@ -341,13 +353,14 @@ namespace _213
 
         private void btnAdmLogout_Click(object sender, EventArgs e)
         {
-            loginForm lf = new loginForm();
             DateTime local = DateTime.Now;
 
             gebruik.log(local, user, "logout");
-            lf.Show();
+
+   
+            login.Show();
             this.Close();
-            lf.TopMost = true;
+            login.TopMost = true;
         }
 
         private void btnUEmp_Click(object sender, EventArgs e)
@@ -386,5 +399,51 @@ namespace _213
 
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////SUPRESS KEYS///////////////////////////////////////////////////////
+        [StructLayout(LayoutKind.Sequential)]
+        private struct KBDLLHOOKSTRUCT
+        {
+            public Keys key;
+            public int scanCode;
+            public int flags;
+            public int time;
+            public IntPtr extra;
+        }
+        //System level functions to be used for hook and unhook keyboard input  
+        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SetWindowsHookEx(int id, LowLevelKeyboardProc callback, IntPtr hMod, uint dwThreadId);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool UnhookWindowsHookEx(IntPtr hook);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr CallNextHookEx(IntPtr hook, int nCode, IntPtr wp, IntPtr lp);
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetModuleHandle(string name);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern short GetAsyncKeyState(Keys key);
+        //Declaring Global objects     
+        private IntPtr ptrHook;
+        private LowLevelKeyboardProc objKeyboardProcess;
+
+        private IntPtr captureKey(int nCode, IntPtr wp, IntPtr lp)
+        {
+            if (nCode >= 0)
+            {
+                KBDLLHOOKSTRUCT objKeyInfo = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lp, typeof(KBDLLHOOKSTRUCT));
+
+                // Disabling Windows keys 
+
+                if (objKeyInfo.key == Keys.RWin || objKeyInfo.key == Keys.LWin || objKeyInfo.key == Keys.Tab && HasAltModifier(objKeyInfo.flags) || objKeyInfo.key == Keys.Escape && (ModifierKeys & Keys.Control) == Keys.Control)
+                {
+                    return (IntPtr)1; // if 0 is returned then All the above keys will be enabled
+                }
+            }
+            return CallNextHookEx(ptrHook, nCode, wp, lp);
+        }
+
+        bool HasAltModifier(int flags)
+        {
+            return (flags & 0x20) == 0x20;
+        }
     }
 }

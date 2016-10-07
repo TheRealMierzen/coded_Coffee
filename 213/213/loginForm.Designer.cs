@@ -83,7 +83,7 @@
             // 
             this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCreate.Enabled = false;
-            this.btnCreate.Location = new System.Drawing.Point(412, 299);
+            this.btnCreate.Location = new System.Drawing.Point(412, 268);
             this.btnCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(99, 27);
@@ -127,11 +127,11 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(388, 57);
+            this.label1.Location = new System.Drawing.Point(382, 57);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 36);
+            this.label1.Size = new System.Drawing.Size(283, 36);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Welcom to stockI.T";
+            this.label1.Text = "Welcome to stockI.T";
             // 
             // notification
             // 
@@ -153,10 +153,17 @@
             // bgWLogin
             // 
             this.bgWLogin.WorkerReportsProgress = true;
+            this.bgWLogin.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWlogin_DoWork);
+            this.bgWLogin.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWlogin_ProgressChanged);
+            this.bgWLogin.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWlogin_RunWorkerCompleted);
             // 
             // bgWCreate
             // 
             this.bgWCreate.WorkerReportsProgress = true;
+            this.bgWCreate.WorkerSupportsCancellation = true;
+            this.bgWCreate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWCreate_DoWork);
+            this.bgWCreate.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWCreate_ProgressChanged);
+            this.bgWCreate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWCreate_RunWorkerCompleted);
             // 
             // loginProgress
             // 
