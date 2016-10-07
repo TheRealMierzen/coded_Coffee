@@ -90,10 +90,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EndOfDay.cs">
+    <Compile Include="End of day\EndOfDay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EndOfDay.Designer.cs">
+    <Compile Include="End of day\EndOfDay.Designer.cs">
       <DependentUpon>EndOfDay.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
@@ -233,7 +233,7 @@
     <Compile Include="WaterMarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="EndOfDay.resx">
+    <EmbeddedResource Include="End of day\EndOfDay.resx">
       <DependentUpon>EndOfDay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
