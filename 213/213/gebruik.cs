@@ -224,6 +224,7 @@ namespace _213
 
         /*true if sent
           false if failed*/
+          //needs backgroundrunners
         public bool Mail(string to, string source, string message)
         {
 
@@ -285,7 +286,7 @@ namespace _213
             if (false == p.CloseMainWindow())
                 p.Kill();
 
-        }
+            }
 //////////////////////////////////////////////////////////////////////////////////
 
         public bool checkAuthor(string username)
@@ -679,12 +680,11 @@ namespace _213
             }
             catch (SqlException se)
             {
-
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
                     if (other.CheckConnection())
-                        return checkID(id);
+                        checkID(id);
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -692,13 +692,189 @@ namespace _213
                     return false;
 
             }
-            catch (Exception)
+            catch(Exception)
             { }
-                return false;
+
+            return false;
 
         }
 
+        public int getLastIdentity(string tableName, string column, string returnType)
+        {
 
+            try
+            {
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+
+                    con.Open();
+                    SqlCommand lastId = new SqlCommand("SELECT MAX(cast( " + column + " as int)) FROM " + tableName + " ", con);
+
+
+                    int last = 0;
+
+                    if (returnType == "int")
+                    {
+                        
+
+                        SqlDataReader dr = lastId.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+
+                            last = dr.GetInt32(0);
+
+                        }
+                        dr.Close();
+
+                    }
+
+                    return Convert.ToInt16(last);
+
+                }
+            }
+            catch(Exception e)
+            {
+
+                MessageBox.Show("An error occurred during the " + e.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + e.Message, "Error");
+                return -1;
+
+            }
+
+        }
+
+        //MessageBox.Show(util.getDayOrders("2016-12-05"));
+        public string getDayOrders(string orderDate)
+        {
+
+            try
+            {
+                int records = 0;
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+
+                    con.Open();
+                    SqlCommand dayOrdersCount = new SqlCommand("SELECT COUNT(order_id) AS r_count FROM Orders WHERE order_date = '" + orderDate + "'",con);
+                    records = (int) dayOrdersCount.ExecuteScalar();
+
+                    MessageBox.Show(records.ToString());
+                    SqlCommand dayOrders = new SqlCommand("SELECT order_items FROM Orders WHERE order_date = '" + orderDate + "'", con);
+                    SqlDataReader dr = dayOrders.ExecuteReader();
+
+                    string items = "";
+                    while (dr.Read())
+                    {
+
+                        items += dr.GetString(0) + "\r\n";
+
+                    }
+                    dr.Close();
+
+                    return items;
+                }
+            }
+            catch(Exception e)
+            {
+
+                MessageBox.Show("An error occurred during the " + e.TargetSite + " process. Please verify the entered information and try again. If the problem persists, please contact our support team: blahblahsuppot \r\n" + e.Message, "Error");
+                return "";
+
+            }
+            
+        }
+
+        public void sendOrders(string items, string supplier, string supplier_email)
+        {
+
+            gebruik util = new gebruik();
+
+            int high = -1;
+            int low = -1;
+            int records = -1;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                {
+                    con.Open();
+                    SqlCommand dayOrdersCount = new SqlCommand("SELECT COUNT(order_id) AS r_count FROM Orders WHERE order_date = '" + DateTime.Now.Date.ToString() + "'", con);
+                    records = (int)dayOrdersCount.ExecuteScalar();
+
+                    if (records == 1)
+                        high = util.getLastIdentity("Orders", "order_id", "int");
+
+                    if (records > 1)
+                    {
+                        high = util.getLastIdentity("Orders", "order_id", "int");
+                        string cmdstring = "SELECT TOP 1 order_id FROM Orders WHERE order_date = @order_date ORDER BY order_id";
+                        using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                        {
+                            comm.Parameters.AddWithValue("@order_date", DateTime.Now.Date.ToString());
+                            low = Convert.ToInt32(comm.ExecuteScalar());
+
+                        }
+
+                    }
+                }
+            
+
+            //supplier email
+            if (records > 1)
+                if (util.Mail(supplier_email, DateTime.Now.Date.ToShortDateString() + " codedCoffee stock orders", "Good evening \r\nThe following are stock that we wish to order: \r\n" + items + " \r\nPlease confirm the items and contact us about any updates. \r\nOrder ids: " + low.ToString() + "-" + high.ToString() + "\r\nThank you in advance"))
+                {
+                    using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                    {
+
+                        string cmd = "UPDATE Orders SET invoice_sent = 1 WHERE order_date = @order_date";
+                        using (SqlCommand comm = new SqlCommand(cmd, conn))
+                        {
+                            comm.Parameters.AddWithValue("@order_date", DateTime.Now.Date.ToString());
+                            conn.Open();
+                            comm.ExecuteNonQuery();
+                            conn.Close();
+                        }
+
+                    }
+                    MessageBox.Show("The suppliername has been emailed with the contents of orders " + low.ToString() + "-" + high.ToString());
+                }
+            if (records == 1)
+                if (util.Mail(supplier_email, DateTime.Now.Date.ToShortDateString() + " codedCoffee stock orders", "Good evening \r\nThe following are stock that we wish to order: \r\n" + items + "\r\nPlease confirm the items and contact us about any updates. \r\nOrder id: " + high.ToString() + "\r\nThank you in advance"))
+                {
+                    using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
+                    {
+
+                        string cmd = "UPDATE Orders SET invoice_sent = 1 WHERE order_date = @order_date";
+                        using (SqlCommand comm = new SqlCommand(cmd, conn))
+                        {
+                            comm.Parameters.AddWithValue("@order_date", DateTime.Now.Date.ToString());
+                            conn.Open();
+                            comm.ExecuteNonQuery();
+                            conn.Close();
+                        }
+
+                    }
+                    MessageBox.Show("The suppliername has been emailed with the contents of order " + high.ToString());
+                }
+            }
+            catch (SqlException se)
+            {
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        sendOrders(items, supplier, supplier_email);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+
+        }
+
+/// <summary>
+/// Used to get location/branch of user
+/// </summary>
+/// <returns></returns>
         public bool CheckConnection()
         {
             try

@@ -37,6 +37,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.lblRemaining = new System.Windows.Forms.Label();
+            this.bgWLogin = new System.ComponentModel.BackgroundWorker();
+            this.bgWCreate = new System.ComponentModel.BackgroundWorker();
+            this.loginProgress = new System.Windows.Forms.ProgressBar();
+            this.lblWait = new System.Windows.Forms.Label();
             this.txtLPass = new wmgCMS.WaterMarkTextBox();
             this.txtLEmail = new wmgCMS.WaterMarkTextBox();
             this.textbox1 = new wmgCMS.WaterMarkTextBox();
@@ -79,7 +83,7 @@
             // 
             this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCreate.Enabled = false;
-            this.btnCreate.Location = new System.Drawing.Point(412, 268);
+            this.btnCreate.Location = new System.Drawing.Point(412, 299);
             this.btnCreate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(99, 27);
@@ -146,6 +150,32 @@
             this.lblRemaining.TabIndex = 0;
             this.lblRemaining.Text = "8 remaining";
             // 
+            // bgWLogin
+            // 
+            this.bgWLogin.WorkerReportsProgress = true;
+            // 
+            // bgWCreate
+            // 
+            this.bgWCreate.WorkerReportsProgress = true;
+            // 
+            // loginProgress
+            // 
+            this.loginProgress.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.loginProgress.Location = new System.Drawing.Point(412, 191);
+            this.loginProgress.Name = "loginProgress";
+            this.loginProgress.Size = new System.Drawing.Size(215, 23);
+            this.loginProgress.TabIndex = 6;
+            this.loginProgress.Visible = false;
+            // 
+            // lblWait
+            // 
+            this.lblWait.AutoSize = true;
+            this.lblWait.Location = new System.Drawing.Point(141, 150);
+            this.lblWait.Name = "lblWait";
+            this.lblWait.Size = new System.Drawing.Size(46, 17);
+            this.lblWait.TabIndex = 7;
+            this.lblWait.Text = "label2";
+            // 
             // txtLPass
             // 
             this.txtLPass.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -199,6 +229,8 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(953, 447);
+            this.Controls.Add(this.lblWait);
+            this.Controls.Add(this.loginProgress);
             this.Controls.Add(this.lblRemaining);
             this.Controls.Add(this.txtLPass);
             this.Controls.Add(this.txtLEmail);
@@ -231,5 +263,9 @@
         private wmgCMS.WaterMarkTextBox txtLPass;
         private System.Windows.Forms.NotifyIcon notification;
         private System.Windows.Forms.Label lblRemaining;
+        private System.ComponentModel.BackgroundWorker bgWLogin;
+        private System.ComponentModel.BackgroundWorker bgWCreate;
+        private System.Windows.Forms.ProgressBar loginProgress;
+        private System.Windows.Forms.Label lblWait;
     }
 }

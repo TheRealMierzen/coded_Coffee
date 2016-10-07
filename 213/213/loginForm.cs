@@ -26,6 +26,7 @@ namespace _213
         private bool firstrun = false;
         private bool promoR;
         private bool promoA;
+        private bool valid;
 
         private void loginForm_Load(object sender, EventArgs e)
         {
@@ -177,6 +178,7 @@ namespace _213
         {
             try
             {
+                bgWCreate.ReportProgress(10);
                 //Find authorize in file and check level, if level is valid create user
                 if (authorize == "admin" && authorizePass == "HUEHUEHUE")
                 {
@@ -184,6 +186,7 @@ namespace _213
                     using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                     {
                         string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
+                        bgWCreate.ReportProgress(35);
                         string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
 
                         gebruik other = new gebruik();
@@ -211,6 +214,8 @@ namespace _213
                             string saltyness = BCrypt.Net.BCrypt.GenerateSalt(15);
                             string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
 
+                            bgWCreate.ReportProgress(65);
+
                             con.Open();
                             SqlCommand findAdmin = new SqlCommand("SELECT userName, password, authLevel, salt FROM Users WHERE userName= '" + authorize + "'", con);
                             findAdmin.ExecuteNonQuery();
@@ -229,6 +234,9 @@ namespace _213
                                 user = dr.GetString(0);
 
                             }
+
+                            bgWCreate.ReportProgress(80);
+
                             dr.Close();
                             //Valid authorization account, add new user
                             if (authorize == user && BCrypt.Net.BCrypt.Verify(authorizePass, hPass))
@@ -242,6 +250,7 @@ namespace _213
                             btnCreate.Visible = false;
                             button1.Visible = true;
                             con.Close();
+                            bgWCreate.ReportProgress(100);
                             return true;
 
                         }
@@ -293,24 +302,30 @@ namespace _213
             {
                 using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-
+                    bgWLogin.ReportProgress(10);
                     con.Open();
                     SqlCommand cAddUser = new SqlCommand("SELECT userName FROM Users WHERE userName= '" + userName + "' AND branch = '" + Properties.Settings.Default.Branch + "'", con);
                     string user = "";
                     user = (string)cAddUser.ExecuteScalar();
 
+                    bgWLogin.ReportProgress(20);
                     string salt = "";
                     SqlCommand cSalty = new SqlCommand("SELECT salt FROM Users WHERE userName= '" + userName + "'", con);
                     salt = (string)cSalty.ExecuteScalar();
 
+                    bgWLogin.ReportProgress(50);
                     string hPass = "";
                     SqlCommand cPassword = new SqlCommand("SELECT password FROM Users WHERE userName= '" + userName + "'", con);
                     hPass = (string)cPassword.ExecuteScalar();
 
+                    bgWLogin.ReportProgress(65);
                     con.Close();
 
                     if (userName == user && BCrypt.Net.BCrypt.Verify(pass, hPass))
+                    {
+                        bgWLogin.ReportProgress(100);
                         return true;
+                    }
                     else
                         return false;
 
@@ -335,11 +350,16 @@ namespace _213
                     }
                 }
                 else
+                {
+                    MessageBox.Show("Something went wrong");
                     return false;
+                }
 
             }
-            catch (Exception)
-            { }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
             return false;
         }
 
@@ -390,6 +410,8 @@ namespace _213
             {
                 checkBranchExist(Properties.Settings.Default.Branch);
 
+                Cursor.Current = Cursors.WaitCursor;
+
                 bool valid = true;
                 bool tooShort = false;
                 bool adres = false;
@@ -413,13 +435,11 @@ namespace _213
 
                 if (valid && !tooShort && adres)
                 {
-                    if (addUser(textbox1.Text, txtLPass.Text, "", txtLEmail.Text, "admin", "HUEHUEHUE"))
-                    {
-                        MessageBox.Show("The account has succesfully been created.", "Info");
-                        txtLEmail.Visible = false;
-                        txtLPass.Clear();
-                        txtLPass.Focus();
-                    }
+                    loginProgress.Visible = true;
+                    lblWait.Visible = true;
+
+                    bgWCreate.RunWorkerAsync();
+                    Cursor.Current = Cursors.Default;
                 }
                 else if (!valid)
                     MessageBox.Show("The username you entered is already taken. Please enter another username and try again.", "Error");
@@ -442,11 +462,20 @@ namespace _213
         {
             try
             {
-                if (validateUser(textbox1.Text, txtLPass.Text))
-                {
+                textbox1.Enabled = false;
+                txtLPass.Enabled = false;
+                button1.Enabled = false;
+                button2.Enabled = false;
+                loginProgress.Visible = true;
+                lblWait.Visible = true;
 
-                    Form1 f1 = new Form1(textbox1.Text, this, firstrun, txtLEmail.Text);
-                    f1.Show();
+                Cursor.Current = Cursors.WaitCursor;
+
+                bgWLogin.RunWorkerAsync();
+                Cursor.Current = Cursors.Default;
+                
+                if (valid)
+                {
 
                     DateTime local = DateTime.Now;
                     gebruik.log(local, textbox1.Text, "logged in");
@@ -1058,6 +1087,87 @@ namespace _213
             { }
             catch(Exception)
             { }
+        }
+
+
+        private void bgWlogin_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            valid = validateUser(textbox1.Text, txtLPass.Text);
+
+        }
+
+        private void bgWlogin_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            loginProgress.Value = e.ProgressPercentage;
+        }
+
+        private void bgWlogin_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (valid)
+            {
+                Form1 f1;
+                if (firstrun)
+                    f1 = new Form1(textbox1.Text, this, firstrun, txtLEmail.Text);
+                else
+                    f1 = new Form1(textbox1.Text);
+
+                f1.Show();
+                DateTime local = DateTime.Now;
+                gebruik.log(local, textbox1.Text, "logged in");
+
+                //kort background
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
+
+                    conn.Open();
+                    SqlCommand uLogin = new SqlCommand("UPDATE Users SET numberOfLogins = numberOfLogins + 1 WHERE userName = '" + textbox1.Text + "'", conn);
+                    uLogin.ExecuteNonQuery();
+                    conn.Close();
+
+                }
+
+            }
+            else
+                MessageBox.Show("The username or password you entered was incorrect", "Error");
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        private void bgWCreate_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+            BackgroundWorker worker = sender as BackgroundWorker;
+            //loginProgress.Visible = true;
+            //lblWait.Visible = true;
+
+            addUser(textbox1.Text, txtLPass.Text, "10", txtLEmail.Text, "admin", "HUEHUEHUE");
+
+        }
+
+        private void bgWCreate_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            loginProgress.Value = e.ProgressPercentage;
+        }
+
+        private void bgWCreate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            loginProgress.Visible = false;
+            button1.Visible = true;
+            lblWait.Visible = false;
+            btnCreate.Visible = false;
+            textbox1.Enabled = true;
+            txtLPass.Enabled = true;
+            button2.Enabled = true;
+            txtLEmail.Enabled = true;
+            textbox1.Clear();
+            txtLPass.Clear();
+            textbox1.Focus();
+            txtLEmail.Visible = false;
+
+
+            MessageBox.Show("The account has succesfully been created.", "Info");
+
         }
 
     }
