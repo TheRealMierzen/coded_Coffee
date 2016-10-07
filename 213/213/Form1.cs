@@ -309,12 +309,12 @@ namespace _213
 
         private void btnAdminShow_Click(object sender, EventArgs e)
         {
-            btnAdminShow.Visible = false;
+            
 
             for (int pos = -233; pos < 0; pos++)
                 pnlAdmin.Location = new Point(pos, 0);
 
-            
+            btnAdminShow.Visible = false;
             btnAdminHide.Visible = true;
         }
 
