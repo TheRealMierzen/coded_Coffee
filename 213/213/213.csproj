@@ -178,16 +178,16 @@
     <Compile Include="HQ\frmRemoveOrder.Designer.cs">
       <DependentUpon>frmRemoveOrder.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTechnical.cs">
+    <Compile Include="Technical\FrmTechnical.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmTechnical.designer.cs">
+    <Compile Include="Technical\FrmTechnical.designer.cs">
       <DependentUpon>FrmTechnical.cs</DependentUpon>
     </Compile>
-    <Compile Include="frOrderConfirm.cs">
+    <Compile Include="Orders\frOrderConfirm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frOrderConfirm.Designer.cs">
+    <Compile Include="Orders\frOrderConfirm.Designer.cs">
       <DependentUpon>frOrderConfirm.cs</DependentUpon>
     </Compile>
     <Compile Include="gebruik.cs" />
@@ -197,10 +197,10 @@
     <Compile Include="loginForm.Designer.cs">
       <DependentUpon>loginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrderForm.cs">
+    <Compile Include="Orders\OrderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OrderForm.Designer.cs">
+    <Compile Include="Orders\OrderForm.Designer.cs">
       <DependentUpon>OrderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -309,7 +309,7 @@
       <DependentUpon>loginForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="OrderForm.resx">
+    <EmbeddedResource Include="Orders\OrderForm.resx">
       <DependentUpon>OrderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
