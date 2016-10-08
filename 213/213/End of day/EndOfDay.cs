@@ -19,7 +19,7 @@ namespace _213
     {
         string myFile;
         private string CurrentPath = "/";
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True");
+        SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
         public EndOfDay()
         {
 
@@ -28,7 +28,7 @@ namespace _213
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
             string cmd1 = "SELECT * FROM Orders";
             using (SqlCommand comm1 = new SqlCommand(cmd1, con))
             {
@@ -47,14 +47,14 @@ namespace _213
 
             }
 
-
+        
             //con.Close();
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+           
             string cmd2 = "SELECT * FROM Sales";
             using (SqlCommand comm2 = new SqlCommand(cmd2, con))
             {
@@ -73,12 +73,13 @@ namespace _213
 
             }
 
-
+            
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            
             DataTable tbl = new DataTable("Stock");
             string cmd3 = "SELECT * FROM Stock";
             using (SqlCommand comm3 = new SqlCommand(cmd3, con))
@@ -100,12 +101,12 @@ namespace _213
             }
 
             con.Close();
-
+      
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+             
             string cmd4 = "SELECT * FROM Transfers";
             using (SqlCommand comm4 = new SqlCommand(cmd4, con))
             {
@@ -122,7 +123,7 @@ namespace _213
                 dataGridView1.DataSource = bs;
                 sda.Update(dt);
             }
-
+            
 
         }
 
@@ -135,7 +136,7 @@ namespace _213
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            
             string ordr = "SELECT COUNT(*) FROM Orders";
             using (SqlCommand comm4 = new SqlCommand(ordr, con))
             {
@@ -215,7 +216,7 @@ namespace _213
 
                 con.Close();
             }
-
+            
 
 
         }
@@ -238,7 +239,7 @@ namespace _213
         {
             StreamWriter outstream;
             saveFileDialog1.InitialDirectory = @"c:\";
-            myFile = textBox2.Text + ".txt";
+            myFile = textBox2.Text + ".doc";
             saveFileDialog1.FileName = myFile;
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -263,7 +264,7 @@ namespace _213
             }
             else
             {
-                //this.GetFile();
+                this.GetFile();
             }
            
         }
@@ -285,7 +286,7 @@ namespace _213
             }
         }
 
-        /*private void GetFile()
+        private void GetFile()
         {
             OAuthUtility.GetAsync
             (
@@ -297,7 +298,7 @@ namespace _213
                 },
                 callback: GetFile_Result
             );
-        }*/
+        }
      
         private void GetFile_Result(RequestResult result)
         {
@@ -329,7 +330,7 @@ namespace _213
 
         private void button9_Click(object sender, EventArgs e)//upload files
         {
-           /*if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+           if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
            {
                return;
            }
@@ -347,7 +348,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                     callback: Upload_Result
-           );*/
+           );
         }
 
         private void Upload_Result(RequestResult result)
@@ -360,7 +361,7 @@ namespace _213
 
             if (result.StatusCode == 200)
             {
-                //this.GetFile();
+                this.GetFile();
             }
             else
             {
@@ -372,7 +373,7 @@ namespace _213
 
         private void button11_Click(object sender, EventArgs e)//new folder
         {
-            /*OAuthUtility.PostAsync
+            OAuthUtility.PostAsync
                (
                    "https://api.dropboxapi.com/1/fileops/create_folder",
                    new HttpParameterCollection
@@ -383,7 +384,7 @@ namespace _213
                     },
                    callback: CreateFolder_Result
                );
-            MessageBox.Show("Folder "+ textBox3.Text +" was created");*/
+            MessageBox.Show("Folder "+ textBox3.Text +" was created");
         }
 
 
@@ -398,7 +399,7 @@ namespace _213
 
             if (result.StatusCode == 200)
             {
-                //this.GetFile();
+                this.GetFile();
             }
             else
             {
@@ -419,24 +420,480 @@ namespace _213
             {
                 this.CurrentPath = listBox1.SelectedItem.ToString();
             }
-            //this.GetFile();
+            this.GetFile();
         }
-        
-        //this an address to send requests
-        //this a method to get a list of files and folders
-        //
-    
+
+        private void button15_Click(object sender, EventArgs e)//Transfers Summary
+        {
+            
+
+            
+            string trns = "SELECT COUNT(*) FROM Transfers";
+            using (SqlCommand com1 = new SqlCommand(trns, con))
+            {
+                com1.Parameters.AddWithValue("Transfers", trns);
+                con.Open();
+                object count = com1.ExecuteScalar();
+
+                //
+                string trn1 = "SELECT transfer_id FROM Transfers";
+                using (SqlCommand comm4 = new SqlCommand(trn1, con))
+                {
+                    comm4.Parameters.AddWithValue("Transfers", trn1);
+
+                    
+
+                    object count1 = comm4.ExecuteScalar();
+
+
+                    //from branch
+                    string trn2 = "SELECT from_branch FROM Transfers";
+                    using (SqlCommand co1 = new SqlCommand(trn2, con))
+                    {
+                        co1.Parameters.AddWithValue("Transfers", trn2);
+
+                        
+
+                        object count2 = co1.ExecuteScalar();
+
+                        //To Branch
+                        string trn3 = "SELECT to_branch FROM Transfers";
+                        using (SqlCommand co2 = new SqlCommand(trn3, con))
+                        {
+                            co2.Parameters.AddWithValue("Transfers", trn3);
+
+                            
+
+                            object count3 = co2.ExecuteScalar();
+
+                            //item ids
+                            string trn4 = "SELECT item_ids FROM Transfers";
+                            using (SqlCommand co3 = new SqlCommand(trn4, con))
+                            {
+                                co3.Parameters.AddWithValue("Transfers", trn4);
+
+                              
+
+                                object count4 = co1.ExecuteScalar();
+
+                                //send date
+                                string trn5 = "SELECT send_date FROM Transfers";
+                                using (SqlCommand co4 = new SqlCommand(trn5, con))
+                                {
+                                    co4.Parameters.AddWithValue("Transfers", trn5);
+
+                                    
+
+                                    object count5 = co1.ExecuteScalar();
+
+                                    //eta
+                                    string trn6 = "SELECT eta FROM Transfers";
+                                    using (SqlCommand co5 = new SqlCommand(trn6, con))
+                                    {
+                                        co5.Parameters.AddWithValue("Transfers", trn6);
+
+                                        
+
+                                        object count6 = co1.ExecuteScalar();
 
 
 
+                                        if (count.Equals(0))
+                                        {
+                                            MessageBox.Show("There are no Transfers");
+                                        }
+                                        else
+                                        {
+                                            for (int i = 0; i <= Convert.ToInt32(count); i++)
+                                            {
+                                                textBox1.AppendText("TRANSFERS REPORT(INDIVIDUAL)" + "\r\n" + "**********************");
+                                                textBox1.AppendText("Transfer ID: " + count1 + "\r\n");
+                                                textBox1.AppendText("Transfer From Branch: " + count2 + "\r\n");
+                                                textBox1.AppendText("Transfer To Branch: " + count3 + "\r\n");
+                                                textBox1.AppendText("Transfer Items ID: " + count4 + "\r\n");
+                                                textBox1.AppendText("Transfer Send Date: " + count5 + "\r\n");
+                                                textBox1.AppendText("Transfer Estimated Time of Arrival: " + count6 + "\r\n");
+                                            }
+                                        }
 
-        
 
-        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            con.Close();
+            //transfer_id, from_branch, to_branch, item_ids, send_date, eta
+           
+        }
+
+        private void button14_Click(object sender, EventArgs e)//Stock Summary
+        {
+           
+            string stk = "SELECT COUNT(*) FROM Stock";
+            using (SqlCommand com1 = new SqlCommand(stk, con))
+            {
+                com1.Parameters.AddWithValue("Transfers", stk);
+                con.Open();
+                object count = com1.ExecuteScalar();
+
+                //item id
+                string stk1 = "SELECT item_id FROM Stock";
+                using (SqlCommand comm4 = new SqlCommand(stk1, con))
+                {
+                    comm4.Parameters.AddWithValue("Transfers", stk1);
 
 
+
+                    object count1 = comm4.ExecuteScalar();
+
+
+                    //manufacturer
+                    string stk2 = "SELECT manufacturer FROM Stock";
+                    using (SqlCommand co1 = new SqlCommand(stk2, con))
+                    {
+                        co1.Parameters.AddWithValue("Transfers", stk2);
+
+
+
+                        object count2 = co1.ExecuteScalar();
+
+                        //Warranty
+                        string stk3 = "SELECT warranty FROM Stock";
+                        using (SqlCommand co2 = new SqlCommand(stk3, con))
+                        {
+                            co2.Parameters.AddWithValue("Transfers", stk3);
+
+
+
+                            object count3 = co2.ExecuteScalar();
+
+                            //Retail Price
+                            string stk4 = "SELECT retail_price FROM Stock";
+                            using (SqlCommand co3 = new SqlCommand(stk4, con))
+                            {
+                                co3.Parameters.AddWithValue("Transfers", stk4);
+
+
+
+                                object count4 = co3.ExecuteScalar();
+
+                                //item type
+                                string stk5 = "SELECT item_type FROM Stock";
+                                using (SqlCommand co4 = new SqlCommand(stk5, con))
+                                {
+                                    co4.Parameters.AddWithValue("Transfers", stk5);
+
+
+
+                                    object count5 = co4.ExecuteScalar();
+
+                                    //status
+                                    string stk6 = "SELECT status FROM Stock";
+                                    using (SqlCommand co5 = new SqlCommand(stk6, con))
+                                    {
+                                        co5.Parameters.AddWithValue("Transfers", stk6);
+
+
+
+                                        object count6 = co5.ExecuteScalar();
+
+                                    //Checked
+                                    string stk7 = "SELECT checked FROM Stock";
+                                    using (SqlCommand co6 = new SqlCommand(stk7, con))
+                                    {
+                                        co6.Parameters.AddWithValue("Transfers", stk7);
+
+
+
+                                        object count7 = co6.ExecuteScalar();
+
+
+
+                                        if (count.Equals(0))
+                                        {
+                                            MessageBox.Show("There is no Stock available");
+                                        }
+                                        else
+                                        {
+                                            for (int i = 0; i <= Convert.ToInt32(count); i++)
+                                            {
+                                                textBox1.AppendText("STOCK REPORT(INDIVIDUAL)" + "\r\n" + "**********************");
+                                                textBox1.AppendText("Stock Item ID: " + count1 + "\r\n");
+                                                textBox1.AppendText("Stock Manufacturer: " + count2 + "\r\n");
+                                                textBox1.AppendText("Stock Warranty: " + count3 + "\r\n");
+                                                textBox1.AppendText("Stock Retail Price: " + count4 + "\r\n");
+                                                textBox1.AppendText("Stock Item Type: " + count5 + "\r\n");
+                                                textBox1.AppendText("Stock Item Status: " + count6 + "\r\n");
+                                                textBox1.AppendText("Stock Checked: " + count7 + "\r\n");
+                                            }
+                                        }
+                                    }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+           
+            con.Close();
+        }
+
+        private void button13_Click(object sender, EventArgs e)//Sales Summary
+        {
+          
+            //count sales
+            string stk = "SELECT COUNT(*) FROM Sales";
+            using (SqlCommand com1 = new SqlCommand(stk, con))
+            {
+                com1.Parameters.AddWithValue("Transfers", stk);
+                con.Open();
+                object count = com1.ExecuteScalar();
+
+                //item id
+                string stk1 = "SELECT sale_id FROM Sales";
+                using (SqlCommand comm4 = new SqlCommand(stk1, con))
+                {
+                    comm4.Parameters.AddWithValue("Transfers", stk1);
+
+
+
+                    object count1 = comm4.ExecuteScalar();
+
+
+                    //manufacturer
+                    string stk2 = "SELECT sale_date FROM Sales";
+                    using (SqlCommand co1 = new SqlCommand(stk2, con))
+                    {
+                        co1.Parameters.AddWithValue("Transfers", stk2);
+
+
+
+                        object count2 = co1.ExecuteScalar();
+
+                        //Warranty
+                        string stk3 = "SELECT item_ids FROM Sales";
+                        using (SqlCommand co2 = new SqlCommand(stk3, con))
+                        {
+                            co2.Parameters.AddWithValue("Transfers", stk3);
+
+
+
+                            object count3 = co2.ExecuteScalar();
+
+                            //Retail Price
+                            string stk4 = "SELECT total_cost FROM Sales";
+                            using (SqlCommand co3 = new SqlCommand(stk4, con))
+                            {
+                                co3.Parameters.AddWithValue("Transfers", stk4);
+
+
+
+                                object count4 = co3.ExecuteScalar();
+
+                                //item type
+                                string stk5 = "SELECT total_paid FROM Sales";
+                                using (SqlCommand co4 = new SqlCommand(stk5, con))
+                                {
+                                    co4.Parameters.AddWithValue("Transfers", stk5);
+
+
+
+                                    object count5 = co4.ExecuteScalar();
+
+                                    //status
+                                    string stk6 = "SELECT promotion FROM Sales";
+                                    using (SqlCommand co5 = new SqlCommand(stk6, con))
+                                    {
+                                        co5.Parameters.AddWithValue("Transfers", stk6);
+
+
+
+                                        object count6 = co5.ExecuteScalar();
+
+                                        //Checked
+                                        string stk7 = "SELECT payment_method FROM Sales";
+                                        using (SqlCommand co6 = new SqlCommand(stk7, con))
+                                        {
+                                            co6.Parameters.AddWithValue("Transfers", stk7);
+
+
+
+                                            object count7 = co6.ExecuteScalar();
+
+                                            //Checked
+                                            string stk8 = "SELECT sale_branch FROM Sales";
+                                            using (SqlCommand co7 = new SqlCommand(stk8, con))
+                                            {
+                                                co7.Parameters.AddWithValue("Transfers", stk8);
+
+
+
+                                                object count8 = co6.ExecuteScalar();
+
+                                                if (count.Equals(0))
+                                                {
+                                                    MessageBox.Show("There were no Sales made");
+                                                }
+                                                else
+                                                {
+                                                    for (int i = 0; i <= Convert.ToInt32(count); i++)
+                                                    {
+                                                        textBox1.AppendText("SALES REPORT(INDIVIDUAL)" + "\r\n" + "**********************");
+                                                        textBox1.AppendText("Sales ID: " + count1 + "\r\n");
+                                                        textBox1.AppendText("Sales Date: " + count2 + "\r\n");
+                                                        textBox1.AppendText("Sales Item ID: " + count3 + "\r\n");
+                                                        textBox1.AppendText("Sales Total Cost: " + count4 + "\r\n");
+                                                        textBox1.AppendText("Sales Total Paid: " + count5 + "\r\n");
+                                                        textBox1.AppendText("Sales Payment Method: " + count7 + "\r\n");
+                                                        textBox1.AppendText("Sales Promotion: " + count6 + "\r\n");
+                                                        textBox1.AppendText("Sales Branch: " + count8 + "\r\n");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            con.Close();
+             
+        }
+
+        private void button12_Click(object sender, EventArgs e)//Orders Summary
+        {
+            
+                //count sales
+                string stk = "SELECT COUNT(*) FROM Orders";
+                using (SqlCommand com1 = new SqlCommand(stk, con))
+                {
+                    com1.Parameters.AddWithValue("Transfers", stk);
+                    con.Open();
+                    object count = com1.ExecuteScalar();
+
+                    //item id
+                    string stk1 = "SELECT order_id FROM Orders";
+                    using (SqlCommand comm4 = new SqlCommand(stk1, con))
+                    {
+                        comm4.Parameters.AddWithValue("Transfers", stk1);
+
+
+
+                        object count1 = comm4.ExecuteScalar();
+
+
+                        //manufacturer
+                        string stk2 = "SELECT order_date FROM Orders";
+                        using (SqlCommand co1 = new SqlCommand(stk2, con))
+                        {
+                            co1.Parameters.AddWithValue("Transfers", stk2);
+
+
+
+                            object count2 = co1.ExecuteScalar();
+
+                            //Warranty
+                            string stk3 = "SELECT order_items FROM Orders";
+                            using (SqlCommand co2 = new SqlCommand(stk3, con))
+                            {
+                                co2.Parameters.AddWithValue("Transfers", stk3);
+
+
+
+                                object count3 = co2.ExecuteScalar();
+
+                                //Retail Price
+                                string stk4 = "SELECT order_supplier FROM Orders";
+                                using (SqlCommand co3 = new SqlCommand(stk4, con))
+                                {
+                                    co3.Parameters.AddWithValue("Transfers", stk4);
+
+
+
+                                    object count4 = co3.ExecuteScalar();
+
+                                    //item type
+                                    string stk5 = "SELECT eta FROM Orders";
+                                    using (SqlCommand co4 = new SqlCommand(stk5, con))
+                                    {
+                                        co4.Parameters.AddWithValue("Transfers", stk5);
+
+
+
+                                        object count5 = co4.ExecuteScalar();
+
+                                        //status
+                                        string stk6 = "SELECT received_date FROM Orders";
+                                        using (SqlCommand co5 = new SqlCommand(stk6, con))
+                                        {
+                                            co5.Parameters.AddWithValue("Transfers", stk6);
+
+
+
+                                            object count6 = co5.ExecuteScalar();
+
+                                            //Checked
+                                            string stk7 = "SELECT received FROM Orders";
+                                            using (SqlCommand co6 = new SqlCommand(stk7, con))
+                                            {
+                                                co6.Parameters.AddWithValue("Transfers", stk7);
+
+
+
+                                                object count7 = co6.ExecuteScalar();
+
+                                                //Checked
+                                                string stk8 = "SELECT total_cost FROM Orders";
+                                                using (SqlCommand co7 = new SqlCommand(stk8, con))
+                                                {
+                                                    co7.Parameters.AddWithValue("Transfers", stk8);
+
+
+
+                                                    object count8 = co6.ExecuteScalar();
+
+                                                    if (count.Equals(0))
+                                                    {
+                                                        MessageBox.Show("There were no Orders made");
+                                                    }
+                                                    else
+                                                    {
+                                                        for (int i = 0; i <= Convert.ToInt32(count); i++)
+                                                        {
+                                                            textBox1.AppendText("ORDERS REPORT(INDIVIDUAL)" + "\r\n" + "**********************");
+                                                            textBox1.AppendText("Orders ID: " + count1 + "\r\n");
+                                                            textBox1.AppendText("Orders Date: " + count2 + "\r\n");
+                                                            textBox1.AppendText("Orders Items: " + count3 + "\r\n");
+                                                            textBox1.AppendText("Orders Supplier: " + count4 + "\r\n");
+                                                            textBox1.AppendText("Orders ETA: " + count5 + "\r\n");
+                                                            textBox1.AppendText("Orders Recieved Date: " + count6 + "\r\n");
+                                                            textBox1.AppendText("Orders Recieved: " + count7 + "\r\n");
+                                                            textBox1.AppendText("Orders Total Cost: " + count8 + "\r\n");
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                con.Close();
+            
+        }
     }
-
-
-
 }
