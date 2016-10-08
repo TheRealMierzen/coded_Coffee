@@ -20,10 +20,12 @@ namespace _213
         string selectedItem = null;
         string path;
         string Ordernumber;
+        private int c = 0;
         int last;
         bool custombuild = false;
+        int counter = 0;
    
-        private Action<object, EventArgs> roundButton3_Click;
+        //private Action<object, EventArgs> roundButton3_Click;
 
         public OrderForm()
         {
@@ -35,6 +37,31 @@ namespace _213
             AddOrderBtn.Enabled = false;
             cbxOrders.SelectedIndex = 0;
             txtMaker.Focus();
+        }
+
+        public OrderForm(string usert, int counters, string email)
+        {
+            InitializeComponent();
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
+            cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
+            user = usert;
+            counter = counters;
+            cbxSpecialorder.Enabled = false;
+            cbxSpecialorder.Checked = true;
+            txtCust_email.Text = email;
+            txtCust_email.Enabled = false;
+            txtCust_email.Show();
+            c = counters;
+            MessageBox.Show("You may only order " + counter + " items for this build", "Custom build", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void makeOrder()
+        {
+
         }
 
         public OrderForm(FrmTechnical tf)
@@ -76,7 +103,7 @@ namespace _213
             cbxOrders.SelectedIndex = 0;
         }
 
-        public OrderForm(bool custombuild)
+        public OrderForm(bool custombuild, FrmTechnical ft)
         {
             InitializeComponent();
             gpxOrders.Hide();
@@ -85,21 +112,22 @@ namespace _213
             cbxOrder.Sorted = true;
             AddOrderBtn.Enabled = false;
             cbxOrders.SelectedIndex = 0;
-            this.custombuild = true;
+            this.custombuild = custombuild;
+            tech = ft;
         }
 
-
-        public OrderForm(Action<object, EventArgs> roundButton3_Click)
+        FrmTechnical tech;
+        /*public OrderForm(Action<object, EventArgs> roundButton3_Click)
         {
             this.roundButton3_Click = roundButton3_Click;
         }
 
         private void roundButton3(object sender, EventArgs e)
         {
-            OrderForm OF2 = new OrderForm();
+            //OrderForm OF2 = new OrderForm();
             
             
-        }
+        }*/
 
         private void OrderForm_Load(object sender, EventArgs e)
         {
@@ -138,13 +166,13 @@ namespace _213
                             txtMaker.Clear();
                         }
                         gebruik.addAction(user);
-                        //gebruik.log(DateTime.Now, user, "Placed order");
+                        gebruik.log(DateTime.Now, user, "Placed order");
                         if(custombuild == true)
                         {
-                            FrmTechnical tec = new FrmTechnical(items,Ordernumber);
-                            tec.Show();
-                            tec.Activate();
-                            this.Hide();
+                            
+                            tech.setItems(items);
+                            tech.setOrderId(Ordernumber);
+                            this.Close();
                             //parent.setItems(items);
 
                         }
@@ -529,7 +557,7 @@ namespace _213
         private void button1_Click(object sender, EventArgs e)//back to home
         {
             Form1 f1 = new Form1();
-            f1.Activate();
+            
             this.Hide();
             this.Close();
         }

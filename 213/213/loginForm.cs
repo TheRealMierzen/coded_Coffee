@@ -30,8 +30,6 @@ namespace _213
 
         private void loginForm_Load(object sender, EventArgs e)
         {
-            this.SuspendLayout();
-            
             //////////////Maak/Fullscreen////////////////
             /*this.TopMost = true;*/
             this.FormBorderStyle = FormBorderStyle.None;
@@ -66,7 +64,7 @@ namespace _213
                 firstrun = true;
 
             }
-            this.ResumeLayout();
+            
             if (!checkFile() && util.CheckConnection())
             {
 
@@ -123,7 +121,6 @@ namespace _213
                 button2.Enabled = true;
 
             }
-
         }
         
        
@@ -416,7 +413,7 @@ namespace _213
 
             try
             {
-                
+
                 textbox1.Enabled = false;
                 txtLPass.Enabled = false;
                 txtLEmail.Enabled = false;
@@ -1137,7 +1134,6 @@ namespace _213
             gebruik other = new gebruik();
             if (other.IsValidEmail(txtLEmail.Text))
                 adres = true;
-
             bgWCreate.ReportProgress(50);
             if (valid && !tooShort && adres)
             {
@@ -1202,25 +1198,6 @@ namespace _213
 
         }
 
-        private void loginProgress_VisibleChanged(object sender, EventArgs e)
-        {
-            string text;
-            if (btnCreate.Visible == true)
-                text = "creating account";
-            else
-                text = "logging in";
-
-            using (Graphics gr = loginProgress.CreateGraphics())
-            {
-                gr.DrawString(text.ToString() + "%",
-                    SystemFonts.DefaultFont,
-                    Brushes.Black,
-                    new PointF(loginProgress.Width / 2 - (gr.MeasureString(loginProgress.ToString() + "%",
-                        SystemFonts.DefaultFont).Width / 2.0F),
-                    loginProgress.Height / 2 - (gr.MeasureString(text,
-                        SystemFonts.DefaultFont).Height / 2.0F)));
-            }
-        }
     }
 }
 

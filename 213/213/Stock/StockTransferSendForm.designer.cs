@@ -56,7 +56,6 @@
             // txbItemIDTransfer
             // 
             this.txbItemIDTransfer.Location = new System.Drawing.Point(89, 39);
-            this.txbItemIDTransfer.MaxLength = 25;
             this.txbItemIDTransfer.Name = "txbItemIDTransfer";
             this.txbItemIDTransfer.Size = new System.Drawing.Size(121, 20);
             this.txbItemIDTransfer.TabIndex = 20;
@@ -87,7 +86,7 @@
             this.btnCancelSend.Name = "btnCancelSend";
             this.btnCancelSend.Size = new System.Drawing.Size(75, 23);
             this.btnCancelSend.TabIndex = 17;
-            this.btnCancelSend.Text = "Back";
+            this.btnCancelSend.Text = "Cancel";
             this.toolTip1.SetToolTip(this.btnCancelSend, "Click to close this window");
             this.btnCancelSend.UseVisualStyleBackColor = true;
             this.btnCancelSend.Click += new System.EventHandler(this.btnCancelSend_Click_1);
@@ -125,6 +124,9 @@
             this.lblBranchSend.Size = new System.Drawing.Size(74, 13);
             this.lblBranchSend.TabIndex = 14;
             this.lblBranchSend.Text = "Select Branch";
+            // 
+            // branchesTableAdapter
+            // 
             // 
             // StockTransferSendForm
             // 

@@ -358,6 +358,9 @@
     <EmbeddedResource Include="Sales\salesForm.resx">
       <DependentUpon>salesForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Technical\FrmTechnical.resx">
+      <DependentUpon>FrmTechnical.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

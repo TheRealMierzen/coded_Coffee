@@ -36,14 +36,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.gpxtech = new System.Windows.Forms.GroupBox();
+            this.txbID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtMics = new System.Windows.Forms.TextBox();
-            this.txtCpu = new System.Windows.Forms.TextBox();
+            this.txtCpu = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtPsu = new System.Windows.Forms.TextBox();
-            this.txtGpu = new System.Windows.Forms.TextBox();
-            this.txtRam = new System.Windows.Forms.TextBox();
-            this.txtmobo = new System.Windows.Forms.TextBox();
+            this.txtPsu = new System.Windows.Forms.ComboBox();
+            this.txtGpu = new System.Windows.Forms.ComboBox();
+            this.txtRam = new System.Windows.Forms.ComboBox();
+            this.txtmobo = new System.Windows.Forms.ComboBox();
             this.Cpu = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -51,7 +52,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtSec = new System.Windows.Forms.TextBox();
-            this.txtPrim = new System.Windows.Forms.TextBox();
+            this.txtPrim = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.txtXstras = new System.Windows.Forms.TextBox();
@@ -63,8 +64,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.lbxoutput = new System.Windows.Forms.ListBox();
+            this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.gpbClient.SuspendLayout();
             this.gpxtech.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -135,6 +136,7 @@
             // 
             // gpxtech
             // 
+            this.gpxtech.Controls.Add(this.txbID);
             this.gpxtech.Controls.Add(this.label1);
             this.gpxtech.Controls.Add(this.txtMics);
             this.gpxtech.Controls.Add(this.txtCpu);
@@ -150,10 +152,20 @@
             this.gpxtech.Controls.Add(this.label10);
             this.gpxtech.Location = new System.Drawing.Point(3, 151);
             this.gpxtech.Name = "gpxtech";
-            this.gpxtech.Size = new System.Drawing.Size(292, 360);
+            this.gpxtech.Size = new System.Drawing.Size(292, 392);
             this.gpxtech.TabIndex = 4;
             this.gpxtech.TabStop = false;
             this.gpxtech.Text = "Custom build";
+            // 
+            // txbID
+            // 
+            this.txbID.Location = new System.Drawing.Point(100, 15);
+            this.txbID.Name = "txbID";
+            this.txbID.Size = new System.Drawing.Size(100, 20);
+            this.txbID.TabIndex = 20;
+            this.txbID.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txbID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbID_KeyPress);
+            this.txbID.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.txbID_PreviewKeyDown);
             // 
             // label1
             // 
@@ -178,7 +190,7 @@
             // 
             this.txtCpu.Location = new System.Drawing.Point(6, 269);
             this.txtCpu.Name = "txtCpu";
-            this.txtCpu.Size = new System.Drawing.Size(267, 20);
+            this.txtCpu.Size = new System.Drawing.Size(267, 21);
             this.txtCpu.TabIndex = 18;
             this.passTT.SetToolTip(this.txtCpu, "Please enter the product id for the Central prsessing unit . If you dont want thi" +
         "s item the the custom build.");
@@ -197,7 +209,7 @@
             // 
             this.txtPsu.Location = new System.Drawing.Point(5, 218);
             this.txtPsu.Name = "txtPsu";
-            this.txtPsu.Size = new System.Drawing.Size(267, 20);
+            this.txtPsu.Size = new System.Drawing.Size(267, 21);
             this.txtPsu.TabIndex = 17;
             this.passTT.SetToolTip(this.txtPsu, "Please enter the product id for the power Supply . If you dont want this item the" +
         " the custom build.");
@@ -207,7 +219,7 @@
             // 
             this.txtGpu.Location = new System.Drawing.Point(6, 146);
             this.txtGpu.Name = "txtGpu";
-            this.txtGpu.Size = new System.Drawing.Size(267, 20);
+            this.txtGpu.Size = new System.Drawing.Size(267, 21);
             this.txtGpu.TabIndex = 16;
             this.passTT.SetToolTip(this.txtGpu, "Please enter the product id for the Graphics card. If you dont want this item the" +
         " the custom build.\r\nEnter a zero (0).");
@@ -217,7 +229,7 @@
             // 
             this.txtRam.Location = new System.Drawing.Point(9, 94);
             this.txtRam.Name = "txtRam";
-            this.txtRam.Size = new System.Drawing.Size(267, 20);
+            this.txtRam.Size = new System.Drawing.Size(267, 21);
             this.txtRam.TabIndex = 15;
             this.passTT.SetToolTip(this.txtRam, "Please enter the product id for the Ram . If you dont want this item the the cust" +
         "om build.\r\nEnter a zero (0).");
@@ -227,7 +239,7 @@
             // 
             this.txtmobo.Location = new System.Drawing.Point(9, 44);
             this.txtmobo.Name = "txtmobo";
-            this.txtmobo.Size = new System.Drawing.Size(267, 20);
+            this.txtmobo.Size = new System.Drawing.Size(267, 21);
             this.txtmobo.TabIndex = 14;
             this.passTT.SetToolTip(this.txtmobo, "Please enter the product id for the . If you dont want this item the the custom b" +
         "uild.\r\nEnter a zero (0).");
@@ -302,7 +314,7 @@
             // 
             this.txtPrim.Location = new System.Drawing.Point(9, 32);
             this.txtPrim.Name = "txtPrim";
-            this.txtPrim.Size = new System.Drawing.Size(267, 20);
+            this.txtPrim.Size = new System.Drawing.Size(267, 21);
             this.txtPrim.TabIndex = 15;
             // 
             // label16
@@ -432,6 +444,14 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(298, 602);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
+            // lbxoutput
+            // 
+            this.lbxoutput.FormattingEnabled = true;
+            this.lbxoutput.Location = new System.Drawing.Point(3, 3);
+            this.lbxoutput.Name = "lbxoutput";
+            this.lbxoutput.Size = new System.Drawing.Size(120, 95);
+            this.lbxoutput.TabIndex = 9;
+            // 
             // passTT
             // 
             this.passTT.AutoPopDelay = 5000;
@@ -441,14 +461,6 @@
             this.passTT.Tag = "";
             this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.passTT.ToolTipTitle = "Custombuild help";
-            // 
-            // lbxoutput
-            // 
-            this.lbxoutput.FormattingEnabled = true;
-            this.lbxoutput.Location = new System.Drawing.Point(3, 3);
-            this.lbxoutput.Name = "lbxoutput";
-            this.lbxoutput.Size = new System.Drawing.Size(120, 95);
-            this.lbxoutput.TabIndex = 9;
             // 
             // FrmTechnical
             // 
@@ -460,7 +472,6 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FrmTechnical";
             this.Text = "FrmTechnical";
-            this.Activated += new System.EventHandler(this.FrmTechnical_Activated);
             this.Load += new System.EventHandler(this.FrmTechnical_Load);
             this.gpbClient.ResumeLayout(false);
             this.gpbClient.PerformLayout();
@@ -500,14 +511,14 @@
         private System.Windows.Forms.Button btnQuote;
         private System.Windows.Forms.Button btnPlaceorder;
         private System.Windows.Forms.Label Cpu;
-        private System.Windows.Forms.TextBox txtCpu;
-        private System.Windows.Forms.TextBox txtPsu;
-        private System.Windows.Forms.TextBox txtGpu;
-        private System.Windows.Forms.TextBox txtRam;
-        private System.Windows.Forms.TextBox txtmobo;
+        private System.Windows.Forms.ComboBox txtCpu;
+        private System.Windows.Forms.ComboBox txtPsu;
+        private System.Windows.Forms.ComboBox txtGpu;
+        private System.Windows.Forms.ComboBox txtRam;
+        private System.Windows.Forms.ComboBox txtmobo;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txtSec;
-        private System.Windows.Forms.TextBox txtPrim;
+        private System.Windows.Forms.ComboBox txtPrim;
         private System.Windows.Forms.TextBox txtMics;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -515,5 +526,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.ToolTip passTT;
         private System.Windows.Forms.ListBox lbxoutput;
+        private System.Windows.Forms.TextBox txbID;
     }
 }

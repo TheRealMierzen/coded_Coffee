@@ -44,26 +44,14 @@ namespace _213
                 {
                     SqlCommand stockDelete = new SqlCommand("UPDATE Stock SET Status = @status WHERE item_id = @id", stockConnection);
                     stockDelete.Parameters.AddWithValue("@id", txtDeleteID.Text);
-                    stockDelete.Parameters.AddWithValue("@Status", "Removed");
+                    stockDelete.Parameters.AddWithValue("@Status", "Removed"); stockDelete.ExecuteNonQuery();
                     stockDelete.ExecuteNonQuery();
                     if (rbDisposal.Checked == true)
-                    {
-                        gebruik.log(DateTime.Now, userNme, "Removed Stock: " + rbDisposal.Text);
-                        gebruik.addAction(userNme);
-                        MessageBox.Show("Item Successfully Removed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else if (rbFaulty.Checked == true)
-                    {
-                        gebruik.log(DateTime.Now, userNme, "Removed Stock: " + rbFaulty.Text);
-                        gebruik.addAction(userNme);
-                        MessageBox.Show("Item Successfully Removed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please select a reason", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                           
-
+                        // gebruik.log(DateTime.Now, userNme, "Removed Stock: " + rbDisposal.Text);
+                        if (rbFaulty.Checked == true)
+                            //  gebruik.log(DateTime.Now, userNme, "Removed Stock: " + rbFaulty.Text);
+                            gebruik.addAction(userNme);
+                    MessageBox.Show("Item Successfulyl Removed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     stockConnection.Close();
                 }
             }
@@ -90,11 +78,6 @@ namespace _213
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void btnCancelFind_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

@@ -62,9 +62,9 @@ namespace _213
                     string status = "In Stock";
                     int check = 0;
 
-                    SqlCommand getDes = new SqlCommand("SELECT cms_id, cms_order, cms_email FROM Cms WHERE branch = @branch AND completed = @com", stockConnection);
-                    getDes.Parameters.AddWithValue("@com", 0);
-                    getDes.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+                    SqlCommand getDes = new SqlCommand("SELECT cms_id, cms_order, cms_email FROM Cms WHERE branch = @branch", stockConnection);
+                    getDes.Parameters.AddWithValue("@branch", "Pretoria");
+                    //getDes.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                     if (getDes.ExecuteScalar() != null)
                     {
                         SqlDataReader reader = getDes.ExecuteReader();
@@ -76,9 +76,8 @@ namespace _213
                                 string n = descAddCLN;
                                 string des = "";
                                 des = reader.GetString(1);
-                                if (des.Contains(descAddCLN) && (l != ""))
+                                if (descAddCLN.Contains(des))
                                 {
-                                    
                                     MessageBox.Show("This item is needed for a custom build and will be added to custom builds", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     SqlCommand stockAddCommandCLN = new SqlCommand("INSERT INTO Stock(branch, item_id, manufacturer, warranty, last_updated, initial_add, manufacturer_price, retail_price, item_name, item_Type, status, checked) VALUES(@branch, @item_id, @manufacturer, @warrenty, @last_updated, @intial_add, @manufacuter_price, @retail_price, @description, @item_Type, @status, @checked)", stockConnection);
                                     stockAddCommandCLN.Parameters.AddWithValue("@branch", branchAdd);
@@ -86,7 +85,7 @@ namespace _213
                                     stockAddCommandCLN.Parameters.AddWithValue("@manufacturer", manufacturerAddCLN);
                                     stockAddCommandCLN.Parameters.AddWithValue("@warrenty", warrantyAddCLN);
                                     stockAddCommandCLN.Parameters.AddWithValue("@last_updated", DateTime.Now);
-                                    stockAddCommandCLN.Parameters.AddWithValue("@intial_add", DateTime.Today.ToShortDateString());
+                                    stockAddCommandCLN.Parameters.AddWithValue("@intial_add", DateTime.Today);
                                     stockAddCommandCLN.Parameters.AddWithValue("@manufacuter_price", mPriceAddCLN);
                                     stockAddCommandCLN.Parameters.AddWithValue("@retail_price", rPriceAddCLN);
                                     stockAddCommandCLN.Parameters.AddWithValue("@description", descAddCLN);
@@ -95,70 +94,27 @@ namespace _213
                                     stockAddCommandCLN.Parameters.AddWithValue("@status", status);
                                     stockAddCommandCLN.Parameters.AddWithValue("@checked", check);
                                     gebruik.addAction(userNme);
-                                    gebruik.log(DateTime.Now, userNme, "Added stock" + txbItemID.Text + ", Item name: " + descAddCLN);
-                                    //string meh = l.Replace(n, "");
-                                    string meh = reader.GetString(1);
-                                    meh = meh.Remove(meh.IndexOf(descAddCLN), descAddCLN.Length + 1);
-                                    SqlCommand updateCms = new SqlCommand("UPDATE Cms SET cms_orders = @order, date_complete = @date, complete = @com WHERE cms_id = @id");
-                                    updateCms.Parameters.AddWithValue("@order", meh);
-                                    updateCms.Parameters.AddWithValue("@id", reader.GetString(0));
-                                    updateCms.Parameters.AddWithValue("@date", DateTime.Now);
-                                    updateCms.Parameters.AddWithValue("@com", 1);
-                                    updateCms.ExecuteNonQuery();
+                                  //  gebruik.log(DateTime.Now, userNme, "Added stock" + txbItemID.Text + ", Item name: " + descAddCLN);
                                     bool test = false;
-                                    if (l == "")
+                                    if(l == "")
                                     {
                                         gebruik m = new gebruik();
-                                        test = m.Mail(reader.GetString(2), "Matrix Custom Builds", "Hi there. \r\n Matrix Warehouse would like to inform you that your custom build is ready for pickup\r\nReferance number: " + reader.GetString(0) + "\r\nKeep this referance number for later use. \r\nThank you for shopping with matrix warehouse.");
-                                        if (test)
+                                         test = m.Mail(reader.GetString(2), "Matrix Custom Builds", "Hi there. \r\n Matrix Warehouse would like to inform you that your custom build is ready for pickup\r\nReferance number: " + reader.GetString(0) + "\r\nKeep this referance number for later use. \r\nThank you for shopping with matrix warehouse.");
+                                        if(test)
                                         {
-
-                                            MessageBox.Show("Custom build: " + reader.GetString(0) + " The client has been notified for pickup");
+                                            string meh = l.Replace(n, "");
+                                            SqlCommand updateCms = new SqlCommand("UPDATE Cms SET cms_orders = @order, date_complete = @date, complete = @com WHERE cms_id = @id");
+                                            updateCms.Parameters.AddWithValue("@order", meh);
+                                            updateCms.Parameters.AddWithValue("@id", reader.GetString(0));
+                                            updateCms.Parameters.AddWithValue("@date", DateTime.Now);
+                                            updateCms.Parameters.AddWithValue("@com", 1);
+                                            updateCms.ExecuteNonQuery();
+                                            MessageBox.Show("Custom build: " + reader.GetString(0) + " is ready for colection, Client will be notified for pickup");
 
 
                                         }
 
-
-                                    }
-                                }
-                                else
-                                {
-                                    //SQL Insert Command
-                                    SqlCommand stockCount = new SqlCommand("SELECT COUNT(item_id) FROM Stock", stockConnection);
-                                    int currentS = Convert.ToInt16(stockCount.ExecuteScalar());
-                                    SqlCommand stockCap = new SqlCommand("SELECT branch_capacity FROM branches WHERE branch_location = @location", stockConnection);
-                                    stockCap.Parameters.AddWithValue("@location", "Pretoria");
-                                    //stockCap.Parameters.AddWithValue("@location", Properties.Settings.Default.Branch);
-                                    int currentC = Convert.ToInt32(stockCap.ExecuteScalar());
-
-                                    if (currentS < currentC)
-                                    {
-                                        SqlCommand stockAddCommandCLN = new SqlCommand("INSERT INTO Stock(branch, item_id, manufacturer, warranty, last_updated, initial_add, manufacturer_price, retail_price, item_name, item_Type, status, checked) VALUES(@branch, @item_id, @manufacturer, @warrenty, @last_updated, @intial_add, @manufacuter_price, @retail_price, @description, @item_Type, @status, @checked)", stockConnection);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@branch", branchAdd);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@item_id", txbItemID.Text);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@manufacturer", manufacturerAddCLN);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@warrenty", warrantyAddCLN);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@last_updated", DateTime.Now);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@intial_add", DateTime.Today);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@manufacuter_price", mPriceAddCLN);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@retail_price", rPriceAddCLN);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@description", descAddCLN);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@item_Type", branchAddCLN);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@status", status);
-                                        stockAddCommandCLN.Parameters.AddWithValue("@checked", check);
-                                        gebruik.addAction(userNme);
-                                        //  gebruik.log(DateTime.Now, userNme, "Added stock" + txbItemID.Text + ", Item name: " + descAddCLN);
-                                        //Clear textboxes
-                                        stockAddCommandCLN.ExecuteNonQuery();
-                                        stockConnection.Close();
-                                        txbBrandAddCLN.Clear();
-                                        txbDescAddCLN.Clear();
-                                        txbPriceRetailAddCLN.Clear();
-                                        txbWarrantyAddCLN.Clear();
-                                        txtManfacturerPriceCLN.Clear();
-                                        //Display message
-
-                                        MessageBox.Show("Item added successfully", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        
                                     }
                                 }
                             }

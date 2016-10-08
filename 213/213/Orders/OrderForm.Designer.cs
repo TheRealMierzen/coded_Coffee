@@ -231,6 +231,7 @@
             // 
             // gpxOrders
             // 
+            this.gpxOrders.Controls.Add(this.tableLayoutPanel3);
             this.gpxOrders.Controls.Add(this.lbxOutput);
             this.gpxOrders.Controls.Add(this.label1);
             this.gpxOrders.Controls.Add(this.gbxPayment);
@@ -399,7 +400,7 @@
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 778F));
             this.tableLayoutPanel3.Controls.Add(this.gpxSearch, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(32, 58);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(401, 19);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -411,15 +412,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(848, 473);
-            this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.POBackBtn9);
             this.Name = "OrderForm";
             this.Text = "OrderForm";
-            this.Activated += new System.EventHandler(this.roundButton3);
             this.Load += new System.EventHandler(this.OrderForm_Load);
-            this.Enter += new System.EventHandler(this.roundButton3);
             this.gbxPayment.ResumeLayout(false);
             this.gbxPayment.PerformLayout();
             this.gpxOrders.ResumeLayout(false);
