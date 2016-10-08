@@ -47,7 +47,7 @@
             this.btnCancelFind.Name = "btnCancelFind";
             this.btnCancelFind.Size = new System.Drawing.Size(113, 23);
             this.btnCancelFind.TabIndex = 12;
-            this.btnCancelFind.Text = "Cancel/Back";
+            this.btnCancelFind.Text = "Back";
             this.toolTip1.SetToolTip(this.btnCancelFind, "Click to close this window");
             this.btnCancelFind.UseVisualStyleBackColor = true;
             // 
@@ -74,6 +74,7 @@
             // txtDeleteID
             // 
             this.txtDeleteID.Location = new System.Drawing.Point(153, 6);
+            this.txtDeleteID.MaxLength = 25;
             this.txtDeleteID.Name = "txtDeleteID";
             this.txtDeleteID.Size = new System.Drawing.Size(100, 20);
             this.txtDeleteID.TabIndex = 9;

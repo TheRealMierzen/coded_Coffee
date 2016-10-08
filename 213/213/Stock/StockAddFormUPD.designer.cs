@@ -60,7 +60,7 @@
             this.btnCancelAddCLN.Name = "btnCancelAddCLN";
             this.btnCancelAddCLN.Size = new System.Drawing.Size(75, 23);
             this.btnCancelAddCLN.TabIndex = 16;
-            this.btnCancelAddCLN.Text = "Cancel";
+            this.btnCancelAddCLN.Text = "Back";
             this.toolTip1.SetToolTip(this.btnCancelAddCLN, "Click to close this window");
             this.btnCancelAddCLN.UseVisualStyleBackColor = true;
             this.btnCancelAddCLN.Click += new System.EventHandler(this.btnCancelAddCLN_Click);
@@ -117,6 +117,7 @@
             // 
             this.txbRPriceUPD.Enabled = false;
             this.txbRPriceUPD.Location = new System.Drawing.Point(125, 110);
+            this.txbRPriceUPD.MaxLength = 10;
             this.txbRPriceUPD.Name = "txbRPriceUPD";
             this.txbRPriceUPD.ShortcutsEnabled = false;
             this.txbRPriceUPD.Size = new System.Drawing.Size(100, 20);
@@ -145,6 +146,7 @@
             // txbIDUPD
             // 
             this.txbIDUPD.Location = new System.Drawing.Point(124, 6);
+            this.txbIDUPD.MaxLength = 25;
             this.txbIDUPD.Name = "txbIDUPD";
             this.txbIDUPD.ShortcutsEnabled = false;
             this.txbIDUPD.Size = new System.Drawing.Size(100, 20);
