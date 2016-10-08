@@ -362,7 +362,7 @@ namespace _213
         {
             try
             {
-                SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
                 SqlCommand checkOrders = new SqlCommand("SELECT order_id, order_items FROM Orders WHERE branch = @branch AND eta = @eta", stockConnection);
                 checkOrders.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
@@ -377,6 +377,13 @@ namespace _213
                         {
                             if (MessageBox.Show("Order ID: " + reader.GetString(0) + " Was sent to this branch with items: " + reader.GetString(1), "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
+                                SqlConnection stockConnection2 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                                stockConnection2.Open();
+                                SqlCommand updateOrder = new SqlCommand("UPDATE Orders SET received = @rec WHERE order_id = @id",stockConnection2);
+                                updateOrder.Parameters.AddWithValue("@rec", 1);
+                                updateOrder.Parameters.AddWithValue("@id", reader.GetString(0));
+                                updateOrder.ExecuteNonQuery();
+                                stockConnection2.Close();
                                 StockAddFormCLN frmAddCLN = new StockAddFormCLN(userNme);
                                 frmAddCLN.ShowDialog();
                             }
