@@ -19,6 +19,7 @@ namespace _213
     public partial class StockMainFormCLN : Form
     {
         private string userNme;
+        private string cur;
         private string missID = "";
         public StockMainFormCLN()
         {
@@ -43,6 +44,7 @@ namespace _213
                 //  this.TopMost = true;
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
+                MessageBox.Show(Properties.Settings.Default.Branch);
                 txbStockTake.AppendText("\r\n=======================================");
                 txbStockTake.AppendText("\r\nList of Items Recorded:");
                 txbStockTake.AppendText("\r\n=======================================");
@@ -54,8 +56,9 @@ namespace _213
                 TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar());
                 txbStockTakeReport.AppendText("\r\n Items Added Today:");
 
-                SqlCommand getStock = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE initial_add = @add AND branch = @branch", stockConnection);
+                SqlCommand getStock = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE initial_add = @add AND branch = @branch AND Status = @status", stockConnection);
                 getStock.Parameters.AddWithValue("@add", DateTime.Today);
+                getStock.Parameters.AddWithValue("@status", "In Stock");
 
                 getStock.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 if (getStock.ExecuteScalar() == null)
@@ -109,8 +112,12 @@ namespace _213
                 
                 txbStockTakeReport.AppendText("\r\n=======================================");
                 txbStockTakeReport.AppendText("\r\n Items Removed Today:");
+                string date = DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + DateTime.Now.Year + " 00:00:00";
                 SqlCommand getStockR = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @upp AND status = @status AND branch = @branch", stockConnection);
-                getStockR.Parameters.AddWithValue("@upp", DateTime.Today);
+                getStockR.Parameters.AddWithValue("@upp",date);
+
+
+
                 getStockR.Parameters.AddWithValue("@status", "Removed");
                 getStockR.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 if (getStockR.ExecuteScalar() == null)
@@ -289,7 +296,7 @@ namespace _213
         {
             try
             {
-                SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
                 SqlCommand getMiss = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE checked = @check AND branch = @branch", stockConnection);
                 getMiss.Parameters.AddWithValue("@check", 0);
@@ -362,7 +369,7 @@ namespace _213
         {
             try
             {
-                SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
                 SqlCommand checkOrders = new SqlCommand("SELECT order_id, order_items FROM Orders WHERE branch = @branch AND eta = @eta", stockConnection);
                 checkOrders.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
@@ -377,6 +384,14 @@ namespace _213
                         {
                             if (MessageBox.Show("Order ID: " + reader.GetString(0) + " Was sent to this branch with items: " + reader.GetString(1), "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
+                                SqlConnection stockConnection2 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                                stockConnection2.Open();
+                                SqlCommand updateOrder = new SqlCommand("UPDATE Orders SET received = @rec, received_date = @date WHERE order_id = @id",stockConnection2);
+                                updateOrder.Parameters.AddWithValue("@rec", 1);
+                                updateOrder.Parameters.AddWithValue("date", DateTime.Today);
+                                updateOrder.Parameters.AddWithValue("@id", reader.GetString(0));
+                                updateOrder.ExecuteNonQuery();
+                                stockConnection2.Close();
                                 StockAddFormCLN frmAddCLN = new StockAddFormCLN(userNme);
                                 frmAddCLN.ShowDialog();
                             }
@@ -443,8 +458,10 @@ namespace _213
                         {
                             if (MessageBox.Show("Transfer ID: " + reader.GetString(0) + " Was sent to this branch from: " + reader.GetString(2), "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                StockTransferRecieve frmRecieve = new StockTransferRecieve(userNme, reader.GetString(1), reader.GetString(0));
-                                frmRecieve.ShowDialog();
+
+                                meh(reader.GetString(1), reader.GetString(0));
+                                //StockTransferRecieve frmRecieve = new StockTransferRecieve(userNme, reader.GetString(1), reader.GetString(0));
+                                //frmRecieve.ShowDialog();
                             }
                         }
                     }
@@ -557,6 +574,85 @@ namespace _213
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void meh(string id, string tI)
+        {
+            try
+            {
+                while (id != "")
+                {
+                    string gID;
+                    int pos = id.IndexOf(',');
+                    gID = id.Substring(0, pos);
+                    id = id.Remove(0, pos + 1);
+                    SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                    stockConnection.Open();
+                    SqlCommand getDes = new SqlCommand("SELECT item_name, manufacturer, manufacturer_price, retail_price FROM Stock WHERE item_id = @id", stockConnection);
+                    getDes.Parameters.AddWithValue("@id", gID);
+                    SqlDataReader reader = getDes.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            cur = gID;
+                            update(cur);
+                        }
+                    }
+                    reader.Close();
+                    stockConnection.Close();
+                    if (id == "")
+                    {
+                        MessageBox.Show("All items have been transfered successfully", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        gebruik.addAction(userNme);
+                        gebruik.log(DateTime.Now, userNme, "Recieved stock");
+                        del(tI);
+                    }
+                }
+            }
+            catch (SqlException s)
+            {
+                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException s)
+            {
+                MessageBox.Show("Error: Please fill in valid info" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (InvalidOperationException s)
+            {
+                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (Exception s)
+            {
+                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void del(string gID)
+        {
+
+            SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+            stockConnection.Open();
+            SqlCommand delete = new SqlCommand("DELETE FROM transfers WHERE transfer_id = @transfer", stockConnection);
+            delete.Parameters.AddWithValue("@transfer", gID);
+            delete.ExecuteNonQuery();
+            stockConnection.Close();
+        }
+
+        private void update(string gID)
+        {
+            SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+            stockConnection.Open();
+            gebruik.addAction(userNme);
+            SqlCommand updates = new SqlCommand("UPDATE Stock SET branch = @branch, status = @stock WHERE item_id = @id", stockConnection);
+            updates.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            updates.Parameters.AddWithValue("@stock", "In Stock");
+            updates.Parameters.AddWithValue("@id", gID);
+            updates.ExecuteNonQuery();
+            stockConnection.Close();
         }
     }
 }
