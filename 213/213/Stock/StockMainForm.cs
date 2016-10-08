@@ -289,7 +289,7 @@ namespace _213
         {
             try
             {
-                SqlConnection stockConnection2 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
                 SqlCommand getMiss = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE checked = @check AND branch = @branch", stockConnection);
                 getMiss.Parameters.AddWithValue("@check", 0);
