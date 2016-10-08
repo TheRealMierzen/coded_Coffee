@@ -94,7 +94,7 @@
             this.btnCancelAddCLN.Name = "btnCancelAddCLN";
             this.btnCancelAddCLN.Size = new System.Drawing.Size(75, 23);
             this.btnCancelAddCLN.TabIndex = 9;
-            this.btnCancelAddCLN.Text = "Clear";
+            this.btnCancelAddCLN.Text = "Cancel";
             this.toolTip1.SetToolTip(this.btnCancelAddCLN, "Click if you want to clear \r\nthe information you entered\r\n");
             this.btnCancelAddCLN.UseVisualStyleBackColor = true;
             this.btnCancelAddCLN.Click += new System.EventHandler(this.btnCancelAddCLN_Click);
@@ -122,7 +122,6 @@
             // txbPriceRetailAddCLN
             // 
             this.txbPriceRetailAddCLN.Location = new System.Drawing.Point(147, 104);
-            this.txbPriceRetailAddCLN.MaxLength = 10;
             this.txbPriceRetailAddCLN.Name = "txbPriceRetailAddCLN";
             this.txbPriceRetailAddCLN.ShortcutsEnabled = false;
             this.txbPriceRetailAddCLN.Size = new System.Drawing.Size(100, 20);
@@ -134,7 +133,6 @@
             // txtManfacturerPriceCLN
             // 
             this.txtManfacturerPriceCLN.Location = new System.Drawing.Point(147, 130);
-            this.txtManfacturerPriceCLN.MaxLength = 10;
             this.txtManfacturerPriceCLN.Name = "txtManfacturerPriceCLN";
             this.txtManfacturerPriceCLN.ShortcutsEnabled = false;
             this.txtManfacturerPriceCLN.Size = new System.Drawing.Size(100, 20);
@@ -185,7 +183,6 @@
             // txbWarrantyAddCLN
             // 
             this.txbWarrantyAddCLN.Location = new System.Drawing.Point(147, 156);
-            this.txbWarrantyAddCLN.MaxLength = 1;
             this.txbWarrantyAddCLN.Name = "txbWarrantyAddCLN";
             this.txbWarrantyAddCLN.ShortcutsEnabled = false;
             this.txbWarrantyAddCLN.Size = new System.Drawing.Size(100, 20);
@@ -217,7 +214,6 @@
             // txbItemID
             // 
             this.txbItemID.Location = new System.Drawing.Point(148, 25);
-            this.txbItemID.MaxLength = 25;
             this.txbItemID.Name = "txbItemID";
             this.txbItemID.ShortcutsEnabled = false;
             this.txbItemID.Size = new System.Drawing.Size(100, 20);

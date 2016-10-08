@@ -60,7 +60,7 @@
             "Update Stock",
             "Transfer Stock",
             "Remove Stock"});
-            this.cmbSelectStockAction.Location = new System.Drawing.Point(59, 3);
+            this.cmbSelectStockAction.Location = new System.Drawing.Point(60, 3);
             this.cmbSelectStockAction.Name = "cmbSelectStockAction";
             this.cmbSelectStockAction.Size = new System.Drawing.Size(193, 21);
             this.cmbSelectStockAction.TabIndex = 1;
@@ -71,9 +71,9 @@
             // btnBackMain
             // 
             this.btnBackMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnBackMain.Location = new System.Drawing.Point(258, 3);
+            this.btnBackMain.Location = new System.Drawing.Point(259, 3);
             this.btnBackMain.Name = "btnBackMain";
-            this.btnBackMain.Size = new System.Drawing.Size(93, 35);
+            this.btnBackMain.Size = new System.Drawing.Size(92, 35);
             this.btnBackMain.TabIndex = 4;
             this.btnBackMain.Text = "Back";
             this.toolTip1.SetToolTip(this.btnBackMain, "Click to close this form and go back to main form");
@@ -140,7 +140,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.47191F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.52809F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel2.Controls.Add(this.btnCompare, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.lblStockTakeItemID, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.txtStockTakeItemID, 1, 0);
@@ -158,9 +158,9 @@
             // btnCompare
             // 
             this.btnCompare.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCompare.Location = new System.Drawing.Point(260, 3);
+            this.btnCompare.Location = new System.Drawing.Point(261, 3);
             this.btnCompare.Name = "btnCompare";
-            this.btnCompare.Size = new System.Drawing.Size(91, 26);
+            this.btnCompare.Size = new System.Drawing.Size(90, 26);
             this.btnCompare.TabIndex = 16;
             this.btnCompare.Text = "Compare/Add";
             this.toolTip1.SetToolTip(this.btnCompare, "Click to add item to check list");
@@ -173,15 +173,14 @@
             this.lblStockTakeItemID.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblStockTakeItemID.Location = new System.Drawing.Point(3, 0);
             this.lblStockTakeItemID.Name = "lblStockTakeItemID";
-            this.lblStockTakeItemID.Size = new System.Drawing.Size(51, 32);
+            this.lblStockTakeItemID.Size = new System.Drawing.Size(52, 32);
             this.lblStockTakeItemID.TabIndex = 14;
             this.lblStockTakeItemID.Text = "Item ID";
             // 
             // txtStockTakeItemID
             // 
             this.txtStockTakeItemID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtStockTakeItemID.Location = new System.Drawing.Point(60, 3);
-            this.txtStockTakeItemID.MaxLength = 25;
+            this.txtStockTakeItemID.Location = new System.Drawing.Point(61, 3);
             this.txtStockTakeItemID.Name = "txtStockTakeItemID";
             this.txtStockTakeItemID.ShortcutsEnabled = false;
             this.txtStockTakeItemID.Size = new System.Drawing.Size(194, 20);
@@ -190,7 +189,7 @@
             // 
             // btnCompleteStockTake
             // 
-            this.btnCompleteStockTake.Location = new System.Drawing.Point(260, 35);
+            this.btnCompleteStockTake.Location = new System.Drawing.Point(261, 35);
             this.btnCompleteStockTake.Name = "btnCompleteStockTake";
             this.btnCompleteStockTake.Size = new System.Drawing.Size(85, 26);
             this.btnCompleteStockTake.TabIndex = 20;
@@ -205,7 +204,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.Location = new System.Drawing.Point(3, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 33);
+            this.label1.Size = new System.Drawing.Size(52, 33);
             this.label1.TabIndex = 21;
             this.label1.Text = "Stock Items Recorded";
             // 
@@ -214,7 +213,7 @@
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.26415F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.73585F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 98F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
             this.tableLayoutPanel3.Controls.Add(this.lblActionSelect, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnBackMain, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.cmbSelectStockAction, 1, 0);
@@ -232,7 +231,7 @@
             this.lblActionSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblActionSelect.Location = new System.Drawing.Point(3, 0);
             this.lblActionSelect.Name = "lblActionSelect";
-            this.lblActionSelect.Size = new System.Drawing.Size(50, 41);
+            this.lblActionSelect.Size = new System.Drawing.Size(51, 41);
             this.lblActionSelect.TabIndex = 0;
             this.lblActionSelect.Text = "Select Action";
             // 
