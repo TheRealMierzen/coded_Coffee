@@ -44,6 +44,8 @@ namespace _213
         {
             try
             {
+                gebruik other = new gebruik();
+
                 if (txtCEmail.Text == txtNEmail.Text)
                 {
 
@@ -54,13 +56,13 @@ namespace _213
                 else
                     txtNEmail.ForeColor = DefaultForeColor;
 
-                if (txtCEmail.Text.EndsWith(".com") && txtCEmail.Text.Length > 7)
+                if (other.IsValidEmail(txtCEmail.Text))
                 {
                     txtCEmail.ForeColor = DefaultForeColor;
                     if (txtNEmail.Text == txtCNEmail.Text && txtCNEmail.Text != "" && cbID.SelectedItem != null)
                         btnUpdateEmp.Enabled = true;
                 }
-                else if (!txtCEmail.Text.EndsWith(".com") || txtCEmail.Text.Length < 7)
+                else if (!other.IsValidEmail(txtCEmail.Text))
                 {
                     txtCEmail.ForeColor = Color.Red;
                     btnUpdateEmp.Enabled = false;
@@ -83,7 +85,8 @@ namespace _213
                 else
                     txtCNEmail.ForeColor = Color.Red;
 
-                if (txtCEmail.Text != txtNEmail.Text && txtNEmail.Text != "" && txtNEmail.Text.EndsWith(".com"))
+                gebruik other = new gebruik();
+                if (txtCEmail.Text != txtNEmail.Text && other.IsValidEmail(txtNEmail.Text))
                 {
                     txtNEmail.ForeColor = DefaultForeColor;
                     if (cbID.SelectedItem != null && txtCEmail.Text != "" && txtNEmail.Text == txtCNEmail.Text)
@@ -95,6 +98,14 @@ namespace _213
                 }
                 else
                 {
+
+                    if(other.IsValidEmail(txtNEmail.Text))
+                    {
+
+                        txtNEmail.ForeColor = Color.Red;
+                        btnUpdateEmp.Enabled = false;
+
+                    }
 
                     if (txtNEmail.Text == txtCEmail.Text)
                     {
@@ -127,10 +138,12 @@ namespace _213
         {
             try
             {
+                gebruik other = new gebruik();
+
                 if (txtNEmail.Text == txtCNEmail.Text)
                     txtCNEmail.ForeColor = DefaultForeColor;
 
-                if (txtNEmail.Text == txtCNEmail.Text && txtCEmail.Text != txtNEmail.Text && txtNEmail.Text != "" && txtNEmail.Text.EndsWith(".com"))
+                if (txtNEmail.Text == txtCNEmail.Text && txtCEmail.Text != txtNEmail.Text && txtNEmail.Text != "" && other.IsValidEmail(txtNEmail.Text))
                 {
                     txtCNEmail.ForeColor = DefaultForeColor;
                     if (cbID.SelectedItem != null && txtCEmail.Text != "")
@@ -625,7 +638,7 @@ namespace _213
 
         private void btnUpdateEmp_Click(object sender, EventArgs e)
         {
-
+            this.Cursor = Cursors.WaitCursor;
             try
             {
                 string cmdstring = "";
@@ -770,6 +783,8 @@ namespace _213
                             gebruik.addAction(user);
                             DateTime local = DateTime.Now;
                             gebruik.log(local, user, "updated employee");
+
+                            this.Cursor = Cursors.Default;
 
                             DialogResult result = MessageBox.Show("The employee's information has been updated.\r\n\r\nThe system has detected that this employee currently has an account for the system. Would you like to remove it now?", "Info", MessageBoxButtons.YesNo);
                             if (result == DialogResult.Yes)

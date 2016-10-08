@@ -44,7 +44,7 @@ namespace _213
 
         private void btnRAcc_Click(object sender, EventArgs e)
         {
-
+            this.Cursor = Cursors.WaitCursor;
             try
             {
                 if (txtRUser.Text == txtCRUser.Text && txtAuthPass.Text != "")
@@ -70,6 +70,7 @@ namespace _213
                                     gebruik.addAction(user);
                                     DateTime local = DateTime.Now;
                                     gebruik.log(local, user, "removed user");
+                                    this.Cursor = Cursors.Default;
 
                                     DialogResult choice;
                                     choice = MessageBox.Show("The account has been removed.\r\nWould you like to remove another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
