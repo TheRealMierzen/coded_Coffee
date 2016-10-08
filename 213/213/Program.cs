@@ -16,7 +16,7 @@ namespace _213
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmTechnical());
+            Application.Run(new loginForm());
         }
     }
 }

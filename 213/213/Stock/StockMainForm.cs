@@ -36,6 +36,7 @@ namespace _213
 
         }
 
+        private string details, details2;
         private void StockMainForm_Shown(object sender, EventArgs e)
         {
             try
@@ -44,158 +45,8 @@ namespace _213
                 //  this.TopMost = true;
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
-                MessageBox.Show(Properties.Settings.Default.Branch);
-                txbStockTake.AppendText("\r\n=======================================");
-                txbStockTake.AppendText("\r\nList of Items Recorded:");
-                txbStockTake.AppendText("\r\n=======================================");
-                SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                stockConnection.Open();
-
-                SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(item_id) FROM Stock", stockConnection);
-                int TotalItems = 0;
-                TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar());
-                txbStockTakeReport.AppendText("\r\n Items Added Today:");
-
-                SqlCommand getStock = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE initial_add = @add AND branch = @branch AND Status = @status", stockConnection);
-                getStock.Parameters.AddWithValue("@add", DateTime.Today);
-                getStock.Parameters.AddWithValue("@status", "In Stock");
-
-                getStock.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                if (getStock.ExecuteScalar() == null)
-                {
-                    txbStockTakeReport.AppendText("\r\nNo Stock Added Today");
-                }
-                else
-                {
-                    SqlDataReader reader = getStock.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            txbStockTakeReport.AppendText("\r\n" + reader.GetString(1) + "\t" + reader.GetString(0));
-                        }
-                    }
-                    else
-                    {
-                        txtStockTakeItemID.AppendText("\r\n");
-                    }
-                    reader.Close();
-                }
-
-                txbStockTakeReport.AppendText("\r\n=======================================");
-                txbStockTakeReport.AppendText("\r\n Items Sold Today:");
-
-                SqlCommand getSale = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @up AND status = @status AND branch = @branch", stockConnection);
-                getSale.Parameters.AddWithValue("@up", DateTime.Today);
-                getSale.Parameters.AddWithValue("@status", "Sold");
-                getSale.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                if (getSale.ExecuteScalar() == null)
-                {
-                    txbStockTakeReport.AppendText("\r\nNo Stock Sold Today");
-                }
-                else
-                {
-                    SqlDataReader reader = getSale.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            txbStockTakeReport.AppendText("\r\n" + reader.GetString(1) + "\t" + reader.GetString(0));
-                        }
-                    }
-                    else
-                    {
-                        txtStockTakeItemID.AppendText("\r\n");
-                    }
-                    reader.Close();
-                }
+                bgWDetails.RunWorkerAsync();
                 
-                txbStockTakeReport.AppendText("\r\n=======================================");
-                txbStockTakeReport.AppendText("\r\n Items Removed Today:");
-                string date = DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + DateTime.Now.Year + " 00:00:00";
-                SqlCommand getStockR = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @upp AND status = @status AND branch = @branch", stockConnection);
-                getStockR.Parameters.AddWithValue("@upp",date);
-
-
-
-                getStockR.Parameters.AddWithValue("@status", "Removed");
-                getStockR.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-                if (getStockR.ExecuteScalar() == null)
-                {
-                    txbStockTakeReport.AppendText("\r\nNo Stock Removed Today");
-                }
-                else
-                {
-                    SqlDataReader reader = getStockR.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            txbStockTakeReport.AppendText("\r\n" + reader.GetString(1) + "\t" + reader.GetString(0));
-                        }
-                    }
-                    else
-                    {
-                        txtStockTakeItemID.AppendText("\r\n");
-                    }
-                    reader.Close();
-                }
-
-                txbStockTakeReport.AppendText("\r\n=======================================");
-                txbStockTakeReport.AppendText("\r\n Items Transfered Today (Sent):");
-
-                SqlCommand getStockT = new SqlCommand("SELECT transfer_id, item_ids FROM Transfers WHERE send_date = @send AND from_branch = @branch", stockConnection);
-                getStockT.Parameters.AddWithValue("@send", DateTime.Today);
-                getStockT.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
-
-                if (getStockT.ExecuteScalar() == null)
-                {
-                    txbStockTakeReport.AppendText("\r\nNo Stock Trasfered Today");
-                }
-                else
-                {
-                    string ids = "";
-                    SqlDataReader reader = getStockT.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            ids = reader.GetString(1);
-                            do
-                            {
-                                SqlConnection stockConnection2 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                                stockConnection2.Open();
-
-                                int pos = ids.IndexOf(',');
-                                string id = ids.Substring(0, pos);
-                                ids = ids.Remove(0, pos + 1);
-                                SqlCommand getDes = new SqlCommand("SELECT item_name from Stock WHERE item_id = @id", stockConnection2);
-                                getDes.Parameters.AddWithValue("@id", id);
-                                if (getDes.ExecuteScalar() != null)
-                                {
-                                    string message = ("\r\n Transfer ID: " + reader.GetString(0) + "\t" + getDes.ExecuteScalar().ToString());
-                                    txbStockTakeReport.AppendText(message);
-                                }
-                                else
-                                {
-                                    ids = "";
-                                }
-
-                                stockConnection2.Close();
-                            } while (ids != "");
-
-                        }
-                    }
-                    else
-                    {
-                        txtStockTakeItemID.AppendText("\r\n");
-                    }
-                    reader.Close();
-                }
-                txbStockTakeReport.AppendText("\r\n=======================================");
-                stockConnection.Close();
-                checkTransfers();
-                checkOrders();
 
             }
             catch (SqlException s)
@@ -653,6 +504,174 @@ namespace _213
             updates.Parameters.AddWithValue("@id", gID);
             updates.ExecuteNonQuery();
             stockConnection.Close();
+        }
+
+        private void getDatails()
+        {
+
+            details2 += "\r\n=======================================";
+            details2 += "\r\nList of Items Recorded:";
+            details2 += "\r\n=======================================";
+            SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+            stockConnection.Open();
+
+            SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(item_id) FROM Stock", stockConnection);
+            int TotalItems = 0;
+            TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar());
+            details += "\r\n Items Added Today:";
+
+            SqlCommand getStock = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE initial_add = @add AND branch = @branch AND Status = @status", stockConnection);
+            getStock.Parameters.AddWithValue("@add", DateTime.Today);
+            getStock.Parameters.AddWithValue("@status", "In Stock");
+
+            getStock.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            if (getStock.ExecuteScalar() == null)
+            {
+                details += "\r\nNo Stock Added Today";
+            }
+            else
+            {
+                SqlDataReader reader = getStock.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        details += "\r\n" + reader.GetString(1) + "\t" + reader.GetString(0);
+                    }
+                }
+                else
+                {
+                    details += "\r\n";
+                }
+                reader.Close();
+            }
+
+            details += "\r\n=======================================";
+            details += "\r\n Items Sold Today:";
+
+            SqlCommand getSale = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @up AND status = @status AND branch = @branch", stockConnection);
+            getSale.Parameters.AddWithValue("@up", DateTime.Today);
+            getSale.Parameters.AddWithValue("@status", "Sold");
+            getSale.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            if (getSale.ExecuteScalar() == null)
+            {
+                details += "\r\nNo Stock Sold Today";
+            }
+            else
+            {
+                SqlDataReader reader = getSale.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        details += "\r\n" + reader.GetString(1) + "\t" + reader.GetString(0);
+                    }
+                }
+                else
+                {
+                    details += "\r\n";
+                }
+                reader.Close();
+            }
+
+            details += "\r\n=======================================";
+            details += "\r\n Items Removed Today:";
+            string date = DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + DateTime.Now.Year + " 00:00:00";
+            SqlCommand getStockR = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE last_updated = @upp AND status = @status AND branch = @branch", stockConnection);
+            getStockR.Parameters.AddWithValue("@upp", date);
+
+
+
+            getStockR.Parameters.AddWithValue("@status", "Removed");
+            getStockR.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            if (getStockR.ExecuteScalar() == null)
+            {
+                details += "\r\nNo Stock Removed Today";
+            }
+            else
+            {
+                SqlDataReader reader = getStockR.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        details += "\r\n" + reader.GetString(1) + "\t" + reader.GetString(0);
+                    }
+                }
+                else
+                {
+                    details += "\r\n";
+                }
+                reader.Close();
+            }
+
+            details += "\r\n=======================================";
+            details += "\r\n Items Transfered Today (Sent):";
+
+            SqlCommand getStockT = new SqlCommand("SELECT transfer_id, item_ids FROM Transfers WHERE send_date = @send AND from_branch = @branch", stockConnection);
+            getStockT.Parameters.AddWithValue("@send", DateTime.Today);
+            getStockT.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+
+            if (getStockT.ExecuteScalar() == null)
+            {
+                details += "\r\nNo Stock Trasfered Today";
+            }
+            else
+            {
+                string ids = "";
+                SqlDataReader reader = getStockT.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ids = reader.GetString(1);
+                        do
+                        {
+                            SqlConnection stockConnection2 = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+                            stockConnection2.Open();
+
+                            int pos = ids.IndexOf(',');
+                            string id = ids.Substring(0, pos);
+                            ids = ids.Remove(0, pos + 1);
+                            SqlCommand getDes = new SqlCommand("SELECT item_name from Stock WHERE item_id = @id", stockConnection2);
+                            getDes.Parameters.AddWithValue("@id", id);
+                            if (getDes.ExecuteScalar() != null)
+                            {
+                                string message = ("\r\n Transfer ID: " + reader.GetString(0) + "\t" + getDes.ExecuteScalar().ToString());
+                                details += message;
+                            }
+                            else
+                            {
+                                ids = "";
+                            }
+
+                            stockConnection2.Close();
+                        } while (ids != "");
+
+                    }
+                }
+                else
+                {
+                    txtStockTakeItemID.AppendText("\r\n");
+                }
+                reader.Close();
+            }
+            details += "\r\n=======================================";
+            stockConnection.Close();
+            checkTransfers();
+            checkOrders();
+
+        }
+
+        private void bgWDetails_DoWork(object sender, DoWorkEventArgs e)
+        {
+            getDatails();
+        }
+
+        private void bgWDetails_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            txbStockTakeReport.AppendText(details);
+            txbStockTake.AppendText(details2);
         }
     }
 }
