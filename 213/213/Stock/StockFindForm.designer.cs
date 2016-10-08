@@ -76,6 +76,7 @@
             // txtFindPrice
             // 
             this.txtFindPrice.Location = new System.Drawing.Point(180, 64);
+            this.txtFindPrice.MaxLength = 10;
             this.txtFindPrice.Name = "txtFindPrice";
             this.txtFindPrice.ShortcutsEnabled = false;
             this.txtFindPrice.Size = new System.Drawing.Size(100, 20);
@@ -128,7 +129,7 @@
             this.btnCancelFind.Name = "btnCancelFind";
             this.btnCancelFind.Size = new System.Drawing.Size(75, 23);
             this.btnCancelFind.TabIndex = 8;
-            this.btnCancelFind.Text = "Cancel";
+            this.btnCancelFind.Text = "Back";
             this.toolTip1.SetToolTip(this.btnCancelFind, "Click to close this window");
             this.btnCancelFind.UseVisualStyleBackColor = true;
             this.btnCancelFind.Click += new System.EventHandler(this.btnCancelFind_Click);
