@@ -17,8 +17,13 @@ namespace _213
 {
     public partial class EndOfDay : Form
     {
+        private int count;
         string myFile;
-        private string CurrentPath = "/";
+        private string CurrentPath = "/Branch/Summary";
+        private string CurrentPath1 = "/Branch/Transfer";
+        private string CurrentPath2 = "/Branch/Sales";
+        private string CurrentPath3 = "/Branch/Stock";
+        private string CurrentPath4 = "/Branch/Orders";
         SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
         public EndOfDay()
         {
@@ -26,13 +31,36 @@ namespace _213
             InitializeComponent();
         }
 
+        
+
         private void button1_Click(object sender, EventArgs e)
         {
             
-            string cmd1 = "SELECT * FROM Orders";
+            /*try
+            {
+
+            }
+            catch(SqlException se)
+            {
+                if(se.Number == 53)
+                {
+                    gebruik obj = new gebruik();
+                    if(obj.CheckConnection() && count<4)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }*/
+
+            string cmd1 = "SELECT * FROM Orders WHERE order_date = @order";
             using (SqlCommand comm1 = new SqlCommand(cmd1, con))
             {
-                comm1.Parameters.AddWithValue("Orders", cmd1);
+                comm1.Parameters.AddWithValue("@order", Properties.Settings.Default.Branch);
+                comm1.Parameters.AddWithValue("@order", DateTime.Today);
 
                 SqlDataAdapter sda = new SqlDataAdapter();
                 sda.SelectCommand = comm1;
@@ -54,12 +82,12 @@ namespace _213
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
-            string cmd2 = "SELECT * FROM Sales";
+
+            string cmd2 = "SELECT * FROM Sales WHERE sale_date = @sale";
             using (SqlCommand comm2 = new SqlCommand(cmd2, con))
             {
-                comm2.Parameters.AddWithValue("Sales", cmd2);
-
+                comm2.Parameters.AddWithValue("@sale", Properties.Settings.Default.Branch);
+                comm2.Parameters.AddWithValue("@sale", DateTime.Now);
                 SqlDataAdapter sda = new SqlDataAdapter();
                 sda.SelectCommand = comm2;
                 DataTable dt = new DataTable();
@@ -81,11 +109,12 @@ namespace _213
         {
             
             DataTable tbl = new DataTable("Stock");
-            string cmd3 = "SELECT * FROM Stock";
+            string cmd3 = "SELECT * FROM Stock WHERE initial_add = @stock";
             using (SqlCommand comm3 = new SqlCommand(cmd3, con))
             {
 
-                comm3.Parameters.AddWithValue("Stock", cmd3);
+                comm3.Parameters.AddWithValue("@stock", Properties.Settings.Default.Branch);
+                comm3.Parameters.AddWithValue("@stock", DateTime.Today);
 
                 SqlDataAdapter sda = new SqlDataAdapter();
                 sda.SelectCommand = comm3;
@@ -107,10 +136,11 @@ namespace _213
         private void button4_Click(object sender, EventArgs e)
         {
              
-            string cmd4 = "SELECT * FROM Transfers";
+            string cmd4 = "SELECT * FROM Transfers WHERE send_date = @trans";
             using (SqlCommand comm4 = new SqlCommand(cmd4, con))
             {
-                comm4.Parameters.AddWithValue("Transfers", cmd4);
+                comm4.Parameters.AddWithValue("@trans", Properties.Settings.Default.Branch);
+                comm4.Parameters.AddWithValue("@trans", DateTime.Today);
 
                 SqlDataAdapter sda = new SqlDataAdapter();
                 sda.SelectCommand = comm4;
@@ -136,27 +166,14 @@ namespace _213
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
-            string ordr = "SELECT COUNT(*) FROM Orders";
+            //order
+            string ordr = "SELECT COUNT(order_id) FROM Orders WHERE order_date = @order";
             using (SqlCommand comm4 = new SqlCommand(ordr, con))
             {
-                comm4.Parameters.AddWithValue("Transfers", ordr);
+                comm4.Parameters.AddWithValue("@order", Properties.Settings.Default.Branch);
+                comm4.Parameters.AddWithValue("@order", DateTime.Today);
                 con.Open();
                 object count = comm4.ExecuteScalar();
-
-
-                /*SqlDataAdapter sda = new SqlDataAdapter();
-                sda.SelectCommand = comm4;
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                BindingSource bs = new BindingSource();
-
-                bs.DataSource = dt;
-
-                dataGridView1.DataSource = bs;
-                sda.Update(dt);*/
-
-                //Orders
 
                 textBox1.AppendText("ORDERS REPORT\r\n");
                 textBox1.AppendText("******************************\r\n");
@@ -165,11 +182,12 @@ namespace _213
 
                 con.Close();
             }
-
-            string sale = "SELECT COUNT(*) FROM Sales";
+            //sale
+            string sale = "SELECT COUNT(sale_id) FROM Sales WHERE sale_date = @sale";
             using (SqlCommand com1 = new SqlCommand(sale, con))
             {
-                com1.Parameters.AddWithValue("Sales", sale);
+                com1.Parameters.AddWithValue("@sale", Properties.Settings.Default.Branch);
+                com1.Parameters.AddWithValue("@sale", DateTime.Now);
                 con.Open();
                 object count1 = com1.ExecuteScalar();
                 //Sales
@@ -181,11 +199,12 @@ namespace _213
                 textBox1.AppendText("Total Sales Made: " + count1.ToString() + "\r\n");
                 con.Close();
             }
-
-            string stck = "SELECT COUNT(*) FROM Stock";
+            //stock
+            string stck = "SELECT COUNT(item_id) FROM Stock WHERE initial_add = @stock";
             using (SqlCommand com1 = new SqlCommand(stck, con))
             {
-                com1.Parameters.AddWithValue("Stock", stck);
+                com1.Parameters.AddWithValue("@stock", Properties.Settings.Default.Branch);
+                com1.Parameters.AddWithValue("@stock", DateTime.Today);
                 con.Open();
                 object count2 = com1.ExecuteScalar();
                 //Stock
@@ -197,11 +216,12 @@ namespace _213
                 textBox1.AppendText("Total Stock Reduced: " + count2.ToString() + "\r\n");
                 con.Close();
             }
-
-            string trns = "SELECT COUNT(*) FROM Transfers";
+            //transfers
+            string trns = "SELECT COUNT(transfer_id) FROM Transfers WHERE send_date = @trans";
             using (SqlCommand com1 = new SqlCommand(trns, con))
             {
-                com1.Parameters.AddWithValue("Transfers", trns);
+                com1.Parameters.AddWithValue("@trans", Properties.Settings.Default.Branch);
+                com1.Parameters.AddWithValue("@trans", DateTime.Today);
                 con.Open();
                 object count3 = com1.ExecuteScalar();
                 //Transfers
@@ -216,11 +236,30 @@ namespace _213
 
                 con.Close();
             }
-            
+
+            //Upload na Dropbox
+            if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
 
 
+            OAuthUtility.PutAsync
+            (
+                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                     new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                     callback: Upload_Result
+            );
         }
-
+        //
+        //
         private void button6_Click(object sender, EventArgs e)
         {
             Form1 f1 = new Form1();
@@ -330,7 +369,7 @@ namespace _213
 
         private void button9_Click(object sender, EventArgs e)//upload files
         {
-           if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+           /*if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
            {
                return;
            }
@@ -366,14 +405,14 @@ namespace _213
             else
             {
                 MessageBox.Show("Error with upload. Check Paths and Parameters");
-            }
+            }*/
         }
 
         
 
         private void button11_Click(object sender, EventArgs e)//new folder
         {
-            OAuthUtility.PostAsync
+            /*OAuthUtility.PostAsync
                (
                    "https://api.dropboxapi.com/1/fileops/create_folder",
                    new HttpParameterCollection
@@ -404,12 +443,12 @@ namespace _213
             else
             {
                 MessageBox.Show("Error with Creating a folder");
-            }
+            }*/
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem.ToString() == "..")
+            /*if (listBox1.SelectedItem.ToString() == "..")
             {
                 if (this.CurrentPath != "/")
                 {
@@ -420,7 +459,7 @@ namespace _213
             {
                 this.CurrentPath = listBox1.SelectedItem.ToString();
             }
-            this.GetFile();
+            this.GetFile();*/
         }
 
         private void button15_Click(object sender, EventArgs e)//Transfers Summary
@@ -428,70 +467,71 @@ namespace _213
             
 
             
-            string trns = "SELECT COUNT(*) FROM Transfers";
+            string trns = "SELECT COUNT(transfer_id) FROM Transfers WHERE send_date = @transCount";
             using (SqlCommand com1 = new SqlCommand(trns, con))
             {
-                com1.Parameters.AddWithValue("Transfers", trns);
+                com1.Parameters.AddWithValue("@transCount", Properties.Settings.Default.Branch);
+                com1.Parameters.AddWithValue("@transCount", DateTime.Today);
                 con.Open();
                 object count = com1.ExecuteScalar();
 
                 //
-                string trn1 = "SELECT transfer_id FROM Transfers";
+                string trn1 = "SELECT transfer_id FROM Transfers WHERE send_date = @transID";
                 using (SqlCommand comm4 = new SqlCommand(trn1, con))
                 {
-                    comm4.Parameters.AddWithValue("Transfers", trn1);
-
+                    comm4.Parameters.AddWithValue("@transID", Properties.Settings.Default.Branch);
+                    comm4.Parameters.AddWithValue("@transID", DateTime.Today);
                     
 
                     object count1 = comm4.ExecuteScalar();
 
 
                     //from branch
-                    string trn2 = "SELECT from_branch FROM Transfers";
+                    string trn2 = "SELECT from_branch FROM Transfers WHERE send_date = @transBranch";
                     using (SqlCommand co1 = new SqlCommand(trn2, con))
                     {
-                        co1.Parameters.AddWithValue("Transfers", trn2);
-
+                        co1.Parameters.AddWithValue("@transBranch", Properties.Settings.Default.Branch);
+                        co1.Parameters.AddWithValue("@transBranch", DateTime.Today);
                         
 
                         object count2 = co1.ExecuteScalar();
 
                         //To Branch
-                        string trn3 = "SELECT to_branch FROM Transfers";
+                        string trn3 = "SELECT to_branch FROM Transfers WHERE send_date = @transTo";
                         using (SqlCommand co2 = new SqlCommand(trn3, con))
                         {
-                            co2.Parameters.AddWithValue("Transfers", trn3);
-
+                            co2.Parameters.AddWithValue("@transTo", Properties.Settings.Default.Branch);
+                            co2.Parameters.AddWithValue("@transTo", DateTime.Today);
                             
 
                             object count3 = co2.ExecuteScalar();
 
                             //item ids
-                            string trn4 = "SELECT item_ids FROM Transfers";
+                            string trn4 = "SELECT item_ids FROM Transfers WHERE send_date = @transItem";
                             using (SqlCommand co3 = new SqlCommand(trn4, con))
                             {
-                                co3.Parameters.AddWithValue("Transfers", trn4);
-
+                                co3.Parameters.AddWithValue("@transItem", Properties.Settings.Default.Branch);
+                                co3.Parameters.AddWithValue("@transItem", DateTime.Today);
                               
 
                                 object count4 = co1.ExecuteScalar();
 
                                 //send date
-                                string trn5 = "SELECT send_date FROM Transfers";
+                                string trn5 = "SELECT send_date FROM Transfers WHERE send_date = @transSend";
                                 using (SqlCommand co4 = new SqlCommand(trn5, con))
                                 {
-                                    co4.Parameters.AddWithValue("Transfers", trn5);
-
+                                    co4.Parameters.AddWithValue("@transSend", Properties.Settings.Default.Branch);
+                                    co4.Parameters.AddWithValue("@transSend", DateTime.Today);
                                     
 
                                     object count5 = co1.ExecuteScalar();
 
                                     //eta
-                                    string trn6 = "SELECT eta FROM Transfers";
+                                    string trn6 = "SELECT eta FROM Transfers WHERE send_date = @transEta";
                                     using (SqlCommand co5 = new SqlCommand(trn6, con))
                                     {
-                                        co5.Parameters.AddWithValue("Transfers", trn6);
-
+                                        co5.Parameters.AddWithValue("@transEta", Properties.Settings.Default.Branch);
+                                        co5.Parameters.AddWithValue("@transEta", DateTime.Today);
                                         
 
                                         object count6 = co1.ExecuteScalar();
@@ -526,87 +566,108 @@ namespace _213
             }
             
             con.Close();
-            //transfer_id, from_branch, to_branch, item_ids, send_date, eta
+            
+            //Upload na Dropbox
+            if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+
+            OAuthUtility.PutAsync
+            (
+                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                     new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath1, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                     callback: Upload_Result
+            );
            
         }
 
         private void button14_Click(object sender, EventArgs e)//Stock Summary
         {
            
-            string stk = "SELECT COUNT(*) FROM Stock";
+            string stk = "SELECT COUNT(item_id) FROM Stock WHERE initial_add = @stockCount";
             using (SqlCommand com1 = new SqlCommand(stk, con))
             {
-                com1.Parameters.AddWithValue("Transfers", stk);
+                com1.Parameters.AddWithValue("@stockCount", Properties.Settings.Default.Branch);
+                com1.Parameters.AddWithValue("@stockCount",DateTime.Today);
                 con.Open();
                 object count = com1.ExecuteScalar();
 
                 //item id
-                string stk1 = "SELECT item_id FROM Stock";
+                string stk1 = "SELECT item_id FROM Stock WHERE initial_add = @stock1";
                 using (SqlCommand comm4 = new SqlCommand(stk1, con))
                 {
-                    comm4.Parameters.AddWithValue("Transfers", stk1);
-
+                    comm4.Parameters.AddWithValue("@stock1", Properties.Settings.Default.Branch);
+                    comm4.Parameters.AddWithValue("@stock1", DateTime.Today);
 
 
                     object count1 = comm4.ExecuteScalar();
 
 
                     //manufacturer
-                    string stk2 = "SELECT manufacturer FROM Stock";
+                    string stk2 = "SELECT manufacturer FROM Stock WHERE initial_add = @stock2";
                     using (SqlCommand co1 = new SqlCommand(stk2, con))
                     {
-                        co1.Parameters.AddWithValue("Transfers", stk2);
-
+                        co1.Parameters.AddWithValue("@stock2", Properties.Settings.Default.Branch);
+                        co1.Parameters.AddWithValue("@stock2", DateTime.Today);
 
 
                         object count2 = co1.ExecuteScalar();
 
                         //Warranty
-                        string stk3 = "SELECT warranty FROM Stock";
+                        string stk3 = "SELECT warranty FROM Stock WHERE initial_add = @stock3";
                         using (SqlCommand co2 = new SqlCommand(stk3, con))
                         {
-                            co2.Parameters.AddWithValue("Transfers", stk3);
-
+                            co2.Parameters.AddWithValue("@stock3", Properties.Settings.Default.Branch);
+                            co2.Parameters.AddWithValue("@stock3", DateTime.Today);
 
 
                             object count3 = co2.ExecuteScalar();
 
                             //Retail Price
-                            string stk4 = "SELECT retail_price FROM Stock";
+                            string stk4 = "SELECT retail_price FROM Stock WHERE initial_add = @stock4";
                             using (SqlCommand co3 = new SqlCommand(stk4, con))
                             {
-                                co3.Parameters.AddWithValue("Transfers", stk4);
-
+                                co3.Parameters.AddWithValue("@stock4", Properties.Settings.Default.Branch);
+                                co3.Parameters.AddWithValue("@stock4", DateTime.Today);
 
 
                                 object count4 = co3.ExecuteScalar();
 
                                 //item type
-                                string stk5 = "SELECT item_type FROM Stock";
+                                string stk5 = "SELECT item_type FROM Stock WHERE initial_add = @stock5";
                                 using (SqlCommand co4 = new SqlCommand(stk5, con))
                                 {
-                                    co4.Parameters.AddWithValue("Transfers", stk5);
-
+                                    co4.Parameters.AddWithValue("@stock5", Properties.Settings.Default.Branch);
+                                    co4.Parameters.AddWithValue("@stock5", DateTime.Today);
 
 
                                     object count5 = co4.ExecuteScalar();
 
                                     //status
-                                    string stk6 = "SELECT status FROM Stock";
+                                    string stk6 = "SELECT status FROM Stock WHERE initial_add = @stock6";
                                     using (SqlCommand co5 = new SqlCommand(stk6, con))
                                     {
-                                        co5.Parameters.AddWithValue("Transfers", stk6);
-
+                                        co5.Parameters.AddWithValue("@stock6", Properties.Settings.Default.Branch);
+                                        co5.Parameters.AddWithValue("@stock6", DateTime.Today);
 
 
                                         object count6 = co5.ExecuteScalar();
 
                                     //Checked
-                                    string stk7 = "SELECT checked FROM Stock";
+                                    string stk7 = "SELECT checked FROM Stock WHERE initial_add = @stock7";
                                     using (SqlCommand co6 = new SqlCommand(stk7, con))
                                     {
-                                        co6.Parameters.AddWithValue("Transfers", stk7);
-
+                                        co6.Parameters.AddWithValue("@stock7", Properties.Settings.Default.Branch);
+                                        co6.Parameters.AddWithValue("@stock7", DateTime.Today);
 
 
                                         object count7 = co6.ExecuteScalar();
@@ -629,6 +690,7 @@ namespace _213
                                                 textBox1.AppendText("Stock Item Type: " + count5 + "\r\n");
                                                 textBox1.AppendText("Stock Item Status: " + count6 + "\r\n");
                                                 textBox1.AppendText("Stock Checked: " + count7 + "\r\n");
+                                                
                                             }
                                         }
                                     }
@@ -643,96 +705,120 @@ namespace _213
 
            
             con.Close();
+
+            //Upload na Dropbox
+            
+
+            if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+
+            OAuthUtility.PutAsync
+            (
+                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                     new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath3, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                     callback: Upload_Result
+            );
         }
 
         private void button13_Click(object sender, EventArgs e)//Sales Summary
         {
           
             //count sales
-            string stk = "SELECT COUNT(*) FROM Sales";
+            string stk = "SELECT COUNT(sale_id) FROM Sales WHERE sale_date = @saleCount";
             using (SqlCommand com1 = new SqlCommand(stk, con))
             {
-                com1.Parameters.AddWithValue("Transfers", stk);
+                com1.Parameters.AddWithValue("@saleCount", Properties.Settings.Default.Branch);
+                com1.Parameters.AddWithValue("@saleCount", DateTime.Now);
                 con.Open();
                 object count = com1.ExecuteScalar();
 
                 //item id
-                string stk1 = "SELECT sale_id FROM Sales";
+                string stk1 = "SELECT sale_id FROM Sales WHERE sale_date = @saleID";
                 using (SqlCommand comm4 = new SqlCommand(stk1, con))
                 {
-                    comm4.Parameters.AddWithValue("Transfers", stk1);
-
+                    comm4.Parameters.AddWithValue("@saleID", Properties.Settings.Default.Branch);
+                    comm4.Parameters.AddWithValue("@saleID", DateTime.Now);
 
 
                     object count1 = comm4.ExecuteScalar();
 
 
                     //manufacturer
-                    string stk2 = "SELECT sale_date FROM Sales";
+                    string stk2 = "SELECT sale_date FROM Sales WHERE sale_date = @saleDate";
                     using (SqlCommand co1 = new SqlCommand(stk2, con))
                     {
-                        co1.Parameters.AddWithValue("Transfers", stk2);
-
+                        co1.Parameters.AddWithValue("@saleDate", Properties.Settings.Default.Branch);
+                        co1.Parameters.AddWithValue("@saleDate", DateTime.Now);
 
 
                         object count2 = co1.ExecuteScalar();
 
                         //Warranty
-                        string stk3 = "SELECT item_ids FROM Sales";
+                        string stk3 = "SELECT item_ids FROM Sales WHERE sale_date = @saleItem";
                         using (SqlCommand co2 = new SqlCommand(stk3, con))
                         {
-                            co2.Parameters.AddWithValue("Transfers", stk3);
-
+                            co2.Parameters.AddWithValue("@saleItem", Properties.Settings.Default.Branch);
+                            co2.Parameters.AddWithValue("@saleItem", DateTime.Now);
 
 
                             object count3 = co2.ExecuteScalar();
 
                             //Retail Price
-                            string stk4 = "SELECT total_cost FROM Sales";
+                            string stk4 = "SELECT total_cost FROM Sales WHERE sale_date = @saleCost";
                             using (SqlCommand co3 = new SqlCommand(stk4, con))
                             {
-                                co3.Parameters.AddWithValue("Transfers", stk4);
-
+                                co3.Parameters.AddWithValue("@saleCost", Properties.Settings.Default.Branch);
+                                co3.Parameters.AddWithValue("@saleCost", DateTime.Now);
 
 
                                 object count4 = co3.ExecuteScalar();
 
                                 //item type
-                                string stk5 = "SELECT total_paid FROM Sales";
+                                string stk5 = "SELECT total_paid FROM Sales WHERE sale_date = @salePaid";
                                 using (SqlCommand co4 = new SqlCommand(stk5, con))
                                 {
-                                    co4.Parameters.AddWithValue("Transfers", stk5);
-
+                                    co4.Parameters.AddWithValue("@salePaid", Properties.Settings.Default.Branch);
+                                    co4.Parameters.AddWithValue("@salePaid", DateTime.Now);
 
 
                                     object count5 = co4.ExecuteScalar();
 
                                     //status
-                                    string stk6 = "SELECT promotion FROM Sales";
+                                    string stk6 = "SELECT promotion FROM Sales WHERE sale_date = @salePromo";
                                     using (SqlCommand co5 = new SqlCommand(stk6, con))
                                     {
-                                        co5.Parameters.AddWithValue("Transfers", stk6);
-
+                                        co5.Parameters.AddWithValue("@salePromo", Properties.Settings.Default.Branch);
+                                        co5.Parameters.AddWithValue("@salePromo", DateTime.Now);
 
 
                                         object count6 = co5.ExecuteScalar();
 
                                         //Checked
-                                        string stk7 = "SELECT payment_method FROM Sales";
+                                        string stk7 = "SELECT payment_method FROM Sales WHERE sale_date = @salePay";
                                         using (SqlCommand co6 = new SqlCommand(stk7, con))
                                         {
-                                            co6.Parameters.AddWithValue("Transfers", stk7);
-
+                                            co6.Parameters.AddWithValue("@salePay", Properties.Settings.Default.Branch);
+                                            co6.Parameters.AddWithValue("@salePay", DateTime.Now);
 
 
                                             object count7 = co6.ExecuteScalar();
 
                                             //Checked
-                                            string stk8 = "SELECT sale_branch FROM Sales";
+                                            string stk8 = "SELECT sale_branch FROM Sales WHERE sale_date = @saleBranch";
                                             using (SqlCommand co7 = new SqlCommand(stk8, con))
                                             {
-                                                co7.Parameters.AddWithValue("Transfers", stk8);
-
+                                                co7.Parameters.AddWithValue("@saleBranch", Properties.Settings.Default.Branch);
+                                                co7.Parameters.AddWithValue("@saleBranch", DateTime.Now);
 
 
                                                 object count8 = co6.ExecuteScalar();
@@ -767,6 +853,28 @@ namespace _213
             }
 
             con.Close();
+            //Upload na Dropbox
+            
+
+            if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+
+            OAuthUtility.PutAsync
+            (
+                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                     new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath2, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                     callback: Upload_Result
+            );
              
         }
 
@@ -774,90 +882,91 @@ namespace _213
         {
             
                 //count sales
-                string stk = "SELECT COUNT(*) FROM Orders";
+                string stk = "SELECT COUNT(order_id) FROM Orders WHERE order_date = @order";
                 using (SqlCommand com1 = new SqlCommand(stk, con))
                 {
-                    com1.Parameters.AddWithValue("Transfers", stk);
+                    com1.Parameters.AddWithValue("@order", Properties.Settings.Default.Branch);
+                    com1.Parameters.AddWithValue("@order", DateTime.Today);
                     con.Open();
                     object count = com1.ExecuteScalar();
 
                     //item id
-                    string stk1 = "SELECT order_id FROM Orders";
+                    string stk1 = "SELECT order_id FROM Orders WHERE order_date = @orderid";
                     using (SqlCommand comm4 = new SqlCommand(stk1, con))
                     {
-                        comm4.Parameters.AddWithValue("Transfers", stk1);
-
+                        comm4.Parameters.AddWithValue("@orderid", Properties.Settings.Default.Branch);
+                        comm4.Parameters.AddWithValue("@orderid", DateTime.Today);
 
 
                         object count1 = comm4.ExecuteScalar();
 
 
                         //manufacturer
-                        string stk2 = "SELECT order_date FROM Orders";
+                        string stk2 = "SELECT order_date FROM Orders WHERE order_date = @orderDate";
                         using (SqlCommand co1 = new SqlCommand(stk2, con))
                         {
-                            co1.Parameters.AddWithValue("Transfers", stk2);
-
+                            co1.Parameters.AddWithValue("@orderDate", Properties.Settings.Default.Branch);
+                            co1.Parameters.AddWithValue("@orderDate", DateTime.Today);
 
 
                             object count2 = co1.ExecuteScalar();
 
                             //Warranty
-                            string stk3 = "SELECT order_items FROM Orders";
+                            string stk3 = "SELECT order_items FROM Orders WHERE order_date = @orderItem";
                             using (SqlCommand co2 = new SqlCommand(stk3, con))
                             {
-                                co2.Parameters.AddWithValue("Transfers", stk3);
-
+                                co2.Parameters.AddWithValue("@orderItem", Properties.Settings.Default.Branch);
+                                co2.Parameters.AddWithValue("@orderItem", DateTime.Today);
 
 
                                 object count3 = co2.ExecuteScalar();
 
                                 //Retail Price
-                                string stk4 = "SELECT order_supplier FROM Orders";
+                                string stk4 = "SELECT order_supplier FROM Orders WHERE order_date = @orderSuply";
                                 using (SqlCommand co3 = new SqlCommand(stk4, con))
                                 {
-                                    co3.Parameters.AddWithValue("Transfers", stk4);
-
+                                    co3.Parameters.AddWithValue("@orderSuply", Properties.Settings.Default.Branch);
+                                    co3.Parameters.AddWithValue("@orderSuply", DateTime.Today);
 
 
                                     object count4 = co3.ExecuteScalar();
 
                                     //item type
-                                    string stk5 = "SELECT eta FROM Orders";
+                                    string stk5 = "SELECT eta FROM Orders WHERE order_date = @orderEta";
                                     using (SqlCommand co4 = new SqlCommand(stk5, con))
                                     {
-                                        co4.Parameters.AddWithValue("Transfers", stk5);
-
+                                        co4.Parameters.AddWithValue("@orderEta", Properties.Settings.Default.Branch);
+                                        co4.Parameters.AddWithValue("@orderEta", DateTime.Today);
 
 
                                         object count5 = co4.ExecuteScalar();
 
                                         //status
-                                        string stk6 = "SELECT received_date FROM Orders";
+                                        string stk6 = "SELECT received_date FROM Orders WHERE order_date = @orderRecieve";
                                         using (SqlCommand co5 = new SqlCommand(stk6, con))
                                         {
-                                            co5.Parameters.AddWithValue("Transfers", stk6);
-
+                                            co5.Parameters.AddWithValue("@orderRecieve", Properties.Settings.Default.Branch);
+                                            co5.Parameters.AddWithValue("@orderRecieve", DateTime.Today);
 
 
                                             object count6 = co5.ExecuteScalar();
 
                                             //Checked
-                                            string stk7 = "SELECT received FROM Orders";
+                                            string stk7 = "SELECT received FROM Orders WHERE order_date = @orderRecieved";
                                             using (SqlCommand co6 = new SqlCommand(stk7, con))
                                             {
-                                                co6.Parameters.AddWithValue("Transfers", stk7);
-
+                                                co6.Parameters.AddWithValue("@orderRecieved", Properties.Settings.Default.Branch);
+                                                co6.Parameters.AddWithValue("@orderRecieved", DateTime.Today);
 
 
                                                 object count7 = co6.ExecuteScalar();
 
                                                 //Checked
-                                                string stk8 = "SELECT total_cost FROM Orders";
+                                                string stk8 = "SELECT total_cost FROM Orders WHERE order_date = @orderCost";
                                                 using (SqlCommand co7 = new SqlCommand(stk8, con))
                                                 {
-                                                    co7.Parameters.AddWithValue("Transfers", stk8);
-
+                                                    co7.Parameters.AddWithValue("@orderCost", Properties.Settings.Default.Branch);
+                                                    co7.Parameters.AddWithValue("@orderCost", DateTime.Today);
 
 
                                                     object count8 = co6.ExecuteScalar();
@@ -893,7 +1002,158 @@ namespace _213
                 }
 
                 con.Close();
+            // Upload na Dropbox
+                if (openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    return;
+                }
+
+
+                OAuthUtility.PutAsync
+                (
+                     "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                         new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath4, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                         callback: Upload_Result
+                );
             
         }
+
+       
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            //Stock Finalize
+            SqlCommand finalizeStock = new SqlCommand("DELETE FROM Stock WHERE branch = @branch AND status = @status",con);
+            finalizeStock.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            finalizeStock.Parameters.AddWithValue("@branch","Removed");
+            finalizeStock.ExecuteNonQuery();
+            SqlCommand resetStock = new SqlCommand("UPDATE Stock SET Checked = @check WHERE branch = @branch AND Status = @status",con);
+            resetStock.Parameters.AddWithValue("@check", 0);
+            resetStock.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            resetStock.Parameters.AddWithValue("@status", "In stock");
+            resetStock.ExecuteNonQuery();
+            //orders finalize
+            SqlCommand finalOrders = new SqlCommand("DELETE FROM Orders WHERE branch = @branch AND recieved = @rec",con);
+            finalOrders.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            finalOrders.Parameters.AddWithValue("@rec", 1);
+            finalOrders.ExecuteNonQuery();
+
+            //Sales
+
+
+        }
+
+        private void Upload_Result(RequestResult result)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<RequestResult>(Upload_Result), result);
+                return;
+            }
+
+            if (result.StatusCode == 200)
+            {
+                this.GetFile();
+            }
+            else
+            {
+                MessageBox.Show("Error with upload. Check Paths and Parameters");
+            }
+        }
+
+
+        private void button17_Click(object sender, EventArgs e)//Orders Dropbox
+        {
+           
+        }
+
+        
+        
+
+        private void button18_Click(object sender, EventArgs e)//Sales Dropbox
+        {
+             if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+           {
+               return;
+           }
+
+
+           OAuthUtility.PutAsync
+           (
+                "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                    new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                    callback: Upload_Result
+           );
+        }
+
+        
+        
+
+        private void button19_Click(object sender, EventArgs e)//Stock Dropbox
+        {
+           if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+           {
+               return;
+           }
+
+
+           OAuthUtility.PutAsync
+           (
+                "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                    new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                    callback: Upload_Result
+           );
     }
-}
+        
+
+       
+
+
+        private void button20_Click(object sender, EventArgs e)//Transfer Dropbox
+        {
+           if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+           {
+               return;
+           }
+
+
+           OAuthUtility.PutAsync
+           (
+                "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
+                    new HttpParameterCollection
+                    {
+                        {"access_token", Properties.Settings.Default.AccessToken},
+                        {"path", Path.Combine(this.CurrentPath, Path.GetFileName(openFileDialog1.FileName)).Replace("\\", "/")},
+                        {"overwrite", "true"},
+                        {"autorename", "true"},
+                        {openFileDialog1.OpenFile()}
+                    },
+                    callback: Upload_Result
+           );
+        }
+
+        
+        }
+    }
