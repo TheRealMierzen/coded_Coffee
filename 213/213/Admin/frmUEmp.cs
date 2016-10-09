@@ -569,59 +569,7 @@ namespace _213
             { }
         }
 
-        private void fillBranches()
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
-                {
-                    string cmdstring = "SELECT branch_location FROM Branches WHERE branch_location <> @thisbranch";
-
-                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
-                    {
-                        con.Open();
-                        comm.Parameters.AddWithValue("@thisbranch", Properties.Settings.Default.Branch);
-
-                        using (var reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-
-                                string branch = reader.GetString(0);
-                                cbBranches.Items.Add(branch);
-                                cbOriBranch.Items.Add(branch);
-
-                            }
-
-                        }
-
-                        cbOriBranch.Items.Add(Properties.Settings.Default.Branch);
-                        con.Close();
-
-                    }
-                }
-            }
-            catch(FormatException)
-            { }
-            catch(InvalidCastException)
-            { }
-            catch (SqlException se)
-            {
-
-                if (se.Number == 53)
-                {
-                    gebruik other = new gebruik();
-                    if (other.CheckConnection())
-                        fillBranches();
-                    else
-                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                
-
-            }
-            catch(Exception)
-            { }
-        }
+        
 
         private void btnUpdateEmp_Click(object sender, EventArgs e)
         {
