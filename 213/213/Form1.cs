@@ -64,7 +64,7 @@ namespace _213
         private void Form1_Load(object sender, EventArgs e)
         {
             /////////////////////////////////////////////////////
-            this.TopMost = true;
+            //this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
 
@@ -239,8 +239,11 @@ namespace _213
         //end of day button
         private void roundButton2_Click(object sender, EventArgs e)
         {
-            
 
+            EndOfDay ef = new EndOfDay();
+            ef.Show();
+            this.TopMost = false;
+            this.Hide();
         }
 
         //sale button

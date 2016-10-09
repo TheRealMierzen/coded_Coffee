@@ -56,10 +56,10 @@ namespace _213
                 }
             }*/
 
-            string cmd1 = "SELECT * FROM Orders WHERE order_date = @order";
+            string cmd1 = "SELECT * FROM Orders WHERE order_date = @order AND branch = @branch";
             using (SqlCommand comm1 = new SqlCommand(cmd1, con))
             {
-                comm1.Parameters.AddWithValue("@order", Properties.Settings.Default.Branch);
+                comm1.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 comm1.Parameters.AddWithValue("@order", DateTime.Today);
 
                 SqlDataAdapter sda = new SqlDataAdapter();
@@ -244,7 +244,7 @@ namespace _213
             }
 
 
-            /*OAuthUtility.PutAsync
+           OAuthUtility.PutAsync
             (
                  "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                      new HttpParameterCollection
@@ -256,7 +256,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                      callback: Upload_Result
-            );*/
+            );
         }
         //
         //
@@ -327,7 +327,7 @@ namespace _213
 
         private void GetFile()
         {
-            /*OAuthUtility.GetAsync
+            OAuthUtility.GetAsync
             (
                 "https://api.dropboxapi.com/1/metadata/auto/",
                 new HttpParameterCollection
@@ -336,7 +336,7 @@ namespace _213
                     { "access_token", Properties.Settings.Default.AccessToken},
                 },
                 callback: GetFile_Result
-            );*/
+            );
         }
      
         private void GetFile_Result(RequestResult result)
@@ -369,7 +369,7 @@ namespace _213
 
         private void button9_Click(object sender, EventArgs e)//upload files
         {
-           /*if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+           if(openFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
            {
                return;
            }
@@ -405,14 +405,14 @@ namespace _213
             else
             {
                 MessageBox.Show("Error with upload. Check Paths and Parameters");
-            }*/
+            }
         }
 
         
 
         private void button11_Click(object sender, EventArgs e)//new folder
         {
-            /*OAuthUtility.PostAsync
+            OAuthUtility.PostAsync
                (
                    "https://api.dropboxapi.com/1/fileops/create_folder",
                    new HttpParameterCollection
@@ -443,12 +443,12 @@ namespace _213
             else
             {
                 MessageBox.Show("Error with Creating a folder");
-            }*/
+            }
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
-            /*if (listBox1.SelectedItem.ToString() == "..")
+            if (listBox1.SelectedItem.ToString() == "..")
             {
                 if (this.CurrentPath != "/")
                 {
@@ -459,7 +459,7 @@ namespace _213
             {
                 this.CurrentPath = listBox1.SelectedItem.ToString();
             }
-            this.GetFile();*/
+            this.GetFile();
         }
 
         private void button15_Click(object sender, EventArgs e)//Transfers Summary
@@ -574,7 +574,7 @@ namespace _213
             }
 
 
-            /*OAuthUtility.PutAsync
+            OAuthUtility.PutAsync
             (
                  "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                      new HttpParameterCollection
@@ -586,7 +586,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                      callback: Upload_Result
-            );*/
+            );
            
         }
 
@@ -715,7 +715,7 @@ namespace _213
             }
 
 
-            /*OAuthUtility.PutAsync
+            OAuthUtility.PutAsync
             (
                  "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                      new HttpParameterCollection
@@ -727,7 +727,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                      callback: Upload_Result
-            );*/
+            );
         }
 
         private void button13_Click(object sender, EventArgs e)//Sales Summary
@@ -862,7 +862,7 @@ namespace _213
             }
 
 
-            /*OAuthUtility.PutAsync
+            OAuthUtility.PutAsync
             (
                  "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                      new HttpParameterCollection
@@ -874,7 +874,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                      callback: Upload_Result
-            );*/
+            );
              
         }
 
@@ -1009,7 +1009,7 @@ namespace _213
                 }
 
 
-                /*OAuthUtility.PutAsync
+                OAuthUtility.PutAsync
                 (
                      "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                          new HttpParameterCollection
@@ -1021,7 +1021,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                          callback: Upload_Result
-                );*/
+                );
             
         }
 
@@ -1051,7 +1051,7 @@ namespace _213
 
         }
 
-        private void Upload_Result(RequestResult result)
+        /*private void Upload_Result(RequestResult result)
         {
             if (this.InvokeRequired)
             {
@@ -1067,7 +1067,7 @@ namespace _213
             {
                 MessageBox.Show("Error with upload. Check Paths and Parameters");
             }
-        }
+        }*/
 
 
         private void button17_Click(object sender, EventArgs e)//Orders Dropbox
@@ -1086,7 +1086,7 @@ namespace _213
            }
 
 
-           /*OAuthUtility.PutAsync
+           OAuthUtility.PutAsync
            (
                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                     new HttpParameterCollection
@@ -1098,7 +1098,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                     callback: Upload_Result
-           );*/
+           );
         }
 
         
@@ -1112,7 +1112,7 @@ namespace _213
            }
 
 
-           /*OAuthUtility.PutAsync
+           OAuthUtility.PutAsync
            (
                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                     new HttpParameterCollection
@@ -1124,7 +1124,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                     callback: Upload_Result
-           );*/
+           );
     }
         
 
@@ -1139,7 +1139,7 @@ namespace _213
            }
 
 
-           /*OAuthUtility.PutAsync
+           OAuthUtility.PutAsync
            (
                 "https://content.dropboxapi.com/1/files_put/auto/<path>?param=val",
                     new HttpParameterCollection
@@ -1151,7 +1151,7 @@ namespace _213
                         {openFileDialog1.OpenFile()}
                     },
                     callback: Upload_Result
-           );*/
+           );
         }
 
         
