@@ -241,7 +241,7 @@
             this.pnlReturns.Controls.Add(this.btnRefund);
             this.pnlReturns.Controls.Add(this.txtProductReturn);
             this.pnlReturns.Controls.Add(this.lblIDReturn);
-            this.pnlReturns.Location = new System.Drawing.Point(420, 298);
+            this.pnlReturns.Location = new System.Drawing.Point(15, 40);
             this.pnlReturns.Name = "pnlReturns";
             this.pnlReturns.Size = new System.Drawing.Size(179, 219);
             this.pnlReturns.TabIndex = 22;
@@ -285,7 +285,7 @@
             this.pnlCompleteCustom.Controls.Add(this.txtTotalcmsPaid);
             this.pnlCompleteCustom.Controls.Add(this.cmbPaymentcms);
             this.pnlCompleteCustom.Controls.Add(this.lblcmsPaidMeth);
-            this.pnlCompleteCustom.Location = new System.Drawing.Point(657, 36);
+            this.pnlCompleteCustom.Location = new System.Drawing.Point(15, 40);
             this.pnlCompleteCustom.Name = "pnlCompleteCustom";
             this.pnlCompleteCustom.Size = new System.Drawing.Size(286, 226);
             this.pnlCompleteCustom.TabIndex = 21;
@@ -353,7 +353,7 @@
             this.pnlCustoms.Controls.Add(this.btnCompletecms);
             this.pnlCustoms.Controls.Add(this.lbxCustomReceipt);
             this.pnlCustoms.Controls.Add(this.lblCmID);
-            this.pnlCustoms.Location = new System.Drawing.Point(425, 495);
+            this.pnlCustoms.Location = new System.Drawing.Point(15, 40);
             this.pnlCustoms.Name = "pnlCustoms";
             this.pnlCustoms.Size = new System.Drawing.Size(418, 337);
             this.pnlCustoms.TabIndex = 20;
@@ -462,7 +462,7 @@
             this.pnlCompleteSale.Controls.Add(this.txtPaid);
             this.pnlCompleteSale.Controls.Add(this.cbxMethodOfPayment);
             this.pnlCompleteSale.Controls.Add(this.lblMethodOfPayment_Sales);
-            this.pnlCompleteSale.Location = new System.Drawing.Point(557, 274);
+            this.pnlCompleteSale.Location = new System.Drawing.Point(15, 40);
             this.pnlCompleteSale.Name = "pnlCompleteSale";
             this.pnlCompleteSale.Size = new System.Drawing.Size(286, 206);
             this.pnlCompleteSale.TabIndex = 19;
@@ -525,7 +525,7 @@
             this.pnlPrevSaleCancel.Controls.Add(this.txtSaleSearch);
             this.pnlPrevSaleCancel.Controls.Add(this.btnRefreshSearch);
             this.pnlPrevSaleCancel.Controls.Add(this.btnSearch);
-            this.pnlPrevSaleCancel.Location = new System.Drawing.Point(12, 279);
+            this.pnlPrevSaleCancel.Location = new System.Drawing.Point(15, 40);
             this.pnlPrevSaleCancel.Name = "pnlPrevSaleCancel";
             this.pnlPrevSaleCancel.Size = new System.Drawing.Size(403, 310);
             this.pnlPrevSaleCancel.TabIndex = 18;
@@ -695,6 +695,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::_213.Properties.Resources._48992;
             this.ClientSize = new System.Drawing.Size(1153, 733);
             this.Controls.Add(this.pnlReturns);
             this.Controls.Add(this.pnlCompleteCustom);

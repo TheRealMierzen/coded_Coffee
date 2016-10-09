@@ -390,20 +390,6 @@ namespace _213
                         totalCost = price.Sum();
                         barcodes.Remove(barcodes[indeksBarcode]);
                     }
-                    //UNDO PROMO////////////////////////////////////////////////////////////////////////////////////////////////////
-                    int promo, indeksProm;
-                    SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                    conn.Open();
-                    SqlCommand command = new SqlCommand(@"SELECT COUNT(*) FROM Promotions WHERE item_name = @description AND branch = @branch", con);
-                    command.Parameters.AddWithValue("@description", description);
-                    command.Parameters.AddWithValue("@branch", branch);
-                    promo = Convert.ToInt16(command.ExecuteScalar());
-                    conn.Close();
-                    if (promo == 1)
-                    {
-                        indeksProm = discountTotal.IndexOf(discountTotal.Last());
-                        discountTotal.Remove(discountTotal[indeksProm]);
-                    }
                     //UNDO WARRANTY////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if ((indeksProductW == 0) && (totalWarrantyP[indeksProductW] == 1))
                     {
@@ -426,6 +412,7 @@ namespace _213
                     lbxSaleReceipt.Items.Add("==================================");
                     lbxSaleReceipt.Items.Add("MATRIX WAREHOUSE");
                     lbxSaleReceipt.Items.Add("Branch: " + branch);
+                    lbxSaleReceipt.Items.Add("Sale: " + saleid);
                     dateTimeSale = (DateTime.Now).ToString();
                     lbxSaleReceipt.Items.Add(dateTimeSale);
                     lbxSaleReceipt.Items.Add("==================================");
