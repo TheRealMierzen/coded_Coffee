@@ -322,6 +322,9 @@
     <Compile Include="Stock\StockTransferSendForm.Designer.cs">
       <DependentUpon>StockTransferSendForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="HQ\frmHQ.resx">
+      <DependentUpon>frmHQ.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
       <SubType>Designer</SubType>

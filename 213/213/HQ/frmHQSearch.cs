@@ -15,6 +15,7 @@ namespace _213
     public partial class frmHQSearch : Form
     {
         private SqlConnection conn;
+        private int count;
 
         public frmHQSearch()
         {
@@ -36,6 +37,7 @@ namespace _213
                     {
                         
                         conn.Open();
+                        count = 0;
 
                         cmdStr = "Select item_id from Stock where item_id = @id";
 
@@ -115,15 +117,21 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if (se.Number == 53)
+                if (se.Number == 53 && count < 4)
                 {
                     gebruik other = new gebruik();
                     if (other.CheckConnection())
                         btnAccept.PerformClick();
                 }
+                else
+                {
+                    MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-
+            catch (NullReferenceException se)
+            {
+                MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void frmHQSearch_Load(object sender, EventArgs e)
@@ -133,7 +141,7 @@ namespace _213
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
     }
 }

@@ -969,6 +969,116 @@ namespace _213
             return match.Groups[1].Value + domainName;
         }
 
+        public static void fillBranches(ComboBox cbBranches, ComboBox cbOriBranch)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
+                    string cmdstring = "SELECT branch_location FROM Branches WHERE branch_location <> @thisbranch";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        con.Open();
+                        comm.Parameters.AddWithValue("@thisbranch", Properties.Settings.Default.Branch);
+
+                        using (var reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                string branch = reader.GetString(0);
+                                cbBranches.Items.Add(branch);
+                                cbOriBranch.Items.Add(branch);
+
+                            }
+
+                        }
+
+                        cbOriBranch.Items.Add(Properties.Settings.Default.Branch);
+                        cbOriBranch.SelectedItem = Properties.Settings.Default.Branch;
+                        cbBranches.SelectedIndex = 0;
+
+                        con.Close();
+
+                    }
+                }
+            }
+            catch (FormatException)
+            { }
+            catch (InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        fillBranches(cbBranches, cbOriBranch);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
+            }
+            catch (Exception)
+            { }
+        }
+
+        public static void fillBranches(ComboBox cbOriBranch)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                {
+                    string cmdstring = "SELECT branch_location FROM Branches WHERE branch_location <> @thisbranch";
+
+                    using (SqlCommand comm = new SqlCommand(cmdstring, con))
+                    {
+                        con.Open();
+                        comm.Parameters.AddWithValue("@thisbranch", Properties.Settings.Default.Branch);
+
+                        using (var reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                string branch = reader.GetString(0);
+                                cbOriBranch.Items.Add(branch);
+
+                            }
+
+                        }
+
+                        cbOriBranch.Items.Add(Properties.Settings.Default.Branch);
+                        cbOriBranch.SelectedItem = Properties.Settings.Default.Branch;
+                        con.Close();
+
+                    }
+                }
+            }
+            catch (FormatException)
+            { }
+            catch (InvalidCastException)
+            { }
+            catch (SqlException se)
+            {
+
+                if (se.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection())
+                        fillBranches(cbOriBranch);
+                    else
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
+            }
+            catch (Exception)
+            { }
+        }
     }
 }
 

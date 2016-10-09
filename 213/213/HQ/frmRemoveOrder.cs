@@ -17,6 +17,7 @@ namespace _213
 
         private SqlConnection conn;
         private string user;
+        private int count;
 
         public frmRemoveOrder()
         {
@@ -58,6 +59,7 @@ namespace _213
                         deleteOrder.Parameters.AddWithValue("@id", txtOrderID.Text);
 
                         conn.Open();
+                        count = 0;
                         deleteOrder.ExecuteNonQuery();
                         conn.Close();
                     }
@@ -67,19 +69,25 @@ namespace _213
 
                 frmHQ hq = new frmHQ();
                 hq.Show();
-                this.Hide();
+                this.Close();
             }
             catch (SqlException se)
             {
-                if (se.Number == 53)
+                if (se.Number == 53 && count < 4)
                 {
                     gebruik other = new gebruik();
                     if (other.CheckConnection())
                         btnRemove.PerformClick();
                 }
+                else
+                {
+                    MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-
+            catch (NullReferenceException se)
+            {
+                MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
