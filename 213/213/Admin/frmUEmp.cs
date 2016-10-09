@@ -152,7 +152,8 @@ namespace _213
 
         private void frmUEmp_Load(object sender, EventArgs e)
         {
-            fillBranches();
+
+            gebruik.fillBranches(cbBranches, cbOriBranch);
             checkHQ(user);
             fillIds();
             dtUntil.MinDate = DateTime.Now;

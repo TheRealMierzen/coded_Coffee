@@ -62,7 +62,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -144,7 +144,7 @@ namespace _213
                 else
                     btnAccept.Enabled = false;
             }
-            catch(OverflowException se)
+            catch(OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -173,7 +173,7 @@ namespace _213
                     btnAccept.Enabled = false;
 
             }
-            catch (OverflowException se)
+            catch (OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -238,7 +238,7 @@ namespace _213
                     btnUpdate.Enabled = false;
                 }
             }
-            catch (OverflowException se)
+            catch (OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -268,7 +268,7 @@ namespace _213
                     btnUpdate.Enabled = false;
                 }
             }
-            catch (OverflowException se)
+            catch (OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -363,7 +363,7 @@ namespace _213
                     }
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -477,7 +477,7 @@ namespace _213
                     btnFinalizeAdd.Enabled = false;
                 }
             }
-            catch (OverflowException se)
+            catch (OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -551,7 +551,7 @@ namespace _213
                     btnFinalizeUp.Enabled = false;
                 }
             }
-            catch (OverflowException se)
+            catch (OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -688,7 +688,7 @@ namespace _213
                     }
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -830,7 +830,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -977,7 +977,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1084,7 +1084,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1202,7 +1202,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1280,7 +1280,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1364,7 +1364,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1544,7 +1544,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1633,7 +1633,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1756,7 +1756,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1819,7 +1819,7 @@ namespace _213
                     MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (NullReferenceException se)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
