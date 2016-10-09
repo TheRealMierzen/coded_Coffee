@@ -45,9 +45,9 @@ namespace _213
                 if(se.Number == 53)
                 {
                     gebruik obj = new gebruik();
-                    if(obj.CheckConnection() && count<4)
+                    if(obj.CheckConnection())
                     {
-                        count++;
+                        return check;
                     }
                     else
                     {
@@ -56,10 +56,10 @@ namespace _213
                 }
             }*/
 
-            string cmd1 = "SELECT * FROM Orders WHERE order_date = @order";
+            string cmd1 = "SELECT * FROM Orders WHERE order_date = @order AND branch = @branch";
             using (SqlCommand comm1 = new SqlCommand(cmd1, con))
             {
-                comm1.Parameters.AddWithValue("@order", Properties.Settings.Default.Branch);
+                comm1.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 comm1.Parameters.AddWithValue("@order", DateTime.Today);
 
                 SqlDataAdapter sda = new SqlDataAdapter();
@@ -83,7 +83,7 @@ namespace _213
         private void button2_Click(object sender, EventArgs e)
         {
 
-            string cmd2 = "SELECT * FROM Sales WHERE sale_date = @sale";
+            string cmd2 = "SELECT * FROM Sales WHERE sale_date = @sale AND branch = @branch";
             using (SqlCommand comm2 = new SqlCommand(cmd2, con))
             {
                 comm2.Parameters.AddWithValue("@sale", Properties.Settings.Default.Branch);
@@ -109,7 +109,7 @@ namespace _213
         {
             
             DataTable tbl = new DataTable("Stock");
-            string cmd3 = "SELECT * FROM Stock WHERE initial_add = @stock";
+            string cmd3 = "SELECT * FROM Stock WHERE initial_add = @stock AND branch = @branch";
             using (SqlCommand comm3 = new SqlCommand(cmd3, con))
             {
 
@@ -135,8 +135,8 @@ namespace _213
 
         private void button4_Click(object sender, EventArgs e)
         {
-             
-            string cmd4 = "SELECT * FROM Transfers WHERE send_date = @trans";
+
+            string cmd4 = "SELECT * FROM Transfers WHERE send_date = @trans AND branch = @branch";
             using (SqlCommand comm4 = new SqlCommand(cmd4, con))
             {
                 comm4.Parameters.AddWithValue("@trans", Properties.Settings.Default.Branch);
@@ -167,7 +167,7 @@ namespace _213
         private void button5_Click(object sender, EventArgs e)
         {
             //order
-            string ordr = "SELECT COUNT(order_id) FROM Orders WHERE order_date = @order";
+            string ordr = "SELECT COUNT(order_id) FROM Orders WHERE order_date = @order AND branch = @branch";
             using (SqlCommand comm4 = new SqlCommand(ordr, con))
             {
                 comm4.Parameters.AddWithValue("@order", Properties.Settings.Default.Branch);
@@ -183,7 +183,7 @@ namespace _213
                 con.Close();
             }
             //sale
-            string sale = "SELECT COUNT(sale_id) FROM Sales WHERE sale_date = @sale";
+            string sale = "SELECT COUNT(sale_id) FROM Sales WHERE sale_date = @sale AND branch = @branch";
             using (SqlCommand com1 = new SqlCommand(sale, con))
             {
                 com1.Parameters.AddWithValue("@sale", Properties.Settings.Default.Branch);
@@ -200,7 +200,7 @@ namespace _213
                 con.Close();
             }
             //stock
-            string stck = "SELECT COUNT(item_id) FROM Stock WHERE initial_add = @stock";
+            string stck = "SELECT COUNT(item_id) FROM Stock WHERE initial_add = @stock AND branch = @branch";
             using (SqlCommand com1 = new SqlCommand(stck, con))
             {
                 com1.Parameters.AddWithValue("@stock", Properties.Settings.Default.Branch);
@@ -217,7 +217,7 @@ namespace _213
                 con.Close();
             }
             //transfers
-            string trns = "SELECT COUNT(transfer_id) FROM Transfers WHERE send_date = @trans";
+            string trns = "SELECT COUNT(transfer_id) FROM Transfers WHERE send_date = @trans AND branch = @branch";
             using (SqlCommand com1 = new SqlCommand(trns, con))
             {
                 com1.Parameters.AddWithValue("@trans", Properties.Settings.Default.Branch);
@@ -464,10 +464,10 @@ namespace _213
 
         private void button15_Click(object sender, EventArgs e)//Transfers Summary
         {
-            
 
-            
-            string trns = "SELECT COUNT(transfer_id) FROM Transfers WHERE send_date = @transCount";
+
+
+            string trns = "SELECT COUNT(transfer_id) FROM Transfers WHERE send_date = @transCount AND branch = @branch";
             using (SqlCommand com1 = new SqlCommand(trns, con))
             {
                 com1.Parameters.AddWithValue("@transCount", Properties.Settings.Default.Branch);
@@ -476,7 +476,7 @@ namespace _213
                 object count = com1.ExecuteScalar();
 
                 //
-                string trn1 = "SELECT transfer_id FROM Transfers WHERE send_date = @transID";
+                string trn1 = "SELECT transfer_id FROM Transfers WHERE send_date = @transID AND branch = @branch";
                 using (SqlCommand comm4 = new SqlCommand(trn1, con))
                 {
                     comm4.Parameters.AddWithValue("@transID", Properties.Settings.Default.Branch);
@@ -487,7 +487,7 @@ namespace _213
 
 
                     //from branch
-                    string trn2 = "SELECT from_branch FROM Transfers WHERE send_date = @transBranch";
+                    string trn2 = "SELECT from_branch FROM Transfers WHERE send_date = @transBranch AND branch = @branch";
                     using (SqlCommand co1 = new SqlCommand(trn2, con))
                     {
                         co1.Parameters.AddWithValue("@transBranch", Properties.Settings.Default.Branch);
@@ -497,7 +497,7 @@ namespace _213
                         object count2 = co1.ExecuteScalar();
 
                         //To Branch
-                        string trn3 = "SELECT to_branch FROM Transfers WHERE send_date = @transTo";
+                        string trn3 = "SELECT to_branch FROM Transfers WHERE send_date = @transTo AND branch = @branch";
                         using (SqlCommand co2 = new SqlCommand(trn3, con))
                         {
                             co2.Parameters.AddWithValue("@transTo", Properties.Settings.Default.Branch);
@@ -507,7 +507,7 @@ namespace _213
                             object count3 = co2.ExecuteScalar();
 
                             //item ids
-                            string trn4 = "SELECT item_ids FROM Transfers WHERE send_date = @transItem";
+                            string trn4 = "SELECT item_ids FROM Transfers WHERE send_date = @transItem AND branch = @branch";
                             using (SqlCommand co3 = new SqlCommand(trn4, con))
                             {
                                 co3.Parameters.AddWithValue("@transItem", Properties.Settings.Default.Branch);
@@ -517,7 +517,7 @@ namespace _213
                                 object count4 = co1.ExecuteScalar();
 
                                 //send date
-                                string trn5 = "SELECT send_date FROM Transfers WHERE send_date = @transSend";
+                                string trn5 = "SELECT send_date FROM Transfers WHERE send_date = @transSend AND branch = @branch";
                                 using (SqlCommand co4 = new SqlCommand(trn5, con))
                                 {
                                     co4.Parameters.AddWithValue("@transSend", Properties.Settings.Default.Branch);
@@ -527,7 +527,7 @@ namespace _213
                                     object count5 = co1.ExecuteScalar();
 
                                     //eta
-                                    string trn6 = "SELECT eta FROM Transfers WHERE send_date = @transEta";
+                                    string trn6 = "SELECT eta FROM Transfers WHERE send_date = @transEta AND branch = @branch";
                                     using (SqlCommand co5 = new SqlCommand(trn6, con))
                                     {
                                         co5.Parameters.AddWithValue("@transEta", Properties.Settings.Default.Branch);
@@ -592,8 +592,8 @@ namespace _213
 
         private void button14_Click(object sender, EventArgs e)//Stock Summary
         {
-           
-            string stk = "SELECT COUNT(item_id) FROM Stock WHERE initial_add = @stockCount";
+
+            string stk = "SELECT COUNT(item_id) FROM Stock WHERE initial_add = @stockCount AND branch = @branch";
             using (SqlCommand com1 = new SqlCommand(stk, con))
             {
                 com1.Parameters.AddWithValue("@stockCount", Properties.Settings.Default.Branch);
