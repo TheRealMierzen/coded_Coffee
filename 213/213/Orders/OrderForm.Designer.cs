@@ -47,25 +47,25 @@
             this.txtCust_email = new System.Windows.Forms.TextBox();
             this.gbxPayment = new System.Windows.Forms.GroupBox();
             this.gpxOrders = new System.Windows.Forms.GroupBox();
-            this.lbxOutput = new System.Windows.Forms.ListBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.gpxSearch = new System.Windows.Forms.GroupBox();
             this.lblOrder = new System.Windows.Forms.Label();
             this.lbxsearchordelete = new System.Windows.Forms.ListBox();
             this.cbxOrder = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.lbxOutput = new System.Windows.Forms.ListBox();
+            this.btnBack = new System.Windows.Forms.Button();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cbxOrders = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.gbxPayment.SuspendLayout();
             this.gpxOrders.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.gpxSearch.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // POBackBtn9
@@ -141,7 +141,7 @@
             // 
             // btnAdditem
             // 
-            this.btnAdditem.Location = new System.Drawing.Point(284, 53);
+            this.btnAdditem.Location = new System.Drawing.Point(284, 52);
             this.btnAdditem.Name = "btnAdditem";
             this.btnAdditem.Size = new System.Drawing.Size(111, 35);
             this.btnAdditem.TabIndex = 5;
@@ -254,15 +254,17 @@
             this.gpxOrders.TabStop = false;
             this.gpxOrders.Text = "Orders";
             // 
-            // lbxOutput
+            // tableLayoutPanel3
             // 
-            this.lbxOutput.FormattingEnabled = true;
-            this.lbxOutput.Items.AddRange(new object[] {
-            ""});
-            this.lbxOutput.Location = new System.Drawing.Point(427, 26);
-            this.lbxOutput.Name = "lbxOutput";
-            this.lbxOutput.Size = new System.Drawing.Size(311, 264);
-            this.lbxOutput.TabIndex = 75;
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 778F));
+            this.tableLayoutPanel3.Controls.Add(this.gpxSearch, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(715, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(778, 419);
+            this.tableLayoutPanel3.TabIndex = 79;
             // 
             // gpxSearch
             // 
@@ -327,16 +329,26 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Please enter the order ID";
             // 
-            // button1
+            // lbxOutput
             // 
-            this.button1.Location = new System.Drawing.Point(698, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 20);
-            this.button1.TabIndex = 77;
-            this.button1.Text = "Back";
-            this.passTT.SetToolTip(this.button1, "Go back to the home screen.");
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.lbxOutput.FormattingEnabled = true;
+            this.lbxOutput.Items.AddRange(new object[] {
+            ""});
+            this.lbxOutput.Location = new System.Drawing.Point(427, 26);
+            this.lbxOutput.Name = "lbxOutput";
+            this.lbxOutput.Size = new System.Drawing.Size(311, 264);
+            this.lbxOutput.TabIndex = 75;
+            // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(698, 3);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(75, 20);
+            this.btnBack.TabIndex = 77;
+            this.btnBack.Text = "Back";
+            this.passTT.SetToolTip(this.btnBack, "Go back to the home screen.");
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.button1_Click);
             // 
             // passTT
             // 
@@ -357,7 +369,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 695F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
             this.tableLayoutPanel1.Controls.Add(this.cbxOrders, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnBack, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(26, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -395,18 +407,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(784, 416);
             this.tableLayoutPanel2.TabIndex = 79;
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 778F));
-            this.tableLayoutPanel3.Controls.Add(this.gpxSearch, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(401, 19);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(778, 419);
-            this.tableLayoutPanel3.TabIndex = 79;
-            // 
             // OrderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -422,11 +422,11 @@
             this.gbxPayment.PerformLayout();
             this.gpxOrders.ResumeLayout(false);
             this.gpxOrders.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.gpxSearch.ResumeLayout(false);
             this.gpxSearch.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -454,7 +454,7 @@
         private System.Windows.Forms.GroupBox gpxSearch;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.ListBox lbxOutput;
         private System.Windows.Forms.ComboBox cbxOrder;
         private System.Windows.Forms.ListBox lbxsearchordelete;
