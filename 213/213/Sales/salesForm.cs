@@ -1285,8 +1285,8 @@ namespace _213
                 comm2.Parameters.AddWithValue("@date", dateTimeSale);
                 comm2.Parameters.AddWithValue("@itemid", itemID);
                 comm2.Parameters.AddWithValue("@branch", branch);
-
-                SqlCommand comm3 = new SqlCommand(@"SELECT description FROM Stock WHERE item_id = @itemid", con);
+                //
+                SqlCommand comm3 = new SqlCommand(@"SELECT item_name FROM Stock WHERE item_id = @itemid", con);
                 comm3.Parameters.AddWithValue("@itemid", itemID);
                 comm.ExecuteNonQuery();
                 comm2.ExecuteNonQuery();
