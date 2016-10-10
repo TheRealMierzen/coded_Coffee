@@ -18,6 +18,7 @@ namespace _213
     {
         //Class variables
         private string userNme;
+        private int count;
         //Default constructor
         public StockFindForm()
         {
@@ -55,6 +56,7 @@ namespace _213
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
 
                         stockConnection.Open();
+                        count = 0;
                         SqlDataAdapter stockDataAdapter = new SqlDataAdapter("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE item_name LIKE @description", stockConnection);
                         stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + txtFindName.Text + "%");
                         DataSet ds = new DataSet();
@@ -66,9 +68,10 @@ namespace _213
                     else if (txtFindBrand.Text != "")
                     {
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-
-                        SqlCommand stockM = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE manufacturer LIKE @description");                       
-                         SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockM.CommandText, stockConnection);
+                        stockConnection.Open();
+                        count = 0;
+                        SqlCommand stockM = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE manufacturer LIKE @description");
+                        SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockM.CommandText, stockConnection);
                         stockDataAdapter.SelectCommand.Parameters.AddWithValue("@description", "%" + txtFindBrand.Text + "%");
                         DataSet ds = new DataSet();
                         stockDataAdapter.Fill(ds, "Stock");
@@ -82,6 +85,7 @@ namespace _213
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
 
                         stockConnection.Open();
+                        count = 0;
                         SqlCommand stockP = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE retail_price LIKE @description");
 
                         SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockP.CommandText, stockConnection);
@@ -96,6 +100,7 @@ namespace _213
                     {
                         SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                         stockConnection.Open();
+                        count = 0;
                         SqlCommand stockP = new SqlCommand("SELECT branch, item_name, manufacturer, retail_price, item_Type FROM STOCK WHERE item_Type LIKE @description");
 
                         SqlDataAdapter stockDataAdapter = new SqlDataAdapter(stockP.CommandText, stockConnection);
@@ -107,10 +112,20 @@ namespace _213
                         dgvFindStock.DataMember = "Stock";
                     }
                 }
-        }
+            }
             catch (SqlException s)
             {
-                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        btnConfirmFind.PerformClick();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (NullReferenceException s)
             {

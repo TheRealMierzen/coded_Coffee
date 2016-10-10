@@ -17,6 +17,7 @@ namespace _213
 {
     public partial class StockAddFormCLN : Form
     {
+        private int count;
         //User name
         private string userNme;
         //Default Constructor
@@ -38,7 +39,6 @@ namespace _213
             txbBrandAddCLN.Clear();
             txbDescAddCLN.Clear();
             txbPriceRetailAddCLN.Clear();
-            txbWarrantyAddCLN.Clear();
             txtManfacturerPriceCLN.Clear();
         }
         //Add new stock in database
@@ -51,18 +51,19 @@ namespace _213
                     //Stock Connection String
                     SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                     stockConnection.Open();
+                    count = 0;
                     //Set Variables
                     string branchAddCLN = cmbTypeAddCLN.SelectedItem.ToString();
                     string manufacturerAddCLN = txbBrandAddCLN.Text;
                     string branchAdd = Properties.Settings.Default.Branch;
-                    string warrantyAddCLN = txbWarrantyAddCLN.Text + " Year(s)";
+                    string warrantyAddCLN = cmbWarrantyADD.SelectedItem.ToString() + " Year(s)";
                     string mPriceAddCLN = (txtManfacturerPriceCLN.Text);
                     string rPriceAddCLN = (txbPriceRetailAddCLN.Text);
                     string descAddCLN = txbDescAddCLN.Text;
                     string status = "In Stock";
                     int check = 0;
 
-                    SqlCommand getDes = new SqlCommand("SELECT cms_id, cms_order, cms_email FROM Cms WHERE branch = @branch AND completed = @com", stockConnection);
+                    SqlCommand getDes = new SqlCommand("SELECT cms_id, cms_order, cms_email, cms_itemIDs, cms_items FROM Cms WHERE branch = @branch AND completed = @com", stockConnection);
                     getDes.Parameters.AddWithValue("@com", 0);
                     getDes.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                     if (getDes.ExecuteScalar() != null)
@@ -73,6 +74,8 @@ namespace _213
                             while (reader.Read())
                             {
                                 string l = reader.GetString(1);
+                                string ids = reader.GetString(3);
+                                string names = reader.GetString(4);
                                 string n = descAddCLN;
                                 string des = "";
                                 des = reader.GetString(1);
@@ -92,6 +95,8 @@ namespace _213
                                     stockAddCommandCLN.Parameters.AddWithValue("@description", descAddCLN);
                                     stockAddCommandCLN.Parameters.AddWithValue("@item_Type", branchAddCLN);
                                     status = reader.GetString(0);
+                                    ids = ids + txbItemID.Text + ",";
+                                    names = names + descAddCLN + ",";
                                     stockAddCommandCLN.Parameters.AddWithValue("@status", status);
                                     stockAddCommandCLN.Parameters.AddWithValue("@checked", check);
                                     gebruik.addAction(userNme);
@@ -99,7 +104,9 @@ namespace _213
                                     //string meh = l.Replace(n, "");
                                     string meh = reader.GetString(1);
                                     meh = meh.Remove(meh.IndexOf(descAddCLN), descAddCLN.Length + 1);
-                                    SqlCommand updateCms = new SqlCommand("UPDATE Cms SET cms_orders = @order, date_complete = @date, complete = @com WHERE cms_id = @id");
+                                    SqlCommand updateCms = new SqlCommand("UPDATE Cms SET cms_orders = @order, date_complete = @date, complete = @com, cms_itemIDs = @ids, cms_items = @items WHERE cms_id = @id");
+                                    updateCms.Parameters.AddWithValue("@ids", ids);
+                                    updateCms.Parameters.AddWithValue("@items", names);
                                     updateCms.Parameters.AddWithValue("@order", meh);
                                     updateCms.Parameters.AddWithValue("@id", reader.GetString(0));
                                     updateCms.Parameters.AddWithValue("@date", DateTime.Now);
@@ -154,7 +161,8 @@ namespace _213
                                         txbBrandAddCLN.Clear();
                                         txbDescAddCLN.Clear();
                                         txbPriceRetailAddCLN.Clear();
-                                        txbWarrantyAddCLN.Clear();
+                                        cmbWarrantyADD.SelectedItem = null;
+                                        cmbTypeAddCLN.SelectedItem = null;
                                         txtManfacturerPriceCLN.Clear();
                                         //Display message
 
@@ -201,8 +209,8 @@ namespace _213
                             stockConnection.Close();
                             txbBrandAddCLN.Clear();
                             txbDescAddCLN.Clear();
-                            txbPriceRetailAddCLN.Clear();
-                            txbWarrantyAddCLN.Clear();
+                            cmbWarrantyADD.SelectedItem = null;
+                            cmbTypeAddCLN.SelectedItem = null;
                             txtManfacturerPriceCLN.Clear();
                             //Display message
 
@@ -220,22 +228,34 @@ namespace _213
                 {
                     if (s.Number == 2627)
                     {
-                        MessageBox.Show("Error: Duplicate IDs" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error: Duplicate IDs" + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    if(s.Number == 53)
+                    {
+                        gebruik other = new gebruik();
+                        if (other.CheckConnection() && count < 4)
+                        {
+                            count = count + 1;
+                            btnConfirmAddCLN.PerformClick();
+                        }
+                        if(count == 3)
+                            MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
                     }
                     else
                     {
-                        MessageBox.Show("Error in database" + s, "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error in database" + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                 }
                 catch (NullReferenceException s)
                 {
-                    MessageBox.Show("Error: Please fill in all the fields" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error: Please fill in all the fields" + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 catch (InvalidOperationException s)
                 {
-                    MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error: Invalid Operation" + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 catch (Exception s)
@@ -280,7 +300,7 @@ namespace _213
 
         private void txbPriceRetailAddCLN_TextChanged(object sender, EventArgs e)
         {
-            if (cmbTypeAddCLN.Text != "" & txbWarrantyAddCLN.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
+            if (cmbTypeAddCLN.Text != "" & cmbWarrantyADD.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
             {
                 btnConfirmAddCLN.Enabled = true;
             }
@@ -330,7 +350,7 @@ namespace _213
 
         private void txbDescAddCLN_TextChanged(object sender, EventArgs e)
         {
-            if(cmbTypeAddCLN.Text != "" & txbWarrantyAddCLN.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
+            if(cmbTypeAddCLN.Text != "" & cmbWarrantyADD.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
             {
                 btnConfirmAddCLN.Enabled = true;
             }
@@ -342,7 +362,7 @@ namespace _213
 
         private void txbBrandAddCLN_TextChanged(object sender, EventArgs e)
         {
-            if (cmbTypeAddCLN.Text != "" & txbWarrantyAddCLN.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
+            if (cmbTypeAddCLN.Text != "" & cmbWarrantyADD.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
             {
                 btnConfirmAddCLN.Enabled = true;
             }
@@ -354,7 +374,7 @@ namespace _213
 
         private void txtManfacturerPriceCLN_TextChanged(object sender, EventArgs e)
         {
-            if (cmbTypeAddCLN.Text != "" & txbWarrantyAddCLN.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
+            if (cmbTypeAddCLN.Text != "" & cmbWarrantyADD.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
             {
                 btnConfirmAddCLN.Enabled = true;
             }
@@ -366,7 +386,7 @@ namespace _213
 
         private void txbWarrantyAddCLN_TextChanged(object sender, EventArgs e)
         {
-            if (cmbTypeAddCLN.Text != "" & txbWarrantyAddCLN.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
+            if (cmbTypeAddCLN.Text != "" & cmbWarrantyADD.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
             {
                 btnConfirmAddCLN.Enabled = true;
             }
@@ -378,7 +398,7 @@ namespace _213
 
         private void cmbTypeAddCLN_TextChanged(object sender, EventArgs e)
         {
-            if (cmbTypeAddCLN.Text != "" & txbWarrantyAddCLN.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
+            if (cmbTypeAddCLN.Text != "" & cmbWarrantyADD.Text != "" & txtManfacturerPriceCLN.Text != "" & txbBrandAddCLN.Text != "" & txbDescAddCLN.Text != "")
             {
                 btnConfirmAddCLN.Enabled = true;
             }

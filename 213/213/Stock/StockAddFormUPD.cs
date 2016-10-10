@@ -17,6 +17,7 @@ namespace _213
     public partial class StockAddFormUPD : Form
     {
         //Class variables
+        private int count;
         private string userNme;
         //Default constructor
         public StockAddFormUPD()
@@ -60,6 +61,7 @@ namespace _213
                     //Connection string
                     SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                     stockConnection.Open();
+                    count = 0;
                     SqlCommand updateStock = new SqlCommand("UPDATE Stock SET retail_price = @retail_price, last_updated = @last_updated WHERE item_id = @description", stockConnection);
                     updateStock.Parameters.AddWithValue("@retail_price", Convert.ToInt16(txbRPriceUPD.Text));
                     updateStock.Parameters.AddWithValue("@last_updated", DateTime.Now);
@@ -75,28 +77,35 @@ namespace _213
                     this.Hide();
                     this.Close();
                     //Exceptions
-            }
+                }
                 catch (SqlException s)
-            {
                 {
-                    MessageBox.Show("Error in database", "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (s.Number == 53)
+                    {
+                        gebruik other = new gebruik();
+                        if (other.CheckConnection() && count < 4)
+                        {
+                            count = count + 1;
+                            btnConfirmAddCLN.PerformClick();
+                        }
+                        else
+                            MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (NullReferenceException s)
+                {
+                    MessageBox.Show("Error: Please fill in the fields correctly" + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                catch (InvalidOperationException s)
+                {
+                    MessageBox.Show("Error: Invalid Operation" + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-            }
-            catch (NullReferenceException s)
-            {
-                MessageBox.Show("Error: Please fill in the fields correctly" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
-            catch (InvalidOperationException s)
-            {
-                MessageBox.Show("Error: Invalid Operation" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            catch (Exception s)
-            {
-                MessageBox.Show("Error: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                catch (Exception s)
+                {
+                    MessageBox.Show("Error: " + s.TargetSite, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
 
 

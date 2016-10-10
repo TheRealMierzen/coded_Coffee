@@ -21,6 +21,7 @@ namespace _213
         private string userNme;
         private string cur;
         private string missID = "";
+        private int count;
         public StockMainFormCLN()
         {
             InitializeComponent();
@@ -54,6 +55,17 @@ namespace _213
                 if (s.Number == 2627)
                 {
                     MessageBox.Show("Error: Duplicate IDs" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        StockMainForm_Shown(sender, e);
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -149,6 +161,7 @@ namespace _213
             {
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
+                count = 0;
                 SqlCommand getMiss = new SqlCommand("SELECT item_id, item_name FROM Stock WHERE checked = @check AND branch = @branch", stockConnection);
                 getMiss.Parameters.AddWithValue("@check", 0);
                 getMiss.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
@@ -194,6 +207,17 @@ namespace _213
                 {
                     MessageBox.Show("Error: Duplicate IDs" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        btnCompleteStockTake.PerformClick();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
                     MessageBox.Show("Error in database" + s, "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -222,6 +246,7 @@ namespace _213
             {
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
+                count = 0;
                 SqlCommand checkOrders = new SqlCommand("SELECT order_id, order_items FROM Orders WHERE branch = @branch AND eta = @eta", stockConnection);
                 checkOrders.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 checkOrders.Parameters.AddWithValue("@eta", DateTime.Today);
@@ -263,6 +288,17 @@ namespace _213
                 {
                     MessageBox.Show("Error: Duplicate IDs" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        checkOrders();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
                     MessageBox.Show("Error in database" + s, "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -294,6 +330,7 @@ namespace _213
 
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
+                count = 0;
                 SqlCommand checkTransfers = new SqlCommand("SELECT transfer_id, item_ids, from_branch FROM Transfers WHERE to_branch = @branch AND eta = @eta", stockConnection);
 
                 checkTransfers.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
@@ -329,6 +366,17 @@ namespace _213
                 {
                     MessageBox.Show("Error: Duplicate IDs" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        checkTransfers();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
                     MessageBox.Show("Error in database" + s, "Error" + s, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -357,6 +405,7 @@ namespace _213
             {
                 SqlConnection stockConnection = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 stockConnection.Open();
+                count = 0;
                 SqlCommand getID = new SqlCommand("SELECT item_ID, item_name FROM Stock WHERE item_id = @itemID AND branch = @branch AND status = @status", stockConnection);
                 getID.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                 getID.Parameters.AddWithValue("@itemID", txtStockTakeItemID.Text);
@@ -374,6 +423,7 @@ namespace _213
                             txbStockTake.AppendText("\r\n" + reader.GetString(1) + "\t" + reader.GetString(0));
                             string id = reader.GetString(0);
                             stockConnection2.Open();
+                            count = 0;
                             SqlCommand checkStock = new SqlCommand("UPDATE Stock SET checked = '1' WHERE item_id = @id", stockConnection2);
                             checkStock.Parameters.AddWithValue("@id", id);
 
@@ -399,6 +449,17 @@ namespace _213
                 if (s.Number == 2627)
                 {
                     MessageBox.Show("Error: Duplicate IDs" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        btnCompare.PerformClick();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -439,6 +500,7 @@ namespace _213
                     id = id.Remove(0, pos + 1);
                     SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                     stockConnection.Open();
+                    count = 0;
                     SqlCommand getDes = new SqlCommand("SELECT item_name, manufacturer, manufacturer_price, retail_price FROM Stock WHERE item_id = @id", stockConnection);
                     getDes.Parameters.AddWithValue("@id", gID);
                     SqlDataReader reader = getDes.ExecuteReader();
@@ -464,7 +526,18 @@ namespace _213
             }
             catch (SqlException s)
             {
-                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        meh(id, tI);
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                    MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (NullReferenceException s)
             {
@@ -487,6 +560,7 @@ namespace _213
 
             SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
             stockConnection.Open();
+            count = 0;
             SqlCommand delete = new SqlCommand("DELETE FROM transfers WHERE transfer_id = @transfer", stockConnection);
             delete.Parameters.AddWithValue("@transfer", gID);
             delete.ExecuteNonQuery();
@@ -497,9 +571,11 @@ namespace _213
         {
             SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
             stockConnection.Open();
+            count = 0;
             gebruik.addAction(userNme);
-            SqlCommand updates = new SqlCommand("UPDATE Stock SET branch = @branch, status = @stock WHERE item_id = @id", stockConnection);
+            SqlCommand updates = new SqlCommand("UPDATE Stock SET branch = @branch, status = @stock, last_updated = @last WHERE item_id = @id", stockConnection);
             updates.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
+            updates.Parameters.AddWithValue("@last", DateTime.Today);
             updates.Parameters.AddWithValue("@stock", "In Stock");
             updates.Parameters.AddWithValue("@id", gID);
             updates.ExecuteNonQuery();
@@ -514,7 +590,7 @@ namespace _213
             details2 += "\r\n=======================================";
             SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
             stockConnection.Open();
-
+            count = 0;
             SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(item_id) FROM Stock", stockConnection);
             int TotalItems = 0;
             TotalItems = Convert.ToInt16(getStockCountCLN.ExecuteScalar());
@@ -666,6 +742,11 @@ namespace _213
         private void bgWDetails_DoWork(object sender, DoWorkEventArgs e)
         {
             getDatails();
+        }
+
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         private void bgWDetails_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

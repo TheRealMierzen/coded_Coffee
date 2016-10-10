@@ -43,9 +43,9 @@
             // 
             // btnCancelFind
             // 
-            this.btnCancelFind.Location = new System.Drawing.Point(140, 108);
+            this.btnCancelFind.Location = new System.Drawing.Point(170, 108);
             this.btnCancelFind.Name = "btnCancelFind";
-            this.btnCancelFind.Size = new System.Drawing.Size(113, 23);
+            this.btnCancelFind.Size = new System.Drawing.Size(83, 23);
             this.btnCancelFind.TabIndex = 12;
             this.btnCancelFind.Text = "Back";
             this.toolTip1.SetToolTip(this.btnCancelFind, "Click to close this window");

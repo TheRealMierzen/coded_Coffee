@@ -41,12 +41,12 @@
             this.lblManufacturerPriceCLN = new System.Windows.Forms.Label();
             this.lblTypeAddCLN = new System.Windows.Forms.Label();
             this.cmbTypeAddCLN = new System.Windows.Forms.ComboBox();
-            this.txbWarrantyAddCLN = new System.Windows.Forms.TextBox();
             this.lblWarrantyAddCLN = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
             this.txbItemID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.cmbWarrantyADD = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblDescAddCLN
@@ -182,18 +182,6 @@
             this.toolTip1.SetToolTip(this.cmbTypeAddCLN, "Select the item type of the item");
             this.cmbTypeAddCLN.TextChanged += new System.EventHandler(this.cmbTypeAddCLN_TextChanged);
             // 
-            // txbWarrantyAddCLN
-            // 
-            this.txbWarrantyAddCLN.Location = new System.Drawing.Point(147, 156);
-            this.txbWarrantyAddCLN.MaxLength = 1;
-            this.txbWarrantyAddCLN.Name = "txbWarrantyAddCLN";
-            this.txbWarrantyAddCLN.ShortcutsEnabled = false;
-            this.txbWarrantyAddCLN.Size = new System.Drawing.Size(100, 20);
-            this.txbWarrantyAddCLN.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.txbWarrantyAddCLN, "Enter the item warranty in years");
-            this.txbWarrantyAddCLN.TextChanged += new System.EventHandler(this.txbWarrantyAddCLN_TextChanged);
-            this.txbWarrantyAddCLN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txbWarrantyAddCLN_KeyPress);
-            // 
             // lblWarrantyAddCLN
             // 
             this.lblWarrantyAddCLN.AutoSize = true;
@@ -235,15 +223,30 @@
             this.label1.TabIndex = 17;
             this.label1.Text = "Item ID:";
             // 
+            // cmbWarrantyADD
+            // 
+            this.cmbWarrantyADD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbWarrantyADD.FormattingEnabled = true;
+            this.cmbWarrantyADD.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
+            this.cmbWarrantyADD.Location = new System.Drawing.Point(148, 156);
+            this.cmbWarrantyADD.Name = "cmbWarrantyADD";
+            this.cmbWarrantyADD.Size = new System.Drawing.Size(100, 21);
+            this.cmbWarrantyADD.TabIndex = 19;
+            // 
             // StockAddFormCLN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(268, 276);
+            this.Controls.Add(this.cmbWarrantyADD);
             this.Controls.Add(this.txbItemID);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBack);
-            this.Controls.Add(this.txbWarrantyAddCLN);
             this.Controls.Add(this.lblWarrantyAddCLN);
             this.Controls.Add(this.cmbTypeAddCLN);
             this.Controls.Add(this.lblTypeAddCLN);
@@ -283,11 +286,11 @@
         private System.Windows.Forms.Label lblManufacturerPriceCLN;
         private System.Windows.Forms.Label lblTypeAddCLN;
         private System.Windows.Forms.ComboBox cmbTypeAddCLN;
-        private System.Windows.Forms.TextBox txbWarrantyAddCLN;
         private System.Windows.Forms.Label lblWarrantyAddCLN;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.TextBox txbItemID;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ComboBox cmbWarrantyADD;
     }
 }

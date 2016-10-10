@@ -18,6 +18,7 @@ namespace _213
     {
         private string userNme;
         private string ids;
+        private int count;
         private string stockID;
         public StockTransferSendForm()
         {
@@ -95,6 +96,7 @@ namespace _213
             {
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
                 stockConnection.Open();
+                count = 0;
                 SqlCommand getStockID = new SqlCommand("SELECT item_id FROM Stock WHERE item_id = @id AND Status = @status AND branch = @branch", stockConnection);
                 getStockID.Parameters.AddWithValue("@id", txbItemIDTransfer.Text);
                 getStockID.Parameters.AddWithValue("@status", "In Stock");
@@ -133,7 +135,18 @@ namespace _213
                     }
                     catch (SqlException s)
                     {
-                        MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (s.Number == 53)
+                        {
+                            gebruik other = new gebruik();
+                            if (other.CheckConnection() && count < 4)
+                            {
+                                count = count + 1;
+                                btnAddToTransferList.PerformClick();
+                            }
+                            else
+                                MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                            MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (NullReferenceException s)
                     {
@@ -153,7 +166,18 @@ namespace _213
             }
             catch (SqlException s)
             {
-                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        btnAddToTransferList.PerformClick();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                    MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (NullReferenceException s)
             {
@@ -194,6 +218,7 @@ namespace _213
                 SqlConnection stockConnection = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
 
                     stockConnection.Open();
+                    count = 0;
                     SqlCommand getStockCountCLN = new SqlCommand("SELECT COUNT(transfer_id) FROM Transfers", stockConnection);
                     int TotalItems = 0;
 
@@ -218,7 +243,18 @@ namespace _213
             }
             catch (SqlException s)
             {
-                MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (s.Number == 53)
+                {
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count = count + 1;
+                        btnConfirmSend.PerformClick();
+                    }
+                    else
+                        MessageBox.Show("Error connectiong to Database, Please check internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                    MessageBox.Show("Error in database" + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (NullReferenceException s)
             {
