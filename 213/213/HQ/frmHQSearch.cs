@@ -14,13 +14,14 @@ namespace _213
 {
     public partial class frmHQSearch : Form
     {
-        private SqlConnection conn;
         private int count;
+        private string user;
 
-        public frmHQSearch()
+        public frmHQSearch(string userName)
         {
             InitializeComponent();
             this.TopMost = true;
+            user = userName;
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -33,7 +34,7 @@ namespace _213
                     
                 if (id != "")
                 {
-                    using (conn)
+                    using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                     {
                         
                         conn.Open();
@@ -106,8 +107,8 @@ namespace _213
                         conn.Close();
 
                         btnAccept.Enabled = true;
-                        frmHQ hq = new frmHQ(id, itemName, branch, manufacturer, manPrice, rePrice, type, warranty);
-                        this.Hide();
+                        frmHQ hq = new frmHQ(id, itemName, branch, manufacturer, manPrice, rePrice, type, warranty, user);
+                        this.Close();
 
                     }
                 }
@@ -132,11 +133,19 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing this data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void frmHQSearch_Load(object sender, EventArgs e)
         {
-            conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+            
         }
 
         private void btnBack_Click(object sender, EventArgs e)

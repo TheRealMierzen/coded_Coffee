@@ -15,7 +15,6 @@ namespace _213
     public partial class frmRemoveOrder : Form
     {
 
-        private SqlConnection conn;
         private string user;
         private int count;
 
@@ -34,7 +33,7 @@ namespace _213
 
         private void frmRemoveOrder_Load(object sender, EventArgs e)
         {
-            conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+           
         }
 
         private void txtOrderID_TextChanged(object sender, EventArgs e)
@@ -49,7 +48,7 @@ namespace _213
 
                 string cmdStr;
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
 
                     cmdStr = "Delete from Orders where order_id = @id";
@@ -67,7 +66,7 @@ namespace _213
 
                 gebruik.addAction(user);
 
-                frmHQ hq = new frmHQ();
+                frmHQ hq = new frmHQ(user);
                 hq.Show();
                 this.Close();
             }
@@ -87,6 +86,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing this data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

@@ -36,25 +36,28 @@
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(15, 46);
+            this.txtID.Location = new System.Drawing.Point(20, 57);
+            this.txtID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(176, 20);
+            this.txtID.Size = new System.Drawing.Size(233, 22);
             this.txtID.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 30);
+            this.label1.Location = new System.Drawing.Point(16, 37);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.Size = new System.Drawing.Size(93, 17);
             this.label1.TabIndex = 2;
             this.label1.Text = "Enter item ID:";
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(15, 72);
+            this.btnAccept.Location = new System.Drawing.Point(20, 89);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(86, 34);
+            this.btnAccept.Size = new System.Drawing.Size(115, 42);
             this.btnAccept.TabIndex = 4;
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = true;
@@ -62,9 +65,10 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(105, 72);
+            this.btnBack.Location = new System.Drawing.Point(140, 89);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(86, 34);
+            this.btnBack.Size = new System.Drawing.Size(115, 42);
             this.btnBack.TabIndex = 5;
             this.btnBack.Text = "Back";
             this.btnBack.UseVisualStyleBackColor = true;
@@ -72,14 +76,18 @@
             // 
             // frmHQSearch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(213, 129);
+            this.ClientSize = new System.Drawing.Size(284, 159);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtID);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmHQSearch";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmHQSearch";
             this.Load += new System.EventHandler(this.frmHQSearch_Load);
             this.ResumeLayout(false);

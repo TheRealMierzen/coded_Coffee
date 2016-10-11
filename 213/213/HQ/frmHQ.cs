@@ -16,7 +16,6 @@ namespace _213
     {
         private string user, name, id, itemManufacturer, itemBranch, itemManPrice, itemRePrice, itemType, itemWarranty;
         private string addString = "";
-        private SqlConnection conn;
         private int count;
 
         public frmHQ()
@@ -31,9 +30,9 @@ namespace _213
         {
             try
             {
-                string cmdStr = "Delete from Stock where item_id = @id'";
+                string cmdStr = "Delete from Stock where item_id = @id";
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     using (SqlCommand deleteStock = new SqlCommand(cmdStr, conn))
                     {
@@ -43,6 +42,15 @@ namespace _213
                         count = 0;
                         deleteStock.ExecuteNonQuery();
                         conn.Close();
+
+                        MessageBox.Show("The stock has been removed.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtItemID.Clear();
+                        txtName.Clear();
+                        txtManName.Clear();
+                        txtManPrice.Clear();
+                        txtRetail.Clear();
+                        txtItemType.Clear();
+                        txtWarrant.Clear();
                     }
                 }
 
@@ -51,11 +59,14 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if(se.Number == 53 && count < 4)
+                if(se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnRemove.PerformClick();
+                    }
                 }
                 else
                 {
@@ -65,6 +76,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Error connecting to database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -78,7 +97,9 @@ namespace _213
                 pnlStockButtons.Visible = true;
                 pnlStockButtons.BringToFront();
                 pnlOrder.Visible = false;
+                pnlOrder.SendToBack();
                 pnlOverview.Visible = false;
+                pnlOverview.SendToBack();
             }
             else if (cbmMainAction.SelectedItem.ToString() == "Orders")
             {
@@ -87,7 +108,9 @@ namespace _213
                 pnlOrdersActions.Visible = true;
                 pnlOrdersActions.BringToFront();
                 pnlStock.Visible = false;
+                pnlStock.SendToBack();
                 pnlOverview.Visible = false;
+                pnlOverview.SendToBack();
             }
             else if (cbmMainAction.SelectedItem.ToString() == "Overview")
             {
@@ -96,7 +119,9 @@ namespace _213
                 pnlOverviewActions.Visible = true;
                 pnlOverviewActions.BringToFront();
                 pnlStock.Visible = false;
+                pnlStock.SendToBack();
                 pnlOrder.Visible = false;
+                pnlOrder.SendToBack();
             }
 
         }
@@ -104,7 +129,7 @@ namespace _213
 
         private void txtItemName_TextChanged(object sender, EventArgs e)
         {
-            if(txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "")
+            if(txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "" && txtWarranty.Text != "")
             {
                 btnAccept.Enabled = true;
             }
@@ -114,7 +139,7 @@ namespace _213
 
         private void txtManufacturerName_TextChanged(object sender, EventArgs e)
         {
-            if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "")
+            if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "" && txtWarranty.Text != "")
             {
                 btnAccept.Enabled = true;
             }
@@ -128,7 +153,7 @@ namespace _213
             {
                 txtManufacturerPrice.MaxLength = 10;
 
-                if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "")
+                if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "" && txtWarranty.Text != "")
                 {
                     if (Convert.ToInt32(txtManufacturerPrice.Text) < 0)
                     {
@@ -148,6 +173,10 @@ namespace _213
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtRetailPrice_TextChanged(object sender, EventArgs e)
@@ -156,7 +185,7 @@ namespace _213
             {
                 txtRetailPrice.MaxLength = 10;
 
-                if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "")
+                if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "" && txtWarranty.Text != "")
                 {
                     if (Convert.ToInt32(txtRetailPrice.Text) < 0)
                     {
@@ -177,11 +206,15 @@ namespace _213
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtType_TextChanged(object sender, EventArgs e)
         {
-            if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "")
+            if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "" && txtWarranty.Text != "")
             {
                 btnAccept.Enabled = true;
             }
@@ -242,6 +275,10 @@ namespace _213
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtRetail_TextChanged(object sender, EventArgs e)
@@ -272,6 +309,10 @@ namespace _213
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnTransfer_Click(object sender, EventArgs e)
@@ -279,9 +320,8 @@ namespace _213
             pnlAddStock.Visible = false;
             pnlRevise.Visible = false;
             pnlTransfer.Visible = true;
-            gebruik.fillBranches(cmbTo, cmbTo);
+            gebruik.fillBranches(cmbTo, cmbFrom);
             pnlTransfer.BringToFront();
-            btnStockTransfer.Enabled = false;
         }
 
 
@@ -301,14 +341,15 @@ namespace _213
                 tBranch = cmbTo.SelectedItem.ToString();
                 itemIDs = txtItemIDs.Text + ",";
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     cmdStr = "Select Count(transfer_id) from Transfers";
 
-                    using (SqlCommand count = new SqlCommand(cmdStr, conn))
+                    using (SqlCommand icount = new SqlCommand(cmdStr, conn))
                     {
                         conn.Open();
-                        temp = Convert.ToInt32(count.ExecuteScalar());
+                        count = 0;
+                        temp = Convert.ToInt32(icount.ExecuteScalar());
                         conn.Close();
                     }
 
@@ -319,11 +360,12 @@ namespace _213
                         addTransfer.Parameters.AddWithValue("@id", Convert.ToString(temp + 1));
                         addTransfer.Parameters.AddWithValue("@fBranch", fBranch);
                         addTransfer.Parameters.AddWithValue("@tBranch", tBranch);
-                        addTransfer.Parameters.AddWithValue("@itemIDs", txtItemIDs);
-                        addTransfer.Parameters.AddWithValue("@sendDate", DateTime.Today);
-                        addTransfer.Parameters.AddWithValue("@eta", DateTime.Today.AddDays(9));
+                        addTransfer.Parameters.AddWithValue("@itemIDs", txtItemIDs.Text);
+                        addTransfer.Parameters.AddWithValue("@sendDate", Convert.ToString(DateTime.Today));
+                        addTransfer.Parameters.AddWithValue("@eta", Convert.ToString(DateTime.Today.AddDays(9)));
 
                         conn.Open();
+                        count = 0;
                         addTransfer.ExecuteNonQuery();
                         conn.Close();
                     }
@@ -331,31 +373,39 @@ namespace _213
                     while (itemIDs != "")
                     {
                         int pos = itemIDs.IndexOf(",");
-                        string tempID = itemIDs.Substring(1, pos - 1);
-                        itemIDs.Remove(0, pos);
+                        string tempID = itemIDs.Substring(0, pos);
+                        itemIDs = itemIDs.Remove(0, pos + 1);
 
-                        cmdStr = "Update Stock set status = 'In Transit' where item_id = @id";
+                        cmdStr = "Update Stock set status = @status where item_id = @id";
 
                         using (SqlCommand updateTransfers = new SqlCommand(cmdStr, conn))
                         {
                             updateTransfers.Parameters.AddWithValue("@id", tempID);
+                            updateTransfers.Parameters.AddWithValue("@status", "In Transit");
 
                             conn.Open();
+                            count = 0;
                             updateTransfers.ExecuteNonQuery();
                             conn.Close();
                         }
                     }
+
+                    MessageBox.Show("The stock has been transfered.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtItemIDs.Clear();
 
                     gebruik.addAction(user);
                 }
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnStockTransfer.PerformClick();
+                    }
 
                     else
                     {
@@ -367,15 +417,25 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Please enter all necessary fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnAddOrders_Click(object sender, EventArgs e)
         {
+            addString = "";
             pnlAddOrders.Visible = true;
             gebruik.fillBranches(cmbAddOrders);
             pnlAddOrders.BringToFront();
             pnlUpdateOrders.Visible = false;
             btnAddOrder.Enabled = false;
+            txtQuantityAdd.Enabled = true;
             txtCustomerEmail.Enabled = false;
         }
 
@@ -387,13 +447,16 @@ namespace _213
             quantity = txtQuantityAdd.Text;
             addString = addString + quantity + "X" + " " + items + ",";
 
+            txtSuppliers.Clear();
             txtItemsO.Clear();
+            txtTotalCost.Clear();
             txtQuantityAdd.Clear();
             txtItemsO.Focus();
         }
 
         private void btnUpdateOrders_Click(object sender, EventArgs e)
         {
+            addString = "";
             pnlUpdateOrders.Visible = true;
             gebruik.fillBranches(cmbOrderUpdate);
             pnlUpdateOrders.BringToFront();
@@ -410,7 +473,11 @@ namespace _213
             quantity = txtQuantity.Text;
             addString = addString + quantity + "X" + " " + items + ",";
 
+
+            txtSupplierUp.Clear();
             txtItemsUp.Clear();
+            txtCostUp.Clear();
+            txtEmailUp.Clear();
             txtQuantity.Clear();
             txtItemsUp.Focus();
         }
@@ -434,8 +501,6 @@ namespace _213
                 btnFinalizeAdd.Enabled = false;
             }
         }
-
-
 
         private void txtSuppliers_TextChanged(object sender, EventArgs e)
         {
@@ -480,6 +545,10 @@ namespace _213
             catch (OverflowException)
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -555,18 +624,41 @@ namespace _213
             {
                 MessageBox.Show("Invalid value was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void cbxSpecialUp_CheckedChanged(object sender, EventArgs e)
         {
-            txtEmailUp.Enabled = true;
-            txtEmailUp.Focus();
+            txtEmailUp.Clear();
+
+            if (cbxSpecialUp.Checked)
+            {
+                txtEmailUp.Enabled = true;
+                txtEmailUp.Focus();
+            }
+            else
+            {
+                txtEmailUp.Enabled = false;
+            }
+
         }
 
         private void cbxSpecial_CheckedChanged(object sender, EventArgs e)
         {
-            txtCustomerEmail.Enabled = true;
-            txtCustomerEmail.Focus();
+            txtCustomerEmail.Clear();
+
+            if (cbxSpecial.Checked)
+            {
+                txtCustomerEmail.Enabled = true;
+                txtCustomerEmail.Focus();
+            }
+            else
+            {
+                txtCustomerEmail.Enabled = false;
+            }
         }
 
         private void btnStockOverview_Click(object sender, EventArgs e)
@@ -583,7 +675,11 @@ namespace _213
 
         private void chbBranch_CheckedChanged(object sender, EventArgs e)
         {
-            cmbBranch.Enabled = true;
+            if (chbBranch.Checked)
+                cmbBranch.Enabled = true;
+            else
+                cmbBranch.Enabled = false;
+
         }
 
         private void btnStockBack_Click(object sender, EventArgs e)
@@ -591,6 +687,13 @@ namespace _213
             pnlOverviewActions.Visible = true;
             pnlOverviewActions.BringToFront();
             pnlStockFilter.Visible = false;
+            chbBranch.Checked = false;
+            txtManufacturerFilter.Clear();
+            txtRePrice.Clear();
+            txtTypeFilter.Clear();
+            rdbManufacturer.Checked = false;
+            rdbRePrice.Checked = false;
+            rdbType.Checked = false;
         }
 
         private void btnStockFilter_Click(object sender, EventArgs e)
@@ -599,12 +702,19 @@ namespace _213
             {
                 string branch, manufacturer, rePrice, type, cmdStr;
 
-                branch = cmbBranch.SelectedItem.ToString();
+                if (chbBranch.Checked)
+                    branch = cmbBranch.SelectedItem.ToString();
+                else
+                    branch = "None";
+
+
                 manufacturer = txtManufacturerFilter.Text;
                 rePrice = txtRePrice.Text;
                 type = txtTypeFilter.Text;
+                dgOverview.Rows.Clear();
+                dgOverview.Columns.Clear();
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     conn.Open();
                     count = 0;
@@ -613,75 +723,87 @@ namespace _213
 
                     using (SqlCommand filter = new SqlCommand(cmdStr, conn))
                     {
-                        if (chbBranch.Checked && rdbManufacturer.Checked)
+                        if (chbBranch.Checked && rdbManufacturer.Checked && txtManufacturerFilter.Text != "")
                         {
-                            cmdStr = "Select * from Stock where branch = @branch and manufacturer = @man";
+                            filter.CommandText = "Select * from Stock where branch = @branch and manufacturer = @manufacturer";
                             filter.Parameters.AddWithValue("@branch", branch);
-                            filter.Parameters.AddWithValue("@man", manufacturer);
+                            filter.Parameters.AddWithValue("@manufacturer", manufacturer);
                         }
-                        else if (chbBranch.Checked && rdbRePrice.Checked)
+                        else if (chbBranch.Checked && rdbRePrice.Checked && txtRePrice.Text != "")
                         {
-                            cmdStr = "Select * from Stock where branch = @branch and retail_price = @price";
+                            filter.CommandText = "Select * from Stock where branch = @branch and retail_price = @price";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@price", rePrice);
                         }
-                        else if (chbBranch.Checked && rdbType.Checked)
+                        else if (chbBranch.Checked && rdbType.Checked && txtTypeFilter.Text != "")
                         {
-                            cmdStr = "Select * from Stock where branch = @branch and item_type = @type";
+                            filter.CommandText = "Select * from Stock where branch = @branch and item_type = @type";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@type", type);
                         }
-                        else if(chbBranch.Checked)
+                        else if (chbBranch.Checked)
                         {
-                            cmdStr = "Select * from Stock where branch = @branch";
+                            filter.CommandText = "Select * from Stock where branch = @branch";
                             filter.Parameters.AddWithValue("@branch", branch);
                         }
-                        else if(rdbManufacturer.Checked)
+                        else if (rdbManufacturer.Checked && txtManufacturerFilter.Text != "")
                         {
-                            cmdStr = "Select * from Stock where manufacturer = @manufacturer";
-                            filter.Parameters.AddWithValue("@man", manufacturer);
+                            filter.CommandText = "Select * from Stock where manufacturer = @manufacturer";
+                            filter.Parameters.AddWithValue("@manufacturer", manufacturer);
                         }
-                        else if(rdbRePrice.Checked)
+                        else if (rdbRePrice.Checked && txtRePrice.Text != "")
                         {
-                            cmdStr = "Select * from Stock where retail_price = @price";
+                            filter.CommandText = "Select * from Stock where retail_price = @price";
                             filter.Parameters.AddWithValue("@price", rePrice);
                         }
-                        else if(rdbType.Checked)
+                        else if (rdbType.Checked && txtTypeFilter.Text != "")
                         {
-                            cmdStr = "Select * from Stock where item_type = @type";
+                            filter.CommandText = "Select * from Stock where item_type = @type";
                             filter.Parameters.AddWithValue("@type", type);
                         }
+
 
                         using (var reader = filter.ExecuteReader())
                         {
+                            dgOverview.Columns.Add("branch", "Branch");
+                            dgOverview.Columns.Add("item_id", "Item ID");
+                            dgOverview.Columns.Add("item_name", "Item Name");
+                            dgOverview.Columns.Add("manufacturer", "Manufacturer");
+                            dgOverview.Columns.Add("warranty", "Warranty");
+                            dgOverview.Columns.Add("last_updated", "Last Update");
+                            dgOverview.Columns.Add("initial_add", "Initial Add");
+                            dgOverview.Columns.Add("manufacturer_price", "Manufacturer Price");
+                            dgOverview.Columns.Add("retail_price", "Retail Price");
+                            dgOverview.Columns.Add("checked", "Checked");
+                            dgOverview.Columns.Add("status", "Status");
+                            dgOverview.Columns.Add("item_type", "Item Type");
 
                             while (reader.Read())
                             {
+                                
 
-                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1));
+                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetDateTime(5), reader.GetDateTime(6), reader.GetString(7), reader.GetString(8), reader.GetBoolean(9), reader.GetString(10), reader.GetString(11));
+                               
 
                             }
 
                         }
 
-                        conn.Close();
-
-                        for (int i = 0; i < dgOverview.Rows.Count; i++)
-                        {
-                            DataGridViewRowHeaderCell cell = dgOverview.Rows[i].HeaderCell;
-                            cell.Value = (i + 1).ToString();
-                            dgOverview.Rows[i].HeaderCell = cell;
-                        }
                     }
+
+                    conn.Close();
                 }
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnStockFilter.PerformClick();
+                    }
                     else
                     {
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -692,12 +814,22 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
          
 
 
         private void rdbManufacturer_CheckedChanged(object sender, EventArgs e)
         {
+            txtManufacturerFilter.Clear();
+
             if (rdbManufacturer.Checked)
                 txtManufacturerFilter.Enabled = true;
             else
@@ -706,19 +838,23 @@ namespace _213
 
         private void rdbType_CheckedChanged(object sender, EventArgs e)
         {
+            txtTypeFilter.Clear();
+
             if (rdbType.Checked)
                 txtTypeFilter.Enabled = true;
             else
-                txtTypeFilter.Enabled = false; 
-            
+                txtTypeFilter.Enabled = false;
         }
 
         private void rdbRePrice_CheckedChanged(object sender, EventArgs e)
         {
+            txtRePrice.Clear();
+
             if (rdbRePrice.Checked)
                 txtRePrice.Enabled = true;
             else
-                txtRePrice.Enabled = false;        }
+                txtRePrice.Enabled = false;
+        }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -747,6 +883,9 @@ namespace _213
             pnlOverviewActions.Visible = true;
             pnlOverviewActions.BringToFront();
             pnlEmployeeOverview.Visible = false;
+            chbEmployeeBranch.Checked = false;
+            rdbTemp.Checked = false;
+            rdbUser.Checked = false;
         }
 
         private void btnEmployeeFilter_Click(object sender, EventArgs e)
@@ -755,75 +894,93 @@ namespace _213
             {
                 string branch, cmdStr;
 
-                branch = cmbEmployeeBranch.SelectedItem.ToString();
+                if (chbEmployeeBranch.Checked)
+                    branch = cmbEmployeeBranch.SelectedItem.ToString();
+                else
+                    branch = "None";
 
-                using (conn)
+
+                dgOverview.Rows.Clear();
+                dgOverview.Columns.Clear();
+
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     conn.Open();
                     count = 0;
 
-                    cmdStr = "Select * from Employee";
+                    cmdStr = "Select * from Employees";
 
                     using (SqlCommand filter = new SqlCommand(cmdStr, conn))
                     {
                         if (chbEmployeeBranch.Checked && rdbUser.Checked)
                         {
-                            cmdStr = "Select * from Employee where branch = @branch and is_user = @user";
+                            filter.CommandText = "Select * from Employees where branch = @branch and is_user = @user";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@user", "1");
                         }
                         else if (chbEmployeeBranch.Checked && rdbTemp.Checked)
                         {
-                            cmdStr = "Select * from Employee where branch = @branch and is_temp = @temp";
+                            filter.CommandText = "Select * from Employees where branch = @branch and is_temp = @temp";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@temp", "1");
                         }
                         else if (chbBranch.Checked)
                         {
-                            cmdStr = "Select * from Employee where branch = @branch";
+                            filter.CommandText = "Select * from Employees where branch = @branch";
                             filter.Parameters.AddWithValue("@branch", branch);
                         }
                         else if (rdbManufacturer.Checked)
                         {
-                            cmdStr = "Select * from Employee where is_user = @user";
+                            filter.CommandText = "Select * from Employees where is_user = @user";
                             filter.Parameters.AddWithValue("@user", "1");
                         }
                         else if (rdbRePrice.Checked)
                         {
-                            cmdStr = "Select * from Employee where is_temp = @temp";
+                            filter.CommandText = "Select * from Employees where is_temp = @temp";
                             filter.Parameters.AddWithValue("@temp", "1");
                         }
 
+                        
+
                         using (var reader = filter.ExecuteReader())
                         {
+                            dgOverview.Columns.Add("branch", "Branch");
+                            dgOverview.Columns.Add("employee_id", "Employee ID");
+                            dgOverview.Columns.Add("name", "Name");
+                            dgOverview.Columns.Add("surname", "Surname");
+                            dgOverview.Columns.Add("id_num", "ID Number");
+                            dgOverview.Columns.Add("email_address", "Email");
+                            dgOverview.Columns.Add("cell", "Cellphone Number");
+                            dgOverview.Columns.Add("is_user", "System User");
+                            dgOverview.Columns.Add("date_appointed", "Date Appointed");
+                            dgOverview.Columns.Add("employed_until", "Empoyed Until");
+                            dgOverview.Columns.Add("is_temp", "Temporary");
 
                             while (reader.Read())
                             {
 
-                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1));
+
+                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetBoolean(7), reader.GetDateTime(8), reader.GetDateTime(9), reader.GetBoolean(10));
+
 
                             }
 
                         }
 
                         conn.Close();
-
-                        for (int i = 0; i < dgOverview.Rows.Count; i++)
-                        {
-                            DataGridViewRowHeaderCell cell = dgOverview.Rows[i].HeaderCell;
-                            cell.Value = (i + 1).ToString();
-                            dgOverview.Rows[i].HeaderCell = cell;
-                        }
                     }
                 }
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnEmployeeFilter.PerformClick();
+                    }
                 }
                 else
                 {
@@ -834,12 +991,20 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing these filter options.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
         private void chbOrderBranch_CheckedChanged(object sender, EventArgs e)
         {
-            if (chbOrderBranch.Checked)
+            if(chbOrderBranch.Checked)
             {
                 cmbOrderBranch.Enabled = true;
             }
@@ -847,12 +1012,13 @@ namespace _213
             {
                 cmbOrderBranch.Enabled = false;
             }
-
         }
 
         private void rdbSupplier_CheckedChanged(object sender, EventArgs e)
         {
-            if(rdbSupplier.Checked)
+            txtSupplier.Clear();
+
+            if (rdbSupplier.Checked)
             {
                 txtSupplier.Enabled = true;
             }
@@ -866,9 +1032,10 @@ namespace _213
         {
             pnlOrderOverview.Visible = true;
             gebruik.fillBranches(cmbOrderBranch);
-            cmbOrderBranch.Enabled = false;
             pnlOrderOverview.BringToFront();
             pnlOverviewActions.Visible = false;
+            txtSupplier.Enabled = false;
+            cmbOrderBranch.Enabled = false;
         }
 
         private void btnOrderBack_Click(object sender, EventArgs e)
@@ -876,7 +1043,14 @@ namespace _213
             pnlOverviewActions.Visible = true;
             pnlOverviewActions.BringToFront();
             pnlOrderOverview.Visible = false;
+            txtSupplier.Enabled = false;
+            rdbSupplier.Checked = false;
+            rdbInvoiced.Checked = false;
+            rdbRecieved.Checked = false;
+            rdbSpecial.Checked = false;
         }
+
+
 
         private void btnOrderFilter_Click(object sender, EventArgs e)
         {
@@ -884,10 +1058,20 @@ namespace _213
             {
                 string branch, supplier, cmdStr;
 
-                branch = cmbEmployeeBranch.SelectedItem.ToString();
-                supplier = txtSupplier.Text;
+                if (chbOrderBranch.Checked)
+                {
+                    branch = cmbOrderBranch.SelectedItem.ToString();
+                }
+                else
+                {
+                    branch = "None";
+                }
 
-                using (conn)
+                supplier = txtSupplier.Text;
+                dgOverview.Rows.Clear();
+                dgOverview.Columns.Clear();
+
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     conn.Open();
                     count = 0;
@@ -896,81 +1080,96 @@ namespace _213
 
                     using (SqlCommand filter = new SqlCommand(cmdStr, conn))
                     {
-                        if (chbOrderBranch.Checked && rdbSupplier.Checked)
+                        if (chbOrderBranch.Checked && rdbSupplier.Checked && txtSupplier.Text != "")
                         {
-                            cmdStr = "Select * from Orders where branch = @branch and order_supplier = @supplier";
+                            filter.CommandText = "Select * from Orders where branch = @branch and order_supplier = @supplier";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@supplier", supplier);
                         }
                         else if (chbOrderBranch.Checked && rdbInvoiced.Checked)
                         {
-                            cmdStr = "Select * from Orders where branch = @branch and invoice_sent = @invoice";
+                            filter.CommandText = "Select * from Orders where branch = @branch and invoice_sent = @invoice";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@invoice", "1");
                         }
                         else if (chbOrderBranch.Checked && rdbRecieved.Checked)
                         {
-                            cmdStr = "Select * from Orders where branch = @branch and received = @received";
+                            filter.CommandText = "Select * from Orders where branch = @branch and received = @received";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@received", "1");
                         }
-                        else if (chbOrderBranch.Checked && rdbInvoiced.Checked)
+                        else if (chbOrderBranch.Checked && rdbSpecial.Checked)
                         {
-                            cmdStr = "Select * from Orders where branch = @branch and special_order = @special";
+                            filter.CommandText = "Select * from Orders where branch = @branch and special_order = @special";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@special", "1");
                         }
                         else if (chbBranch.Checked)
                         {
-                            cmdStr = "Select * from Orders where branch = @branch";
+                            filter.CommandText = "Select * from Orders where branch = @branch";
                             filter.Parameters.AddWithValue("@branch", branch);
                         }
                         else if (rdbInvoiced.Checked)
                         {
-                            cmdStr = "Select * from Orders where invoice_sent = @invoice";
+                            filter.CommandText = "Select * from Orders where invoice_sent = @invoice";
                             filter.Parameters.AddWithValue("@invoice", "1");
                         }
                         else if (rdbRecieved.Checked)
                         {
-                            cmdStr = "Select * from Orders where received = @received";
+                            filter.CommandText = "Select * from Orders where received = @received";
                             filter.Parameters.AddWithValue("@received", "1");
                         }
-                        else if (rdbInvoiced.Checked)
+                        else if (rdbSpecial.Checked)
                         {
-                            cmdStr = "Select * from Orders where special_order = @special";
+                            filter.CommandText = "Select * from Orders where special_order = @special";
                             filter.Parameters.AddWithValue("@special", "1");
+                        }
+                        else if(rdbSupplier.Checked && txtSupplier.Text != "")
+                        {
+                            filter.CommandText = "Select * from Orders where order_supplier = @supplier";
+                            filter.Parameters.AddWithValue("@supplier", supplier);
                         }
 
                         using (var reader = filter.ExecuteReader())
                         {
+                            dgOverview.Columns.Add("branch", "Branch");
+                            dgOverview.Columns.Add("order_id", "Order ID");
+                            dgOverview.Columns.Add("order_supplier", "Supplier Name");
+                            dgOverview.Columns.Add("order_items", "Ordered Items");
+                            dgOverview.Columns.Add("total_cost", "Total Cost");
+                            dgOverview.Columns.Add("invoice_sent", "Invoiced");
+                            dgOverview.Columns.Add("received", "Received");
+                            dgOverview.Columns.Add("order_date", "Date Ordered");
+                            dgOverview.Columns.Add("eta", "E.T.A");
+                            dgOverview.Columns.Add("received_Date", "Date Received");
+                            dgOverview.Columns.Add("special_order", "Special Order");
+                            dgOverview.Columns.Add("cust_email", "Customer Email");
 
                             while (reader.Read())
                             {
 
-                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1));
+
+                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetBoolean(5), reader.GetBoolean(6), reader.GetDateTime(7), reader.GetDateTime(8), reader.GetDateTime(9), reader.GetBoolean(10), reader.GetString(11));
+
 
                             }
 
                         }
 
                         conn.Close();
-
-                        for (int i = 0; i < dgOverview.Rows.Count; i++)
-                        {
-                            DataGridViewRowHeaderCell cell = dgOverview.Rows[i].HeaderCell;
-                            cell.Value = (i + 1).ToString();
-                            dgOverview.Rows[i].HeaderCell = cell;
-                        }
                     }
                 }
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnOrderFilter.PerformClick();
+                    }
                 }
                 else
                 {
@@ -981,6 +1180,14 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing these filter options.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnSalesOverview_Click(object sender, EventArgs e)
@@ -988,6 +1195,7 @@ namespace _213
             pnlSalesOverview.Visible = true;
             gebruik.fillBranches(cmbSalesBranch);
             cmbSalesBranch.Enabled = false;
+            dtpSalesOverview.MaxDate = DateTime.Today.AddDays(-1);
             dtpSalesOverview.Enabled = false;
             pnlSalesOverview.BringToFront();
             pnlOverviewActions.Visible = false;
@@ -1010,6 +1218,8 @@ namespace _213
             pnlOverviewActions.Visible = true;
             pnlOverviewActions.BringToFront();
             pnlSalesOverview.Visible = false;
+            chbSalesDate.Checked = false;
+            chbSalesBranch.Checked = false;
         }
 
         private void btnSalesFilter_Click(object sender, EventArgs e)
@@ -1019,11 +1229,22 @@ namespace _213
                 string branch, cmdStr;
                 DateTime picked;
 
+                if (chbSalesBranch.Checked)
+                {
+                    branch = cmbSalesBranch.SelectedItem.ToString();
+                }
+                else
+                {
+                    branch = "None";
+                }
+
                 dtpSalesOverview.MaxDate = DateTime.Today.AddDays(-1);
                 picked = dtpSalesOverview.Value;
                 branch = cmbSalesBranch.SelectedItem.ToString();
+                dgOverview.Rows.Clear();
+                dgOverview.Columns.Clear();
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     conn.Open();
                     count = 0;
@@ -1033,41 +1254,45 @@ namespace _213
                     {
                         if (chbSalesBranch.Checked && chbSalesDate.Checked)
                         {
-                            cmdStr = "Select * from Sales where branch = @branch and sale_date = @date";
+                            filter.CommandText = "Select * from Sales where branch = @branch and sale_date = @date";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@date", picked);
                         }
                         else if (chbSalesDate.Checked)
                         {
-                            cmdStr = "Select * from Sales where sale_date = @date";
+                            filter.CommandText = "Select * from Sales where sale_date = @date";
                             filter.Parameters.AddWithValue("@date", picked);
                         }
                         else if (chbSalesBranch.Checked)
                         {
-                            cmdStr = "Select * from Orders where branch = @branch";
+                            filter.CommandText = "Select * from Sales where branch = @branch";
                             filter.Parameters.AddWithValue("@branch", branch);
                         }
 
                         using (var reader = filter.ExecuteReader())
                         {
+                            dgOverview.Columns.Add("sale_branch", "Branch");
+                            dgOverview.Columns.Add("sale_id", "Sale ID");
+                            dgOverview.Columns.Add("sale_date", "Sale Date");
+                            dgOverview.Columns.Add("items", "Items");
+                            dgOverview.Columns.Add("item_ids", "Item ID's");
+                            dgOverview.Columns.Add("total_cost", "Amount Due");
+                            dgOverview.Columns.Add("total_paid", "Amount Paid");
+                            dgOverview.Columns.Add("payment_method", "Payment Method");
+                            dgOverview.Columns.Add("promotion", "On Promotion");
+                            dgOverview.Columns.Add("special_order", "Special Order");
 
                             while (reader.Read())
                             {
 
-                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1));
+
+                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1), reader.GetDateTime(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetBoolean(9), reader.GetBoolean(10));
+
 
                             }
-
                         }
 
                         conn.Close();
-
-                        for (int i = 0; i < dgOverview.Rows.Count; i++)
-                        {
-                            DataGridViewRowHeaderCell cell = dgOverview.Rows[i].HeaderCell;
-                            cell.Value = (i + 1).ToString();
-                            dgOverview.Rows[i].HeaderCell = cell;
-                        }
                     }
                 }
             }
@@ -1076,8 +1301,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnOrderFilter.PerformClick();
+                    }
                 }
                 else
                 {
@@ -1087,6 +1315,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing these filter options.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1162,7 +1398,7 @@ namespace _213
                 else
                     received = 0;
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
 
                     cmdStr = "Update Orders set branch = @branch, order_supplier = @supplier, order_items = @items, total_cost = @cost, invoice_sent = @invoice, received = @received, received_date = @receivedDate, special_order = @special, cust_email = @email where order_id = @id";
@@ -1184,18 +1420,34 @@ namespace _213
                         count = 0;
                         updateOrder.ExecuteNonQuery();
                         conn.Close();
+
+                        MessageBox.Show("The order has been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        txtOrderID.Clear();
+                        txtSupplierUp.Clear();
+                        txtItemsUp.Clear();
+                        txtCostUp.Clear();
+                        txtEmailUp.Clear();
+                        txtQuantity.Clear();
+                        cbxInvoiceUp.Checked = false;
+                        cbxRecievedUp.Checked = false;
+                        cbxSpecialUp.Checked = false;
+                        addString = "";
                     }
                 }
 
                 gebruik.addAction(user);
             }
             catch (SqlException se)
-            {
-                if (se.Number == 53 && count < 4)
+            {        
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnUpdateOrder.PerformClick();
+                    }
                 }
                 else
                 {
@@ -1205,6 +1457,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing these filter options.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1214,9 +1474,20 @@ namespace _213
             {
                 string branch, cmdStr;
 
-                branch = cmbSalesBranch.SelectedItem.ToString();
+                if (chbTechnicalBranch.Checked)
+                {
+                    branch = cmbTechnicalBranch.SelectedItem.ToString();
+                }
+                else
+                {
+                    branch = "None";
+                }
 
-                using (conn)
+                
+                dgOverview.Rows.Clear();
+                dgOverview.Columns.Clear();
+
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     conn.Open();
                     count = 0;
@@ -1226,41 +1497,43 @@ namespace _213
                     {
                         if (chbTechnicalBranch.Checked && chbCompleted.Checked)
                         {
-                            cmdStr = "Select * from cms where branch = @branch and completed = @complete";
+                            filter.CommandText = "Select * from cms where branch = @branch and completed = @complete";
                             filter.Parameters.AddWithValue("@branch", branch);
                             filter.Parameters.AddWithValue("@complete", "1");
                         }
                         else if (chbSalesDate.Checked)
                         {
-                            cmdStr = "Select * from cms where completed = @complete";
+                            filter.CommandText = "Select * from cms where completed = @complete";
                             filter.Parameters.AddWithValue("@complete", "1");
                         }
                         else if (chbSalesBranch.Checked)
                         {
-                            cmdStr = "Select * from Orders where branch = @branch";
+                            filter.CommandText = "Select * from Orders where branch = @branch";
                             filter.Parameters.AddWithValue("@branch", branch);
                         }
 
                         using (var reader = filter.ExecuteReader())
                         {
+                            dgOverview.Columns.Add("cms_id", "Cms ID");
+                            dgOverview.Columns.Add("cms_items", "Items");
+                            dgOverview.Columns.Add("cms_order", "Ordered");
+                            dgOverview.Columns.Add("cms_orderid", "Order ID");
+                            dgOverview.Columns.Add("cms_email", "Email address");
+                            dgOverview.Columns.Add("complete_date", "Date completed");
+                            dgOverview.Columns.Add("completed", "Completed");
+                            dgOverview.Columns.Add("branch", "Branch");
 
                             while (reader.Read())
                             {
 
-                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1));
+
+                                dgOverview.Rows.Add(reader.GetString(0), reader.GetString(1), reader.GetDateTime(2), reader.GetString(3), reader.GetString(4), reader.GetDateTime(5), reader.GetBoolean(6), reader.GetString(7));
+
 
                             }
-
                         }
 
                         conn.Close();
-
-                        for (int i = 0; i < dgOverview.Rows.Count; i++)
-                        {
-                            DataGridViewRowHeaderCell cell = dgOverview.Rows[i].HeaderCell;
-                            cell.Value = (i + 1).ToString();
-                            dgOverview.Rows[i].HeaderCell = cell;
-                        }
                     }
                 }
             }
@@ -1268,11 +1541,11 @@ namespace _213
             {
                 if (se.Number == 53)
                 {
-                    while (count < 4)
+                    gebruik other = new gebruik();
+                    if (other.CheckConnection() && count < 4)
                     {
-                        gebruik other = new gebruik();
-                        if (other.CheckConnection())
-                            btnOrderFilter.PerformClick();
+                        count++;
+                        btnOrderFilter.PerformClick();
                     }
                 }
                 else
@@ -1283,6 +1556,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing these filter options.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1298,8 +1579,8 @@ namespace _213
                 items = txtItemsO.Text;
                 cost = txtTotalCost.Text;
                 email = txtCustomerEmail.Text;
-                quantity = txtQuantity.Text;
-                addString = addString + quantity + "X" + " " + items + ",";
+                quantity = txtQuantityAdd.Text;
+                addString = addString + quantity + " X" + " " + items + ",";
 
                 if (cbxInvoice.Checked)
                     invoice = 1;
@@ -1313,7 +1594,7 @@ namespace _213
                 else
                     special = 0;
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     cmdStr = "Select Count(order_id) from Orders";
 
@@ -1343,9 +1624,20 @@ namespace _213
                         addOrders.Parameters.AddWithValue("@email", email);
 
                         conn.Open();
+                        count = 0;
                         addOrders.ExecuteNonQuery();
                         conn.Close();
 
+                        MessageBox.Show("The order has been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        txtSuppliers.Clear();
+                        txtItemsO.Clear();
+                        txtTotalCost.Clear();
+                        txtCustomerEmail.Clear();
+                        txtQuantityAdd.Clear();
+                        cbxInvoice.Checked = false;
+                        cbxSpecial.Checked = false;
+                        addString = "";
                     }
 
                     gebruik.addAction(user);
@@ -1353,11 +1645,14 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnAddOrder.PerformClick();
+                    }
                 }
                 else
                 {
@@ -1368,12 +1663,18 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing this data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnMainBack_Click(object sender, EventArgs e)
         {
-            Form1 f1 = new Form1();
-            f1.Show();
             this.Close();
         }
 
@@ -1389,6 +1690,7 @@ namespace _213
             btnTechnicalDetail.Visible = false;
             pnlReport.BringToFront();
             pnlOverviewActions.Visible = false;
+            dtpReport.MaxDate = DateTime.Today.AddDays(-1);
         }
 
         private void btnReportBack_Click(object sender, EventArgs e)
@@ -1396,10 +1698,14 @@ namespace _213
             pnlOverviewActions.Visible = true;
             pnlOverviewActions.BringToFront();
             pnlReport.Visible = false;
+            btnDetailed.Visible = true;
+            dtpReport.MaxDate = DateTime.Today.AddDays(-1);
+            txtOutput.Clear();
         }
 
         private void btnDetailed_Click(object sender, EventArgs e)
         {
+            txtOutput.Clear();
             btnDetailed.Visible = false;
             lblDate.Visible = true;
             lblBranch.Visible = true;
@@ -1412,120 +1718,193 @@ namespace _213
 
             string date, branch, cmdStr;
 
-            date = dtpReport.Value.ToString();
-            date = date.Substring(0, 10);
-            int count = 0;
+            date = dtpReport.Value.ToShortDateString() + " 00:00:00";
+            int icount = 0;
             branch = cmbDetailedBranch.SelectedItem.ToString();
 
             try
             {
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     conn.Open();
                     count = 0;
-                    cmdStr = "Select Distinct Count(*) from Stock where initial_add = @date";
+                    cmdStr = "Select Count(*) as temp from Stock where initial_add = @date";
 
                     using (SqlCommand stockAdd = new SqlCommand(cmdStr, conn))
                     {
                         stockAdd.Parameters.AddWithValue("@date", date);
-                        count = (Int16)stockAdd.ExecuteScalar();
-                        if(count == 0)
+
+                        using (var reader = stockAdd.ExecuteReader())
                         {
-                            txtOutput.AppendText("\r\nNo items added Yesterday");
+                            while (reader.Read())
+                            {
+                                icount = reader.GetInt32(0);
+                            }
+
+                        }
+
+                        txtOutput.AppendText("Stock");
+                        txtOutput.AppendText("\r\n=========================================");
+                        if (icount == 0)
+                        {
+                            txtOutput.AppendText("\r\nNo items added for the day: " + dtpReport.Value.ToShortDateString());
+                            txtOutput.AppendText("\r\n=========================================");
                         }
                         else
                         {
-                            txtOutput.AppendText("\r\nItems added Yesterday: " + count);
-                            count = 0;
+                            txtOutput.AppendText("\r\nItems added for the day: " + dtpReport.Value.ToShortDateString() + "\r\n" + icount);
+                            txtOutput.AppendText("\r\n=========================================");
+                            icount = 0;
                         }
                     }
 
-                    cmdStr = "Select Distinct Count(*) from Stock where last_updated = @date and status = @status";
+                    cmdStr = "Select Count(*) as count from Stock where last_updated = @date and status = @status";
 
                     using (SqlCommand stockTransfer = new SqlCommand(cmdStr, conn))
                     {
                         stockTransfer.Parameters.AddWithValue("@date", date);
                         stockTransfer.Parameters.AddWithValue("@status", "In Transit");
-                        count = (Int16)stockTransfer.ExecuteScalar();
-                        if (count == 0)
+
+                        using (var reader = stockTransfer.ExecuteReader())
                         {
-                            txtOutput.AppendText("\r\nNo items transfered Yesterday");
+                            while (reader.Read())
+                            {
+                                icount = reader.GetInt32(0);
+                            }
+
+                        }
+
+                        if (icount == 0)
+                        {
+                            txtOutput.AppendText("\r\nNo items transfered for the day: " + dtpReport.Value.ToShortDateString());
+                            txtOutput.AppendText("\r\n=========================================");
                         }
                         else
                         {
-                            txtOutput.AppendText("\r\nItems transfered Yesterday: " + count);
-                            count = 0;
+                            txtOutput.AppendText("\r\nItems transfered for the day: " + dtpReport.Value.ToShortDateString() + "\r\n" + icount);
+                            txtOutput.AppendText("\r\n=========================================");
+                            icount = 0;
                         }
                     }
 
 
-                    cmdStr = "Select Distinct Count(*) from Stock where last_updated = @date and status = @status";
+                    cmdStr = "Select Count(*) as count from Stock where last_updated = @date and status = @status";
 
                     using (SqlCommand stockSold = new SqlCommand(cmdStr, conn))
                     {
                         stockSold.Parameters.AddWithValue("@date", date);
                         stockSold.Parameters.AddWithValue("@status", "Sold");
-                        count = (Int16)stockSold.ExecuteScalar();
-                        if (count == 0)
+
+                        using (var reader = stockSold.ExecuteReader())
                         {
-                            txtOutput.AppendText("\r\nNo items sold Yesterday");
+                            while (reader.Read())
+                            {
+                                icount = reader.GetInt32(0);
+                            }
+
+                        }
+
+                        if (icount == 0)
+                        {
+                            txtOutput.AppendText("\r\nNo items sold for the day: " + dtpReport.Value.ToShortDateString());
+                            txtOutput.AppendText("\r\n=========================================");
                         }
                         else
                         {
-                            txtOutput.AppendText("\r\nItems sold Yesterday: " + count);
-                            count = 0;
+                            txtOutput.AppendText("\r\nItems sold for the day: " + dtpReport.Value.ToShortDateString() + "\r\n" + icount);
+                            txtOutput.AppendText("\r\n=========================================");
+                            icount = 0;
                         }
                     }
 
-                    cmdStr = "Select Distinct Count(*) from Sales where sale_date = @date";
+                    cmdStr = "Select Count(*) as count from Sales where sale_date = @date";
 
                     using (SqlCommand numSales = new SqlCommand(cmdStr, conn))
                     {
-                        numSales.Parameters.AddWithValue("@date", dtpReport.Value.ToString());
-                        count = (Int16)numSales.ExecuteScalar();
-                        if (count == 0)
+                        numSales.Parameters.AddWithValue("@date", date);
+
+                        using (var reader = numSales.ExecuteReader())
                         {
-                            txtOutput.AppendText("\r\nNo items sold Yesterday");
+                            while (reader.Read())
+                            {
+                                icount = reader.GetInt32(0);
+                            }
+
+                        }
+
+                        txtOutput.AppendText("\r\nSales");
+                        txtOutput.AppendText("\r\n=========================================");
+                        if (icount == 0)
+                        {
+                            txtOutput.AppendText("\r\nNo sales made for the day: " + dtpReport.Value.ToShortDateString());
+                            txtOutput.AppendText("\r\n=========================================");
                         }
                         else
                         {
-                            txtOutput.AppendText("\r\nItems sold Yesterday: " + count);
-                            count = 0;
+                            txtOutput.AppendText("\r\nSales made for the day: " + dtpReport.Value.ToShortDateString() + "\r\n" + icount);
+                            txtOutput.AppendText("\r\n=========================================");
+                            icount = 0;
                         }
                     }
 
-                    cmdStr = "Select  Distinct Count(*) from Orders where order_date = @order";
+                    cmdStr = "Select Count(*) as count from Orders where order_date = @order";
 
                     using (SqlCommand numOrders = new SqlCommand(cmdStr, conn))
                     {
                         numOrders.Parameters.AddWithValue("@order", date);
-                        count = (Int16)numOrders.ExecuteScalar();
-                        if (count == 0)
+
+                        using (var reader = numOrders.ExecuteReader())
                         {
-                            txtOutput.AppendText("\r\nNo orders made Yesterday");
+                            while (reader.Read())
+                            {
+                                icount = reader.GetInt32(0);
+                            }
+
+                        }
+
+                        txtOutput.AppendText("\r\nOrders");
+                        txtOutput.AppendText("\r\n=========================================");
+                        if (icount == 0)
+                        {
+                            txtOutput.AppendText("\r\nNo orders placed for the day: " + dtpReport.Value.ToShortDateString());
+                            txtOutput.AppendText("\r\n=========================================");
                         }
                         else
                         {
-                            txtOutput.AppendText("\r\nOrders made Yesterday: " + count);
-                            count = 0;
+                            txtOutput.AppendText("\r\nOrders placed for the day: " + dtpReport.Value.ToShortDateString() + "\r\n" + icount);
+                            txtOutput.AppendText("\r\n=========================================");
+                            icount = 0;
                         }
                     }
 
-                    cmdStr = "Select Distinct Count(*) from cms where complete_date = @date and completed = @complete";
+                    cmdStr = "Select Count(*) as count from cms where complete_date = @date and completed = @complete";
 
                     using (SqlCommand ontimeCMS = new SqlCommand(cmdStr, conn))
                     {
                         ontimeCMS.Parameters.AddWithValue("@date", date);
                         ontimeCMS.Parameters.AddWithValue("@complete", "1");
-                        count = (Int16)ontimeCMS.ExecuteScalar();
-                        if (count == 0)
+
+                        txtOutput.AppendText("\r\nCustom Builds");
+                        txtOutput.AppendText("\r\n=========================================");
+                        using (var reader = ontimeCMS.ExecuteReader())
                         {
-                            txtOutput.AppendText("\r\nNo custom builds completed Yesterday");
+                            while (reader.Read())
+                            {
+                                icount = reader.GetInt32(0);
+                            }
+
+                        }
+
+                        if (icount == 0)
+                        {
+                            txtOutput.AppendText("\r\nNo custom builds completed for the day: " + dtpReport.Value.ToShortDateString());
+                            txtOutput.AppendText("\r\n=========================================");
                         }
                         else
                         {
-                            txtOutput.AppendText("\r\nCustom buids completed Yesterday: " + count);
-                            count = 0;
+                            txtOutput.AppendText("\r\nCustom builds completed for the day: " + dtpReport.Value.ToShortDateString() + "\r\n" + icount);
+                            txtOutput.AppendText("\r\n=========================================");
+                            icount = 0;
                         }
                     }
 
@@ -1533,11 +1912,14 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnAddOrder.PerformClick();
+                    }
                 }
                 else
                 {
@@ -1547,6 +1929,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch(InvalidOperationException)
+            {
+                MessageBox.Show("There are no reports for the selected date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch(Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -1568,12 +1958,238 @@ namespace _213
 
         }
 
+        private void pnlTechnicalOverview_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtManufacturerFilter_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void txtTypeFilter_TextChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void txtRePrice_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void pnlUpdateOrders_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlReport_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnStockDetail_Click(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\Reports";
+            string branch = cmbDetailedBranch.SelectedItem.ToString();
+            string date = dtpReport.Value.ToString().Substring(0, 10);
+
+            int pos = 0;
+            txtOutput.Clear();
+
+            while (date.Length > 8)
+            {
+                pos = date.IndexOf("/");
+                date = date.Remove(pos,1);
+            }
+
+            path = path + @"\" + branch + @"\Stock\" + date + ".txt";
+
+            try
+            {
+                if (File.Exists(path))
+                {
+
+                    txtOutput.AppendText(File.ReadAllText(path));
+                    File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Something went wrong and the report is missing.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (IOException)
+            {
+
+                MessageBox.Show("An error occurred while attempting to open the report. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void btnOrderDetail_Click(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\Reports";
+            string branch = cmbDetailedBranch.SelectedItem.ToString();
+            string date = dtpReport.Value.ToString().Substring(0, 10);
+
+            int pos = 0;
+            txtOutput.Clear();
+
+            while (date.Length > 8)
+            {
+                pos = date.IndexOf("/");
+                date = date.Remove(pos, 1);
+            }
+
+            path = path + @"\" + branch + @"\Orders\" + date + ".txt";
+
+            try
+            {
+                if (File.Exists(path))
+                {
+
+                    txtOutput.AppendText(File.ReadAllText(path));
+                    File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Something went wrong and the report is missing.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (IOException)
+            {
+
+                MessageBox.Show("An error occurred while attempting to open the report. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSalesDetail_Click(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\Reports";
+            string branch = cmbDetailedBranch.SelectedItem.ToString();
+            string date = dtpReport.Value.ToString().Substring(0, 10);
+
+            int pos = 0;
+            txtOutput.Clear();
+
+            while (date.Length > 8)
+            {
+                pos = date.IndexOf("/");
+                date = date.Remove(pos, 1);
+            }
+
+            path = path + @"\" + branch + @"\Sales\" + date + ".txt";
+
+            try
+            {
+                if (File.Exists(path))
+                {
+
+                    txtOutput.AppendText(File.ReadAllText(path));
+                    File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Something went wrong and the report is missing.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (IOException)
+            {
+
+                MessageBox.Show("An error occurred while attempting to open the report. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnTechnicalDetail_Click(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\Reports";
+            string branch = cmbDetailedBranch.SelectedItem.ToString();
+            string date = dtpReport.Value.ToString().Substring(0, 10);
+
+            int pos = 0;
+            txtOutput.Clear();
+
+            while (date.Length > 8)
+            {
+                pos = date.IndexOf("/");
+                date = date.Remove(pos, 1);
+            }
+
+            path = path + @"\" + branch + @"\Technical\" + date + ".txt";
+
+            try
+            {
+                if (File.Exists(path))
+                {
+
+                    txtOutput.AppendText(File.ReadAllText(path));
+                    File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.Hidden | FileAttributes.ReadOnly);
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Something went wrong and the report is missing.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (IOException)
+            {
+
+                MessageBox.Show("An error occurred while attempting to open the report. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtWarranty_TextChanged(object sender, EventArgs e)
+        {
+            if (txtItemName.Text != "" && txtManufacturerName.Text != "" && txtManufacturerPrice.Text != "" && txtRetailPrice.Text != "" && txtType.Text != "" && txtWarranty.Text != "")
+            {
+                btnAccept.Enabled = true;
+            }
+            else
+                btnAccept.Enabled = false;
+        }
+
+        private void btnTechnicalBack_Click(object sender, EventArgs e)
+        {
+            pnlOverviewActions.Visible = true;
+            pnlOverviewActions.BringToFront();
+            pnlTechnicalOverview.Visible = false;
+            chbTechnicalBranch.Checked = false;
+            chbCompleted.Checked = false;
+        }
+
         private void frmHQ_Load(object sender, EventArgs e)
         {
 
             int authLevel;
             cbmMainAction.SelectedItem = "Stock";
-            conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
+            
 
             authLevel =  this.getAuthLevel();
 
@@ -1584,6 +2200,7 @@ namespace _213
                 pnlAddStock.Visible = true;
                 pnlStockButtons.BringToFront();
                 pnlAddStock.BringToFront();
+                btnAccept.Enabled = false;
             }
             else
             {
@@ -1602,9 +2219,9 @@ namespace _213
                 string cmdStr;
                 int authLevel;
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-                    cmdStr = "Select authLevel from Stock where userName = @user";
+                    cmdStr = "Select authLevel from Users where userName = @user";
 
                     using (SqlCommand getAuthLevel = new SqlCommand(cmdStr, conn))
                     {
@@ -1622,11 +2239,17 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 207)
+                    MessageBox.Show(se.Message);
+
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         getAuthLevel();
+                    }
                 }
                 else
                 {
@@ -1636,6 +2259,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing this data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return -1; 
@@ -1651,7 +2282,7 @@ namespace _213
             user = userName;
         }
 
-        public frmHQ(string itemID, string iName, string ibranch, string imanufacturer, string imanPrice, string irePrice, string itype, string iwarranty)
+        public frmHQ(string itemID, string iName, string ibranch, string imanufacturer, string imanPrice, string irePrice, string itype, string iwarranty, string userName)
         {
             InitializeComponent();
             //this.TopMost = true;
@@ -1665,9 +2296,11 @@ namespace _213
             itemRePrice = irePrice;
             itemType = itype;
             itemWarranty = iwarranty;
+            user = userName;
 
-            if (pnlRevise.Visible)
+            if (!pnlRevise.Visible)
             {
+                pnlRevise.Visible = true;
                 txtItemID.Text = id;
                 txtItemID.Enabled = false;
                 txtName.Text = name;
@@ -1687,6 +2320,7 @@ namespace _213
             pnlAddStock.BringToFront();
             pnlRevise.Visible = false;
             btnAccept.Enabled = false;
+            txtWarranty.MaxLength = 1;
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -1694,7 +2328,6 @@ namespace _213
             try
             {
                 string branch, itemName, manufacturer, manPrice, rePrice, type, warranty, cmdStr;
-                int temp;
 
                 branch = cmbBranchStockAdd.SelectedItem.ToString();
                 itemName = txtItemName.Text;
@@ -1702,41 +2335,41 @@ namespace _213
                 manPrice = txtManufacturerPrice.Text;
                 rePrice = txtRetailPrice.Text;
                 type = txtType.Text;
-                warranty = txtWarranty.Text + " Years";
+                warranty = txtWarranty.Text + " Year(s)";
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
-
-                    cmdStr = "Select Count(item_id) from Stock";
-
-                    using (SqlCommand icount = new SqlCommand(cmdStr, conn))
-                    {
-                        conn.Open();
-                        count = 0;
-                        temp = Convert.ToInt32(icount.ExecuteScalar());
-                        conn.Close();
-                    }
 
                     cmdStr = "Insert into Stock Values(@branch, @id, @itemName, @manufacturer, @warranty, @updated, @intial, @manPrice, @rePrice, @checked, @status, @type)";
 
                     using (SqlCommand addStock = new SqlCommand(cmdStr, conn))
                     {
                         addStock.Parameters.AddWithValue("@branch", branch);
-                        addStock.Parameters.AddWithValue("@id", Convert.ToString(temp + 1));
+                        addStock.Parameters.AddWithValue("@id",txtItemIDAdd.Text);
                         addStock.Parameters.AddWithValue("@itemName", itemName);
                         addStock.Parameters.AddWithValue("@manufacturer", manufacturer);
                         addStock.Parameters.AddWithValue("@warranty", warranty);
                         addStock.Parameters.AddWithValue("@updated", DateTime.Now);
-                        addStock.Parameters.AddWithValue("@initial", DateTime.Today);
+                        addStock.Parameters.AddWithValue("@intial", DateTime.Today);
                         addStock.Parameters.AddWithValue("@manPrice", manPrice);
                         addStock.Parameters.AddWithValue("@rePrice", rePrice);
-                        addStock.Parameters.AddWithValue("@checked", "1");
+                        addStock.Parameters.AddWithValue("@checked", "0");
                         addStock.Parameters.AddWithValue("@status", "In Stock");
                         addStock.Parameters.AddWithValue("@type", type);
 
                         conn.Open();
+                        count = 0;
                         addStock.ExecuteNonQuery();
                         conn.Close();
+
+                        MessageBox.Show("The stock has been added.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtManufacturerName.Clear();
+                        txtItemIDAdd.Clear();
+                        txtItemName.Clear();
+                        txtManufacturerPrice.Clear();
+                        txtRetailPrice.Clear();
+                        txtType.Clear();
+                        txtWarranty.Clear();
                     }
                 
                     gebruik.addAction(user);
@@ -1745,11 +2378,14 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnAccept.PerformClick();
+                    }
                 }
                 else
                 {
@@ -1760,27 +2396,35 @@ namespace _213
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (InvalidOperationException es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnRevise_Click(object sender, EventArgs e)
         {
-            frmHQSearch search = new frmHQSearch();
+            frmHQSearch search = new frmHQSearch(user);
             search.ShowDialog();
             btnUpdate.Enabled = false;
             pnlRevise.Visible = true;
             gebruik.fillBranches(cmbBranchUStock);
             pnlRevise.BringToFront();
             pnlAddStock.Visible = false;
+            txtWarrant.MaxLength = 1;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             try
             {
-
                 string cmdStr;
 
-                using (conn)
+                using (SqlConnection conn = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
 
                     cmdStr = "Update Stock set branch = @branch, item_name = @itemName, manufacturer = @manufacturer, warranty = @warranty, last_updated = @updated, manufacturer_price = @manPrice, retail_price = @rePrice, item_Type = @type where item_id = @id";
@@ -1791,7 +2435,7 @@ namespace _213
                         updateStock.Parameters.AddWithValue("@id", txtItemID.Text);
                         updateStock.Parameters.AddWithValue("@itemName", txtName.Text);
                         updateStock.Parameters.AddWithValue("@manufacturer", txtManName.Text);
-                        updateStock.Parameters.AddWithValue("@warranty", txtWarrant.Text);
+                        updateStock.Parameters.AddWithValue("@warranty", txtWarrant.Text + " Year(S)");
                         updateStock.Parameters.AddWithValue("@updated", DateTime.Now);
                         updateStock.Parameters.AddWithValue("@manPrice", txtManPrice.Text);
                         updateStock.Parameters.AddWithValue("@rePrice", txtRetail.Text);
@@ -1801,6 +2445,15 @@ namespace _213
                         count = 0;
                         updateStock.ExecuteNonQuery();
                         conn.Close();
+
+                        MessageBox.Show("The stock has been updated.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtItemID.Clear();                           
+                        txtName.Clear();
+                        txtManName.Clear();
+                        txtManPrice.Clear();
+                        txtRetail.Clear();
+                        txtItemType.Clear();
+                        txtWarrant.Clear();
                     }
                 }
 
@@ -1808,11 +2461,14 @@ namespace _213
             }
             catch (SqlException se)
             {
-                if (se.Number == 53 && count < 4)
+                if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && count < 4)
+                    {
+                        count++;
                         btnUpdate.PerformClick();
+                    }
                 }
                 else
                 {
@@ -1822,6 +2478,14 @@ namespace _213
             catch (NullReferenceException)
             {
                 MessageBox.Show("Please ensure that all required fields have been entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("There are no records containing this data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

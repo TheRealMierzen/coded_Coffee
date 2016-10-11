@@ -34,16 +34,15 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
             this.btnLForgotPass = new System.Windows.Forms.Button();
+            this.txtLPass = new wmgCMS.WaterMarkTextBox();
+            this.txtLEmail = new wmgCMS.WaterMarkTextBox();
+            this.textbox1 = new wmgCMS.WaterMarkTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.lblRemaining = new System.Windows.Forms.Label();
             this.bgWLogin = new System.ComponentModel.BackgroundWorker();
             this.bgWCreate = new System.ComponentModel.BackgroundWorker();
             this.loginProgress = new System.Windows.Forms.ProgressBar();
-            this.lblWait = new System.Windows.Forms.Label();
-            this.txtLPass = new wmgCMS.WaterMarkTextBox();
-            this.txtLEmail = new wmgCMS.WaterMarkTextBox();
-            this.textbox1 = new wmgCMS.WaterMarkTextBox();
             this.SuspendLayout();
             // 
             // button2
@@ -121,6 +120,49 @@
             this.btnLForgotPass.VisibleChanged += new System.EventHandler(this.btnLForgotPass_VisibleChanged);
             this.btnLForgotPass.Click += new System.EventHandler(this.btnLForgotPass_Click);
             // 
+            // txtLPass
+            // 
+            this.txtLPass.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtLPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.txtLPass.Location = new System.Drawing.Point(412, 191);
+            this.txtLPass.MaxLength = 8;
+            this.txtLPass.Name = "txtLPass";
+            this.txtLPass.PasswordChar = '*';
+            this.txtLPass.Size = new System.Drawing.Size(215, 22);
+            this.txtLPass.TabIndex = 2;
+            this.passTT.SetToolTip(this.txtLPass, "Enter your stockI.T password");
+            this.txtLPass.WaterMarkColor = System.Drawing.Color.Gray;
+            this.txtLPass.WaterMarkText = "Password";
+            this.txtLPass.TextChanged += new System.EventHandler(this.txtLPass_TextChanged);
+            // 
+            // txtLEmail
+            // 
+            this.txtLEmail.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtLEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.txtLEmail.Location = new System.Drawing.Point(412, 234);
+            this.txtLEmail.Name = "txtLEmail";
+            this.txtLEmail.Size = new System.Drawing.Size(215, 22);
+            this.txtLEmail.TabIndex = 3;
+            this.passTT.SetToolTip(this.txtLEmail, "Enter your email address you wish to use for stockI.T");
+            this.txtLEmail.Visible = false;
+            this.txtLEmail.WaterMarkColor = System.Drawing.Color.Gray;
+            this.txtLEmail.WaterMarkText = "Email address";
+            this.txtLEmail.TextChanged += new System.EventHandler(this.txtLEmail_TextChanged_1);
+            // 
+            // textbox1
+            // 
+            this.textbox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textbox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.textbox1.Location = new System.Drawing.Point(412, 146);
+            this.textbox1.MaxLength = 100;
+            this.textbox1.Name = "textbox1";
+            this.textbox1.Size = new System.Drawing.Size(215, 22);
+            this.textbox1.TabIndex = 1;
+            this.passTT.SetToolTip(this.textbox1, "Enter your stockI.T username");
+            this.textbox1.WaterMarkColor = System.Drawing.Color.Gray;
+            this.textbox1.WaterMarkText = "Username";
+            this.textbox1.TextChanged += new System.EventHandler(this.textbox1_TextChanged_1);
+            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -174,58 +216,6 @@
             this.loginProgress.TabIndex = 6;
             this.loginProgress.Visible = false;
             // 
-            // lblWait
-            // 
-            this.lblWait.AutoSize = true;
-            this.lblWait.Location = new System.Drawing.Point(141, 150);
-            this.lblWait.Name = "lblWait";
-            this.lblWait.Size = new System.Drawing.Size(46, 17);
-            this.lblWait.TabIndex = 7;
-            this.lblWait.Text = "label2";
-            // 
-            // txtLPass
-            // 
-            this.txtLPass.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtLPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.txtLPass.Location = new System.Drawing.Point(412, 191);
-            this.txtLPass.MaxLength = 8;
-            this.txtLPass.Name = "txtLPass";
-            this.txtLPass.PasswordChar = '*';
-            this.txtLPass.Size = new System.Drawing.Size(215, 22);
-            this.txtLPass.TabIndex = 2;
-            this.passTT.SetToolTip(this.txtLPass, "Enter your stockI.T password");
-            this.txtLPass.WaterMarkColor = System.Drawing.Color.Gray;
-            this.txtLPass.WaterMarkText = "Password";
-            this.txtLPass.TextChanged += new System.EventHandler(this.txtLPass_TextChanged);
-            // 
-            // txtLEmail
-            // 
-            this.txtLEmail.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtLEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.txtLEmail.Location = new System.Drawing.Point(412, 234);
-            this.txtLEmail.Name = "txtLEmail";
-            this.txtLEmail.Size = new System.Drawing.Size(215, 22);
-            this.txtLEmail.TabIndex = 3;
-            this.passTT.SetToolTip(this.txtLEmail, "Enter your email address you wish to use for stockI.T");
-            this.txtLEmail.Visible = false;
-            this.txtLEmail.WaterMarkColor = System.Drawing.Color.Gray;
-            this.txtLEmail.WaterMarkText = "Email address";
-            this.txtLEmail.TextChanged += new System.EventHandler(this.txtLEmail_TextChanged_1);
-            // 
-            // textbox1
-            // 
-            this.textbox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textbox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.textbox1.Location = new System.Drawing.Point(412, 146);
-            this.textbox1.MaxLength = 100;
-            this.textbox1.Name = "textbox1";
-            this.textbox1.Size = new System.Drawing.Size(215, 22);
-            this.textbox1.TabIndex = 1;
-            this.passTT.SetToolTip(this.textbox1, "Enter your stockI.T username");
-            this.textbox1.WaterMarkColor = System.Drawing.Color.Gray;
-            this.textbox1.WaterMarkText = "Username";
-            this.textbox1.TextChanged += new System.EventHandler(this.textbox1_TextChanged_1);
-            // 
             // loginForm
             // 
             this.AcceptButton = this.button1;
@@ -236,7 +226,6 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(953, 447);
-            this.Controls.Add(this.lblWait);
             this.Controls.Add(this.loginProgress);
             this.Controls.Add(this.lblRemaining);
             this.Controls.Add(this.txtLPass);
@@ -273,6 +262,5 @@
         private System.ComponentModel.BackgroundWorker bgWLogin;
         private System.ComponentModel.BackgroundWorker bgWCreate;
         private System.Windows.Forms.ProgressBar loginProgress;
-        private System.Windows.Forms.Label lblWait;
     }
 }

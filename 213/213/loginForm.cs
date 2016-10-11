@@ -441,7 +441,6 @@ namespace _213
                 button1.Enabled = false;
                 button2.Enabled = false;
                 loginProgress.Visible = true;
-                lblWait.Visible = true;
 
                 Cursor.Current = Cursors.WaitCursor;
 
@@ -1073,7 +1072,6 @@ namespace _213
 
                 textbox1.Clear();
                 txtLPass.Clear();
-                lblWait.Visible = false;
                 loginProgress.Value = 0;
                 loginProgress.Visible = false;
                 textbox1.Enabled = true;
@@ -1182,7 +1180,6 @@ namespace _213
         {
             loginProgress.Visible = false;
             button1.Visible = true;
-            lblWait.Visible = false;
             btnCreate.Visible = false;
             textbox1.Enabled = true;
             txtLPass.Enabled = true;
