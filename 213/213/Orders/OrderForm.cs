@@ -15,7 +15,6 @@ namespace _213
     public partial class OrderForm : Form
     {
         public string items;
-        private string userName;
         double costperItems = 0.0;
         double Grandtotal = 0.0;
         string selectedItem = null;
@@ -23,28 +22,13 @@ namespace _213
         string Ordernumber;
         private int c = 0;
         int last;
-        private int t = 0;
         bool custombuild = false;
         int counter = 0;
-        private string it = "";
-        string s = "";
+   
         //private Action<object, EventArgs> roundButton3_Click;
 
         public OrderForm()
         {
-            InitializeComponent();
-            gpxOrders.Hide();
-            gbxPayment.Hide();
-            gpxSearch.Hide();
-            cbxOrder.Sorted = true;
-            AddOrderBtn.Enabled = false;
-            cbxOrders.SelectedIndex = 0;
-            txtMaker.Focus();
-        }
-
-        public OrderForm(string userN)
-        {
-            userName = userN;
             InitializeComponent();
             gpxOrders.Hide();
             gbxPayment.Hide();
@@ -64,7 +48,7 @@ namespace _213
             cbxOrder.Sorted = true;
             AddOrderBtn.Enabled = false;
             cbxOrders.SelectedIndex = 0;
-            userName = usert;
+            user = usert;
             counter = counters;
             cbxSpecialorder.Enabled = false;
             cbxSpecialorder.Checked = true;
@@ -72,21 +56,12 @@ namespace _213
             txtCust_email.Enabled = false;
             txtCust_email.Show();
             c = counters;
-            btnBack.Enabled = false;
             MessageBox.Show("You may only order " + counter + " items for this build", "Custom build", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void makeOrder()
         {
-            addOrder(Properties.Settings.Default.Branch, txtMaker.Text, s, txtPricofeachitem.Text, 0, 0, DateTime.Today.ToString(), "0", checkSpesialorder(), getEta(), txtCust_email.Text);
-            it = it + txtItem.Text + ",";
-                SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
-                con.Open();
-                SqlCommand updateCms = new SqlCommand("Update Cms SET cms_Order = @Order AND cms_orderID = @id", con);
-                updateCms.Parameters.AddWithValue("@Order", it);
-                updateCms.Parameters.AddWithValue("@ID", last);
-                updateCms.ExecuteNonQuery();
-            
+
         }
 
         public OrderForm(FrmTechnical tf)
@@ -101,7 +76,21 @@ namespace _213
             txtMaker.Focus();
             parent = tf;
         }
-        FrmTechnical parent;   
+        FrmTechnical parent;
+
+        public OrderForm(string usert)
+        {
+            InitializeComponent();
+            gpxOrders.Hide();
+            gbxPayment.Hide();
+            gpxSearch.Hide();
+            cbxOrder.Sorted = true;
+            AddOrderBtn.Enabled = false;
+            cbxOrders.SelectedIndex = 0;
+            user = usert;
+        }
+
+        string user;
 
         public OrderForm(string path,string ordernumber)
         {
@@ -149,62 +138,53 @@ namespace _213
 
         private void AddOrderBtn_Click(object sender, EventArgs e)
         {
-            if(c == 0)
+            //verander die net dat dit pas volgens textboxes en goed
+            //as received date "" is dan insert hy 1900-01-01..so wanneer received en datum is 1900-01-01 dan moet datum geupdate word na current toe         
+            //if (addOrder(Properties.Settings.Default.Branch, "Nvidia", "GTX TitanX x 20, GTX 1080 x 7, GTX Titan x 5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0,getEta()))
+            //    MessageBox.Show("Order added");
+            //else
+            //    MessageBox.Show("Order was not added");
+            try
             {
-              
-
-                //MEANS NO CUSTOM BUILD
-                //verander die net dat dit pas volgens textboxes en goed
-                //as received date "" is dan insert hy 1900-01-01..so wanneer received en datum is 1900-01-01 dan moet datum geupdate word na current toe         
-                //if (addOrder(Properties.Settings.Default.Branch, "Nvidia", "GTX TitanX x 20, GTX 1080 x 7, GTX Titan x 5", "R55555", 0, 0, DateTime.Now.Date.ToString(), "", 0,getEta()))
-                //    MessageBox.Show("Order added");
-                //else
-                //    MessageBox.Show("Order was not added");
-                try
+                items = items.Remove(items.Length - 1);
+                if (items != null )
                 {
-                   
-                    items = items.Remove(items.Length - 1);
-                    if (items != null)
+                    if (MessageBox.Show("Are you sure you want to add this order ", "Place order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        if (MessageBox.Show("Are you sure you want to add this order ", "Place order", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        if (addOrder(Properties.Settings.Default.Branch, txtMaker.Text, items, Grandtotal.ToString(), 0, 0, DateTime.Now.ToString(), "", checkSpesialorder(), getEta(), txtCust_email.Text))
                         {
-                            if (addOrder(Properties.Settings.Default.Branch, txtMaker.Text, items, Grandtotal.ToString(), 0, 0, DateTime.Now.ToString(), "", checkSpesialorder(), getEta(), txtCust_email.Text))
-                            {
-                                path = AppDomain.CurrentDomain.BaseDirectory + @"\Orders\";
-                                Ordernumber = "Order," + last.ToString() + ".txt";
-                                StreamWriter skryf;
+                            path = AppDomain.CurrentDomain.BaseDirectory +@"\Orders\";
+                            Ordernumber = "Order," + last.ToString() + ".txt";
+                             StreamWriter skryf;
 
-                                skryf = File.CreateText(path + Ordernumber);
-                                skryf.WriteLine(lbxOutput.Text);
-                                skryf.Close();
+                            skryf = File.CreateText(path + Ordernumber);
+                            skryf.WriteLine(lbxOutput.Text);
+                            skryf.Close();
 
-                                displayListbox(1);
-                                AddOrderBtn.Enabled = false;
-                                txtMaker.Clear();
-                            }
-                            gebruik.addAction(userName);
-                            gebruik.log(DateTime.Now, userName, "Placed order");
-                            if (c == 0)
-                                btnBack.Enabled = true;
+                            displayListbox(1);
+                            AddOrderBtn.Enabled = false;
+                            txtMaker.Clear();
+                        }
+                        gebruik.addAction(user);
+                        gebruik.log(DateTime.Now, user, "Placed order");
+                        if(custombuild == true)
+                        {
                             
+                            tech.setItems(items);
+                            tech.setOrderId(Ordernumber);
+                            this.Close();
+                            //parent.setItems(items);
+
                         }
                     }
-                    else
-                        MessageBox.Show("Please select items to place a order for", "Cannot place order", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (NullReferenceException)
-                {
+                else
                     MessageBox.Show("Please select items to place a order for", "Cannot place order", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
             }
-            else
+            catch (NullReferenceException)
             {
-                makeOrder();
-                c = c - 1;
-                if (c == 0)
-                    btnBack.Enabled = true;
+                MessageBox.Show("Please select items to place a order for", "Cannot place order", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
       }
 
 
@@ -217,7 +197,7 @@ namespace _213
                 gebruik util = new gebruik();
                 last = util.getLastIdentity("Orders", "order_id", "int");
 
-                using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
+                using (SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=stockI.T;Integrated Security=True"))
                 {
 
                     string cmdstring = "INSERT INTO Orders(branch, order_id, order_supplier, order_items, total_cost, invoice_sent, received, order_date, received_date, special_order, eta,cust_email) VALUES (@branch, @order_id, @order_supplier, @order_items, @total_cost, @invoice_sent, @received, @order_date, @received_date, @special_order,@eta,@cust_email)";
@@ -341,9 +321,7 @@ namespace _213
         {
            try
             {
-                c++;
-                s = txtItem.Text;   
-               costperItems = Convert.ToDouble(txtPricofeachitem.Text) * Convert.ToDouble(txtQuatity.Text);
+                costperItems = Convert.ToDouble(txtPricofeachitem.Text) * Convert.ToDouble(txtQuatity.Text);
                 items = items + txtItem.Text + " X " + txtQuatity.Text + ",";
                 Grandtotal = Grandtotal + costperItems;
                 if (lbxIndex() > 4)
