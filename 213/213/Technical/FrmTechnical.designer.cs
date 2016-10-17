@@ -63,8 +63,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.lbxoutput = new System.Windows.Forms.ListBox();
             this.passTT = new System.Windows.Forms.ToolTip(this.components);
+            this.lbxoutput = new System.Windows.Forms.ListBox();
             this.gpbClient.SuspendLayout();
             this.gpxtech.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -106,7 +106,6 @@
             this.txtEmail.Size = new System.Drawing.Size(173, 20);
             this.txtEmail.TabIndex = 9;
             this.passTT.SetToolTip(this.txtEmail, "Please enter the Client\'s E-Mail.");
-            this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
             // txtName
             // 
@@ -121,7 +120,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(16, 79);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(43, 15);
+            this.label6.Size = new System.Drawing.Size(36, 13);
             this.label6.TabIndex = 4;
             this.label6.Text = "E-Mail";
             // 
@@ -130,7 +129,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(17, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 15);
+            this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
             // 
@@ -161,7 +160,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 78);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 15);
+            this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 19;
             this.label1.Text = "Ram";
             // 
@@ -190,7 +189,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(6, 309);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(90, 15);
+            this.label9.Size = new System.Drawing.Size(77, 13);
             this.label9.TabIndex = 0;
             this.label9.Text = "Miscellaneous ";
             // 
@@ -239,7 +238,7 @@
             this.Cpu.AutoSize = true;
             this.Cpu.Location = new System.Drawing.Point(6, 253);
             this.Cpu.Name = "Cpu";
-            this.Cpu.Size = new System.Drawing.Size(132, 15);
+            this.Cpu.Size = new System.Drawing.Size(113, 13);
             this.Cpu.TabIndex = 13;
             this.Cpu.Text = "Central prosessing unit";
             // 
@@ -248,7 +247,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 192);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(82, 15);
+            this.label13.Size = new System.Drawing.Size(72, 13);
             this.label13.TabIndex = 8;
             this.label13.Text = "Power Supply";
             // 
@@ -257,7 +256,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(6, 126);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(83, 15);
+            this.label12.Size = new System.Drawing.Size(73, 13);
             this.label12.TabIndex = 6;
             this.label12.Text = "Graphics card";
             // 
@@ -266,7 +265,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(6, 155);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(34, 15);
+            this.label11.Size = new System.Drawing.Size(29, 13);
             this.label11.TabIndex = 4;
             this.label11.Text = "Ram";
             // 
@@ -275,7 +274,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(6, 28);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(78, 15);
+            this.label10.Size = new System.Drawing.Size(67, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "Motherboard";
             // 
@@ -311,7 +310,7 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(6, 56);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(65, 15);
+            this.label16.Size = new System.Drawing.Size(58, 13);
             this.label16.TabIndex = 1;
             this.label16.Text = "Secondary";
             // 
@@ -320,7 +319,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(6, 16);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 15);
+            this.label15.Size = new System.Drawing.Size(41, 13);
             this.label15.TabIndex = 0;
             this.label15.Text = "Primary";
             // 
@@ -337,7 +336,7 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(6, 23);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(74, 15);
+            this.label14.Size = new System.Drawing.Size(67, 13);
             this.label14.TabIndex = 10;
             this.label14.Text = "Extras/notes";
             // 
@@ -433,14 +432,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(298, 602);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
-            // lbxoutput
-            // 
-            this.lbxoutput.FormattingEnabled = true;
-            this.lbxoutput.Location = new System.Drawing.Point(3, 3);
-            this.lbxoutput.Name = "lbxoutput";
-            this.lbxoutput.Size = new System.Drawing.Size(120, 95);
-            this.lbxoutput.TabIndex = 9;
-            // 
             // passTT
             // 
             this.passTT.AutoPopDelay = 5000;
@@ -450,6 +441,14 @@
             this.passTT.Tag = "";
             this.passTT.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.passTT.ToolTipTitle = "Custombuild help";
+            // 
+            // lbxoutput
+            // 
+            this.lbxoutput.FormattingEnabled = true;
+            this.lbxoutput.Location = new System.Drawing.Point(3, 3);
+            this.lbxoutput.Name = "lbxoutput";
+            this.lbxoutput.Size = new System.Drawing.Size(120, 95);
+            this.lbxoutput.TabIndex = 9;
             // 
             // FrmTechnical
             // 

@@ -124,8 +124,6 @@ namespace _213
 
         private void btnREmp_Click(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
-
             try
             {
                 //Employee exists
@@ -154,8 +152,6 @@ namespace _213
                             gebruik.addAction(user);
                             DateTime local = DateTime.Now;
                             gebruik.log(local, user, "removed employee");
-
-                            this.Cursor = Cursors.Default;
 
                             updateEmployNum("remove");
                             string message = "";

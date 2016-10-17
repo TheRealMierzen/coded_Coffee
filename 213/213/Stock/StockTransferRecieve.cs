@@ -64,11 +64,8 @@ namespace _213
                             txbRPriceUPD.Text = reader.GetString(3);
                             txbRPriceUPD.Enabled = true;
                             btnConfirmAddCLN.Enabled = false;
-
                             cur = gID;
                         }
-
-
                     }
                     reader.Close();
                     stockConnection.Close();
@@ -76,7 +73,7 @@ namespace _213
                     {
                         MessageBox.Show("All items have been transfered successfully", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         gebruik.addAction(userNme);
-                        //  gebruik.log(DateTime.Now, userNme, "Recieved stock");
+                        gebruik.log(DateTime.Now, userNme, "Recieved stock");
                         btnCancelAddCLN.Enabled = true;
                         del(tI);
                     }

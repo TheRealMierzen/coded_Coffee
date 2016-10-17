@@ -201,7 +201,6 @@ namespace _213
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
 
             try
             {
@@ -275,8 +274,6 @@ namespace _213
                             gebruik.addAction(user);
                             DateTime local = DateTime.Now;
                             gebruik.log(local, user, "updated user");
-
-                            this.Cursor = Cursors.Default;
 
                             DialogResult choice;
                             choice = MessageBox.Show(message + "\r\nWould you like to update another user?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);

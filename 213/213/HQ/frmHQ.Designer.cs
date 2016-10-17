@@ -180,7 +180,7 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(5, 84);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(165, 15);
+            this.label18.Size = new System.Drawing.Size(144, 13);
             this.label18.TabIndex = 5;
             this.label18.Text = "ID\'s of items to be transfered:";
             // 
@@ -189,7 +189,7 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(5, 58);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(65, 15);
+            this.label17.Size = new System.Drawing.Size(59, 13);
             this.label17.TabIndex = 4;
             this.label17.Text = "To branch:";
             // 
@@ -198,7 +198,7 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(5, 35);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(80, 15);
+            this.label16.Size = new System.Drawing.Size(69, 13);
             this.label16.TabIndex = 3;
             this.label16.Text = "From branch:";
             // 
@@ -256,7 +256,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(20, 214);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(58, 15);
+            this.label15.Size = new System.Drawing.Size(53, 13);
             this.label15.TabIndex = 33;
             this.label15.Text = "Warranty:";
             // 
@@ -284,7 +284,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(20, 32);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(49, 15);
+            this.label13.Size = new System.Drawing.Size(44, 13);
             this.label13.TabIndex = 30;
             this.label13.Text = "Item ID:";
             // 
@@ -312,7 +312,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(20, 188);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 15);
+            this.label7.Size = new System.Drawing.Size(53, 13);
             this.label7.TabIndex = 26;
             this.label7.Text = "Item type:";
             // 
@@ -322,7 +322,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(20, 162);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(72, 15);
+            this.label8.Size = new System.Drawing.Size(63, 13);
             this.label8.TabIndex = 25;
             this.label8.Text = "Retail price:";
             // 
@@ -332,7 +332,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(20, 136);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(113, 15);
+            this.label9.Size = new System.Drawing.Size(99, 13);
             this.label9.TabIndex = 24;
             this.label9.Text = "Manufacturer price:";
             // 
@@ -342,7 +342,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(20, 110);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(118, 15);
+            this.label10.Size = new System.Drawing.Size(102, 13);
             this.label10.TabIndex = 23;
             this.label10.Text = "Manufacturer name:";
             // 
@@ -352,7 +352,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(20, 84);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(84, 15);
+            this.label11.Size = new System.Drawing.Size(72, 13);
             this.label11.TabIndex = 22;
             this.label11.Text = "Name of item:";
             // 
@@ -362,7 +362,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(20, 58);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(129, 15);
+            this.label12.Size = new System.Drawing.Size(115, 13);
             this.label12.TabIndex = 21;
             this.label12.Text = "Branch where stock is:";
             // 
@@ -449,7 +449,7 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(22, 197);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(58, 15);
+            this.label14.Size = new System.Drawing.Size(53, 13);
             this.label14.TabIndex = 16;
             this.label14.Text = "Warranty:";
             // 
@@ -478,7 +478,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(22, 171);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 15);
+            this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 11;
             this.label6.Text = "Item type:";
             // 
@@ -488,7 +488,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(22, 145);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 15);
+            this.label5.Size = new System.Drawing.Size(63, 13);
             this.label5.TabIndex = 10;
             this.label5.Text = "Retail price:";
             // 
@@ -498,7 +498,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(22, 119);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 15);
+            this.label4.Size = new System.Drawing.Size(99, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "Manufacturer price:";
             // 
@@ -508,7 +508,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(22, 93);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 15);
+            this.label3.Size = new System.Drawing.Size(102, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Manufacturer name:";
             // 
@@ -518,7 +518,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(22, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 15);
+            this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "Name of item:";
             // 
@@ -528,7 +528,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(22, 41);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 15);
+            this.label1.Size = new System.Drawing.Size(115, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Branch where stock is:";
             // 
@@ -588,7 +588,6 @@
             // 
             // pnlStockButtons
             // 
-            this.pnlStockButtons.Controls.Add(this.pnlUpdateOrders);
             this.pnlStockButtons.Controls.Add(this.btnStocktake);
             this.pnlStockButtons.Controls.Add(this.btnTransfer);
             this.pnlStockButtons.Controls.Add(this.btnRevise);
@@ -646,7 +645,7 @@
             // 
             this.pnlOrder.Controls.Add(this.pnlAddOrders);
             this.pnlOrder.Controls.Add(this.pnlOrdersActions);
-            this.pnlOrder.Location = new System.Drawing.Point(15, 380);
+            this.pnlOrder.Location = new System.Drawing.Point(10, 39);
             this.pnlOrder.Name = "pnlOrder";
             this.pnlOrder.Size = new System.Drawing.Size(706, 318);
             this.pnlOrder.TabIndex = 1;
@@ -654,6 +653,7 @@
             // 
             // pnlAddOrders
             // 
+            this.pnlAddOrders.Controls.Add(this.pnlUpdateOrders);
             this.pnlAddOrders.Controls.Add(this.cbxSpecial);
             this.pnlAddOrders.Controls.Add(this.cbxInvoice);
             this.pnlAddOrders.Controls.Add(this.btnAddOrder);
@@ -691,7 +691,7 @@
             this.pnlUpdateOrders.Controls.Add(this.txtSupplierUp);
             this.pnlUpdateOrders.Controls.Add(this.txtItemsUp);
             this.pnlUpdateOrders.Controls.Add(this.txtBranchUp);
-            this.pnlUpdateOrders.Location = new System.Drawing.Point(77, 147);
+            this.pnlUpdateOrders.Location = new System.Drawing.Point(0, 0);
             this.pnlUpdateOrders.Name = "pnlUpdateOrders";
             this.pnlUpdateOrders.Size = new System.Drawing.Size(350, 310);
             this.pnlUpdateOrders.TabIndex = 2;
@@ -703,7 +703,7 @@
             this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(16, 13);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(56, 15);
+            this.label27.Size = new System.Drawing.Size(50, 13);
             this.label27.TabIndex = 47;
             this.label27.Text = "Order ID:";
             // 
@@ -721,7 +721,7 @@
             this.cbxRecievedUp.AutoSize = true;
             this.cbxRecievedUp.Location = new System.Drawing.Point(108, 199);
             this.cbxRecievedUp.Name = "cbxRecievedUp";
-            this.cbxRecievedUp.Size = new System.Drawing.Size(114, 19);
+            this.cbxRecievedUp.Size = new System.Drawing.Size(101, 17);
             this.cbxRecievedUp.TabIndex = 45;
             this.cbxRecievedUp.Text = "Order Recieved";
             this.cbxRecievedUp.UseVisualStyleBackColor = true;
@@ -731,7 +731,7 @@
             this.cbxSpecialUp.AutoSize = true;
             this.cbxSpecialUp.Location = new System.Drawing.Point(215, 199);
             this.cbxSpecialUp.Name = "cbxSpecialUp";
-            this.cbxSpecialUp.Size = new System.Drawing.Size(104, 19);
+            this.cbxSpecialUp.Size = new System.Drawing.Size(90, 17);
             this.cbxSpecialUp.TabIndex = 44;
             this.cbxSpecialUp.Text = "Special Order";
             this.cbxSpecialUp.UseVisualStyleBackColor = true;
@@ -742,7 +742,7 @@
             this.cbxInvoiceUp.AutoSize = true;
             this.cbxInvoiceUp.Location = new System.Drawing.Point(18, 199);
             this.cbxInvoiceUp.Name = "cbxInvoiceUp";
-            this.cbxInvoiceUp.Size = new System.Drawing.Size(93, 19);
+            this.cbxInvoiceUp.Size = new System.Drawing.Size(84, 17);
             this.cbxInvoiceUp.TabIndex = 43;
             this.cbxInvoiceUp.Text = "Invoice sent";
             this.cbxInvoiceUp.UseVisualStyleBackColor = true;
@@ -765,7 +765,7 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(16, 143);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(97, 15);
+            this.label22.Size = new System.Drawing.Size(81, 13);
             this.label22.TabIndex = 41;
             this.label22.Text = "Customer email:";
             // 
@@ -775,7 +775,7 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(16, 117);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(62, 15);
+            this.label23.Size = new System.Drawing.Size(57, 13);
             this.label23.TabIndex = 40;
             this.label23.Text = "Total cost:";
             // 
@@ -785,7 +785,7 @@
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(16, 91);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(91, 15);
+            this.label24.Size = new System.Drawing.Size(77, 13);
             this.label24.TabIndex = 39;
             this.label24.Text = "Supplier name:";
             // 
@@ -795,7 +795,7 @@
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(16, 65);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(116, 15);
+            this.label25.Size = new System.Drawing.Size(101, 13);
             this.label25.TabIndex = 38;
             this.label25.Text = "Items to be ordered:";
             // 
@@ -805,7 +805,7 @@
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(16, 39);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(175, 15);
+            this.label26.Size = new System.Drawing.Size(152, 13);
             this.label26.TabIndex = 37;
             this.label26.Text = "Branch where order is needed:";
             // 
@@ -817,7 +817,6 @@
             this.txtEmailUp.Name = "txtEmailUp";
             this.txtEmailUp.Size = new System.Drawing.Size(159, 20);
             this.txtEmailUp.TabIndex = 36;
-            this.txtEmailUp.TextChanged += new System.EventHandler(this.txtEmailUp_TextChanged);
             // 
             // txtCostUp
             // 
@@ -860,7 +859,7 @@
             this.cbxSpecial.AutoSize = true;
             this.cbxSpecial.Location = new System.Drawing.Point(181, 201);
             this.cbxSpecial.Name = "cbxSpecial";
-            this.cbxSpecial.Size = new System.Drawing.Size(104, 19);
+            this.cbxSpecial.Size = new System.Drawing.Size(90, 17);
             this.cbxSpecial.TabIndex = 16;
             this.cbxSpecial.Text = "Special Order";
             this.cbxSpecial.UseVisualStyleBackColor = true;
@@ -871,7 +870,7 @@
             this.cbxInvoice.AutoSize = true;
             this.cbxInvoice.Location = new System.Drawing.Point(24, 201);
             this.cbxInvoice.Name = "cbxInvoice";
-            this.cbxInvoice.Size = new System.Drawing.Size(93, 19);
+            this.cbxInvoice.Size = new System.Drawing.Size(84, 17);
             this.cbxInvoice.TabIndex = 15;
             this.cbxInvoice.Text = "Invoice sent";
             this.cbxInvoice.UseVisualStyleBackColor = true;
@@ -894,7 +893,7 @@
             this.label32.AutoSize = true;
             this.label32.Location = new System.Drawing.Point(22, 145);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(97, 15);
+            this.label32.Size = new System.Drawing.Size(81, 13);
             this.label32.TabIndex = 10;
             this.label32.Text = "Customer email:";
             // 
@@ -904,7 +903,7 @@
             this.label33.AutoSize = true;
             this.label33.Location = new System.Drawing.Point(22, 119);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(62, 15);
+            this.label33.Size = new System.Drawing.Size(57, 13);
             this.label33.TabIndex = 9;
             this.label33.Text = "Total cost:";
             // 
@@ -914,7 +913,7 @@
             this.label34.AutoSize = true;
             this.label34.Location = new System.Drawing.Point(22, 93);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(91, 15);
+            this.label34.Size = new System.Drawing.Size(77, 13);
             this.label34.TabIndex = 8;
             this.label34.Text = "Supplier name:";
             // 
@@ -924,7 +923,7 @@
             this.label35.AutoSize = true;
             this.label35.Location = new System.Drawing.Point(22, 67);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(116, 15);
+            this.label35.Size = new System.Drawing.Size(101, 13);
             this.label35.TabIndex = 7;
             this.label35.Text = "Items to be ordered:";
             // 
@@ -934,7 +933,7 @@
             this.label36.AutoSize = true;
             this.label36.Location = new System.Drawing.Point(22, 41);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(175, 15);
+            this.label36.Size = new System.Drawing.Size(152, 13);
             this.label36.TabIndex = 6;
             this.label36.Text = "Branch where order is needed:";
             // 
@@ -946,7 +945,6 @@
             this.txtCustomerEmail.Name = "txtCustomerEmail";
             this.txtCustomerEmail.Size = new System.Drawing.Size(159, 20);
             this.txtCustomerEmail.TabIndex = 4;
-            this.txtCustomerEmail.TextChanged += new System.EventHandler(this.txtCustomerEmail_TextChanged);
             // 
             // txtTotalCost
             // 

@@ -50,7 +50,10 @@ namespace _213
             dtStart.MinDate = DateTime.Now;
             dtEnd.MinDate = DateTime.Now;
 
-            bgWID.RunWorkerAsync();
+            while (txtEmpID.Text == "" || txtEmpID.Text.Length != 10)
+            {
+                txtEmpID.Text = other.generateLuhn();
+            }
 
             txtEmpID.Enabled = false;
         }
@@ -335,7 +338,7 @@ namespace _213
         {
             try
             {
-                if (other.IsValidEmail(txtEmpEmail.Text))
+                if (txtEmpEmail.Text.EndsWith(".com") && txtEmpEmail.Text.Length > 7)
                 {
                     txtEmpEmail.ForeColor = DefaultForeColor;
                     if (other.CheckDate(txtEmpRSAID.Text.Substring(0, 6)) && txtEmpID.Text.Length == 10 && txtEmpName.Text != "" && txtEmpSurname.Text != "" && txtEmpRSAID.Text.Length == 13)
@@ -579,7 +582,6 @@ namespace _213
 
         private void btnAddEmp_Click(object sender, EventArgs e)
         {
-
             try
             {
                 if (dtEnd.Value >= dtStart.Value && rbTemp.Checked)
@@ -592,8 +594,6 @@ namespace _213
                 {
                     if (branch)
                         updateBranch();
-
-                    this.Cursor = Cursors.WaitCursor;
                     addEmp();
 
                 }
@@ -641,7 +641,6 @@ namespace _213
                             gebruik.addAction(user);
                             gebruik.log(DateTime.Now, user, "added employee");
                             updateEmployNum("add");
-                            this.Cursor = Cursors.Default;
 
                             if (cbIsUser.Checked)
                             {
@@ -661,7 +660,7 @@ namespace _213
                                     {
 
                                         DialogResult choice;
-                                        choice = MessageBox.Show("The employee's informations has successfully been added.\r\nWould you like to add another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        choice = MessageBox.Show("The employee's informations has successfully been added..\r\nWould you like to add another employee?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                                         if (choice == DialogResult.Yes)
                                         {
@@ -850,22 +849,6 @@ namespace _213
         private void dtStart_ValueChanged(object sender, EventArgs e)
         {
             dtEnd.MinDate = dtStart.Value;
-        }
-
-        string id = "";
-        private void bgWID_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-            while (id == "" || id.Length != 10)
-            {
-                id = other.generateLuhn();
-            }
-
-        }
-
-        private void bgWID_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            txtEmpID.Text = id;
         }
     }
 }
