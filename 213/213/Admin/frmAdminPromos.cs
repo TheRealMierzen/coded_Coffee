@@ -401,7 +401,6 @@ namespace _213
 
         private void cbAction_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             try
             {
                 if (cbAction.SelectedItem.ToString() == "New promotion")
@@ -468,7 +467,7 @@ namespace _213
 
         private void cbEID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
+
             try
             {
 
@@ -521,8 +520,6 @@ namespace _213
 
                     }
                 }
-
-                this.Cursor = Cursors.Default;
 
                 if (txtEQ.Text != "" && txtEDPP.Text != "" && cbEID.SelectedItem != null && Convert.ToInt16(txtEQ.Text) <= max && Convert.ToInt16(txtEQ.Text) > 0 && Convert.ToInt16(txtEDP.Text) < Convert.ToInt16(txtEOri.Text) && Convert.ToInt16(txtEOri.Text) > 0)
                     btnUPromo.Enabled = true;
@@ -605,7 +602,7 @@ namespace _213
 
         private void btnUPromo_Click(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
+
             try
             {
                 using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
@@ -635,7 +632,7 @@ namespace _213
                         gebruik.addAction(user);
                         gebruik.log(DateTime.Now, user, "updated promotion");
 
-                        this.Cursor = Cursors.Default;
+
                         DialogResult choice;
 
                         if (DateTime.Now > dtPromoStart.Value)

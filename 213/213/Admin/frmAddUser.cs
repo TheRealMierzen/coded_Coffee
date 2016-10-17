@@ -195,22 +195,10 @@ namespace _213
         {
             try
             {
-                gebruik other = new gebruik();
-
-                if (other.IsValidEmail(txtEmail.Text))
-                {
-                    txtEmail.ForeColor = DefaultForeColor;
-                    if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "")
-                        btnCreateAcc.Enabled = true;
-                    else
-                        btnCreateAcc.Enabled = false;
-                }
+                if (txtNUser.Text != "" && cbLevel.SelectedItem.ToString() != "" && txtEmail.Text != "" && txtAuthPass.Text != "" && txtEmail.Text.EndsWith(".com"))
+                    btnCreateAcc.Enabled = true;
                 else
-                {
-                    txtEmail.ForeColor = Color.Red;
                     btnCreateAcc.Enabled = false;
-
-                }
             }
             catch(FormatException)
             { }

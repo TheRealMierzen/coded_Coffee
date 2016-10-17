@@ -20,8 +20,6 @@ namespace _213
 
         private void frmEOM_Load(object sender, EventArgs e)
         {
-
-            this.Cursor = Cursors.WaitCursor;
             try
             {
 
@@ -59,7 +57,6 @@ namespace _213
 
                         }
                         con.Close();
-                        this.Cursor = Cursors.Default;
 
                         for (int i = 0; i < dgEOM.Rows.Count; i++)
                         {
