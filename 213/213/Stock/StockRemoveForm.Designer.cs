@@ -50,7 +50,6 @@
             this.btnCancelFind.Text = "Back";
             this.toolTip1.SetToolTip(this.btnCancelFind, "Click to close this window");
             this.btnCancelFind.UseVisualStyleBackColor = true;
-            this.btnCancelFind.Click += new System.EventHandler(this.btnCancelFind_Click);
             // 
             // btnConfirmFind
             // 

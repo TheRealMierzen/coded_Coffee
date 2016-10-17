@@ -27,6 +27,7 @@ namespace _213
         private bool promoR;
         private bool promoA;
         private bool valid;
+        private int conRetry = 0;
 
         private void loginForm_Load(object sender, EventArgs e)
         {
@@ -60,10 +61,7 @@ namespace _213
             if (Properties.Settings.Default.Branch == "-")
             {
                 //kort backgroundrunner
-                
-                util.setLocation();
-                checkBranch(Properties.Settings.Default.Branch);
-                firstrun = true;
+                bgWLocation.RunWorkerAsync();
 
             }
             this.ResumeLayout();
@@ -86,27 +84,6 @@ namespace _213
             }
             else if(util.CheckConnection())
             {
-                checkPromos();
-                
-
-                if (promoA && promoR)
-                {
-
-                    notification.Icon = SystemIcons.Information;
-                    notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended, but there are still others active today.", ToolTipIcon.Info);
-                }
-                else if(promoA && !promoR)
-                {
-                    notification.Icon = SystemIcons.Information;
-                    notification.ShowBalloonTip(100000, "Important Notice", "There are promotions active today.", ToolTipIcon.Info);
-
-                }
-                else if (!promoA && promoR)
-                {
-                    notification.Icon = SystemIcons.Information;
-                    notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended.", ToolTipIcon.Info);
-
-                }
 
                 textbox1.Enabled = true;
                 txtLPass.Enabled = true;
@@ -138,6 +115,7 @@ namespace _213
                     using (SqlCommand comm = new SqlCommand(cmdstring, con))
                     {
                         con.Open();
+                        conRetry = 0;
                         comm.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                         int records = Convert.ToInt32(comm.ExecuteScalar());
                         con.Close();
@@ -155,8 +133,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3 && conRetry < 3)
+                    {
+                        conRetry += 1;
                         return checkFile();
+                    }
                     else
                     {
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -196,6 +177,7 @@ namespace _213
                         gebruik other = new gebruik();
                         //kort Settings.Default.branch
                         con.Open();
+                        conRetry = 0;
                         SqlCommand cAddUser = new SqlCommand("INSERT INTO Users (userName, password, authLevel, salt, numberOfLogins, numberOfActions, email_address, branch) VALUES ('" + username + "','" + hsh + "', 10, '" + saltyness + "', 0, 0, '" + email + "','" + Properties.Settings.Default.Branch + "')", con);
                         cAddUser.ExecuteNonQuery();
                         
@@ -219,6 +201,7 @@ namespace _213
                             string hsh = BCrypt.Net.BCrypt.HashPassword(pass, saltyness);
 
                             con.Open();
+                            conRetry = 0;
                             SqlCommand findAdmin = new SqlCommand("SELECT userName, password, authLevel, salt FROM Users WHERE userName= '" + authorize + "'", con);
                             findAdmin.ExecuteNonQuery();
 
@@ -258,6 +241,7 @@ namespace _213
                     }
                     else
                     {
+                        conRetry = 0;
                         MessageBox.Show("The username you entered is already taken. Please try again.", "Error");
                         return false;
                     }
@@ -274,11 +258,14 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         return addUser(username, pass, level, email, authorize, authorizePass);
+                    }
                     else
-                    { 
-                        
+                    {
+
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
@@ -306,6 +293,7 @@ namespace _213
                 {
                     bgWLogin.ReportProgress(10);
                     con.Open();
+                    conRetry = 0;
                     SqlCommand cAddUser = new SqlCommand("SELECT userName FROM Users WHERE userName= '" + userName + "' AND branch = '" + Properties.Settings.Default.Branch + "'", con);
                     string user = "";
                     user = (string)cAddUser.ExecuteScalar();
@@ -349,8 +337,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 0;
                         return validateUser(userName, pass);
+                    }
                     else
                     {
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -425,6 +416,9 @@ namespace _213
 
                 bgWCreate.ReportProgress(20);
                 loginProgress.Visible = true;
+
+                this.Cursor = Cursors.WaitCursor;
+
                 bgWCreate.RunWorkerAsync();
             }
             catch(FormatException)
@@ -444,7 +438,6 @@ namespace _213
                 button1.Enabled = false;
                 button2.Enabled = false;
                 loginProgress.Visible = true;
-                lblWait.Visible = true;
 
                 Cursor.Current = Cursors.WaitCursor;
 
@@ -480,6 +473,7 @@ namespace _213
                 {
                     con.Open();
 
+                    conRetry = 0;
                     SqlCommand cAddUser = new SqlCommand("SELECT COUNT(*) FROM Users WHERE userName= '" + name + "'", con);
                     int recs = (int)cAddUser.ExecuteScalar();
                     con.Close();
@@ -500,8 +494,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         return checkUser(name);
+                    }
                     else
                     {
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -657,7 +654,7 @@ namespace _213
                 using (SqlConnection con = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT"))
                 {
                     con.Open();
-
+                    conRetry = 0;
                     SqlCommand cAddUser = new SqlCommand("SELECT COUNT(*) FROM Branches WHERE branch_location= '" + Properties.Settings.Default.Branch + "'", con);
                     int recs = (int)cAddUser.ExecuteScalar();
                     con.Close();
@@ -704,8 +701,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         checkBranchExist(b);
+                    }
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -770,6 +770,8 @@ namespace _213
                     using (SqlCommand commUser = new SqlCommand(cmdstring, conUser))
                     {
                         conUser.Open();
+
+                        conRetry = 0;
                         commUser.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
                         using (var reader = commUser.ExecuteReader())
                         {
@@ -806,10 +808,13 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         checkPromos();
+                    }
                     else
-                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.","Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             }
@@ -831,6 +836,7 @@ namespace _213
                     using (SqlCommand commActive = new SqlCommand(cmdstring, conactive))
                     {
                         conactive.Open();
+                        conRetry = 0;
                         commActive.Parameters.AddWithValue("@active", 1);
                         commActive.Parameters.AddWithValue("@id", id);
 
@@ -852,8 +858,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         setPromoActive(id);
+                    }
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -877,6 +886,8 @@ namespace _213
                     using (SqlCommand commRemove = new SqlCommand(cmdstring, conRemove))
                     {
                         conRemove.Open();
+
+                        conRetry = 0;
                         commRemove.Parameters.AddWithValue("@id", id);
 
                         commRemove.ExecuteNonQuery();
@@ -897,8 +908,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         removePromo(id);
+                    }
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -922,6 +936,8 @@ namespace _213
                     using (SqlCommand commEOM = new SqlCommand(cmdstring, conEOM))
                     {
                         conEOM.Open();
+
+                        conRetry = 0;
                         commEOM.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
                         string name = "";
@@ -957,8 +973,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         return EOM();
+                    }
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -983,6 +1002,7 @@ namespace _213
                     using (SqlCommand commRemove = new SqlCommand(cmdstring, conRemove))
                     {
                         conRemove.Open();
+                        conRetry = 0;
                         commRemove.Parameters.AddWithValue("@branch", Properties.Settings.Default.Branch);
 
                         commRemove.ExecuteNonQuery();
@@ -1004,8 +1024,11 @@ namespace _213
                 if (se.Number == 53)
                 {
                     gebruik other = new gebruik();
-                    if (other.CheckConnection())
+                    if (other.CheckConnection() && conRetry < 3)
+                    {
+                        conRetry += 1;
                         reset();
+                    }
                     else
                         MessageBox.Show("It appears that you have lost internet connection. Please verify your internet connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -1076,7 +1099,6 @@ namespace _213
 
                 textbox1.Clear();
                 txtLPass.Clear();
-                lblWait.Visible = false;
                 loginProgress.Value = 0;
                 loginProgress.Visible = false;
                 textbox1.Enabled = true;
@@ -1101,6 +1123,9 @@ namespace _213
 
                 loginProgress.Visible = false;
                 MessageBox.Show("The username or password you entered was incorrect", "Error");
+
+                textbox1.Enabled = true;
+                txtLPass.Enabled = true;
 
                 txtLPass.Text = "";
                 textbox1.Text = "";
@@ -1186,7 +1211,6 @@ namespace _213
         {
             loginProgress.Visible = false;
             button1.Visible = true;
-            lblWait.Visible = false;
             btnCreate.Visible = false;
             textbox1.Enabled = true;
             txtLPass.Enabled = true;
@@ -1197,7 +1221,7 @@ namespace _213
             textbox1.Focus();
             txtLEmail.Visible = false;
 
-
+            this.Cursor = DefaultCursor;
             MessageBox.Show("The account has succesfully been created.", "Info");
 
         }
@@ -1219,6 +1243,48 @@ namespace _213
                         SystemFonts.DefaultFont).Width / 2.0F),
                     loginProgress.Height / 2 - (gr.MeasureString(text,
                         SystemFonts.DefaultFont).Height / 2.0F)));
+            }
+        }
+
+        private void bgWLocation_DoWork(object sender, DoWorkEventArgs e)
+        {
+            gebruik util = new gebruik();
+            util.setLocation();
+
+        }
+
+        private void bgWLocation_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+            checkBranch(Properties.Settings.Default.Branch);
+            firstrun = true;
+
+        }
+
+        private void bgWPromo_DoWork(object sender, DoWorkEventArgs e)
+        {
+            checkPromos();
+        }
+
+        private void bgWPromo_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (promoA && promoR)
+            {
+
+                notification.Icon = SystemIcons.Information;
+                notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended, but there are still others active today.", ToolTipIcon.Info);
+            }
+            else if (promoA && !promoR)
+            {
+                notification.Icon = SystemIcons.Information;
+                notification.ShowBalloonTip(100000, "Important Notice", "There are promotions active today.", ToolTipIcon.Info);
+
+            }
+            else if (!promoA && promoR)
+            {
+                notification.Icon = SystemIcons.Information;
+                notification.ShowBalloonTip(100000, "Important Notice", "Some promotions have ended.", ToolTipIcon.Info);
+
             }
         }
     }

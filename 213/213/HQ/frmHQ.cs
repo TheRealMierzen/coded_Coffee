@@ -582,6 +582,58 @@ namespace _213
             txtCustomerEmail.Focus();
         }
 
+        private void txtEmailUp_TextChanged(object sender, EventArgs e)
+        {
+            gebruik other = new gebruik();
+            
+            if(other.IsValidEmail(txtEmailUp.Text))
+            {
+
+                txtEmailUp.ForeColor = DefaultForeColor;
+
+                if (txtBranchUp.Text != "" && txtCostUp.Text != "" && txtOrderID.Text != "" && txtItemsUp.Text != "" && txtSupplierUp.Text != "")
+                {
+                    btnUpdateOrder.Enabled = true;
+                }
+                else
+                {
+                    btnUpdateOrder.Enabled = false;
+                }
+
+            }
+            else
+            {
+                txtCustomerEmail.ForeColor = Color.Red;
+                btnUpdateOrder.Enabled = false;
+            }
+        }
+
+        private void txtCustomerEmail_TextChanged(object sender, EventArgs e)
+        {
+            gebruik other = new gebruik();
+
+            if (other.IsValidEmail(txtCustomerEmail.Text))
+            {
+
+                txtCustomerEmail.ForeColor = DefaultForeColor;
+
+                if (txtBranchO.Text != "" && txtItemsO.Text != "" && txtSuppliers.Text != "" && txtTotalCost.Text != "")
+                {
+                    btnAddOrder.Enabled = true;
+                }
+                else
+                {
+                    btnAddOrder.Enabled = false;
+                }
+            }
+            else
+            {
+                txtCustomerEmail.ForeColor = Color.Red;
+                btnAddOrder.Enabled = false;
+            }
+
+    }
+
         private void txtItemType_TextChanged(object sender, EventArgs e)
         {
             if (txtItembranch.Text != "" && txtName.Text != "" && txtManName.Text != "" && txtManPrice.Text != "" && txtRetail.Text != "" && txtItemType.Text != "")
@@ -601,7 +653,7 @@ namespace _213
             cbmMainAction.SelectedItem = "Stock";
             conn  = new SqlConnection("workstation id=StockIT.mssql.somee.com;packet size=4096;user id=GokusGString_SQLLogin_1;pwd=z32rpjumdw;data source=StockIT.mssql.somee.com;persist security info=False;initial catalog=StockIT");
 
-            /*using (conn)
+            using (conn)
             {
                 cmdStr = "Select authLevel from Stock where userName = @user";
 
@@ -616,7 +668,7 @@ namespace _213
             }
 
 
-            if(authLevel >= 7)
+            if (authLevel >= 7)
             {
                 pnlStock.Visible = true;
                 pnlStockButtons.Visible = true;
@@ -627,9 +679,9 @@ namespace _213
             else
             {
                 cbmMainAction.Visible = false;
-                pnlOverview.Visible = true;
-                pnlOverview.BringToFront();
-            }*/
+                /*pnlOverview.Visible = true;
+                pnlOverview.BringToFront();*/
+            }
 
         }
 

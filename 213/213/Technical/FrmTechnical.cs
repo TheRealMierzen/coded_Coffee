@@ -533,5 +533,15 @@ namespace _213
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
                 e.Handled = true;
         }
-     }
+
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+
+            gebruik other = new gebruik();
+            if (other.IsValidEmail(txtEmail.Text))
+                btnPlaceorder.Enabled = true;       
+            else
+                btnPlaceorder.Enabled = false;
+        }
+    }
 }

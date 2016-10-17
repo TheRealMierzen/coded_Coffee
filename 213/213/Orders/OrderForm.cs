@@ -533,5 +533,21 @@ namespace _213
             this.Hide();
             this.Close();
         }
+
+        private void txtCust_email_TextChanged(object sender, EventArgs e)
+        {
+            gebruik other = new gebruik();
+            if (cbxSpecialorder.Checked && other.IsValidEmail(txtCust_email.Text))
+            {
+                AddOrderBtn.Enabled = true;
+            }
+            else if(!other.IsValidEmail(txtCust_email.Text))
+            {
+
+                AddOrderBtn.Enabled = false;
+
+            }
+                    
+        }
     }
 }
